@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Aquaduino</title>
+</head>
+
+<body>
+<h2>Configuration Controller</h2>
+<form id="form1" name="form1" method="post" action=""> 
+
+<table border="0">
+<tr>
+<td bgcolor="#99CCFF">
+DHCP
+</td>
+<td bgcolor="#99CCFF">
+<select name="dhcp">
+  ##DHCPSELECTOPTION##
+<select>
+</td>
+</tr>
+<tr>
+<td bgcolor="#FFFFFF">
+IP
+</td>
+<td bgcolor="#FFFFFF">
+<input name="ip1" value="##IP1##" size="4" maxlength="3" />.
+<input name="ip2" value="##IP2##" size="4" maxlength="3" />.
+<input name="ip3" value="##IP3##" size="4" maxlength="3" />.
+<input name="ip4" value="##IP4##" size="4" maxlength="3" />
+</td>
+</tr>
+<tr>
+<td bgcolor="#99CCFF">
+Netmask
+</td>
+<td bgcolor="#99CCFF">
+<input name="netmask1" value="##NETMASK1##" size="4" maxlength="3" />.
+<input name="netmask2" value="##NETMASK2##" size="4" maxlength="3" />.
+<input name="netmask3" value="##NETMASK3##" size="4" maxlength="3" />.
+<input name="netmask4" value="##NETMASK4##" size="4" maxlength="3" />
+</td>
+</tr>
+<tr>
+<td bgcolor="#FFFFFF">
+Gateway
+</td>
+<td bgcolor="#FFFFFF">
+<input name="gateway1" value="##GATEWAY1##" size="4" maxlength="3" />.
+<input name="gateway2" value="##GATEWAY2##" size="4" maxlength="3" />.
+<input name="gateway3" value="##GATEWAY3##" size="4" maxlength="3" />.
+<input name="gateway4" value="##GATEWAY4##" size="4" maxlength="3" />
+</td>
+</tr>
+<tr>
+<tr>
+<td bgcolor="#99CCFF">
+DNS Server
+</td>
+<td bgcolor="#99CCFF">
+<input name="dns1" value="##DNS1##" size="4" maxlength="3" />.
+<input name="dns2" value="##DNS2##" size="4" maxlength="3" />.
+<input name="dns3" value="##DNS3##" size="4" maxlength="3" />.
+<input name="dns4" value="##DNS4##" size="4" maxlength="3" />
+</td>
+</tr>
+<td bgcolor="#FFFFFF">
+NTP
+</td>
+<td bgcolor="#FFFFFF">
+<select name="ntp">
+  ##NTPSELECTOPTION##
+</select>
+</td>
+</tr>
+<tr>
+<td bgcolor="#99CCFF">
+NTP server
+</td>
+<td bgcolor="#99CCFF">
+<input name="ntp1" value="##NTP1##" size="4" maxlength="3" />.
+<input name="ntp2" value="##NTP2##" size="4" maxlength="3" />.
+<input name="ntp3" value="##NTP3##" size="4" maxlength="3" />.
+<input name="ntp4" value="##NTP4##" size="4" maxlength="3" />
+</td>
+</tr>
+<tr>
+<td bgcolor="#FFFFFF">
+NTP Sync Interval (minutes)
+</td>
+<td bgcolor="#FFFFFF">
+<input name="ntpperiod" value="##NTPPERIOD##" size="4" maxlength="3" />
+</td>
+</tr>
+<tr>
+<td bgcolor="#99CCFF">
+Time:
+</td>
+<td bgcolor="#99CCFF">
+<input name="hour" value="##HOUR##" size="3" maxlength="2" />:
+<input name="minute" value="##MINUTE##" size="3" maxlength="2" />:
+<input name="second" value="##SECOND##" size="3" maxlength="2" />
+</td>
+</tr>
+</table>
+<br>
+<br>
+<table border="0">
+<tr bgcolor="#99CCFF">
+	<th>
+	Actuator
+	</th>
+	<th>
+	Assigned to
+	</th>
+	<th>
+	Usage is
+	</th>
+	<th>
+	State
+	</th>
+</tr>
+##ACTORROW##
+</table>
+<input type="submit" value="Apply">
+</form>
+</body>
+</html>

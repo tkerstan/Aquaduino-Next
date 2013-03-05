@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<style type="text/css" media="screen">
+    .xbtooltip {
+	display: none;
+	position: absolute;
+	background-color: #3FF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: small;
+	border: 1px solid black
+    }
+</style>
+
+<div id="tt1" class="xbtooltip">
+    Temperature turning on the associated actor of this controller
+</div>
+
+<div id="tt2" class="xbtooltip" style="border:1px solid black">
+    When the actor supports PWM this is the temperature when the actor reaches its maximum.<br/>
+    The PWM is increased linear inbetween the threshold and the the maximum.
+</div>
+
+
+<script type="text/javascript">
+  (function(window, document, undefined){
+    var XBTooltip = function( element, userConf, tooltip) {
+      var config = {
+        id: userConf.id|| undefined,
+        className: userConf.className || undefined,
+        x: userConf.x || 20,
+        y: userConf.y || 20,
+        text: userConf.text || undefined,
+      };
+      var over = function(event) {
+        tooltip.style.display = "block";
+      },
+      out = function(event) {
+        tooltip.style.display = "none";
+      },
+      move = function(event) {
+        event = event ? event : window.event;
+        if ( event.pageX == null && event.clientX != null ) {
+          var doc = document.documentElement, body = document.body;
+          event.pageX = event.clientX + (doc && doc.scrollLeft || body && body.scrollLeft || 0) - (doc && doc.clientLeft || body && body.clientLeft || 0);
+          event.pageY = event.clientY + (doc && doc.scrollTop  || body && body.scrollTop  || 0) - (doc && doc.clientTop  || body && body.clientTop  || 0);
+        }
+        tooltip.style.top = (event.pageY+config.y) + "px";
+        tooltip.style.left = (event.pageX+config.x) + "px";
+      }
+      if (tooltip === undefined && config.id) {
+        tooltip = document.getElementById(config.id);
+        if (tooltip) tooltip = tooltip.parentNode.removeChild(tooltip)
+      }
+      if (tooltip === undefined && config.text) {
+        tooltip = document.createElement("div");
+        if (config.id) tooltip.id= config.id;
+        tooltip.innerHTML = config.text;
+      }
+      if (config.className) tooltip.className = config.className;
+      tooltip = document.body.appendChild(tooltip);
+      tooltip.style.position = "absolute";
+      element.onmouseover = over;
+      element.onmouseout = out;
+      element.onmousemove = move;
+      over();
+    };
+    window.XBTooltip = window.XBT = XBTooltip;
+  })(this, this.document);
+  </script>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Aquaduino Temperature Controller</title>
+</head>
+
+<body>
+
+<h2>Temperature Controller:</h2>
+<p>Current temperature: ##TEMPERATURE##&deg;C</p>
+<form id="form1" name="form1" method="post" action=""> 
+  <table width="277" border="0">
+  <tr>
+    <td width="193" bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt1'})" for="1">Temperature Threshold:</label></td>
+    <td width="74" bgcolor="#99CCFF"><input name="Threshold" type="text" id="1" value="##THRESHOLD##" size="3" maxlength="2"/>&deg;C</td>
+  </tr>
+  <tr>
+    <td bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt2'})" for="1">Maximum Fanspeed @:</label></td>
+    <td bgcolor="#99CCFF"><input type="text" name="PWMMax" value="##PWMMAX##" id="2" size="3" maxlength="2"/>&deg;C</td>
+  </tr>
+</table>
+<input type="submit" value="Apply">
+</form>
+</body>
+</html>

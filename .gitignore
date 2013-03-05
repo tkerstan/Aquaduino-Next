@@ -1,0 +1,14 @@
+*.d
+*.o
+*.lss
+*.map
+*.elf
+*.eep
+.project
+.cproject
+.settings/
+Debug/
+Release/
+Boards/
+makefile*
+Makefile*
