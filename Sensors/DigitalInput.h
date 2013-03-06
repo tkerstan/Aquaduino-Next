@@ -26,10 +26,10 @@
 class DigitalInput: public Sensor
 {
 private:
-	unsigned char myPin;
+    unsigned char myPin;
 public:
-	double read();
-	DigitalInput(unsigned char pin);
+    double read();
+    DigitalInput(unsigned char pin);
 };
 
 #endif /* DIGITALINPUT_H_ */

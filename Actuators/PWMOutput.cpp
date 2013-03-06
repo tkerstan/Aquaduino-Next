@@ -22,65 +22,65 @@
 #include <Arduino.h>
 
 PWMOutput::PWMOutput(const char* name) :
-		Actuator(name)
+        Actuator(name)
 {
-	m_Type = ACTUATOR_PWMOUTPUT;
+    m_Type = ACTUATOR_PWMOUTPUT;
 
-	// Currently fixed at pin 7
-	// TODO: Use digital_pin_to_timer!
-	pinMode(7, OUTPUT);
+    // Currently fixed at pin 7
+    // TODO: Use digital_pin_to_timer!
+    pinMode(7, OUTPUT);
 
-	//Enable Fast PWM @ ~8kHZ for all OCR on Timer 4
-	//This was enough for my PC Fan to run without whistling
-	TCCR4A = _BV(COM4A1) | _BV(COM4B1) | _BV(COM4C1) | _BV(WGM41) | _BV(WGM40);
-	TCCR4B = _BV(WGM42) | _BV(CS40);
+    //Enable Fast PWM @ ~8kHZ for all OCR on Timer 4
+    //This was enough for my PC Fan to run without whistling
+    TCCR4A = _BV(COM4A1) | _BV(COM4B1) | _BV(COM4C1) | _BV(WGM41) | _BV(WGM40);
+    TCCR4B = _BV(WGM42) | _BV(CS40);
 
-	//No duty cycle
-	dutyCycle = 0.0;
-	OCR4B = dutyCycle * 0x3FF;
+    //No duty cycle
+    dutyCycle = 0.0;
+    OCR4B = dutyCycle * 0x3FF;
 
 }
 
 void PWMOutput::on()
 {
-	if (m_Enabled)
-	{
-		setPWM(1.0);
-	}
+    if (m_Enabled)
+    {
+        setPWM(1.0);
+    }
 }
 
 void PWMOutput::off()
 {
-	if (m_Enabled)
-	{
-		setPWM(0.0);
-	}
+    if (m_Enabled)
+    {
+        setPWM(0.0);
+    }
 }
 
 int8_t PWMOutput::isOn()
 {
-	return dutyCycle < 1.0;
+    return dutyCycle < 1.0;
 }
 
 int8_t PWMOutput::supportsPWM()
 {
-	return true;
+    return true;
 }
 
 void PWMOutput::setPWM(float dC)
 {
-	if (m_Enabled)
-	{
-		//100% is enough...
-		if (dC > 1.0)
-			dC = 1.0;
+    if (m_Enabled)
+    {
+        //100% is enough...
+        if (dC > 1.0)
+            dC = 1.0;
 
-		this->dutyCycle = 1.0 - dC;
-		OCR4B = this->dutyCycle * 0x3FF;
-	}
+        this->dutyCycle = 1.0 - dC;
+        OCR4B = this->dutyCycle * 0x3FF;
+    }
 }
 
 float PWMOutput::getPWM()
 {
-	return dutyCycle;
+    return dutyCycle;
 }

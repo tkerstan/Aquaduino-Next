@@ -23,13 +23,13 @@
 
 #include "Object.h"
 
-class Sensor : public Object
+class Sensor: public Object
 {
 protected:
-	virtual ~Sensor();
+    virtual ~Sensor();
 public:
-	virtual double read() = 0;
-	Sensor();
+    virtual double read() = 0;
+    Sensor();
 };
 
 #endif /* AQUADUINOSENSOR_H_ */

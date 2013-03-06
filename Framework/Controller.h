@@ -29,18 +29,18 @@
 #include "Config.h"
 #include <WebServer.h>
 
-class Controller : public Object, public Serializable
+class Controller: public Object, public Serializable
 {
 public:
-	Controller(const char* name);
+    Controller(const char* name);
 
-	virtual int8_t run() = 0;
-	virtual int8_t showWebinterface(WebServer* server,
-			WebServer::ConnectionType type) = 0;
+    virtual int8_t run() = 0;
+    virtual int8_t showWebinterface(WebServer* server,
+                                    WebServer::ConnectionType type) = 0;
 
 protected:
-	virtual ~Controller();
-	void allMyActuators(int8_t on);
+    virtual ~Controller();
+    void allMyActuators(int8_t on);
 };
 
 #endif /* AQUADUINOCONTROLLER_H_ */

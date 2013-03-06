@@ -24,7 +24,7 @@
 
 Controller::Controller(const char* name)
 {
-	setName(name);
+    setName(name);
 }
 
 Controller::~Controller()
@@ -33,14 +33,17 @@ Controller::~Controller()
 
 void Controller::allMyActuators(int8_t on)
 {
-	int8_t i = 0;
-	int8_t actuators = 0;
-	Actuator* assignedActuators[MAX_ACTORS] = {0};
-	actuators = aquaduino->getAssignedActuators(this, assignedActuators, MAX_ACTORS);
+    int8_t i = 0;
+    int8_t actuators = 0;
+    Actuator* assignedActuators[MAX_ACTORS] =
+        { 0 };
+    actuators = aquaduino->getAssignedActuators(this,
+                                                assignedActuators,
+                                                MAX_ACTORS);
 
-	for (; i < actuators; i++)
-		if (on)
-			assignedActuators[i]->on();
-		else
-			assignedActuators[i]->off();
+    for (; i < actuators; i++)
+        if (on)
+            assignedActuators[i]->on();
+        else
+            assignedActuators[i]->off();
 }

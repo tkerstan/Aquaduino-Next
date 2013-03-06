@@ -35,385 +35,392 @@
 Aquaduino* aquaduino;
 
 extern void defaultCmd(WebServer &server, WebServer::ConnectionType type,
-		char *, bool);
-extern void controllerDispatchCommand(WebServer &server, WebServer::ConnectionType type,
-        char **url_path, char *url_tail,
-        bool tail_complete);
+                       char *, bool);
+extern void controllerDispatchCommand(WebServer &server,
+                                      WebServer::ConnectionType type,
+                                      char **url_path, char *url_tail,
+                                      bool tail_complete);
 
 Aquaduino::Aquaduino() :
-		myIP(192, 168, 1, 222), myNetmask(255, 255, 255, 0), myDNS(192, 168, 1,
-				1), myGateway(192, 168, 1, 1), myNTP(192, 53, 103, 108), ntpSyncInterval(
-				5), doDHCP(0), doNTP(0), m_Controllers(MAX_CONTROLLERS), m_Actuators(
-				MAX_ACTORS), temperatureSensor(NULL), levelSensor(NULL),
-			    myWebServer(NULL), m_TemplateParser(NULL), temp(0), level(0)
+        myIP(192, 168, 1, 222),
+        myNetmask(255, 255, 255, 0),
+        myDNS(192, 168, 1, 1),
+        myGateway(192, 168, 1, 1),
+        myNTP(192, 53, 103, 108),
+        ntpSyncInterval(5),
+        doDHCP(0),
+        doNTP(0),
+        m_Controllers(MAX_CONTROLLERS),
+        m_Actuators(MAX_ACTORS),
+        temperatureSensor(NULL),
+        levelSensor(NULL),
+        myWebServer(NULL),
+        m_TemplateParser(NULL),
+        temp(0),
+        level(0)
 {
-	// Deselect all SPI devices!
-	pinMode(4, OUTPUT);
-	digitalWrite(4, HIGH);
-	pinMode(10, OUTPUT);
-	digitalWrite(10, HIGH);
+    // Deselect all SPI devices!
+    pinMode(4, OUTPUT);
+    digitalWrite(4, HIGH);
+    pinMode(10, OUTPUT);
+    digitalWrite(10, HIGH);
 
-	if (!SD.begin(4))
-	{
-		Serial.println(F("No SD Card available"));
-		while(1);
-	}
+    if (!SD.begin(4))
+    {
+        Serial.println(F("No SD Card available"));
+        while(1);
+    }
 
-	myMAC[0] = 0x00;
-	myMAC[1] = 0x01;
-	myMAC[2] = 0x02;
-	myMAC[3] = 0x03;
-	myMAC[4] = 0x04;
-	myMAC[5] = 0x05;
+    myMAC[0] = 0x00;
+    myMAC[1] = 0x01;
+    myMAC[2] = 0x02;
+    myMAC[3] = 0x03;
+    myMAC[4] = 0x04;
+    myMAC[5] = 0x05;
 
 #ifdef DEBUG
-	Serial.print(F("IP: "));
-	Serial.println(myIP);
-	Serial.print(F("Netmask: "));
-	Serial.println(myNetmask);
-	Serial.print(F("Gateway: "));
-	Serial.println(myGateway);
-	Serial.print(F("DNS Server: "));
-	Serial.println(myDNS);
-	Serial.print(F("NTP Server: "));
-	Serial.println(myNTP);
+    Serial.print(F("IP: "));
+    Serial.println(myIP);
+    Serial.print(F("Netmask: "));
+    Serial.println(myNetmask);
+    Serial.print(F("Gateway: "));
+    Serial.println(myGateway);
+    Serial.print(F("DNS Server: "));
+    Serial.println(myDNS);
+    Serial.print(F("NTP Server: "));
+    Serial.println(myNTP);
 #endif
 
-	m_ConfigManager = new SDConfigManager("config");
+    m_ConfigManager = new SDConfigManager("config");
 
-	Ethernet.begin(myMAC, myIP, myDNS, myGateway, myNetmask);
+    Ethernet.begin(myMAC, myIP, myDNS, myGateway, myNetmask);
 }
 
 IPAddress* Aquaduino::getIP()
 {
-	return &myIP;
+    return &myIP;
 }
 void Aquaduino::setIP(IPAddress* ip)
 {
-	myIP = *ip;
+    myIP = *ip;
 }
 
 IPAddress* Aquaduino::getNetmask()
 {
-	return &myNetmask;
+    return &myNetmask;
 }
 
 void Aquaduino::setNetmask(IPAddress* netmask)
 {
-	myNetmask = *netmask;
+    myNetmask = *netmask;
 }
 
 IPAddress* Aquaduino::getGateway()
 {
-	return &myGateway;
+    return &myGateway;
 }
 
 void Aquaduino::setGateway(IPAddress* gateway)
 {
-	myGateway = *gateway;
+    myGateway = *gateway;
 }
 
 IPAddress* Aquaduino::getDNS()
 {
-	return &myDNS;
+    return &myDNS;
 }
 
 void Aquaduino::setDNS(IPAddress* dns)
 {
-	myDNS = *dns;
+    myDNS = *dns;
 }
 
 IPAddress* Aquaduino::getNTP()
 {
-	return &myNTP;
+    return &myNTP;
 }
 
 void Aquaduino::setNTP(IPAddress* ntp)
 {
-	myNTP = *ntp;
+    myNTP = *ntp;
 }
 
 uint16_t Aquaduino::getNtpSyncInterval()
 {
-	return ntpSyncInterval;
+    return ntpSyncInterval;
 }
 
 void Aquaduino::setNtpSyncInterval(uint16_t syncInterval)
 {
-	ntpSyncInterval = syncInterval;
+    ntpSyncInterval = syncInterval;
 }
 
 void Aquaduino::enableDHCP()
 {
-	doDHCP = 1;
+    doDHCP = 1;
 }
 
 void Aquaduino::disableDHCP()
 {
-	doDHCP = 0;
+    doDHCP = 0;
 }
 
 int8_t Aquaduino::isDHCPEnabled()
 {
-	return doDHCP;
+    return doDHCP;
 }
 
 void Aquaduino::enableNTP()
 {
-	doNTP = 1;
+    doNTP = 1;
 }
 
 void Aquaduino::disableNTP()
 {
-	doNTP = 0;
+    doNTP = 0;
 }
 
 int8_t Aquaduino::isNTPEnabled()
 {
-	return doNTP;
+    return doNTP;
 }
 
 void Aquaduino::addController(Controller* newController)
 {
-	int8_t status = m_Controllers.add(newController);
+    int8_t status = m_Controllers.add(newController);
 #ifdef DEBUG
-	Serial.print(F("Adding controller "));
-	Serial.print(newController->getName());
-	Serial.print(F(" @ position "));
-	Serial.println(status);
+    Serial.print(F("Adding controller "));
+    Serial.print(newController->getName());
+    Serial.print(F(" @ position "));
+    Serial.println(status);
 #endif
 }
 
 Controller* Aquaduino::getController(unsigned int controller)
 {
-	return m_Controllers.get(controller);
+    return m_Controllers.get(controller);
 }
 
 int8_t Aquaduino::getControllerID(Controller* controller)
 {
-	return m_Controllers.findElement(controller);
+    return m_Controllers.findElement(controller);
 }
 
 void Aquaduino::resetControllerIterator()
 {
-	m_Controllers.resetIterator();
+    m_Controllers.resetIterator();
 }
 
 int8_t Aquaduino::getNextController(Controller** controller)
 {
-	return m_Controllers.getNext(controller);
+    return m_Controllers.getNext(controller);
 }
-
 
 unsigned char Aquaduino::getNrOfControllers()
 {
-	return m_Controllers.getNrOfElements();
+    return m_Controllers.getNrOfElements();
 }
 
 void Aquaduino::addActuator(Actuator* newActor)
 {
-	int8_t status = m_Actuators.add(newActor);
+    int8_t status = m_Actuators.add(newActor);
 #ifdef DEBUG
-	Serial.print(F("Adding actuator "));
-	Serial.print(newActor->getName());
-	Serial.print(F(" @ position "));
-	Serial.println(status);
+    Serial.print(F("Adding actuator "));
+    Serial.print(newActor->getName());
+    Serial.print(F(" @ position "));
+    Serial.println(status);
 #endif
 }
 
 Actuator* Aquaduino::getActuator(unsigned int actor)
 {
-	return m_Actuators.get(actor);
+    return m_Actuators.get(actor);
 }
 
 int8_t Aquaduino::getActuatorID(Actuator* actuator)
 {
-	return m_Actuators.findElement(actuator);
+    return m_Actuators.findElement(actuator);
 }
 
 void Aquaduino::resetAcuatorIterator()
 {
-	m_Actuators.resetIterator();
+    m_Actuators.resetIterator();
 }
 
 int8_t Aquaduino::getNextActuator(Actuator** actuator)
 {
-	return m_Actuators.getNext(actuator);
+    return m_Actuators.getNext(actuator);
 }
 
-
-int8_t Aquaduino::getAssignedActuators(Controller* controller, Actuator** actuators, int8_t max)
+int8_t Aquaduino::getAssignedActuators(Controller* controller,
+                                       Actuator** actuators, int8_t max)
 {
-	int8_t actorIdx = -1;
-	int8_t nrOfAssignedActuators = 0;
-	Actuator* currentActuator;
-	int8_t controllerIdx = m_Controllers.findElement(controller);
+    int8_t actorIdx = -1;
+    int8_t nrOfAssignedActuators = 0;
+    Actuator* currentActuator;
+    int8_t controllerIdx = m_Controllers.findElement(controller);
 
-	m_Actuators.resetIterator();
-	while ((actorIdx = m_Actuators.getNext(&currentActuator)) != -1)
-	{
-		if (currentActuator->getController() == controllerIdx)
-		{
-			if (nrOfAssignedActuators < max)
-				actuators[nrOfAssignedActuators] = currentActuator;
-			nrOfAssignedActuators++;
-		}
-	}
-	return nrOfAssignedActuators;
+    m_Actuators.resetIterator();
+    while ((actorIdx = m_Actuators.getNext(&currentActuator)) != -1)
+    {
+        if (currentActuator->getController() == controllerIdx)
+        {
+            if (nrOfAssignedActuators < max)
+                actuators[nrOfAssignedActuators] = currentActuator;
+            nrOfAssignedActuators++;
+        }
+    }
+    return nrOfAssignedActuators;
 }
-
 
 unsigned char Aquaduino::getNrOfActuators()
 {
-	return m_Actuators.getNrOfElements();
+    return m_Actuators.getNrOfElements();
 }
 
 uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
 {
-	uint8_t* bPtr = (uint8_t*) buffer;
+    uint8_t* bPtr = (uint8_t*) buffer;
 
-	memcpy(bPtr, myMAC, sizeof(myMAC));
-	bPtr += sizeof(myMAC);
-	memcpy(bPtr, (uint32_t*) &myIP, sizeof(uint32_t));
-	bPtr += sizeof(uint32_t);
-	memcpy(bPtr, (uint32_t*) &myNetmask, sizeof(uint32_t));
-	bPtr += sizeof(uint32_t);
-	memcpy(bPtr, (uint32_t*) &myDNS, sizeof(uint32_t));
-	bPtr += sizeof(uint32_t);
-	memcpy(bPtr, (uint32_t*) &myGateway, sizeof(uint32_t));
-	bPtr += sizeof(uint32_t);
-	memcpy(bPtr, (uint32_t*) &myNTP, sizeof(uint32_t));
-	bPtr += sizeof(uint32_t);
-	memcpy(bPtr, &ntpSyncInterval, sizeof(uint16_t));
-	bPtr += sizeof(uint16_t);
-	memcpy(bPtr, &doDHCP, sizeof(uint16_t));
-	bPtr += sizeof(int8_t);
-	memcpy(bPtr, &doNTP, sizeof(uint16_t));
-	bPtr += sizeof(int8_t);
+    memcpy(bPtr, myMAC, sizeof(myMAC));
+    bPtr += sizeof(myMAC);
+    memcpy(bPtr, (uint32_t*) &myIP, sizeof(uint32_t));
+    bPtr += sizeof(uint32_t);
+    memcpy(bPtr, (uint32_t*) &myNetmask, sizeof(uint32_t));
+    bPtr += sizeof(uint32_t);
+    memcpy(bPtr, (uint32_t*) &myDNS, sizeof(uint32_t));
+    bPtr += sizeof(uint32_t);
+    memcpy(bPtr, (uint32_t*) &myGateway, sizeof(uint32_t));
+    bPtr += sizeof(uint32_t);
+    memcpy(bPtr, (uint32_t*) &myNTP, sizeof(uint32_t));
+    bPtr += sizeof(uint32_t);
+    memcpy(bPtr, &ntpSyncInterval, sizeof(uint16_t));
+    bPtr += sizeof(uint16_t);
+    memcpy(bPtr, &doDHCP, sizeof(uint16_t));
+    bPtr += sizeof(int8_t);
+    memcpy(bPtr, &doNTP, sizeof(uint16_t));
+    bPtr += sizeof(int8_t);
 
-	return 0;
+    return 0;
 }
 
 uint16_t Aquaduino::deserialize(void* data, uint16_t size)
 {
-	uint8_t* bPtr = (uint8_t*) data;
+    uint8_t* bPtr = (uint8_t*) data;
 
-	memcpy(myMAC, bPtr, sizeof(myMAC));
-	bPtr += sizeof(myMAC);
-	memcpy((uint32_t*) &myIP, bPtr, sizeof(uint32_t));
-	bPtr += sizeof(uint32_t);
-	memcpy((uint32_t*) &myNetmask, bPtr, sizeof(uint32_t));
-	bPtr += sizeof(uint32_t);
-	memcpy((uint32_t*) &myDNS, bPtr, sizeof(uint32_t));
-	bPtr += sizeof(uint32_t);
-	memcpy((uint32_t*) &myGateway, bPtr, sizeof(uint32_t));
-	bPtr += sizeof(uint32_t);
-	memcpy((uint32_t*) &myNTP, bPtr, sizeof(uint32_t));
-	bPtr += sizeof(uint32_t);
-	memcpy(&ntpSyncInterval, bPtr, sizeof(uint16_t));
-	bPtr += sizeof(uint16_t);
-	memcpy(&doDHCP, bPtr,sizeof(uint16_t));
-	bPtr += sizeof(int8_t);
-	memcpy(&doNTP, bPtr, sizeof(uint16_t));
-	bPtr += sizeof(int8_t);
+    memcpy(myMAC, bPtr, sizeof(myMAC));
+    bPtr += sizeof(myMAC);
+    memcpy((uint32_t*) &myIP, bPtr, sizeof(uint32_t));
+    bPtr += sizeof(uint32_t);
+    memcpy((uint32_t*) &myNetmask, bPtr, sizeof(uint32_t));
+    bPtr += sizeof(uint32_t);
+    memcpy((uint32_t*) &myDNS, bPtr, sizeof(uint32_t));
+    bPtr += sizeof(uint32_t);
+    memcpy((uint32_t*) &myGateway, bPtr, sizeof(uint32_t));
+    bPtr += sizeof(uint32_t);
+    memcpy((uint32_t*) &myNTP, bPtr, sizeof(uint32_t));
+    bPtr += sizeof(uint32_t);
+    memcpy(&ntpSyncInterval, bPtr, sizeof(uint16_t));
+    bPtr += sizeof(uint16_t);
+    memcpy(&doDHCP, bPtr, sizeof(uint16_t));
+    bPtr += sizeof(int8_t);
+    memcpy(&doNTP, bPtr, sizeof(uint16_t));
+    bPtr += sizeof(int8_t);
 
-	return 0;
+    return 0;
 }
 
 int8_t Aquaduino::writeConfig(Actuator* actuator)
 {
-	return m_ConfigManager->writeConfig(actuator);
+    return m_ConfigManager->writeConfig(actuator);
 }
 
 int8_t Aquaduino::writeConfig(Controller* controller)
 {
-	return m_ConfigManager->writeConfig(controller);
+    return m_ConfigManager->writeConfig(controller);
 }
 
 int8_t Aquaduino::writeConfig(Sensor* sensor)
 {
-	return m_ConfigManager->writeConfig(sensor);
+    return m_ConfigManager->writeConfig(sensor);
 }
 
 int8_t Aquaduino::readConfig(Actuator* actuator)
 {
-	return m_ConfigManager->readConfig(actuator);
+    return m_ConfigManager->readConfig(actuator);
 }
 
 int8_t Aquaduino::readConfig(Controller* controller)
 {
-	return m_ConfigManager->readConfig(controller);
+    return m_ConfigManager->readConfig(controller);
 }
 
 int8_t Aquaduino::readConfig(Sensor* sensor)
 {
-	return m_ConfigManager->readConfig(sensor);
+    return m_ConfigManager->readConfig(sensor);
 }
-
-
 
 void Aquaduino::setTemperatureSensor(Sensor* tempSensor)
 {
-	this->temperatureSensor = tempSensor;
+    this->temperatureSensor = tempSensor;
 }
 
 double Aquaduino::getTemperature()
 {
-	return temp;
+    return temp;
 }
 
 void Aquaduino::setLevelSensor(Sensor* levSensor)
 {
-	this->levelSensor = levSensor;
+    this->levelSensor = levSensor;
 }
 
 double Aquaduino::getLevel()
 {
-	return level;
+    return level;
 }
 
 void Aquaduino::setWebserver(WebServer* webServer)
 {
-	myWebServer = webServer;
-	webServer->setDefaultCommand(&defaultCmd);
-	webServer->setUrlPathCommand(&controllerDispatchCommand);
-	webServer->begin();
+    myWebServer = webServer;
+    webServer->setDefaultCommand(&defaultCmd);
+    webServer->setUrlPathCommand(&controllerDispatchCommand);
+    webServer->begin();
 }
 
 WebServer* Aquaduino::getWebserver()
 {
-	return myWebServer;
+    return myWebServer;
 }
 
 void Aquaduino::setTemplateParser(TemplateParser* parser)
 {
-	m_TemplateParser = parser;
+    m_TemplateParser = parser;
 }
 
 TemplateParser* Aquaduino::getTemplateParser()
 {
-	return m_TemplateParser;
+    return m_TemplateParser;
 }
-
 
 void Aquaduino::run()
 {
-	int8_t controllerIdx = -1;
-	Controller* currentController;
+    int8_t controllerIdx = -1;
+    Controller* currentController;
 
-	temp = temperatureSensor->read();
-	level = levelSensor->read() > 0 ? 1 : 0;
+    temp = temperatureSensor->read();
+    level = levelSensor->read() > 0 ? 1 : 0;
 
-	m_Controllers.resetIterator();
-	while ((controllerIdx = m_Controllers.getNext(&currentController)) != -1)
-	{
-		currentController->run();
-	}
+    m_Controllers.resetIterator();
+    while ((controllerIdx = m_Controllers.getNext(&currentController)) != -1)
+    {
+        currentController->run();
+    }
 
-	if (myWebServer != NULL)
-	{
-		myWebServer->processConnection();
-	}
+    if (myWebServer != NULL)
+    {
+        myWebServer->processConnection();
+    }
 }
 
 /*
@@ -490,64 +497,67 @@ void setup();
 
 void setup()
 {
-	Serial.begin(9600);
+    Serial.begin(9600);
 
-	aquaduino = new Aquaduino();
+    aquaduino = new Aquaduino();
 
-	//Init Time. If NTP Sync fails this will be used.
-	setTime(0, 0, 0, 1, 1, 42);
-	setSyncInterval(900); //Sync every 15 minutes
-	setSyncProvider(&NTPSync);
+    //Init Time. If NTP Sync fails this will be used.
+    setTime(0, 0, 0, 1, 1, 42);
+    setSyncInterval(900); //Sync every 15 minutes
+    setSyncProvider(&NTPSync);
 
-	webServer = new WebServer("", 80);
+    webServer = new WebServer("", 80);
 
-	aquaduino->setWebserver(webServer);
+    aquaduino->setWebserver(webServer);
 
-	for (int i = 0; i < POWER_OUTLETS; i++)
-	{
-		char name[6] = "PO";
-		itoa(i, &name[2], 10);
+    for (int i = 0; i < POWER_OUTLETS; i++)
+    {
+        char name[6] = "PO";
+        itoa(i, &name[2], 10);
 
-		powerOutlets[i] = new DigitalOutput(name, POWER_OUTLET_START_PIN + i,
-				0);
-		aquaduino->addActuator(powerOutlets[i]);
-	}
+        powerOutlets[i] = new DigitalOutput(name,
+                                            POWER_OUTLET_START_PIN + i,
+                                            0);
+        aquaduino->addActuator(powerOutlets[i]);
+    }
 
-	temperatureController = new TemperatureController("Temperature");
-	temperatureController->setURL("0");
-	levelController = new LevelController("Level", LEVEL_SENSOR_PIN);
-	levelController->setURL("1");
-	clockTimerController = new ClockTimerController("Clock Timer");
-	clockTimerController->setURL("2");
+    temperatureController = new TemperatureController("Temperature");
+    temperatureController->setURL("0");
+    levelController = new LevelController("Level", LEVEL_SENSOR_PIN);
+    levelController->setURL("1");
+    clockTimerController = new ClockTimerController("Clock Timer");
+    clockTimerController->setURL("2");
 
-	levelSensor = new DigitalInput(LEVEL_SENSOR_PIN);
-	temperatureSensor = new DS18S20(TEMPERATURE_SENSOR_PIN);
+    levelSensor = new DigitalInput(LEVEL_SENSOR_PIN);
+    temperatureSensor = new DS18S20(TEMPERATURE_SENSOR_PIN);
 
-	aquaduino->addController(temperatureController);
-	aquaduino->addController(levelController);
-	aquaduino->addController(clockTimerController);
+    aquaduino->addController(temperatureController);
+    aquaduino->addController(levelController);
+    aquaduino->addController(clockTimerController);
 
-	aquaduino->readConfig(temperatureController);
-	aquaduino->readConfig(levelController);
+    aquaduino->readConfig(temperatureController);
+    aquaduino->readConfig(levelController);
 
-	aquaduino->setTemperatureSensor(temperatureSensor);
-	aquaduino->setLevelSensor(levelSensor);
+    aquaduino->setTemperatureSensor(temperatureSensor);
+    aquaduino->setLevelSensor(levelSensor);
 
 #ifdef DEBUG
-	 Serial.print(F("Data Start: 0x"));
-	 Serial.println( (int) &__data_start, HEX);
-	 Serial.print(F("BSS Start: 0x"));
-	 Serial.println( (int) &__bss_start, HEX);
-	 Serial.print(F("Heap Start: 0x"));
-	 Serial.println( (int) __malloc_heap_start, HEX);
+    Serial.print(F("Data Start: 0x"));
+    Serial.println((int) &__data_start, HEX);
+    Serial.print(F("BSS Start: 0x"));
+    Serial.println((int) &__bss_start, HEX);
+    Serial.print(F("Heap Start: 0x"));
+    Serial.println((int) __malloc_heap_start, HEX);
 
-	 Serial.print(F("Heap End: 0x"));
-	 Serial.println( ((uint16_t) temperatureSensor) + sizeof(temperatureSensor)+1, HEX);
+    Serial.print(F("Heap End: 0x"));
+    Serial.println(((uint16_t) temperatureSensor) + sizeof(temperatureSensor)
+                   + 1,
+                   HEX);
 #endif
 
 }
 
 void loop()
 {
-	aquaduino->run();
+    aquaduino->run();
 }

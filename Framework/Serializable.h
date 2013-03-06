@@ -1,8 +1,21 @@
 /*
- * Serializable.h
+ * Copyright (c) 2013 Timo Kerstan.  All right reserved.
  *
- *  Created on: 04.03.2013
- *      Author: TimoK
+ * This file is part of Aquaduino.
+ *
+ * Aquaduino is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Aquaduino is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Aquaduino.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 #ifndef SERIALIZABLE_H_
@@ -10,10 +23,11 @@
 
 #include <Arduino.h>
 
-class Serializable {
+class Serializable
+{
 public:
-	virtual uint16_t serialize(void* buffer, uint16_t size) = 0;
-	virtual uint16_t deserialize(void* data, uint16_t size) = 0;
+    virtual uint16_t serialize(void* buffer, uint16_t size) = 0;
+    virtual uint16_t deserialize(void* data, uint16_t size) = 0;
 };
 
 #endif /* SERIALIZABLE_H_ */

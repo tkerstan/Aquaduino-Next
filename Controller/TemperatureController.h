@@ -27,20 +27,20 @@
 class TemperatureController: public Controller
 {
 private:
-	uint8_t myPin;
-	uint8_t actorThreshold;
-	uint8_t maxPWM;
-	Actuator* myActor;
+    uint8_t myPin;
+    uint8_t actorThreshold;
+    uint8_t maxPWM;
+    Actuator* myActor;
 public:
-	TemperatureController(const char* name);
-	virtual ~TemperatureController();
+    TemperatureController(const char* name);
+    virtual ~TemperatureController();
 
-	virtual uint16_t serialize(void* buffer, uint16_t size);
-	virtual uint16_t deserialize(void* data, uint16_t size);
+    virtual uint16_t serialize(void* buffer, uint16_t size);
+    virtual uint16_t deserialize(void* data, uint16_t size);
 
-	virtual int8_t run();
-	virtual int8_t showWebinterface(WebServer* server,
-			WebServer::ConnectionType type);
+    virtual int8_t run();
+    virtual int8_t showWebinterface(WebServer* server,
+                                    WebServer::ConnectionType type);
 };
 
 #endif /* TEMPERATURECONTROLLER_H_ */

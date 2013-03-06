@@ -25,9 +25,9 @@
 #include <TemplateParser.h>
 
 ClockTimerController::ClockTimerController(const char* name) :
-		Controller(name)
+        Controller(name)
 {
-	m_Type = CONTROLLER_CLOCKTIMER;
+    m_Type = CONTROLLER_CLOCKTIMER;
 }
 
 uint16_t ClockTimerController::serialize(void* buffer, uint16_t size)
@@ -40,11 +40,11 @@ uint16_t ClockTimerController::deserialize(void* data, uint16_t size)
 
 int8_t ClockTimerController::run()
 {
-	return 0;
+    return 0;
 }
 
 int8_t ClockTimerController::showWebinterface(WebServer* server,
-		WebServer::ConnectionType type)
+                                              WebServer::ConnectionType type)
 {
-	return 0;
+    return 0;
 }

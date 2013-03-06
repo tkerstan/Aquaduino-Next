@@ -20,10 +20,11 @@
 
 #include "Actuator.h"
 
-Actuator::Actuator(const char* name):m_Enabled(1)
+Actuator::Actuator(const char* name) :
+        m_Enabled(1)
 {
-	setName(name);
-	this->m_ControlledBy = -1;
+    setName(name);
+    this->m_ControlledBy = -1;
 }
 
 Actuator::~Actuator()
@@ -32,27 +33,27 @@ Actuator::~Actuator()
 
 void Actuator::setController(int8_t controller)
 {
-	this->m_ControlledBy = controller;
+    this->m_ControlledBy = controller;
 }
 
 int8_t Actuator::getController()
 {
-	return m_ControlledBy;
+    return m_ControlledBy;
 }
 
 void Actuator::enable()
 {
-	m_Enabled = true;
-	this->on();
+    m_Enabled = true;
+    this->on();
 }
 
 void Actuator::disable()
 {
-	this->off();
-	m_Enabled = false;
+    this->off();
+    m_Enabled = false;
 }
 
 int8_t Actuator::isEnabled()
 {
-	return m_Enabled;
+    return m_Enabled;
 }

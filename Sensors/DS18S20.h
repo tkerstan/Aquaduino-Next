@@ -27,14 +27,14 @@
 class DS18S20: public Sensor
 {
 private:
-	uint8_t myPin;
-	double celsius;
-	double fahrenheit;
-	OneWire myOneWire;
+    uint8_t myPin;
+    double celsius;
+    double fahrenheit;
+    OneWire myOneWire;
 
 public:
-	DS18S20(int pin);
-	double read();
+    DS18S20(int pin);
+    double read();
 };
 
 #endif /* DS18S20_H_ */

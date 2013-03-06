@@ -23,80 +23,80 @@
 
 ClockTimer::ClockTimer()
 {
-	for (int i = 0; i < CLOCKTIMER_MAX_TIMERS; i++)
-	{
-		this->hOn[i] = 0;
-		this->mOn[i] = 0;
-		this->hOff[i] = 0;
-		this->mOff[i] = 0;
-	}
+    for (int i = 0; i < CLOCKTIMER_MAX_TIMERS; i++)
+    {
+        this->hOn[i] = 0;
+        this->mOn[i] = 0;
+        this->hOff[i] = 0;
+        this->mOff[i] = 0;
+    }
 }
 
 void ClockTimer::setTimer(uint8_t index, uint8_t hOn, uint8_t mOn, uint8_t hOff,
-		uint8_t mOff)
+                          uint8_t mOff)
 {
-	this->hOn[index % CLOCKTIMER_MAX_TIMERS] = hOn;
-	this->mOn[index % CLOCKTIMER_MAX_TIMERS] = mOn;
-	this->hOff[index % CLOCKTIMER_MAX_TIMERS] = hOff;
-	this->mOff[index % CLOCKTIMER_MAX_TIMERS] = mOff;
+    this->hOn[index % CLOCKTIMER_MAX_TIMERS] = hOn;
+    this->mOn[index % CLOCKTIMER_MAX_TIMERS] = mOn;
+    this->hOff[index % CLOCKTIMER_MAX_TIMERS] = hOff;
+    this->mOff[index % CLOCKTIMER_MAX_TIMERS] = mOff;
 }
 
 void ClockTimer::getTimer(uint8_t index, uint8_t* hOn, uint8_t* mOn,
-		uint8_t* hOff, uint8_t* mOff)
+                          uint8_t* hOff, uint8_t* mOff)
 {
-	if (hOn != NULL)
-		*hOn = this->hOn[index % CLOCKTIMER_MAX_TIMERS];
-	if (mOn != NULL)
-		*mOn = this->mOn[index % CLOCKTIMER_MAX_TIMERS];
-	if (hOff != NULL)
-		*hOff = this->hOff[index % CLOCKTIMER_MAX_TIMERS];
-	if (mOff != NULL)
-		*mOff = this->mOff[index % CLOCKTIMER_MAX_TIMERS];
+    if (hOn != NULL)
+        *hOn = this->hOn[index % CLOCKTIMER_MAX_TIMERS];
+    if (mOn != NULL)
+        *mOn = this->mOn[index % CLOCKTIMER_MAX_TIMERS];
+    if (hOff != NULL)
+        *hOff = this->hOff[index % CLOCKTIMER_MAX_TIMERS];
+    if (mOff != NULL)
+        *mOff = this->mOff[index % CLOCKTIMER_MAX_TIMERS];
 }
 
 int8_t ClockTimer::check()
 {
-	uint8_t on = 0;
-	unsigned long nowInSecs = hour() * SECS_PER_HOUR + minute() * SECS_PER_MIN
-			+ second();
+    uint8_t on = 0;
+    unsigned long nowInSecs = hour() * SECS_PER_HOUR + minute() * SECS_PER_MIN
+                              + second();
 
-	for (int i = 0; i < CLOCKTIMER_MAX_TIMERS; i++)
-	{
-		unsigned long clockTimerOnInSecs = this->hOn[i] * SECS_PER_HOUR
-				+ this->mOn[i] * SECS_PER_MIN;
-		unsigned long clockTimerOffInSecs = this->hOff[i] * SECS_PER_HOUR
-				+ this->mOff[i] * SECS_PER_MIN;
+    for (int i = 0; i < CLOCKTIMER_MAX_TIMERS; i++)
+    {
+        unsigned long clockTimerOnInSecs = this->hOn[i] * SECS_PER_HOUR
+                + this->mOn[i] * SECS_PER_MIN;
+        unsigned long clockTimerOffInSecs = this->hOff[i] * SECS_PER_HOUR
+                + this->mOff[i] * SECS_PER_MIN;
 
-		// Check whether entry is not hh:mm - hh:mm
-		if (clockTimerOnInSecs - clockTimerOffInSecs != 0)
-		{
-			// e.g. 08:00 - 15:00
-			if (clockTimerOnInSecs < clockTimerOffInSecs)
-			{
-				on |= (nowInSecs >= clockTimerOnInSecs
-						&& nowInSecs < clockTimerOffInSecs) ? 1 : 0;
-				// e.g. 21:00 - 06:00
-			}
-			else
-			{
-				on |= (nowInSecs >= clockTimerOnInSecs
-						|| nowInSecs < clockTimerOffInSecs) ? 1 : 0;
-			}
-		}
-	}
+        // Check whether entry is not hh:mm - hh:mm
+        if (clockTimerOnInSecs - clockTimerOffInSecs != 0)
+        {
+            // e.g. 08:00 - 15:00
+            if (clockTimerOnInSecs < clockTimerOffInSecs)
+            {
+                on |= (nowInSecs >= clockTimerOnInSecs && nowInSecs
+                        < clockTimerOffInSecs) ? 1 : 0;
+                // e.g. 21:00 - 06:00
+            }
+            else
+            {
+                on |= (nowInSecs >= clockTimerOnInSecs || nowInSecs
+                        < clockTimerOffInSecs) ? 1 : 0;
+            }
+        }
+    }
 
-	return on;
+    return on;
 
 }
 
 void ClockTimer::clearAll()
 {
-	for (int i = 0; i < CLOCKTIMER_MAX_TIMERS; i++)
-	{
-		this->hOn[i] = 0;
-		this->hOff[i] = 0;
-		this->mOn[i] = 0;
-		this->mOff[i] = 0;
-	}
+    for (int i = 0; i < CLOCKTIMER_MAX_TIMERS; i++)
+    {
+        this->hOn[i] = 0;
+        this->hOff[i] = 0;
+        this->mOn[i] = 0;
+        this->mOff[i] = 0;
+    }
 }
 

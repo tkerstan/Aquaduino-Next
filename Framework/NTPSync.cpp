@@ -1,3 +1,23 @@
+/*
+ * Copyright (c) 2013 Timo Kerstan.  All right reserved.
+ *
+ * This file is part of Aquaduino.
+ *
+ * Aquaduino is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Aquaduino is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Aquaduino.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 #include <Time.h>
 #include <EthernetUdp.h>
 #include <Aquaduino.h>
@@ -12,73 +32,73 @@ IPAddress sntpServerIP(192, 53, 103, 108); //ptbtime1.ptb.de
 
 time_t NTPSync()
 {
-	EthernetUDP Udp;
+    EthernetUDP Udp;
 
-	long timeZoneOffset = TIME_ZONE * SECS_PER_HOUR;
-	unsigned char packetBuffer[NTP_PACKET_SIZE];
-	const unsigned long seventy_years = 2208988800UL;
-	unsigned long secsSince1900;
+    long timeZoneOffset = TIME_ZONE * SECS_PER_HOUR;
+    unsigned char packetBuffer[NTP_PACKET_SIZE];
+    const unsigned long seventy_years = 2208988800UL;
+    unsigned long secsSince1900;
 
-	uint8_t status = 0;
-	uint16_t timeout = 1000;
+    uint8_t status = 0;
+    uint16_t timeout = 1000;
 #ifdef DEBUG
-	Serial.println(F("Syncing NTP Time..."));
+    Serial.println(F("Syncing NTP Time..."));
 #endif
 
-	// set all bytes in the buffer to 0
-	memset(packetBuffer, 0, NTP_PACKET_SIZE);
-	packetBuffer[0] = 0b11100011;   // LI, Version, Mode
-	packetBuffer[1] = 0;     		// Stratum, or type of clock
-	packetBuffer[2] = 6;     		// Polling Interval
-	packetBuffer[3] = 0xEC;  		// Peer Clock Precision
+    // set all bytes in the buffer to 0
+    memset(packetBuffer, 0, NTP_PACKET_SIZE);
+    packetBuffer[0] = 0b11100011;   // LI, Version, Mode
+    packetBuffer[1] = 0;     		// Stratum, or type of clock
+    packetBuffer[2] = 6;     		// Polling Interval
+    packetBuffer[3] = 0xEC;  		// Peer Clock Precision
 
-	// 8 bytes of zero for Root Delay & Root Dispersion
-	packetBuffer[12] = 49;
-	packetBuffer[13] = 0x4E;
-	packetBuffer[14] = 49;
-	packetBuffer[15] = 52;
+    // 8 bytes of zero for Root Delay & Root Dispersion
+    packetBuffer[12] = 49;
+    packetBuffer[13] = 0x4E;
+    packetBuffer[14] = 49;
+    packetBuffer[15] = 52;
 
-	Udp.begin(8888);
-	Udp.beginPacket(*(aquaduino->getNTP()), 123);
-	Udp.write(packetBuffer, NTP_PACKET_SIZE);
-	Udp.endPacket();
+    Udp.begin(8888);
+    Udp.beginPacket(*(aquaduino->getNTP()), 123);
+    Udp.write(packetBuffer, NTP_PACKET_SIZE);
+    Udp.endPacket();
 
-	while (timeout-- > 0)
-	{
+    while (timeout-- > 0)
+    {
 
-		if (Udp.parsePacket())
-		{
-			//OK we got a response
-			Udp.read(packetBuffer, NTP_PACKET_SIZE); // read the packet into the buffer
+        if (Udp.parsePacket())
+        {
+            //OK we got a response
+            Udp.read(packetBuffer, NTP_PACKET_SIZE); // read the packet into the buffer
 
-			//the timestamp starts at byte 40 of the received packet and is four bytes,
-			// or two words, long. First, esxtract the two words:
+            //the timestamp starts at byte 40 of the received packet and is four bytes,
+            // or two words, long. First, esxtract the two words:
 
-			unsigned long highWord = word(packetBuffer[40], packetBuffer[41]);
-			unsigned long lowWord = word(packetBuffer[42], packetBuffer[43]);
-			// combine the four bytes (two words) into a long integer
-			// this is NTP time (seconds since Jan 1 1900):
-			secsSince1900 = highWord << 16 | lowWord;
-			status = 1;
+            unsigned long highWord = word(packetBuffer[40], packetBuffer[41]);
+            unsigned long lowWord = word(packetBuffer[42], packetBuffer[43]);
+            // combine the four bytes (two words) into a long integer
+            // this is NTP time (seconds since Jan 1 1900):
+            secsSince1900 = highWord << 16 | lowWord;
+            status = 1;
 
-		}
-		delay(1);
-	}
+        }
+        delay(1);
+    }
 
-	Udp.stop();
+    Udp.stop();
 
-	if (status)
-	{
+    if (status)
+    {
 #ifdef DEBUG
-		Serial.println(F("NTP sync successful."));
+        Serial.println(F("NTP sync successful."));
 #endif
-		return secsSince1900 - seventy_years + timeZoneOffset;
-	}
-	else
-	{
+                       return secsSince1900 - seventy_years + timeZoneOffset;
+                   }
+                   else
+                   {
 #ifdef DEBUG
-		Serial.println(F("NTP sync failed."));
+                       Serial.println(F("NTP sync failed."));
 #endif
-		return 0;
-	}
-}
+                       return 0;
+                   }
+               }

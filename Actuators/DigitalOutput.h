@@ -26,26 +26,26 @@
 class DigitalOutput: public Actuator
 {
 private:
-	int pin;
-	int onValue;
-	int offValue;
+    int pin;
+    int onValue;
+    int offValue;
 public:
-	DigitalOutput(const char* name, int pin, int onValue);
-	virtual void on();
-	virtual void off();
-	virtual int8_t isOn();
-	virtual int8_t supportsPWM()
-	{
-		return false;
-	}
-	virtual void setPWM(float dutyCycle)
-	{
-		this->on();
-	}
-	virtual float getPWM()
-	{
-		return isOn() ? 1.0 : 0.0;
-	}
+    DigitalOutput(const char* name, int pin, int onValue);
+    virtual void on();
+    virtual void off();
+    virtual int8_t isOn();
+    virtual int8_t supportsPWM()
+    {
+        return false;
+    }
+    virtual void setPWM(float dutyCycle)
+    {
+        this->on();
+    }
+    virtual float getPWM()
+    {
+        return isOn() ? 1.0 : 0.0;
+    }
 
 };
 

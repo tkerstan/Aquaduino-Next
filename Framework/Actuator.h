@@ -27,34 +27,34 @@
 
 class Controller;
 
-class Actuator : public Object
+class Actuator: public Object
 {
 private:
-	Actuator(const Actuator&);
-	Actuator(Actuator&);
+    Actuator(const Actuator&);
+    Actuator(Actuator&);
 
 protected:
-	int8_t m_ControlledBy;
-	int8_t m_Enabled;
-	virtual ~Actuator();
+    int8_t m_ControlledBy;
+    int8_t m_Enabled;
+    virtual ~Actuator();
 
 public:
-	Actuator(const char* name);
+    Actuator(const char* name);
 
-	void setController(int8_t controller);
-	int8_t getController();
+    void setController(int8_t controller);
+    int8_t getController();
 
-	virtual void enable();
-	virtual void disable();
-	virtual int8_t isEnabled();
+    virtual void enable();
+    virtual void disable();
+    virtual int8_t isEnabled();
 
-	virtual void on() = 0;
-	virtual void off() = 0;
-	virtual int8_t isOn() = 0;
+    virtual void on() = 0;
+    virtual void off() = 0;
+    virtual int8_t isOn() = 0;
 
-	virtual int8_t supportsPWM() = 0;
-	virtual void setPWM(float dutyCycle) = 0;
-	virtual float getPWM() = 0;
+    virtual int8_t supportsPWM() = 0;
+    virtual void setPWM(float dutyCycle) = 0;
+    virtual float getPWM() = 0;
 
 };
 

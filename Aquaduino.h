@@ -39,94 +39,95 @@ class Actuator;
 class Sensor;
 class ConfigManager;
 
-class Aquaduino : public Object, Serializable
+class Aquaduino: public Object, Serializable
 {
 private:
-	byte myMAC[6];
-	IPAddress myIP, myNetmask, myDNS, myGateway, myNTP;
-	uint16_t ntpSyncInterval;
-	int8_t doDHCP;
-	int8_t doNTP;
+    byte myMAC[6];
+    IPAddress myIP, myNetmask, myDNS, myGateway, myNTP;
+    uint16_t ntpSyncInterval;
+    int8_t doDHCP;
+    int8_t doNTP;
 
-	ArrayList<Controller*> m_Controllers;
-	ArrayList<Actuator*> m_Actuators;
-	Sensor* temperatureSensor;
-	Sensor* levelSensor;
-	WebServer* myWebServer;
-	TemplateParser* m_TemplateParser;
-	double temp;
-	double level;
+    ArrayList<Controller*> m_Controllers;
+    ArrayList<Actuator*> m_Actuators;
+    Sensor* temperatureSensor;
+    Sensor* levelSensor;
+    WebServer* myWebServer;
+    TemplateParser* m_TemplateParser;
+    double temp;
+    double level;
 
-	ConfigManager* m_ConfigManager;
+    ConfigManager* m_ConfigManager;
 
 public:
-	Aquaduino();
+    Aquaduino();
 
-	IPAddress* getIP();
-	void setIP(IPAddress* ip);
+    IPAddress* getIP();
+    void setIP(IPAddress* ip);
 
-	IPAddress* getNetmask();
-	void setNetmask(IPAddress* netmask);
+    IPAddress* getNetmask();
+    void setNetmask(IPAddress* netmask);
 
-	IPAddress* getGateway();
-	void setGateway(IPAddress* gateway);
+    IPAddress* getGateway();
+    void setGateway(IPAddress* gateway);
 
-	IPAddress* getDNS();
-	void setDNS(IPAddress* dns);
+    IPAddress* getDNS();
+    void setDNS(IPAddress* dns);
 
-	IPAddress* getNTP();
-	void setNTP(IPAddress* ntp);
+    IPAddress* getNTP();
+    void setNTP(IPAddress* ntp);
 
-	uint16_t getNtpSyncInterval();
-	void setNtpSyncInterval(uint16_t syncInterval);
+    uint16_t getNtpSyncInterval();
+    void setNtpSyncInterval(uint16_t syncInterval);
 
-	void enableDHCP();
-	void disableDHCP();
-	int8_t isDHCPEnabled();
+    void enableDHCP();
+    void disableDHCP();
+    int8_t isDHCPEnabled();
 
-	void enableNTP();
-	void disableNTP();
-	int8_t isNTPEnabled();
+    void enableNTP();
+    void disableNTP();
+    int8_t isNTPEnabled();
 
-	void addController(Controller* newController);
-	Controller* getController(unsigned int controller);
-	int8_t getControllerID(Controller* controller);
-	void resetControllerIterator();
-	int8_t getNextController(Controller** controller);
-	unsigned char getNrOfControllers();
+    void addController(Controller* newController);
+    Controller* getController(unsigned int controller);
+    int8_t getControllerID(Controller* controller);
+    void resetControllerIterator();
+    int8_t getNextController(Controller** controller);
+    unsigned char getNrOfControllers();
 
-	void addActuator(Actuator* newActuator);
-	Actuator* getActuator(unsigned int actor);
-	int8_t getActuatorID(Actuator* actuator);
-	void resetAcuatorIterator();
-	int8_t getNextActuator(Actuator** actuator);
-	int8_t getAssignedActuators(Controller* controller, Actuator** actuators, int8_t max);
-	unsigned char getNrOfActuators();
+    void addActuator(Actuator* newActuator);
+    Actuator* getActuator(unsigned int actor);
+    int8_t getActuatorID(Actuator* actuator);
+    void resetAcuatorIterator();
+    int8_t getNextActuator(Actuator** actuator);
+    int8_t getAssignedActuators(Controller* controller, Actuator** actuators,
+                                int8_t max);
+    unsigned char getNrOfActuators();
 
-	uint16_t serialize(void* buffer, uint16_t size);
-	uint16_t deserialize(void* data, uint16_t size);
+    uint16_t serialize(void* buffer, uint16_t size);
+    uint16_t deserialize(void* data, uint16_t size);
 
-	int8_t writeConfig(Actuator* actuator);
-	int8_t writeConfig(Controller* controller);
-	int8_t writeConfig(Sensor* sensor);
+    int8_t writeConfig(Actuator* actuator);
+    int8_t writeConfig(Controller* controller);
+    int8_t writeConfig(Sensor* sensor);
 
-	int8_t readConfig(Actuator* actuator);
-	int8_t readConfig(Controller* controller);
-	int8_t readConfig(Sensor* sensor);
+    int8_t readConfig(Actuator* actuator);
+    int8_t readConfig(Controller* controller);
+    int8_t readConfig(Sensor* sensor);
 
-	void setWebserver(WebServer* webServer);
-	WebServer* getWebserver();
+    void setWebserver(WebServer* webServer);
+    WebServer* getWebserver();
 
-	void setTemplateParser(TemplateParser* parser);
-	TemplateParser* getTemplateParser();
+    void setTemplateParser(TemplateParser* parser);
+    TemplateParser* getTemplateParser();
 
-	void setTemperatureSensor(Sensor* tempSensor);
-	double getTemperature();
+    void setTemperatureSensor(Sensor* tempSensor);
+    double getTemperature();
 
-	void setLevelSensor(Sensor* levSensor);
-	double getLevel();
+    void setLevelSensor(Sensor* levSensor);
+    double getLevel();
 
-	void run();
+    void run();
 
 };
 

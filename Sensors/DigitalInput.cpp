@@ -22,12 +22,12 @@
 
 DigitalInput::DigitalInput(unsigned char pin)
 {
-	m_Type = SENSOR_DIGITALINPUT;
-	myPin = pin;
+    m_Type = SENSOR_DIGITALINPUT;
+    myPin = pin;
 }
 
 double DigitalInput::read()
 {
-	return digitalRead(myPin);
+    return digitalRead(myPin);
 }
 

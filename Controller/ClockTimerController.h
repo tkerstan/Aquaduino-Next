@@ -27,14 +27,14 @@
 class ClockTimerController: public Controller
 {
 public:
-	ClockTimerController(const char* name);
+    ClockTimerController(const char* name);
 
-	virtual uint16_t serialize(void* buffer, uint16_t size);
-	virtual uint16_t deserialize(void* data, uint16_t size);
+    virtual uint16_t serialize(void* buffer, uint16_t size);
+    virtual uint16_t deserialize(void* data, uint16_t size);
 
-	virtual int8_t run();
-	virtual int8_t showWebinterface(WebServer* server,
-			WebServer::ConnectionType type);
+    virtual int8_t run();
+    virtual int8_t showWebinterface(WebServer* server,
+                                    WebServer::ConnectionType type);
 };
 
 #endif /* CLOCKTIMERCONTROLLER_H_ */

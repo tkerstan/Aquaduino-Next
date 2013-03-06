@@ -26,18 +26,18 @@
 class PWMOutput: public Actuator
 {
 private:
-	int pin;
-	int onValue;
-	int offValue;
-	float dutyCycle;
+    int pin;
+    int onValue;
+    int offValue;
+    float dutyCycle;
 public:
-	PWMOutput(const char* name);
-	virtual void on();
-	virtual void off();
-	virtual int8_t isOn();
-	virtual int8_t supportsPWM();
-	virtual void setPWM(float dutyCycle);
-	virtual float getPWM();
+    PWMOutput(const char* name);
+    virtual void on();
+    virtual void off();
+    virtual int8_t isOn();
+    virtual int8_t supportsPWM();
+    virtual void setPWM(float dutyCycle);
+    virtual float getPWM();
 
 };
 #endif /* PWMOUTPUT_H_ */

@@ -1,8 +1,21 @@
 /*
- * SDConfigManager.cpp
+ * Copyright (c) 2013 Timo Kerstan.  All right reserved.
  *
- *  Created on: 04.03.2013
- *      Author: TimoK
+ * This file is part of Aquaduino.
+ *
+ * Aquaduino is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Aquaduino is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Aquaduino.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 #include "SDConfigManager.h"
@@ -11,24 +24,24 @@
 
 SDConfigManager::SDConfigManager()
 {
-	m_prefix[0] = 0;
+    m_prefix[0] = 0;
 }
 
 SDConfigManager::SDConfigManager(const char* prefix)
 {
-	File f;
+    File f;
 
-	strncpy(m_prefix, prefix, PREFIX_LENGTH-1);
-	m_prefix[PREFIX_LENGTH-1] = 0;
+    strncpy(m_prefix, prefix, PREFIX_LENGTH - 1);
+    m_prefix[PREFIX_LENGTH - 1] = 0;
 
-	if(!SD.exists(m_prefix))
-		SD.mkdir(m_prefix);
-	else
-	{
-		f = SD.open(m_prefix, FILE_READ);
-		if (!f.isDirectory())
-			m_prefix[0] = 0;
-	}
+    if (!SD.exists(m_prefix))
+        SD.mkdir(m_prefix);
+    else
+    {
+        f = SD.open(m_prefix, FILE_READ);
+        if (!f.isDirectory())
+            m_prefix[0] = 0;
+    }
 }
 
 SDConfigManager::~SDConfigManager()
@@ -37,193 +50,196 @@ SDConfigManager::~SDConfigManager()
 
 int8_t SDConfigManager::writeConfig(Aquaduino* aquaduino)
 {
-	return 0;
+    return 0;
 }
 
 int8_t SDConfigManager::writeConfig(Actuator* actuator)
 {
-	return 0;
+    return 0;
 }
 
 int8_t SDConfigManager::writeConfig(Controller* controller)
 {
-	struct configuration config;
-	char fileName[FILENAME_LENGTH];
-	uint16_t serializedBytes = 0;
-	uint16_t writtenBytes = 0;
-	int8_t id;
+    struct configuration config;
+    char fileName[FILENAME_LENGTH];
+    uint16_t serializedBytes = 0;
+    uint16_t writtenBytes = 0;
+    int8_t id;
 
-	memset(&config, 0, sizeof(config));
+    memset(&config, 0, sizeof(config));
 
-	id = aquaduino->getControllerID(controller);
-	fileName[0] = 'C';
-	itoa(id, &fileName[1], 10);
-	strcat(fileName, ".cfg");
+    id = aquaduino->getControllerID(controller);
+    fileName[0] = 'C';
+    itoa(id, &fileName[1], 10);
+    strcat(fileName, ".cfg");
 
-	serializedBytes = controller->serialize(&config.data, bufferSize);
+    serializedBytes = controller->serialize(&config.data, bufferSize);
 
-	if (serializedBytes > 0)
-	{
-		config.controllerIdx = id;
-		config.objectType = controller->getType();
-		config.actuatorIdx = -1;
-		config.sensorIdx = -1;
-		strcpy(config.name, controller->getName());
+    if (serializedBytes > 0)
+    {
+        config.controllerIdx = id;
+        config.objectType = controller->getType();
+        config.actuatorIdx = -1;
+        config.sensorIdx = -1;
+        strcpy(config.name, controller->getName());
 
-		writtenBytes = writeStructToFile(fileName, &config);
+        writtenBytes = writeStructToFile(fileName, &config);
 
-		if (writtenBytes != sizeof(struct configuration))
-			return -1;
-	}
-	return 0;
+        if (writtenBytes != sizeof(struct configuration))
+            return -1;
+    }
+    return 0;
 }
 
 int8_t SDConfigManager::writeConfig(Sensor* sensor)
 {
-	return 0;
+    return 0;
 }
 
 int8_t SDConfigManager::readConfig(Aquaduino* aquaduino)
 {
-	return 0;
+    return 0;
 }
 
 int8_t SDConfigManager::readConfig(Actuator* actuator)
 {
-	return 0;
+    return 0;
 }
 
 int8_t SDConfigManager::readConfig(Controller* controller)
 {
-	struct configuration config;
-	char fileName[FILENAME_LENGTH];
-	uint16_t serializedBytes = 0;
-	uint16_t readBytes = 0;
-	int8_t id;
+    struct configuration config;
+    char fileName[FILENAME_LENGTH];
+    uint16_t serializedBytes = 0;
+    uint16_t readBytes = 0;
+    int8_t id;
 
-	memset(&config, 0, sizeof(config));
+    memset(&config, 0, sizeof(config));
 
-	id = aquaduino->getControllerID(controller);
-	fileName[0] = 'C';
-	itoa(id, &fileName[1], 10);
-	strcat(fileName, ".cfg");
+    id = aquaduino->getControllerID(controller);
+    fileName[0] = 'C';
+    itoa(id, &fileName[1], 10);
+    strcat(fileName, ".cfg");
 
-	readBytes = readStructFromFile(fileName, &config);
+    readBytes = readStructFromFile(fileName, &config);
 
-	if (readBytes == sizeof(struct configuration))
-	{
+    if (readBytes == sizeof(struct configuration))
+    {
 #ifdef DEBUG
-		Serial.print(F("Name: "));
-		Serial.println(config.name);
-		Serial.print(F("ID: "));
-		Serial.println(config.controllerIdx);
-		Serial.print(F("Type: "));
-		Serial.println(config.objectType);
+        Serial.print(F("Name: "));
+        Serial.println(config.name);
+        Serial.print(F("ID: "));
+        Serial.println(config.controllerIdx);
+        Serial.print(F("Type: "));
+        Serial.println(config.objectType);
 #endif
-		if (controller->getType() == config.objectType)
-			controller->deserialize(&config.data, bufferSize);
-		else
-		{
+                     if (controller->getType() == config.objectType)
+                     controller->deserialize(&config.data, bufferSize);
+                     else
+                     {
 #ifdef DEBUG
-			Serial.println(F("Object Types do not match!"));
-			Serial.print(controller->getType());
-			Serial.print(" <> ");
-			Serial.print(config.objectType);
+                     Serial.println(F("Object Types do not match!"));
+                     Serial.print(controller->getType());
+                     Serial.print(" <> ");
+                     Serial.print(config.objectType);
 #endif
-		}
-	}
+                 }
+             }
 
-	return 0;
+    return 0;
 }
 
 int8_t SDConfigManager::readConfig(Sensor* sensor)
 {
-	return 0;
+    return 0;
 }
 
-uint16_t SDConfigManager::writeStructToFile(const char* fileName, struct configuration* config)
+uint16_t SDConfigManager::writeStructToFile(const char* fileName,
+                                            struct configuration* config)
 {
-	uint16_t writtenBytes = 0;
-	File configFile;
-	char path[PREFIX_LENGTH+FILENAME_LENGTH];
-	memset(path,0,PREFIX_LENGTH+FILENAME_LENGTH);
+    uint16_t writtenBytes = 0;
+    File configFile;
+    char path[PREFIX_LENGTH + FILENAME_LENGTH];
+    memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
 
-	strcat(path, m_prefix);
-	strcat(path, "/");
-	strcat(path, fileName);
+    strcat(path, m_prefix);
+    strcat(path, "/");
+    strcat(path, fileName);
 
 #ifdef DEBUG
-	Serial.print(F("Writing Config to "));
-	Serial.println(fileName);
+    Serial.print(F("Writing Config to "));
+    Serial.println(fileName);
 #endif
 
-	configFile = SD.open(path, FILE_WRITE);
-	configFile.seek(SEEK_SET);
-	writtenBytes = configFile.write((uint8_t*) config, sizeof(struct configuration));
-	configFile.close();
+    configFile = SD.open(path, FILE_WRITE);
+    configFile.seek(SEEK_SET);
+    writtenBytes = configFile.write((uint8_t*) config,
+                                    sizeof(struct configuration));
+    configFile.close();
 
-	if (writtenBytes == sizeof(struct configuration))
-	{
+    if (writtenBytes == sizeof(struct configuration))
+    {
 #ifdef DEBUG
-		Serial.println(F("Successful!"));
+        Serial.println(F("Successful!"));
 #endif
-	} else
-	{
+                   }
+                   else
+                   {
 #ifdef DEBUG
-		Serial.print(F("Failed! Wrote only "));
-		Serial.print(writtenBytes);
-		Serial.print(F(" Bytes"));
+                       Serial.print(F("Failed! Wrote only "));
+                       Serial.print(writtenBytes);
+                       Serial.print(F(" Bytes"));
 #endif
-	}
+                   }
 
-
-	return writtenBytes;
+    return writtenBytes;
 }
 
-uint16_t SDConfigManager::readStructFromFile(const char* fileName, struct configuration* config)
+uint16_t SDConfigManager::readStructFromFile(const char* fileName,
+                                             struct configuration* config)
 {
-	uint16_t readBytes = 0;
-	File configFile;
-	char path[PREFIX_LENGTH+FILENAME_LENGTH];
+    uint16_t readBytes = 0;
+    File configFile;
+    char path[PREFIX_LENGTH + FILENAME_LENGTH];
 
-	memset(path,0,PREFIX_LENGTH+FILENAME_LENGTH);
+    memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
 
-	strcat(path, m_prefix);
-	strcat(path, "/");
-	strcat(path, fileName);
+    strcat(path, m_prefix);
+    strcat(path, "/");
+    strcat(path, fileName);
 
 #ifdef DEBUG
-	Serial.print(F("Reading Config from "));
-	Serial.println(path);
+    Serial.print(F("Reading Config from "));
+    Serial.println(path);
 #endif
 
-	if (SD.exists(path))
-	{
-		configFile = SD.open(path, FILE_READ);
-		readBytes = configFile.read(config, sizeof(struct configuration));
-		configFile.close();
+    if (SD.exists(path))
+    {
+        configFile = SD.open(path, FILE_READ);
+        readBytes = configFile.read(config, sizeof(struct configuration));
+        configFile.close();
 
-		if (readBytes == sizeof(struct configuration))
-		{
+        if (readBytes == sizeof(struct configuration))
+        {
 #ifdef DEBUG
-			Serial.println(F("Successful!"));
+            Serial.println(F("Successful!"));
 #endif
-		}
-		else
-		{
+                       }
+                       else
+                       {
 #ifdef DEBUG
-			Serial.print(F("Failed! Read only "));
-			Serial.print(readBytes);
-			Serial.println(F(" Bytes"));
+                           Serial.print(F("Failed! Read only "));
+                           Serial.print(readBytes);
+                           Serial.println(F(" Bytes"));
 #endif
-		}
-	}
-	else
-	{
+                       }
+                   }
+                   else
+                   {
 #ifdef DEBUG
-		Serial.println("Configuration does not exist.");
+                           Serial.println("Configuration does not exist.");
 #endif
-	}
+                       }
 
-	return readBytes;
+    return readBytes;
 }

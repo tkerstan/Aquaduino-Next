@@ -27,52 +27,52 @@ const static uint8_t CLOCKTIMER_MAX_TIMERS = 4;
 
 class ClockTimer
 {
-	uint8_t hOn[CLOCKTIMER_MAX_TIMERS];
-	uint8_t hOff[CLOCKTIMER_MAX_TIMERS];
-	uint8_t mOn[CLOCKTIMER_MAX_TIMERS];
-	uint8_t mOff[CLOCKTIMER_MAX_TIMERS];
+    uint8_t hOn[CLOCKTIMER_MAX_TIMERS];
+    uint8_t hOff[CLOCKTIMER_MAX_TIMERS];
+    uint8_t mOn[CLOCKTIMER_MAX_TIMERS];
+    uint8_t mOff[CLOCKTIMER_MAX_TIMERS];
 public:
-	ClockTimer();
+    ClockTimer();
 
-	void setTimer(uint8_t index, uint8_t hOn, uint8_t mOn, uint8_t hOff,
-			uint8_t mOff);
-	void getTimer(uint8_t, uint8_t* hOn, uint8_t* mOn, uint8_t* hOff,
-			uint8_t* mOff);
-	uint8_t getHourOn(uint8_t index)
-	{
-		return hOn[index % CLOCKTIMER_MAX_TIMERS];
-	}
-	uint8_t getMinuteOn(uint8_t index)
-	{
-		return mOn[index % CLOCKTIMER_MAX_TIMERS];
-	}
-	uint8_t getHourOff(uint8_t index)
-	{
-		return hOff[index % CLOCKTIMER_MAX_TIMERS];
-	}
-	uint8_t getMinuteOff(uint8_t index)
-	{
-		return mOff[index % CLOCKTIMER_MAX_TIMERS];
-	}
-	void setHourOn(uint8_t index, uint8_t value)
-	{
-		hOn[index % CLOCKTIMER_MAX_TIMERS] = value % 24;
-	}
-	void setMinuteOn(uint8_t index, uint8_t value)
-	{
-		mOn[index % CLOCKTIMER_MAX_TIMERS] = value % 60;
-	}
-	void setHourOff(uint8_t index, uint8_t value)
-	{
-		hOff[index % CLOCKTIMER_MAX_TIMERS] = value % 24;
-	}
-	void setMinuteOff(uint8_t index, uint8_t value)
-	{
-		mOff[index % CLOCKTIMER_MAX_TIMERS] = value % 60;
-	}
-	void clearAll();
+    void setTimer(uint8_t index, uint8_t hOn, uint8_t mOn, uint8_t hOff,
+                  uint8_t mOff);
+    void getTimer(uint8_t, uint8_t* hOn, uint8_t* mOn, uint8_t* hOff,
+                  uint8_t* mOff);
+    uint8_t getHourOn(uint8_t index)
+    {
+        return hOn[index % CLOCKTIMER_MAX_TIMERS];
+    }
+    uint8_t getMinuteOn(uint8_t index)
+    {
+        return mOn[index % CLOCKTIMER_MAX_TIMERS];
+    }
+    uint8_t getHourOff(uint8_t index)
+    {
+        return hOff[index % CLOCKTIMER_MAX_TIMERS];
+    }
+    uint8_t getMinuteOff(uint8_t index)
+    {
+        return mOff[index % CLOCKTIMER_MAX_TIMERS];
+    }
+    void setHourOn(uint8_t index, uint8_t value)
+    {
+        hOn[index % CLOCKTIMER_MAX_TIMERS] = value % 24;
+    }
+    void setMinuteOn(uint8_t index, uint8_t value)
+    {
+        mOn[index % CLOCKTIMER_MAX_TIMERS] = value % 60;
+    }
+    void setHourOff(uint8_t index, uint8_t value)
+    {
+        hOff[index % CLOCKTIMER_MAX_TIMERS] = value % 24;
+    }
+    void setMinuteOff(uint8_t index, uint8_t value)
+    {
+        mOff[index % CLOCKTIMER_MAX_TIMERS] = value % 60;
+    }
+    void clearAll();
 
-	int8_t check();
+    int8_t check();
 };
 
 #endif /* CLOCKTIMER_H_ */

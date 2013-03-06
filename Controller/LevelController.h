@@ -27,24 +27,24 @@
 class LevelController: public Controller
 {
 private:
-	Actuator* myActor;
-	uint8_t myPin;
-	int16_t debounceDelayHigh;
-	int16_t debounceDelayLow;
-	int16_t refillTimeout;
-	int8_t lastState;
-	int8_t state;
-	unsigned long lastTime;
+    Actuator* myActor;
+    uint8_t myPin;
+    int16_t debounceDelayHigh;
+    int16_t debounceDelayLow;
+    int16_t refillTimeout;
+    int8_t lastState;
+    int8_t state;
+    unsigned long lastTime;
 
 public:
-	LevelController(const char* name, uint8_t pin);
+    LevelController(const char* name, uint8_t pin);
 
-	virtual uint16_t serialize(void* buffer, uint16_t size);
-	virtual uint16_t deserialize(void* data, uint16_t size);
+    virtual uint16_t serialize(void* buffer, uint16_t size);
+    virtual uint16_t deserialize(void* data, uint16_t size);
 
-	virtual int8_t run();
-	virtual int8_t showWebinterface(WebServer* server,
-			WebServer::ConnectionType type);
+    virtual int8_t run();
+    virtual int8_t showWebinterface(WebServer* server,
+                                    WebServer::ConnectionType type);
 };
 
 #endif /* LEVELCONTROLLER_H_ */
