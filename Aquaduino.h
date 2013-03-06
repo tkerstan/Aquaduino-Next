@@ -100,7 +100,7 @@ public:
     void addActuator(Actuator* newActuator);
     Actuator* getActuator(unsigned int actor);
     int8_t getActuatorID(Actuator* actuator);
-    void resetAcuatorIterator();
+    void resetActuatorIterator();
     int8_t getNextActuator(Actuator** actuator);
     int8_t getAssignedActuators(Controller* controller, Actuator** actuators,
                                 int8_t max);
@@ -109,10 +109,12 @@ public:
     uint16_t serialize(void* buffer, uint16_t size);
     uint16_t deserialize(void* data, uint16_t size);
 
+    int8_t writeConfig(Aquaduino* aquaduino);
     int8_t writeConfig(Actuator* actuator);
     int8_t writeConfig(Controller* controller);
     int8_t writeConfig(Sensor* sensor);
 
+    int8_t readConfig(Aquaduino* aquaduino);
     int8_t readConfig(Actuator* actuator);
     int8_t readConfig(Controller* controller);
     int8_t readConfig(Sensor* sensor);

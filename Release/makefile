@@ -41,19 +41,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: Aquaduino
+all: Aquaduino.elf
 
 # Tool invocations
-Aquaduino: $(OBJS) $(USER_OBJS)
+Aquaduino.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross G++ Linker'
-	avr-gcc -L"D:\workspaces\privat\Arduino\Release" -L"D:\workspaces\privat\TemplateParser\Release" -L"D:\workspaces\privat\Ethernet\Release" -L"D:\workspaces\privat\OneWire\Release" -L"D:\workspaces\privat\SPI\Release" -L"D:\workspaces\privat\Time\Release" -L"D:\workspaces\privat\Webduino\Release" -L"D:\workspaces\privat\SD\Release" -Os -Wl,--gc-sections,--relax -mmcu=atmega2560 -o "Aquaduino" $(OBJS) $(USER_OBJS) $(LIBS)
+	avr-gcc -L"D:\workspaces\privat\Arduino\Release" -L"D:\workspaces\privat\TemplateParser\Release" -L"D:\workspaces\privat\Ethernet\Release" -L"D:\workspaces\privat\OneWire\Release" -L"D:\workspaces\privat\SPI\Release" -L"D:\workspaces\privat\Time\Release" -L"D:\workspaces\privat\Webduino\Release" -L"D:\workspaces\privat\SD\Release" -Os -Wl,--gc-sections,--relax -mmcu=atmega2560 -o "Aquaduino.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(C++_DEPS)$(OBJS)$(C_DEPS)$(CC_DEPS)$(CPP_DEPS)$(EXECUTABLES)$(CXX_DEPS)$(C_UPPER_DEPS) Aquaduino
+	-$(RM) $(C++_DEPS)$(OBJS)$(C_DEPS)$(CC_DEPS)$(CPP_DEPS)$(EXECUTABLES)$(CXX_DEPS)$(C_UPPER_DEPS) Aquaduino.elf
 	-@echo ' '
 
 .PHONY: all clean dependents

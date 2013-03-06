@@ -24,10 +24,11 @@
 #include "Object.h"
 #include "Config.h"
 #include "Controller.h"
+#include "Serializable.h"
 
 class Controller;
 
-class Actuator: public Object
+class Actuator: public Object, public Serializable
 {
 private:
     Actuator(const Actuator&);

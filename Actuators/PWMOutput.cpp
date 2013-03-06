@@ -41,6 +41,17 @@ PWMOutput::PWMOutput(const char* name) :
 
 }
 
+uint16_t PWMOutput::serialize(void* buffer, uint16_t size)
+{
+
+}
+
+uint16_t PWMOutput::deserialize(void* data, uint16_t size)
+{
+
+}
+
+
 void PWMOutput::on()
 {
     if (m_Enabled)

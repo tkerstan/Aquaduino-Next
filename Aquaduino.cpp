@@ -59,6 +59,7 @@ Aquaduino::Aquaduino() :
         temp(0),
         level(0)
 {
+    m_Type = AQUADUINO;
     // Deselect all SPI devices!
     pinMode(4, OUTPUT);
     digitalWrite(4, HIGH);
@@ -249,7 +250,7 @@ int8_t Aquaduino::getActuatorID(Actuator* actuator)
     return m_Actuators.findElement(actuator);
 }
 
-void Aquaduino::resetAcuatorIterator()
+void Aquaduino::resetActuatorIterator()
 {
     m_Actuators.resetIterator();
 }
@@ -291,15 +292,15 @@ uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
 
     memcpy(bPtr, myMAC, sizeof(myMAC));
     bPtr += sizeof(myMAC);
-    memcpy(bPtr, (uint32_t*) &myIP, sizeof(uint32_t));
+    memcpy(bPtr, &myIP[0], sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy(bPtr, (uint32_t*) &myNetmask, sizeof(uint32_t));
+    memcpy(bPtr, &myNetmask[0], sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy(bPtr, (uint32_t*) &myDNS, sizeof(uint32_t));
+    memcpy(bPtr, &myDNS[0], sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy(bPtr, (uint32_t*) &myGateway, sizeof(uint32_t));
+    memcpy(bPtr, &myGateway[0], sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy(bPtr, (uint32_t*) &myNTP, sizeof(uint32_t));
+    memcpy(bPtr, &myNTP[0], sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
     memcpy(bPtr, &ntpSyncInterval, sizeof(uint16_t));
     bPtr += sizeof(uint16_t);
@@ -308,7 +309,7 @@ uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
     memcpy(bPtr, &doNTP, sizeof(uint16_t));
     bPtr += sizeof(int8_t);
 
-    return 0;
+    return (uint16_t) bPtr - (uint16_t) buffer;
 }
 
 uint16_t Aquaduino::deserialize(void* data, uint16_t size)
@@ -317,15 +318,15 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
 
     memcpy(myMAC, bPtr, sizeof(myMAC));
     bPtr += sizeof(myMAC);
-    memcpy((uint32_t*) &myIP, bPtr, sizeof(uint32_t));
+    memcpy(&myIP[0], bPtr, sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy((uint32_t*) &myNetmask, bPtr, sizeof(uint32_t));
+    memcpy(&myNetmask[0], bPtr, sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy((uint32_t*) &myDNS, bPtr, sizeof(uint32_t));
+    memcpy(&myDNS[0], bPtr, sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy((uint32_t*) &myGateway, bPtr, sizeof(uint32_t));
+    memcpy(&myGateway[0], bPtr, sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy((uint32_t*) &myNTP, bPtr, sizeof(uint32_t));
+    memcpy(&myNTP[0], bPtr, sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
     memcpy(&ntpSyncInterval, bPtr, sizeof(uint16_t));
     bPtr += sizeof(uint16_t);
@@ -334,8 +335,13 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
     memcpy(&doNTP, bPtr, sizeof(uint16_t));
     bPtr += sizeof(int8_t);
 
-    return 0;
+    return (uint16_t) bPtr - (uint16_t) data;
 }
+int8_t Aquaduino::writeConfig(Aquaduino* aquaduino)
+{
+    return m_ConfigManager->writeConfig(aquaduino);
+}
+
 
 int8_t Aquaduino::writeConfig(Actuator* actuator)
 {
@@ -351,6 +357,12 @@ int8_t Aquaduino::writeConfig(Sensor* sensor)
 {
     return m_ConfigManager->writeConfig(sensor);
 }
+
+int8_t Aquaduino::readConfig(Aquaduino* aquaduino)
+{
+    return m_ConfigManager->readConfig(aquaduino);
+}
+
 
 int8_t Aquaduino::readConfig(Actuator* actuator)
 {
@@ -507,6 +519,7 @@ void setup()
     Serial.begin(9600);
 
     aquaduino = new Aquaduino();
+    aquaduino->readConfig(aquaduino);
 
     //Init Time. If NTP Sync fails this will be used.
     setTime(0, 0, 0, 1, 1, 42);
@@ -526,6 +539,7 @@ void setup()
                                             POWER_OUTLET_START_PIN + i,
                                             0);
         aquaduino->addActuator(powerOutlets[i]);
+        aquaduino->readConfig(powerOutlets[i]);
     }
 
     temperatureController = new TemperatureController("Temperature");

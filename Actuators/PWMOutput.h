@@ -32,10 +32,16 @@ private:
     float dutyCycle;
 public:
     PWMOutput(const char* name);
+
+    virtual uint16_t serialize(void* buffer, uint16_t size);
+    virtual uint16_t deserialize(void* data, uint16_t size);
+
     virtual void on();
     virtual void off();
+
     virtual int8_t isOn();
     virtual int8_t supportsPWM();
+
     virtual void setPWM(float dutyCycle);
     virtual float getPWM();
 

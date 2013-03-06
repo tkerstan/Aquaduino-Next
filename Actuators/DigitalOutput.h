@@ -31,21 +31,18 @@ private:
     int offValue;
 public:
     DigitalOutput(const char* name, int pin, int onValue);
+
+    virtual uint16_t serialize(void* buffer, uint16_t size);
+    virtual uint16_t deserialize(void* data, uint16_t size);
+
     virtual void on();
     virtual void off();
+
     virtual int8_t isOn();
-    virtual int8_t supportsPWM()
-    {
-        return false;
-    }
-    virtual void setPWM(float dutyCycle)
-    {
-        this->on();
-    }
-    virtual float getPWM()
-    {
-        return isOn() ? 1.0 : 0.0;
-    }
+    virtual int8_t supportsPWM();
+
+    virtual void setPWM(float dutyCycle);
+    virtual float getPWM();
 
 };
 

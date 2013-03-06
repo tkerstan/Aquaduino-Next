@@ -50,11 +50,61 @@ SDConfigManager::~SDConfigManager()
 
 int8_t SDConfigManager::writeConfig(Aquaduino* aquaduino)
 {
+    struct configuration config;
+    uint16_t serializedBytes = 0;
+    uint16_t writtenBytes = 0;
+    int8_t id;
+
+    memset(&config, 0, sizeof(config));
+
+    serializedBytes = aquaduino->serialize(config.data, bufferSize);
+
+    if (serializedBytes)
+    {
+        config.objectType = AQUADUINO;
+        config.controllerIdx = -1;
+        config.actuatorIdx = -1;
+        config.sensorIdx = -1;
+
+        writtenBytes = writeStructToFile("aqua.cfg", &config);
+
+        if (writtenBytes != sizeof(struct configuration))
+            return -1;
+    }
+
     return 0;
 }
 
 int8_t SDConfigManager::writeConfig(Actuator* actuator)
 {
+    struct configuration config;
+    char fileName[FILENAME_LENGTH];
+    uint16_t serializedBytes = 0;
+    uint16_t writtenBytes = 0;
+    int8_t id;
+
+    memset(&config, 0, sizeof(config));
+
+    id = aquaduino->getActuatorID(actuator);
+    fileName[0] = 'A';
+    itoa(id, &fileName[1], 10);
+    strcat(fileName, ".cfg");
+
+    serializedBytes = actuator->serialize(config.data, bufferSize);
+
+    if (serializedBytes)
+    {
+        config.controllerIdx = actuator->getController();
+        config.objectType = actuator->getType();
+        config.actuatorIdx = id;
+        config.sensorIdx = -1;
+        strcpy(config.name, actuator->getName());
+
+        writtenBytes = writeStructToFile(fileName, &config);
+
+        if (writtenBytes != sizeof(struct configuration))
+            return -1;
+    }
     return 0;
 }
 
@@ -73,9 +123,9 @@ int8_t SDConfigManager::writeConfig(Controller* controller)
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
 
-    serializedBytes = controller->serialize(&config.data, bufferSize);
+    serializedBytes = controller->serialize(config.data, bufferSize);
 
-    if (serializedBytes > 0)
+    if (serializedBytes)
     {
         config.controllerIdx = id;
         config.objectType = controller->getType();
@@ -98,11 +148,53 @@ int8_t SDConfigManager::writeConfig(Sensor* sensor)
 
 int8_t SDConfigManager::readConfig(Aquaduino* aquaduino)
 {
+    struct configuration config;
+    uint16_t readBytes = 0;
+
+    memset(&config, 0, sizeof(config));
+
+    readBytes = readStructFromFile("aqua.cfg", &config);
+
+    if (readBytes == sizeof(struct configuration))
+    {
+        if (aquaduino->getType() == config.objectType)
+            aquaduino->deserialize(config.data, bufferSize);
+        else
+        {
+        }
+    }
+
+    return 0;
     return 0;
 }
 
 int8_t SDConfigManager::readConfig(Actuator* actuator)
 {
+    struct configuration config;
+    char fileName[FILENAME_LENGTH];
+    uint16_t readBytes = 0;
+    int8_t id;
+
+    memset(&config, 0, sizeof(config));
+
+    id = aquaduino->getActuatorID(actuator);
+    fileName[0] = 'A';
+    itoa(id, &fileName[1], 10);
+    strcat(fileName, ".cfg");
+
+    readBytes = readStructFromFile(fileName, &config);
+
+    if (readBytes == sizeof(struct configuration))
+    {
+        if (actuator->getType() == config.objectType)
+            actuator->deserialize(config.data, bufferSize);
+        else
+        {
+        }
+        actuator->setName(config.name);
+        actuator->setController(config.controllerIdx);
+    }
+
     return 0;
 }
 
@@ -110,7 +202,6 @@ int8_t SDConfigManager::readConfig(Controller* controller)
 {
     struct configuration config;
     char fileName[FILENAME_LENGTH];
-    uint16_t serializedBytes = 0;
     uint16_t readBytes = 0;
     int8_t id;
 
@@ -125,26 +216,12 @@ int8_t SDConfigManager::readConfig(Controller* controller)
 
     if (readBytes == sizeof(struct configuration))
     {
-#ifdef DEBUG
-        Serial.print(F("Name: "));
-        Serial.println(config.name);
-        Serial.print(F("ID: "));
-        Serial.println(config.controllerIdx);
-        Serial.print(F("Type: "));
-        Serial.println(config.objectType);
-#endif
-                     if (controller->getType() == config.objectType)
-                     controller->deserialize(&config.data, bufferSize);
-                     else
-                     {
-#ifdef DEBUG
-                     Serial.println(F("Object Types do not match!"));
-                     Serial.print(controller->getType());
-                     Serial.print(" <> ");
-                     Serial.print(config.objectType);
-#endif
-                 }
-             }
+        if (controller->getType() == config.objectType)
+            controller->deserialize(config.data, bufferSize);
+        else
+        {
+        }
+    }
 
     return 0;
 }

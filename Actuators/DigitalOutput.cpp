@@ -32,6 +32,18 @@ DigitalOutput::DigitalOutput(const char* name, int pin, int onValue) :
     this->off();
 }
 
+uint16_t DigitalOutput::serialize(void* buffer, uint16_t size)
+{
+    memcpy(buffer, &onValue, sizeof(onValue));
+    return 1;
+}
+
+uint16_t DigitalOutput::deserialize(void* data, uint16_t size)
+{
+    memcpy(&onValue, data, sizeof(onValue));
+    return 1;
+}
+
 void DigitalOutput::on()
 {
     if (m_Enabled)
@@ -59,4 +71,19 @@ int8_t DigitalOutput::isOn()
         return digitalRead(pin) != 0;
     }
 
+}
+
+int8_t DigitalOutput::supportsPWM()
+{
+    return false;
+}
+
+void DigitalOutput::setPWM(float dutyCycle)
+{
+    this->on();
+}
+
+float DigitalOutput::getPWM()
+{
+    return isOn() ? 1.0 : 0.0;
 }

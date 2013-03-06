@@ -304,7 +304,7 @@ void printActuatorTable(WebServer* server)
 
     strcpy_P(templateRowFileName, progTemplateRowFileName);
 
-    aquaduino->resetAcuatorIterator();
+    aquaduino->resetActuatorIterator();
 
     while ((i = aquaduino->getNextActuator(&currentActor)) != -1)
     {
@@ -524,6 +524,7 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
     uint16_t actuatorIdx;
     uint16_t controllerIdx;
     int8_t hour, minute, second;
+    Actuator* actuator;
 
     /*
      * TODO: Implement security checks when processing POST parameters
@@ -672,6 +673,14 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
         }
 
         aquaduino->setNtpSyncInterval(ntpperiod);
+
+        aquaduino->writeConfig(aquaduino);
+
+        aquaduino->resetActuatorIterator();
+        while(aquaduino->getNextActuator(&actuator) != -1)
+        {
+            aquaduino->writeConfig(actuator);
+        }
 
         server->httpSeeOther("/config");
     }
