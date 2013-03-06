@@ -1,0 +1,10 @@
+hex: all
+	avr-objcopy -O ihex -R .eeprom Aquaduino.elf Aquaduino.hex
+	
+size: all
+	avr-size Aquaduino.elf
+
+	
+upload: hex
+	avrdude -CD:\IDE\arduino-1.0.3\hardware/tools/avr/etc/avrdude.conf -patmega2560 -cwiring -P\\.\COM6 -b115200 -D -Uflash:w:Aquaduino.hex:i 
+	

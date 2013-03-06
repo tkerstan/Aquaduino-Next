@@ -4,11 +4,6 @@
 *.map
 *.elf
 *.eep
-.project
-.cproject
-.settings/
-Debug/
-Release/
+*.bin
+*.hex
 Boards/
-makefile*
-Makefile*
