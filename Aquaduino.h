@@ -87,6 +87,8 @@ public:
     void enableNTP();
     void disableNTP();
     int8_t isNTPEnabled();
+    void setTime(int8_t hour, int8_t minute, int8_t second, int8_t day,
+                 int8_t month, int16_t year);
 
     void addController(Controller* newController);
     Controller* getController(unsigned int controller);

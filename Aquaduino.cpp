@@ -185,6 +185,13 @@ int8_t Aquaduino::isNTPEnabled()
     return doNTP;
 }
 
+void Aquaduino::setTime(int8_t hour, int8_t minute, int8_t second, int8_t day,
+                        int8_t month, int16_t year)
+{
+    if (!doNTP)
+        ::setTime(hour, minute, second, day, month, year);
+}
+
 void Aquaduino::addController(Controller* newController)
 {
     int8_t status = m_Controllers.add(newController);

@@ -25,17 +25,17 @@
 #include "Aquaduino.h"
 #include "TemplateParser.h"
 
-const static char progMainTemplateFileName[] PROGMEM = "main.htm";
-const static char progMainTemplateStringHour[] PROGMEM = "##HOUR##";
-const static char progMainTemplateStringMinute[] PROGMEM = "##MINUTE##";
-const static char progMainTemplateStringSecond[] PROGMEM = "##SECOND##";
-const static char progMainTemplateStringTemperature[] PROGMEM
+static const char progMainTemplateFileName[] PROGMEM = "main.htm";
+static const char progMainTemplateStringHour[] PROGMEM = "##HOUR##";
+static const char progMainTemplateStringMinute[] PROGMEM = "##MINUTE##";
+static const char progMainTemplateStringSecond[] PROGMEM = "##SECOND##";
+static const char progMainTemplateStringTemperature[] PROGMEM
 = "##TEMPERATURE##";
-const static char progMainTemplateStringCR[] PROGMEM = "##CONTROLLERROW##";
+static const char progMainTemplateStringCR[] PROGMEM = "##CONTROLLERROW##";
 
-const static char progMainTemplateRowFileName[] PROGMEM = "mainrow.htm";
-const static char progMainTemplateStringCL[] PROGMEM = "##CONTROLLERLINK##";
-const static char progMainTemplateStringCN[] PROGMEM = "##CONTROLLERNAME##";
+static const char progMainTemplateRowFileName[] PROGMEM = "mainrow.htm";
+static const char progMainTemplateStringCL[] PROGMEM = "##CONTROLLERLINK##";
+static const char progMainTemplateStringCN[] PROGMEM = "##CONTROLLERNAME##";
 
 static const char* const mainTemplateStrings[] PROGMEM =
     { progMainTemplateStringTemperature, progMainTemplateStringHour,
@@ -45,92 +45,123 @@ static const char* const mainTemplateStrings[] PROGMEM =
 static const char* const mainTemplateRowStrings[] PROGMEM =
     { progMainTemplateStringCL, progMainTemplateStringCN };
 
-const static char progConfigFileName[] PROGMEM = "CONTROL.CFG";
-const static char progTemplateFileName[] PROGMEM = "conf.htm";
+static const char progConfigFileName[] PROGMEM = "CONTROL.CFG";
+static const char progTemplateFileName[] PROGMEM = "conf.htm";
 
 enum
 {
-    ACTORROW,
-    DHCPSELECTOPTION,
-    IP1,
-    IP2,
-    IP3,
-    IP4,
-    NETMASK1,
-    NETMASK2,
-    NETMASK3,
-    NETMASK4,
-    GATEWAY1,
-    GATEWAY2,
-    GATEWAY3,
-    GATEWAY4,
-    DNS1,
-    DNS2,
-    DNS3,
-    DNS4,
-    NTPSELECTOPTION,
-    NTP1,
-    NTP2,
-    NTP3,
-    NTP4,
-    NTPPERIOD,
-    HOUR,
-    MINUTE,
-    SECOND
+    T_ACTORROW,
+    T_DHCPSELECTOPTION,
+    T_IP1,
+    T_IP2,
+    T_IP3,
+    T_IP4,
+    T_NETMASK1,
+    T_NETMASK2,
+    T_NETMASK3,
+    T_NETMASK4,
+    T_GATEWAY1,
+    T_GATEWAY2,
+    T_GATEWAY3,
+    T_GATEWAY4,
+    T_DNS1,
+    T_DNS2,
+    T_DNS3,
+    T_DNS4,
+    T_NTPSELECTOPTION,
+    T_NTP1,
+    T_NTP2,
+    T_NTP3,
+    T_NTP4,
+    T_NTPPERIOD,
+    T_HOUR,
+    T_MINUTE,
+    T_SECOND
 };
 
 enum
 {
-    COLOR,
-    IACTUATOR,
-    ACTUATORNAME,
-    CSELECT,
-    COPTIONS,
-    ESELECT,
-    EOPTIONS,
-    ACTUATORSTATE
+    T_COLOR,
+    T_IACTUATOR,
+    T_ACTUATORNAME,
+    T_CSELECT,
+    T_COPTIONS,
+    T_ESELECT,
+    T_EOPTIONS,
+    T_ACTUATORSTATE
 };
 
-const static char progTemplateRow[] PROGMEM = "##ACTORROW##";
-const static char progTemplateDHCPSelectOption[] PROGMEM
+enum
+{
+    I_DHCP,
+    I_IP1,
+    I_IP2,
+    I_IP3,
+    I_IP4,
+    I_NETMASK1,
+    I_NETMASK2,
+    I_NETMASK3,
+    I_NETMASK4,
+    I_GATEWAY1,
+    I_GATEWAY2,
+    I_GATEWAY3,
+    I_GATEWAY4,
+    I_DNS1,
+    I_DNS2,
+    I_DNS3,
+    I_DNS4,
+    I_NTP,
+    I_NTP1,
+    I_NTP2,
+    I_NTP3,
+    I_NTP4,
+    I_NTPPERIOD,
+    I_HOUR,
+    I_MINUTE,
+    I_SECOND,
+
+};
+
+static const char progTemplateRow[] PROGMEM = "##ACTORROW##";
+static const char progTemplateDHCPSelectOption[] PROGMEM
 = "##DHCPSELECTOPTION##";
-const static char progTemplateIP1[] PROGMEM = "##IP1##";
-const static char progTemplateIP2[] PROGMEM = "##IP2##";
-const static char progTemplateIP3[] PROGMEM = "##IP3##";
-const static char progTemplateIP4[] PROGMEM = "##IP4##";
-const static char progTemplateNM1[] PROGMEM = "##NETMASK1##";
-const static char progTemplateNM2[] PROGMEM = "##NETMASK2##";
-const static char progTemplateNM3[] PROGMEM = "##NETMASK3##";
-const static char progTemplateNM4[] PROGMEM = "##NETMASK4##";
-const static char progTemplateGW1[] PROGMEM = "##GATEWAY1##";
-const static char progTemplateGW2[] PROGMEM = "##GATEWAY2##";
-const static char progTemplateGW3[] PROGMEM = "##GATEWAY3##";
-const static char progTemplateGW4[] PROGMEM = "##GATEWAY4##";
-const static char progTemplateDNS1[] PROGMEM = "##DNS1##";
-const static char progTemplateDNS2[] PROGMEM = "##DNS2##";
-const static char progTemplateDNS3[] PROGMEM = "##DNS3##";
-const static char progTemplateDNS4[] PROGMEM = "##DNS4##";
-const static char progTemplateNTPSelectOption[] PROGMEM = "##NTPSELECTOPTION##";
-const static char progTemplateNTP1[] PROGMEM = "##NTP1##";
-const static char progTemplateNTP2[] PROGMEM = "##NTP2##";
-const static char progTemplateNTP3[] PROGMEM = "##NTP3##";
-const static char progTemplateNTP4[] PROGMEM = "##NTP4##";
-const static char progTemplateNTPPeriod[] PROGMEM = "##NTPPERIOD##";
-const static char progTemplateTimeHour[] PROGMEM = "##HOUR##";
-const static char progTemplateTimeMinute[] PROGMEM = "##MINUTE##";
-const static char progTemplateTimeSecond[] PROGMEM = "##SECOND##";
+static const char progTemplateIP1[] PROGMEM = "##IP1##";
+static const char progTemplateIP2[] PROGMEM = "##IP2##";
+static const char progTemplateIP3[] PROGMEM = "##IP3##";
+static const char progTemplateIP4[] PROGMEM = "##IP4##";
+static const char progTemplateNM1[] PROGMEM = "##NETMASK1##";
+static const char progTemplateNM2[] PROGMEM = "##NETMASK2##";
+static const char progTemplateNM3[] PROGMEM = "##NETMASK3##";
+static const char progTemplateNM4[] PROGMEM = "##NETMASK4##";
+static const char progTemplateGW1[] PROGMEM = "##GATEWAY1##";
+static const char progTemplateGW2[] PROGMEM = "##GATEWAY2##";
+static const char progTemplateGW3[] PROGMEM = "##GATEWAY3##";
+static const char progTemplateGW4[] PROGMEM = "##GATEWAY4##";
+static const char progTemplateDNS1[] PROGMEM = "##DNS1##";
+static const char progTemplateDNS2[] PROGMEM = "##DNS2##";
+static const char progTemplateDNS3[] PROGMEM = "##DNS3##";
+static const char progTemplateDNS4[] PROGMEM = "##DNS4##";
+static const char progTemplateNTPSelectOption[] PROGMEM = "##NTPSELECTOPTION##";
+static const char progTemplateNTP1[] PROGMEM = "##NTP1##";
+static const char progTemplateNTP2[] PROGMEM = "##NTP2##";
+static const char progTemplateNTP3[] PROGMEM = "##NTP3##";
+static const char progTemplateNTP4[] PROGMEM = "##NTP4##";
+static const char progTemplateNTPPeriod[] PROGMEM = "##NTPPERIOD##";
+static const char progTemplateTimeHour[] PROGMEM = "##HOUR##";
+static const char progTemplateTimeMinute[] PROGMEM = "##MINUTE##";
+static const char progTemplateTimeSecond[] PROGMEM = "##SECOND##";
 
-const static char progTemplateRowFileName[] PROGMEM = "confrow.htm";
-const static char progTemplateRowColor[] PROGMEM = "##COLOR##";
-const static char progTemplateRowIActuator[] PROGMEM = "##IACTUATOR##";
-const static char progTemplateRowActuatorName[] PROGMEM = "##ACTUATORNAME##";
-const static char progTemplateRowCSelect[] PROGMEM = "##CSELECT##";
-const static char progTemplateRowCOptions[] PROGMEM = "##COPTIONS##";
-const static char progTemplateRowESelect[] PROGMEM = "##ESELECT##";
-const static char progTemplateRowEOptions[] PROGMEM = "##EOPTIONS##";
-const static char progTemplateRowActuatorState[] PROGMEM = "##ACTUATORSTATE##";
+static const char progTemplateRowFileName[] PROGMEM = "confrow.htm";
+static const char progTemplateRowColor[] PROGMEM = "##COLOR##";
+static const char progTemplateRowIActuator[] PROGMEM = "##IACTUATOR##";
+static const char progTemplateRowActuatorName[] PROGMEM = "##ACTUATORNAME##";
+static const char progTemplateRowCSelect[] PROGMEM = "##CSELECT##";
+static const char progTemplateRowCOptions[] PROGMEM = "##COPTIONS##";
+static const char progTemplateRowESelect[] PROGMEM = "##ESELECT##";
+static const char progTemplateRowEOptions[] PROGMEM = "##EOPTIONS##";
+static const char progTemplateRowActuatorState[] PROGMEM = "##ACTUATORSTATE##";
 
-const char* const templateFileString[] PROGMEM =
+static const char* const templateFileString[] PROGMEM =
     { progTemplateRow, progTemplateDHCPSelectOption, progTemplateIP1,
       progTemplateIP2, progTemplateIP3, progTemplateIP4, progTemplateNM1,
       progTemplateNM2, progTemplateNM3, progTemplateNM4, progTemplateGW1,
@@ -140,11 +171,47 @@ const char* const templateFileString[] PROGMEM =
       progTemplateNTP3, progTemplateNTP4, progTemplateNTPPeriod,
       progTemplateTimeHour, progTemplateTimeMinute, progTemplateTimeSecond };
 
-const char* const templateRowFileString[] PROGMEM =
+static const char* const templateRowFileString[] PROGMEM =
     { progTemplateRowColor, progTemplateRowIActuator,
       progTemplateRowActuatorName, progTemplateRowCSelect,
       progTemplateRowCOptions, progTemplateRowESelect, progTemplateRowEOptions,
       progTemplateRowActuatorState };
+
+static const char progInputDHCP[] PROGMEM = "dhcp";
+static const char progInputIP1[] PROGMEM = "ip1";
+static const char progInputIP2[] PROGMEM = "ip2";
+static const char progInputIP3[] PROGMEM = "ip3";
+static const char progInputIP4[] PROGMEM = "ip4";
+static const char progInputNetmask1[] PROGMEM = "netmask1";
+static const char progInputNetmask2[] PROGMEM = "netmask2";
+static const char progInputNetmask3[] PROGMEM = "netmask3";
+static const char progInputNetmask4[] PROGMEM = "netmask4";
+static const char progInputGateway1[] PROGMEM = "gateway1";
+static const char progInputGateway2[] PROGMEM = "gateway2";
+static const char progInputGateway3[] PROGMEM = "gateway3";
+static const char progInputGateway4[] PROGMEM = "gateway4";
+static const char progInputDNS1[] PROGMEM = "dns1";
+static const char progInputDNS2[] PROGMEM = "dns2";
+static const char progInputDNS3[] PROGMEM = "dns3";
+static const char progInputDNS4[] PROGMEM = "dns4";
+static const char progInputNTP[] PROGMEM = "ntp";
+static const char progInputNTP1[] PROGMEM = "ntp1";
+static const char progInputNTP2[] PROGMEM = "ntp2";
+static const char progInputNTP3[] PROGMEM = "ntp3";
+static const char progInputNTP4[] PROGMEM = "ntp4";
+static const char progInputNTPPeriod[] PROGMEM = "ntpperiod";
+static const char progInputHour[] PROGMEM = "hour";
+static const char progInputMinute[] PROGMEM = "minute";
+static const char progInputSecond[] PROGMEM = "second";
+
+static const char* const inputStrings[] PROGMEM =
+    { progInputDHCP, progInputIP1, progInputIP2, progInputIP3, progInputIP4,
+      progInputNetmask1, progInputNetmask2, progInputNetmask3,
+      progInputNetmask4, progInputGateway1, progInputGateway2,
+      progInputGateway3, progInputGateway4, progInputDNS1, progInputDNS2,
+      progInputDNS3, progInputDNS4, progInputNTP, progInputNTP1, progInputNTP2,
+      progInputNTP3, progInputNTP4, progInputNTPPeriod, progInputHour,
+      progInputMinute, progInputSecond };
 
 void defaultCmd(WebServer &server, WebServer::ConnectionType type, char *, bool)
 {
@@ -252,7 +319,7 @@ void printActuatorTable(WebServer* server)
 
             switch (matchIdx)
             {
-            case COLOR:
+            case T_COLOR:
                 if (i % 2 == 0)
                 {
                     server->print("#FFFFFF");
@@ -262,43 +329,43 @@ void printActuatorTable(WebServer* server)
                     server->print("#99CCFF");
                 }
                 break;
-            case IACTUATOR:
+            case T_IACTUATOR:
                 actuatorID[0] = 'A';
                 itoa(i, &actuatorID[1], 10);
                 server->print(actuatorID);
                 break;
-            case ACTUATORNAME:
+            case T_ACTUATORNAME:
                 server->print(currentActor->getName());
                 break;
-            case CSELECT:
+            case T_CSELECT:
                 controllerID[0] = 'C';
                 itoa(i, &controllerID[1], 10);
                 server->print(controllerID);
                 break;
-            case COPTIONS:
+            case T_COPTIONS:
                 aquaduino->resetControllerIterator();
                 while ((j = aquaduino->getNextController(&currentController)) != -1)
                 {
                     itoa(j, controllerID, 10);
                     parser->optionListItem(currentController->getName(),
                                            controllerID,
-                                           currentActor->getController() == i,
+                                           currentActor->getController() == j,
                                            server);
                 }
                 break;
-            case ESELECT:
+            case T_ESELECT:
                 enabledID[0] = 'E';
                 itoa(i, &enabledID[1], 10);
                 server->print(enabledID);
                 break;
-            case EOPTIONS:
+            case T_EOPTIONS:
                 parser->optionListItem("Disabled", "0", 0, server);
                 parser->optionListItem("Enabled",
                                        "1",
                                        currentActor->isEnabled(),
                                        server);
                 break;
-            case ACTUATORSTATE:
+            case T_ACTUATORSTATE:
                 if (currentActor->isOn())
                 {
                     server->print("On");
@@ -343,10 +410,10 @@ void printTopLevelTemplate(WebServer* server)
     {
         switch (matchIdx)
         {
-        case ACTORROW:
+        case T_ACTORROW:
             printActuatorTable(server);
             break;
-        case DHCPSELECTOPTION:
+        case T_DHCPSELECTOPTION:
             if (aquaduino->isDHCPEnabled())
             {
                 parser->optionListItem("Yes", "1", 1, server);
@@ -358,55 +425,55 @@ void printTopLevelTemplate(WebServer* server)
                 parser->optionListItem("No", "0", 1, server);
             }
             break;
-        case IP1:
+        case T_IP1:
             server->print((*ip)[0]);
             break;
-        case IP2:
+        case T_IP2:
             server->print((*ip)[1]);
             break;
-        case IP3:
+        case T_IP3:
             server->print((*ip)[2]);
             break;
-        case IP4:
+        case T_IP4:
             server->print((*ip)[3]);
             break;
-        case NETMASK1:
+        case T_NETMASK1:
             server->print((*netmask)[0]);
             break;
-        case NETMASK2:
+        case T_NETMASK2:
             server->print((*netmask)[1]);
             break;
-        case NETMASK3:
+        case T_NETMASK3:
             server->print((*netmask)[2]);
             break;
-        case NETMASK4:
+        case T_NETMASK4:
             server->print((*netmask)[3]);
             break;
-        case GATEWAY1:
+        case T_GATEWAY1:
             server->print((*gw)[0]);
             break;
-        case GATEWAY2:
+        case T_GATEWAY2:
             server->print((*gw)[1]);
             break;
-        case GATEWAY3:
+        case T_GATEWAY3:
             server->print((*gw)[2]);
             break;
-        case GATEWAY4:
+        case T_GATEWAY4:
             server->print((*gw)[3]);
             break;
-        case DNS1:
+        case T_DNS1:
             server->print((*dns)[0]);
             break;
-        case DNS2:
+        case T_DNS2:
             server->print((*dns)[1]);
             break;
-        case DNS3:
+        case T_DNS3:
             server->print((*dns)[2]);
             break;
-        case DNS4:
+        case T_DNS4:
             server->print((*dns)[3]);
             break;
-        case NTPSELECTOPTION:
+        case T_NTPSELECTOPTION:
             if (aquaduino->isNTPEnabled())
             {
                 parser->optionListItem("Yes", "1", 1, server);
@@ -418,28 +485,28 @@ void printTopLevelTemplate(WebServer* server)
                 parser->optionListItem("No", "0", 1, server);
             }
             break;
-        case NTP1:
+        case T_NTP1:
             server->print((*ntp)[0]);
             break;
-        case NTP2:
+        case T_NTP2:
             server->print((*ntp)[1]);
             break;
-        case NTP3:
+        case T_NTP3:
             server->print((*ntp)[2]);
             break;
-        case NTP4:
+        case T_NTP4:
             server->print((*ntp)[3]);
             break;
-        case NTPPERIOD:
+        case T_NTPPERIOD:
             server->print(aquaduino->getNtpSyncInterval());
             break;
-        case HOUR:
+        case T_HOUR:
             server->print(hour());
             break;
-        case MINUTE:
+        case T_MINUTE:
             server->print(minute());
             break;
-        case SECOND:
+        case T_SECOND:
             server->print(second());
             break;
         }
@@ -451,13 +518,162 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
 {
     int8_t repeat;
     char name[30], value[30];
+    IPAddress ip, netmask, gw, dns, ntp;
+    int8_t doNTP = 0, doDHCP = 0;
+    uint16_t ntpperiod = 5;
+    uint16_t actuatorIdx;
+    uint16_t controllerIdx;
+    int8_t hour, minute, second;
 
+    /*
+     * TODO: Implement security checks when processing POST parameters
+     */
     if (type == WebServer::POST)
     {
         while ((repeat = server->readPOSTparam(name, 30, value, 30)) > 0)
         {
+            if (strcmp_P(name, (PGM_P) pgm_read_word(&(inputStrings[I_IP1]))) == 0)
+                ip[0] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_IP2])))
+                     == 0)
+                ip[1] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_IP3])))
+                     == 0)
+                ip[2] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_IP4])))
+                     == 0)
+                ip[3] = atoi(value);
+            if (strcmp_P(name,
+                         (PGM_P) pgm_read_word(&(inputStrings[I_NETMASK1])))
+                == 0)
+                netmask[0] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_NETMASK2])))
+                     == 0)
+                netmask[1] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_NETMASK3])))
+                     == 0)
+                netmask[2] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_NETMASK4])))
+                     == 0)
+                netmask[3] = atoi(value);
+            if (strcmp_P(name,
+                         (PGM_P) pgm_read_word(&(inputStrings[I_GATEWAY1])))
+                == 0)
+                gw[0] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_GATEWAY2])))
+                     == 0)
+                gw[1] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_GATEWAY3])))
+                     == 0)
+                gw[2] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_GATEWAY4])))
+                     == 0)
+                gw[3] = atoi(value);
+            if (strcmp_P(name, (PGM_P) pgm_read_word(&(inputStrings[I_DNS1]))) == 0)
+                dns[0] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_DNS2])))
+                     == 0)
+                dns[1] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_DNS3])))
+                     == 0)
+                dns[2] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_DNS4])))
+                     == 0)
+                dns[3] = atoi(value);
+            if (strcmp_P(name, (PGM_P) pgm_read_word(&(inputStrings[I_NTP1]))) == 0)
+                ntp[0] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_NTP2])))
+                     == 0)
+                ntp[1] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_NTP3])))
+                     == 0)
+                ntp[2] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_NTP4])))
+                     == 0)
+                ntp[3] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_NTP])))
+                     == 0)
+                doNTP = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_DHCP])))
+                     == 0)
+                doDHCP = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_NTPPERIOD])))
+                     == 0)
+                ntpperiod = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_HOUR])))
+                     == 0)
+                hour = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_MINUTE])))
+                     == 0)
+                minute = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_SECOND])))
+                     == 0)
+                second = atoi(value);
+            else if (name[0] == 'A' && name[1] >= '0' && name[1] <= '9')
+            {
+                actuatorIdx = atoi(&name[1]);
+                aquaduino->getActuator(actuatorIdx)->setName(value);
+            }
+            else if (name[0] == 'C' && name[1] >= '0' && name[1] <= '9')
+            {
+                actuatorIdx = atoi(&name[1]);
+                controllerIdx = atoi(value);
+                aquaduino->getActuator(actuatorIdx)->setController(controllerIdx);
+            }
+            else if (name[0] == 'E' && name[1] >= '0' && name[1] <= '9')
+            {
+                actuatorIdx = atoi(&name[1]);
+                if (atoi(value))
+                    aquaduino->getActuator(actuatorIdx)->enable();
+                else
+                    aquaduino->getActuator(actuatorIdx)->disable();
+            }
+
         }
-        //server->httpSeeOther(this->m_URL);
+
+        aquaduino->setIP(&ip);
+        aquaduino->setNetmask(&netmask);
+        aquaduino->setGateway(&gw);
+        aquaduino->setDNS(&dns);
+        aquaduino->setNTP(&ntp);
+
+        if (doDHCP)
+            aquaduino->enableDHCP();
+        else
+            aquaduino->disableDHCP();
+
+        if (doNTP)
+            aquaduino->enableNTP();
+        else
+        {
+            aquaduino->disableNTP();
+            aquaduino->setTime(hour, minute, second, 0, 0, 0);
+        }
+
+        aquaduino->setNtpSyncInterval(ntpperiod);
+
+        server->httpSeeOther("/config");
     }
     else
     {
