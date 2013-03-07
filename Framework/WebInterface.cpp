@@ -297,7 +297,7 @@ void printActuatorTable(WebServer* server)
     TemplateParser* parser;
     char actuatorID[5], controllerID[5], enabledID[5];
 
-    Actuator* currentActor;
+    Actuator* currentActuator;
     Controller* currentController;
 
     parser = aquaduino->getTemplateParser();
@@ -306,7 +306,7 @@ void printActuatorTable(WebServer* server)
 
     aquaduino->resetActuatorIterator();
 
-    while ((i = aquaduino->getNextActuator(&currentActor)) != -1)
+    while ((i = aquaduino->getNextActuator(&currentActuator)) != -1)
     {
         templateRowFile = SD.open(templateRowFileName, FILE_READ);
         while ((matchIdx =
@@ -335,7 +335,7 @@ void printActuatorTable(WebServer* server)
                 server->print(actuatorID);
                 break;
             case T_ACTUATORNAME:
-                server->print(currentActor->getName());
+                server->print(currentActuator->getName());
                 break;
             case T_CSELECT:
                 controllerID[0] = 'C';
@@ -349,7 +349,7 @@ void printActuatorTable(WebServer* server)
                     itoa(j, controllerID, 10);
                     parser->optionListItem(currentController->getName(),
                                            controllerID,
-                                           currentActor->getController() == j,
+                                           currentActuator->getController() == j,
                                            server);
                 }
                 break;
@@ -362,11 +362,11 @@ void printActuatorTable(WebServer* server)
                 parser->optionListItem("Disabled", "0", 0, server);
                 parser->optionListItem("Enabled",
                                        "1",
-                                       currentActor->isEnabled(),
+                                       currentActuator->isEnabled(),
                                        server);
                 break;
             case T_ACTUATORSTATE:
-                if (currentActor->isOn())
+                if (currentActuator->isOn())
                 {
                     server->print("On");
                 }
@@ -645,7 +645,7 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
             else if (name[0] == 'E' && name[1] >= '0' && name[1] <= '9')
             {
                 actuatorIdx = atoi(&name[1]);
-                if (atoi(value))
+                if (atoi(value) == 1)
                     aquaduino->getActuator(actuatorIdx)->enable();
                 else
                     aquaduino->getActuator(actuatorIdx)->disable();
@@ -677,7 +677,7 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
         aquaduino->writeConfig(aquaduino);
 
         aquaduino->resetActuatorIterator();
-        while(aquaduino->getNextActuator(&actuator) != -1)
+        while (aquaduino->getNextActuator(&actuator) != -1)
         {
             aquaduino->writeConfig(actuator);
         }

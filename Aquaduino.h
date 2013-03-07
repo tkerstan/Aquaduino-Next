@@ -90,15 +90,15 @@ public:
     void setTime(int8_t hour, int8_t minute, int8_t second, int8_t day,
                  int8_t month, int16_t year);
 
-    void addController(Controller* newController);
+    int8_t addController(Controller* newController);
     Controller* getController(unsigned int controller);
     int8_t getControllerID(Controller* controller);
     void resetControllerIterator();
     int8_t getNextController(Controller** controller);
     unsigned char getNrOfControllers();
 
-    void addActuator(Actuator* newActuator);
-    Actuator* getActuator(unsigned int actor);
+    int8_t addActuator(Actuator* newActuator);
+    Actuator* getActuator(unsigned int actuator);
     int8_t getActuatorID(Actuator* actuator);
     void resetActuatorIterator();
     int8_t getNextActuator(Actuator** actuator);

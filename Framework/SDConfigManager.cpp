@@ -244,8 +244,8 @@ uint16_t SDConfigManager::writeStructToFile(const char* fileName,
     strcat(path, fileName);
 
 #ifdef DEBUG
-    Serial.print(F("Writing Config to "));
-    Serial.println(fileName);
+    Serial.print("Writing configuration to ");
+    Serial.print(path);
 #endif
 
     configFile = SD.open(path, FILE_WRITE);
@@ -254,20 +254,12 @@ uint16_t SDConfigManager::writeStructToFile(const char* fileName,
                                     sizeof(struct configuration));
     configFile.close();
 
+#ifdef DEBUG
     if (writtenBytes == sizeof(struct configuration))
-    {
-#ifdef DEBUG
-        Serial.println(F("Successful!"));
+        Serial.println(" : successful");
+    else
+        Serial.println(" : failed");
 #endif
-                   }
-                   else
-                   {
-#ifdef DEBUG
-                       Serial.print(F("Failed! Wrote only "));
-                       Serial.print(writtenBytes);
-                       Serial.print(F(" Bytes"));
-#endif
-                   }
 
     return writtenBytes;
 }
@@ -285,38 +277,29 @@ uint16_t SDConfigManager::readStructFromFile(const char* fileName,
     strcat(path, "/");
     strcat(path, fileName);
 
-#ifdef DEBUG
-    Serial.print(F("Reading Config from "));
-    Serial.println(path);
-#endif
-
     if (SD.exists(path))
     {
+#ifdef DEBUG
+        Serial.print("Reading configuration from ");
+        Serial.print(path);
+#endif
         configFile = SD.open(path, FILE_READ);
         readBytes = configFile.read(config, sizeof(struct configuration));
         configFile.close();
-
+#ifdef DEBUG
         if (readBytes == sizeof(struct configuration))
-        {
-#ifdef DEBUG
-            Serial.println(F("Successful!"));
+            Serial.println(" : successful");
+        else
+            Serial.println(" : failed");
 #endif
-                       }
-                       else
-                       {
+    }
 #ifdef DEBUG
-                           Serial.print(F("Failed! Read only "));
-                           Serial.print(readBytes);
-                           Serial.println(F(" Bytes"));
+    else
+    {
+        Serial.print(path);
+        Serial.println(" does not exist");
+    }
 #endif
-                       }
-                   }
-                   else
-                   {
-#ifdef DEBUG
-                           Serial.println("Configuration does not exist.");
-#endif
-                       }
 
     return readBytes;
 }
