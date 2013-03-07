@@ -34,6 +34,8 @@
 
 Aquaduino* aquaduino;
 
+extern time_t NTPSync();
+
 extern void defaultCmd(WebServer &server, WebServer::ConnectionType type,
                        char *, bool);
 extern void controllerDispatchCommand(WebServer &server,
@@ -59,6 +61,7 @@ Aquaduino::Aquaduino() :
         temp(0),
         level(0)
 {
+    int8_t status = 0;
     m_Type = AQUADUINO;
     // Deselect all SPI devices!
     pinMode(4, OUTPUT);
@@ -72,14 +75,13 @@ Aquaduino::Aquaduino() :
         while(1);
     }
 
-    myMAC[0] = 0x00;
-    myMAC[1] = 0x01;
-    myMAC[2] = 0x02;
-    myMAC[3] = 0x03;
-    myMAC[4] = 0x04;
-    myMAC[5] = 0x05;
+    myMAC[0] = 0xDE;
+    myMAC[1] = 0xAD;
+    myMAC[2] = 0xBE;
+    myMAC[3] = 0xEF;
+    myMAC[4] = 0xFE;
+    myMAC[5] = 0xED;
 
-#ifdef DEBUG
     Serial.print(F("IP: "));
     Serial.println(myIP);
     Serial.print(F("Netmask: "));
@@ -90,11 +92,27 @@ Aquaduino::Aquaduino() :
     Serial.println(myDNS);
     Serial.print(F("NTP Server: "));
     Serial.println(myNTP);
-#endif
 
     m_ConfigManager = new SDConfigManager("config");
+    readConfig(this);
 
-    Ethernet.begin(myMAC, myIP, myDNS, myGateway, myNetmask);
+    if (doDHCP)
+        status = Ethernet.begin(myMAC);
+    if (!doDHCP || !status)
+        Ethernet.begin(myMAC, myIP, myDNS, myGateway, myNetmask);
+
+    myIP = Ethernet.localIP();
+    myDNS = Ethernet.dnsServerIP();
+    myGateway = Ethernet.gatewayIP();
+    myNetmask = Ethernet.subnetMask();
+
+    //Init Time. If NTP Sync fails this will be used.
+    setTime(0, 0, 0, 1, 1, 42);
+    if (doNTP)
+    {
+        enableNTP();
+    }
+
 }
 
 IPAddress* Aquaduino::getIP()
@@ -174,11 +192,15 @@ int8_t Aquaduino::isDHCPEnabled()
 void Aquaduino::enableNTP()
 {
     doNTP = 1;
+    setSyncInterval(900); //Sync every 15 minutes
+    setSyncProvider(&::NTPSync);
 }
 
 void Aquaduino::disableNTP()
 {
     doNTP = 0;
+    setSyncInterval(900); //Sync every 15 minutes
+    setSyncProvider(NULL);
 }
 
 int8_t Aquaduino::isNTPEnabled()
@@ -193,15 +215,17 @@ void Aquaduino::setTime(int8_t hour, int8_t minute, int8_t second, int8_t day,
         ::setTime(hour, minute, second, day, month, year);
 }
 
-void Aquaduino::addController(Controller* newController)
+int8_t Aquaduino::addController(Controller* newController)
 {
     int8_t status = m_Controllers.add(newController);
 #ifdef DEBUG
-    Serial.print(F("Adding controller "));
+    Serial.print(F("Added controller "));
     Serial.print(newController->getName());
     Serial.print(F(" @ position "));
     Serial.println(status);
 #endif
+    aquaduino->readConfig(newController);
+    return status;
 }
 
 Controller* Aquaduino::getController(unsigned int controller)
@@ -229,20 +253,22 @@ unsigned char Aquaduino::getNrOfControllers()
     return m_Controllers.getNrOfElements();
 }
 
-void Aquaduino::addActuator(Actuator* newActor)
+int8_t Aquaduino::addActuator(Actuator* newActuator)
 {
-    int8_t status = m_Actuators.add(newActor);
+    int8_t status = m_Actuators.add(newActuator);
 #ifdef DEBUG
-    Serial.print(F("Adding actuator "));
-    Serial.print(newActor->getName());
+    Serial.print(F("Added actuator "));
+    Serial.print(newActuator->getName());
     Serial.print(F(" @ position "));
     Serial.println(status);
 #endif
+    readConfig(newActuator);
+    return status;
 }
 
-Actuator* Aquaduino::getActuator(unsigned int actor)
+Actuator* Aquaduino::getActuator(unsigned int actuator)
 {
-    return m_Actuators.get(actor);
+    return m_Actuators.get(actuator);
 }
 
 int8_t Aquaduino::getActuatorID(Actuator* actuator)
@@ -342,7 +368,6 @@ int8_t Aquaduino::writeConfig(Aquaduino* aquaduino)
     return m_ConfigManager->writeConfig(aquaduino);
 }
 
-
 int8_t Aquaduino::writeConfig(Actuator* actuator)
 {
     return m_ConfigManager->writeConfig(actuator);
@@ -362,7 +387,6 @@ int8_t Aquaduino::readConfig(Aquaduino* aquaduino)
 {
     return m_ConfigManager->readConfig(aquaduino);
 }
-
 
 int8_t Aquaduino::readConfig(Actuator* actuator)
 {
@@ -449,8 +473,6 @@ void Aquaduino::run()
  *
  */
 
-extern time_t NTPSync();
-
 /*
  * My system has 24 Power Outlets controlled by the Pins 14-37,
  * a Level sensor @ pin 40 and a DS18S20 @ pin 42.
@@ -519,12 +541,6 @@ void setup()
     Serial.begin(9600);
 
     aquaduino = new Aquaduino();
-    aquaduino->readConfig(aquaduino);
-
-    //Init Time. If NTP Sync fails this will be used.
-    setTime(0, 0, 0, 1, 1, 42);
-    setSyncInterval(900); //Sync every 15 minutes
-    setSyncProvider(&NTPSync);
 
     webServer = new WebServer("", 80);
 
@@ -537,9 +553,9 @@ void setup()
 
         powerOutlets[i] = new DigitalOutput(name,
                                             POWER_OUTLET_START_PIN + i,
-                                            0);
+                                            LOW,
+                                            HIGH);
         aquaduino->addActuator(powerOutlets[i]);
-        aquaduino->readConfig(powerOutlets[i]);
     }
 
     temperatureController = new TemperatureController("Temperature");
@@ -556,9 +572,6 @@ void setup()
     aquaduino->addController(levelController);
     aquaduino->addController(clockTimerController);
 
-    aquaduino->readConfig(temperatureController);
-    aquaduino->readConfig(levelController);
-
     aquaduino->setTemperatureSensor(temperatureSensor);
     aquaduino->setLevelSensor(levelSensor);
 
@@ -570,7 +583,7 @@ void setup()
     Serial.print(F("Heap Start: 0x"));
     Serial.println((int) __malloc_heap_start, HEX);
 
-    Serial.print(F("Heap End: 0x"));
+    Serial.print(F("Last allocated Element ends: 0x"));
     Serial.println(((uint16_t) temperatureSensor) + sizeof(temperatureSensor)
                    + 1,
                    HEX);
