@@ -23,8 +23,8 @@
 Actuator::Actuator(const char* name) :
         m_Enabled(1)
 {
+    m_ControlledBy = -1;
     setName(name);
-    this->m_ControlledBy = -1;
 }
 
 Actuator::~Actuator()

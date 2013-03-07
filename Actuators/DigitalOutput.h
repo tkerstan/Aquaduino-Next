@@ -26,11 +26,12 @@
 class DigitalOutput: public Actuator
 {
 private:
-    int pin;
-    int onValue;
-    int offValue;
+    int8_t pin;
+    uint8_t onValue;
+    uint8_t offValue;
 public:
-    DigitalOutput(const char* name, int pin, int onValue);
+    DigitalOutput(const char* name, int8_t pin, uint8_t onValue,
+                  uint8_t offValue);
 
     virtual uint16_t serialize(void* buffer, uint16_t size);
     virtual uint16_t deserialize(void* data, uint16_t size);

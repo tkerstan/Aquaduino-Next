@@ -21,56 +21,50 @@
 #include "DigitalOutput.h"
 #include <Arduino.h>
 
-DigitalOutput::DigitalOutput(const char* name, int pin, int onValue) :
+DigitalOutput::DigitalOutput(const char* name, int8_t pin, uint8_t onValue,
+                             uint8_t offValue) :
         Actuator(name)
 {
     m_Type = ACTUATOR_DIGITALOUTPUT;
     this->pin = pin;
     pinMode(pin, OUTPUT);
     this->onValue = onValue;
+    this->offValue = offValue;
     this->m_Enabled = true;
-    this->off();
+    this->on();
 }
 
 uint16_t DigitalOutput::serialize(void* buffer, uint16_t size)
 {
-    memcpy(buffer, &onValue, sizeof(onValue));
+    uint8_t* bPtr = (uint8_t*) buffer;
+    memcpy(bPtr, &onValue, sizeof(onValue));
+    memcpy(bPtr + sizeof(onValue), &offValue, sizeof(offValue));
     return 1;
 }
 
 uint16_t DigitalOutput::deserialize(void* data, uint16_t size)
 {
-    memcpy(&onValue, data, sizeof(onValue));
+    uint8_t* bPtr = (uint8_t*) data;
+    memcpy(&onValue, bPtr, sizeof(onValue));
+    memcpy(&offValue, bPtr + sizeof(onValue), sizeof(offValue));
     return 1;
 }
 
 void DigitalOutput::on()
 {
     if (m_Enabled)
-    {
         digitalWrite(pin, onValue);
-    }
 }
 
 void DigitalOutput::off()
 {
     if (m_Enabled)
-    {
-        digitalWrite(pin, !onValue);
-    }
+        digitalWrite(pin, offValue);
 }
 
 int8_t DigitalOutput::isOn()
 {
-    if (onValue == 0)
-    {
-        return digitalRead(pin) == 0;
-    }
-    else
-    {
-        return digitalRead(pin) != 0;
-    }
-
+    return digitalRead(pin) == onValue;
 }
 
 int8_t DigitalOutput::supportsPWM()
