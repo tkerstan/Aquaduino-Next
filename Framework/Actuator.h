@@ -25,10 +25,11 @@
 #include "Config.h"
 #include "Controller.h"
 #include "Serializable.h"
+#include "WebInterface.h"
 
 class Controller;
 
-class Actuator: public Object, public Serializable
+class Actuator: public Object, public Serializable, public WebInterface
 {
 private:
     Actuator(const Actuator&);
@@ -56,6 +57,9 @@ public:
     virtual int8_t supportsPWM() = 0;
     virtual void setPWM(float dutyCycle) = 0;
     virtual float getPWM() = 0;
+
+    virtual int8_t showWebinterface(WebServer* server,
+                                    WebServer::ConnectionType type) = 0;
 
 };
 

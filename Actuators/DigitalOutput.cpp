@@ -18,8 +18,26 @@
  *
  */
 
+#include <Aquaduino.h>
 #include "DigitalOutput.h"
 #include <Arduino.h>
+#include <TemplateParser.h>
+
+const static char progTemplateFileName[] PROGMEM = "do.htm";
+const static char progTemplateString1[] PROGMEM = "##ACTUATORNAME##";
+const static char progTemplateString2[] PROGMEM = "##TYPEOPTIONS##";
+
+const static char* const templateStrings[] PROGMEM =
+    { progTemplateString1, progTemplateString2 };
+
+static const char progInputType[] PROGMEM = "type";
+static const char* const inputStrings[] PROGMEM =
+    { progInputType };
+
+enum
+{
+    I_TYPE
+};
 
 DigitalOutput::DigitalOutput(const char* name, int8_t pin, uint8_t onValue,
                              uint8_t offValue) :
@@ -80,4 +98,62 @@ void DigitalOutput::setPWM(float dutyCycle)
 float DigitalOutput::getPWM()
 {
     return isOn() ? 1.0 : 0.0;
+}
+
+int8_t DigitalOutput::showWebinterface(WebServer* server,
+                                       WebServer::ConnectionType type)
+{
+    File templateFile;
+    TemplateParser* parser;
+    int16_t matchIdx;
+    char templateFileName[sizeof(progTemplateFileName)];
+    strcpy_P(templateFileName, progTemplateFileName);
+
+    char* replacementStrings[1];
+    //Todo: I hereby promise to not change the actuators name!!!
+    replacementStrings[0] = (char*) getName();
+
+    if (type == WebServer::POST)
+    {
+        int8_t repeat;
+        char name[16], value[16];
+        do
+        {
+            repeat = server->readPOSTparam(name, 16, value, 16);
+            if (strcmp_P(name, (PGM_P) pgm_read_word(&(inputStrings[I_TYPE]))) == 0)
+            {
+                onValue = atoi(value);
+                offValue = 1 - onValue;
+            }
+        } while (repeat);
+        server->httpSeeOther(this->m_URL);
+    }
+    else
+    {
+        server->httpSuccess();
+        parser = aquaduino->getTemplateParser();
+        templateFile = SD.open(templateFileName, FILE_READ);
+        while ((matchIdx =
+                parser->processTemplateUntilNextMatch(&templateFile,
+                                                      templateStrings,
+                                                      sizeof(templateStrings) / sizeof(char*),
+                                                      server))
+               >= 0)
+        {
+            switch (matchIdx)
+            {
+            case 0:
+                server->print(getName());
+                break;
+            case 1:
+                parser->optionListItem("LOW", "0", onValue == 0, server);
+                parser->optionListItem("HIGH", "1", onValue == 1, server);
+                break;
+            }
+        }
+
+        templateFile.close();
+    }
+    return true;
+
 }

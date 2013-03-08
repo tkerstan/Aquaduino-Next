@@ -217,15 +217,22 @@ void Aquaduino::setTime(int8_t hour, int8_t minute, int8_t second, int8_t day,
 
 int8_t Aquaduino::addController(Controller* newController)
 {
-    int8_t status = m_Controllers.add(newController);
+    char buffer[5];
+    memset(buffer,0,5);
+    int8_t idx = m_Controllers.add(newController);
 #ifdef DEBUG
     Serial.print(F("Added controller "));
     Serial.print(newController->getName());
     Serial.print(F(" @ position "));
-    Serial.println(status);
+    Serial.println(idx);
 #endif
-    aquaduino->readConfig(newController);
-    return status;
+    if (idx != -1){
+        buffer[0]='C';
+        itoa(idx, &buffer[1], 10);
+        m_Controllers[idx]->setURL(buffer);
+        aquaduino->readConfig(newController);
+    }
+    return idx;
 }
 
 Controller* Aquaduino::getController(unsigned int controller)
@@ -255,15 +262,23 @@ unsigned char Aquaduino::getNrOfControllers()
 
 int8_t Aquaduino::addActuator(Actuator* newActuator)
 {
-    int8_t status = m_Actuators.add(newActuator);
+    char buffer[5];
+    memset(buffer,0,5);
+    int8_t idx = m_Actuators.add(newActuator);
 #ifdef DEBUG
     Serial.print(F("Added actuator "));
     Serial.print(newActuator->getName());
     Serial.print(F(" @ position "));
-    Serial.println(status);
+    Serial.println(idx);
 #endif
-    readConfig(newActuator);
-    return status;
+    if (idx != -1)
+    {
+        buffer[0]='A';
+        itoa(idx, &buffer[1], 10);
+        newActuator->setURL(buffer);
+        readConfig(newActuator);
+    }
+    return idx;
 }
 
 Actuator* Aquaduino::getActuator(unsigned int actuator)
@@ -539,18 +554,14 @@ void setup();
 void setup()
 {
     Serial.begin(9600);
-
     aquaduino = new Aquaduino();
-
     webServer = new WebServer("", 80);
-
     aquaduino->setWebserver(webServer);
 
     for (int i = 0; i < POWER_OUTLETS; i++)
     {
         char name[6] = "PO";
         itoa(i, &name[2], 10);
-
         powerOutlets[i] = new DigitalOutput(name,
                                             POWER_OUTLET_START_PIN + i,
                                             LOW,
@@ -559,18 +570,15 @@ void setup()
     }
 
     temperatureController = new TemperatureController("Temperature");
-    temperatureController->setURL("0");
     levelController = new LevelController("Level", LEVEL_SENSOR_PIN);
-    levelController->setURL("1");
-    clockTimerController = new ClockTimerController("Clock Timer");
-    clockTimerController->setURL("2");
+//    clockTimerController = new ClockTimerController("Clock Timer");
 
     levelSensor = new DigitalInput(LEVEL_SENSOR_PIN);
     temperatureSensor = new DS18S20(TEMPERATURE_SENSOR_PIN);
 
     aquaduino->addController(temperatureController);
     aquaduino->addController(levelController);
-    aquaduino->addController(clockTimerController);
+//    aquaduino->addController(clockTimerController);
 
     aquaduino->setTemperatureSensor(temperatureSensor);
     aquaduino->setLevelSensor(levelSensor);

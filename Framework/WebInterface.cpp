@@ -32,15 +32,16 @@ static const char progMainTemplateStringSecond[] PROGMEM = "##SECOND##";
 static const char progMainTemplateStringTemperature[] PROGMEM
 = "##TEMPERATURE##";
 static const char progMainTemplateStringCR[] PROGMEM = "##CONTROLLERROW##";
+static const char progMainTemplateStringAR[] PROGMEM = "##ACTUATORROW##";
 
 static const char progMainTemplateRowFileName[] PROGMEM = "mainrow.htm";
-static const char progMainTemplateStringCL[] PROGMEM = "##CONTROLLERLINK##";
-static const char progMainTemplateStringCN[] PROGMEM = "##CONTROLLERNAME##";
+static const char progMainTemplateStringCL[] PROGMEM = "##LINK##";
+static const char progMainTemplateStringCN[] PROGMEM = "##NAME##";
 
 static const char* const mainTemplateStrings[] PROGMEM =
     { progMainTemplateStringTemperature, progMainTemplateStringHour,
       progMainTemplateStringMinute, progMainTemplateStringSecond,
-      progMainTemplateStringCR };
+      progMainTemplateStringCR, progMainTemplateStringAR };
 
 static const char* const mainTemplateRowStrings[] PROGMEM =
     { progMainTemplateStringCL, progMainTemplateStringCN };
@@ -222,7 +223,8 @@ void defaultCmd(WebServer &server, WebServer::ConnectionType type, char *, bool)
     File templateFile;
     File templateRow;
     int16_t matchIdx;
-    uint8_t controller;
+    Controller* controller;
+    Actuator* actuator;
 
     char url[AQUADUINO_STRING_LENGTH];
     char name[AQUADUINO_STRING_LENGTH];
@@ -244,43 +246,54 @@ void defaultCmd(WebServer &server, WebServer::ConnectionType type, char *, bool)
         while ((matchIdx =
                 parser->processTemplateUntilNextMatch(&templateFile,
                                                       mainTemplateStrings,
-                                                      5,
+                                                      sizeof(mainTemplateStrings) / sizeof(char*),
                                                       &server))
                >= 0)
         {
-            if (matchIdx == 0)
+            switch (matchIdx)
             {
+            case 0:
                 server.print(aquaduino->getTemperature());
-            }
-            else if (matchIdx == 1)
-            {
+                break;
+            case 1:
                 server.print(hour());
-            }
-            else if (matchIdx == 2)
-            {
+                break;
+            case 2:
                 server.print(minute());
-            }
-            else if (matchIdx == 3)
-            {
+                break;
+            case 3:
                 server.print(second());
-            }
-            else if (matchIdx == 4)
-            {
-                for (controller = 0;
-                        controller < aquaduino->getNrOfControllers();
-                        controller++)
+                break;
+            case 4:
+                aquaduino->resetControllerIterator();
+                while (aquaduino->getNextController(&controller) != -1)
                 {
-                    strcpy(url, aquaduino->getController(controller)->getURL());
-                    strcpy(name,
-                           aquaduino->getController(controller)->getName());
+                    strcpy(url, controller->getURL());
+                    strcpy(name, controller->getName());
                     replacementStrings[0] = url;
                     replacementStrings[1] = name;
                     parser->processSingleTemplate(&templateRow,
                                                   mainTemplateRowStrings,
                                                   replacementStrings,
-                                                  2,
+                                                  sizeof(mainTemplateRowStrings) / sizeof(char*),
                                                   &server);
                 }
+                break;
+            case 5:
+                aquaduino->resetActuatorIterator();
+                while (aquaduino->getNextActuator(&actuator) != -1)
+                {
+                    strcpy(url, actuator->getURL());
+                    strcpy(name, actuator->getName());
+                    replacementStrings[0] = url;
+                    replacementStrings[1] = name;
+                    parser->processSingleTemplate(&templateRow,
+                                                  mainTemplateRowStrings,
+                                                  replacementStrings,
+                                                  sizeof(mainTemplateRowStrings) / sizeof(char*),
+                                                  &server);
+                }
+                break;
             }
         }
     }
@@ -312,7 +325,7 @@ void printActuatorTable(WebServer* server)
         while ((matchIdx =
                 parser->processTemplateUntilNextMatch(&templateRowFile,
                                                       templateRowFileString,
-                                                      8,
+                                                      sizeof(templateRowFileString) / sizeof(char*),
                                                       server))
                != -1)
         {
@@ -697,6 +710,7 @@ void controllerDispatchCommand(WebServer &server,
                                char *url_tail, bool tail_complete)
 {
     Controller* controller;
+    Actuator* actuator;
 
     if (type != WebServer::HEAD)
     {
@@ -715,6 +729,19 @@ void controllerDispatchCommand(WebServer &server,
                 if (type == WebServer::POST)
                 {
                     aquaduino->writeConfig(controller);
+                }
+            }
+        }
+
+        aquaduino->resetActuatorIterator();
+        while (aquaduino->getNextActuator(&actuator) != -1)
+        {
+            if (strcmp(actuator->getURL(), *url_path) == 0)
+            {
+                actuator->showWebinterface(&server, type);
+                if (type == WebServer::POST)
+                {
+                    aquaduino->writeConfig(actuator);
                 }
             }
         }

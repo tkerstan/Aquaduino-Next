@@ -29,7 +29,7 @@
 #include "Config.h"
 #include <WebServer.h>
 
-class Controller: public Object, public Serializable
+class Controller: public Object, public Serializable, public WebInterface
 {
 public:
     Controller(const char* name);

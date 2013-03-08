@@ -94,3 +94,9 @@ float PWMOutput::getPWM()
 {
     return dutyCycle;
 }
+
+int8_t PWMOutput::showWebinterface(WebServer* server,
+                                   WebServer::ConnectionType type)
+{
+
+}
