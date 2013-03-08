@@ -218,7 +218,7 @@ void Aquaduino::setTime(int8_t hour, int8_t minute, int8_t second, int8_t day,
 int8_t Aquaduino::addController(Controller* newController)
 {
     char buffer[5];
-    memset(buffer,0,5);
+    memset(buffer, 0, 5);
     int8_t idx = m_Controllers.add(newController);
 #ifdef DEBUG
     Serial.print(F("Added controller "));
@@ -226,8 +226,9 @@ int8_t Aquaduino::addController(Controller* newController)
     Serial.print(F(" @ position "));
     Serial.println(idx);
 #endif
-    if (idx != -1){
-        buffer[0]='C';
+    if (idx != -1)
+    {
+        buffer[0] = 'C';
         itoa(idx, &buffer[1], 10);
         m_Controllers[idx]->setURL(buffer);
         aquaduino->readConfig(newController);
@@ -263,7 +264,7 @@ unsigned char Aquaduino::getNrOfControllers()
 int8_t Aquaduino::addActuator(Actuator* newActuator)
 {
     char buffer[5];
-    memset(buffer,0,5);
+    memset(buffer, 0, 5);
     int8_t idx = m_Actuators.add(newActuator);
 #ifdef DEBUG
     Serial.print(F("Added actuator "));
@@ -273,7 +274,7 @@ int8_t Aquaduino::addActuator(Actuator* newActuator)
 #endif
     if (idx != -1)
     {
-        buffer[0]='A';
+        buffer[0] = 'A';
         itoa(idx, &buffer[1], 10);
         newActuator->setURL(buffer);
         readConfig(newActuator);
