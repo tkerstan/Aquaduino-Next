@@ -142,7 +142,85 @@
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
+				<externalSettings containerId="Arduino;cdt.managedbuild.config.gnu.cross.lib.debug.258489203" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<externalSettings containerId="Ethernet;cdt.managedbuild.config.gnu.cross.lib.debug.258489203" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Ethernet"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Debug"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Ethernet/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Ethernet" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<externalSettings containerId="OneWire;cdt.managedbuild.config.gnu.cross.lib.debug.258489203" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/OneWire"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Debug"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/OneWire/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="RESOLVED" kind="libraryFile" name="OneWire" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<externalSettings containerId="SD;cdt.managedbuild.config.gnu.cross.lib.debug.258489203" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/SD"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Debug"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/SD/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="RESOLVED" kind="libraryFile" name="SD" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<externalSettings containerId="SPI;cdt.managedbuild.config.gnu.cross.lib.debug.258489203" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/SPI"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Debug"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/SPI/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="RESOLVED" kind="libraryFile" name="SPI" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<externalSettings containerId="TemplateParser;cdt.managedbuild.config.gnu.cross.lib.debug.258489203" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/SPI"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Debug"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/SPI/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="RESOLVED" kind="libraryFile" name="SPI" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<externalSettings containerId="Time;cdt.managedbuild.config.gnu.cross.lib.debug.258489203" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Time"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Debug"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Time/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Time" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<externalSettings containerId="Webduino;cdt.managedbuild.config.gnu.cross.lib.debug.258489203" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Webduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Debug"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Webduino/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Webduino" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+			</storageModule>
 		</cconfiguration>
 		<cconfiguration id="cdt.managedbuild.config.gnu.cross.lib.release.1643897995">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.lib.release.1643897995" moduleId="org.eclipse.cdt.core.settings" name="Release">
@@ -232,10 +310,10 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.1946170625" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker"/>
 							<tool command="gcc" id="cdt.managedbuild.tool.gnu.cross.cpp.linker.1199532484" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
 								<option id="gnu.cpp.link.option.libs.2089195022" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Arduino"/>
 									<listOptionValue builtIn="false" value="c"/>
 									<listOptionValue builtIn="false" value="TemplateParser"/>
 									<listOptionValue builtIn="false" value="Time"/>
-									<listOptionValue builtIn="false" value="Arduino"/>
 									<listOptionValue builtIn="false" value="Ethernet"/>
 									<listOptionValue builtIn="false" value="SPI"/>
 									<listOptionValue builtIn="false" value="SD"/>
@@ -282,7 +360,64 @@
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
+				<externalSettings containerId="Arduino;cdt.managedbuild.config.gnu.cross.lib.release.1643897995" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Release"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<externalSettings containerId="Ethernet;cdt.managedbuild.config.gnu.cross.lib.release.1643897995" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Release"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<externalSettings containerId="OneWire;cdt.managedbuild.config.gnu.cross.lib.release.1643897995" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Release"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<externalSettings containerId="SD;cdt.managedbuild.config.gnu.cross.lib.release.1643897995" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Release"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<externalSettings containerId="SPI;cdt.managedbuild.config.gnu.cross.lib.release.1643897995" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Release"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<externalSettings containerId="TemplateParser;cdt.managedbuild.config.gnu.cross.lib.release.1643897995" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Release"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<externalSettings containerId="Time;cdt.managedbuild.config.gnu.cross.lib.release.1643897995" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Release"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<externalSettings containerId="Webduino;cdt.managedbuild.config.gnu.cross.lib.release.1643897995" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Release"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+			</storageModule>
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">

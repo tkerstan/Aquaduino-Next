@@ -43,8 +43,18 @@ endif
 # All Target
 all: Aquaduino.elf
 
+dependents:
+	-cd D:/workspaces/privat/Arduino/Release && $(MAKE) clean all
+	-cd D:/workspaces/privat/Ethernet/Release && $(MAKE) clean all
+	-cd D:/workspaces/privat/OneWire/Release && $(MAKE) clean all
+	-cd D:/workspaces/privat/SD/Release && $(MAKE) clean all
+	-cd D:/workspaces/privat/SPI/Release && $(MAKE) clean all
+	-cd D:/workspaces/privat/TemplateParser/Release && $(MAKE) clean all
+	-cd D:/workspaces/privat/Time/Release && $(MAKE) clean all
+	-cd D:/workspaces/privat/Webduino/Release && $(MAKE) clean all
+
 # Tool invocations
-Aquaduino.elf: $(OBJS) $(USER_OBJS)
+Aquaduino.elf: $(OBJS) $(USER_OBJS) D:/workspaces/privat/Arduino/Release/libArduino.a D:/workspaces/privat/Ethernet/Release/libEthernet.a D:/workspaces/privat/OneWire/Release/libOneWire.a D:/workspaces/privat/SD/Release/libSD.a D:/workspaces/privat/SPI/Release/libSPI.a D:/workspaces/privat/TemplateParser/Release/libTemplateParser.a D:/workspaces/privat/Time/Release/libTime.a D:/workspaces/privat/Webduino/Release/libWebduino.a
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross G++ Linker'
 	avr-gcc -L"D:\workspaces\privat\Arduino\Release" -L"D:\workspaces\privat\TemplateParser\Release" -L"D:\workspaces\privat\Ethernet\Release" -L"D:\workspaces\privat\OneWire\Release" -L"D:\workspaces\privat\SPI\Release" -L"D:\workspaces\privat\Time\Release" -L"D:\workspaces\privat\Webduino\Release" -L"D:\workspaces\privat\SD\Release" -Os -Wl,--gc-sections,--relax -mmcu=atmega2560 -o "Aquaduino.elf" $(OBJS) $(USER_OBJS) $(LIBS)
@@ -58,5 +68,13 @@ clean:
 
 .PHONY: all clean dependents
 .SECONDARY:
+D:/workspaces/privat/Arduino/Release/libArduino.a:
+D:/workspaces/privat/Ethernet/Release/libEthernet.a:
+D:/workspaces/privat/OneWire/Release/libOneWire.a:
+D:/workspaces/privat/SD/Release/libSD.a:
+D:/workspaces/privat/SPI/Release/libSPI.a:
+D:/workspaces/privat/TemplateParser/Release/libTemplateParser.a:
+D:/workspaces/privat/Time/Release/libTime.a:
+D:/workspaces/privat/Webduino/Release/libWebduino.a:
 
 -include ../makefile.targets

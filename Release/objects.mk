@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS := -lc -lTemplateParser -lTime -lArduino -lEthernet -lSPI -lSD -lOneWire -lWebduino -lm
+LIBS := -lArduino -lc -lTemplateParser -lTime -lEthernet -lSPI -lSD -lOneWire -lWebduino -lm
 

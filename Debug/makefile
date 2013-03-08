@@ -43,8 +43,18 @@ endif
 # All Target
 all: Aquaduino.elf
 
+dependents:
+	-cd D:/workspaces/privat/Arduino/Debug && $(MAKE) clean all
+	-cd D:/workspaces/privat/Ethernet/Debug && $(MAKE) clean all
+	-cd D:/workspaces/privat/OneWire/Debug && $(MAKE) clean all
+	-cd D:/workspaces/privat/SD/Debug && $(MAKE) clean all
+	-cd D:/workspaces/privat/SPI/Debug && $(MAKE) clean all
+	-cd D:/workspaces/privat/TemplateParser/Debug && $(MAKE) clean all
+	-cd D:/workspaces/privat/Time/Debug && $(MAKE) clean all
+	-cd D:/workspaces/privat/Webduino/Debug && $(MAKE) clean all
+
 # Tool invocations
-Aquaduino.elf: $(OBJS) $(USER_OBJS)
+Aquaduino.elf: $(OBJS) $(USER_OBJS) D:/workspaces/privat/Arduino/Debug/libArduino.a D:/workspaces/privat/Ethernet/Debug/libEthernet.a D:/workspaces/privat/OneWire/Debug/libOneWire.a D:/workspaces/privat/SD/Debug/libSD.a D:/workspaces/privat/SPI/Debug/libSPI.a D:/workspaces/privat/TemplateParser/Debug/libTemplateParser.a D:/workspaces/privat/Time/Debug/libTime.a D:/workspaces/privat/Webduino/Debug/libWebduino.a
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross G++ Linker'
 	avr-g++ -L"D:\workspaces\privat\Arduino\Debug" -L"D:\workspaces\privat\TemplateParser\Debug" -L"D:\workspaces\privat\Ethernet\Debug" -L"D:\workspaces\privat\OneWire\Debug" -L"D:\workspaces\privat\SD\Debug" -L"D:\workspaces\privat\SPI\Debug" -L"D:\workspaces\privat\Time\Debug" -L"D:\workspaces\privat\Webduino\Debug" -Os -Wl,--gc-sections,--relax -mmcu=atmega2560 -o "Aquaduino.elf" $(OBJS) $(USER_OBJS) $(LIBS)
@@ -58,5 +68,13 @@ clean:
 
 .PHONY: all clean dependents
 .SECONDARY:
+D:/workspaces/privat/Arduino/Debug/libArduino.a:
+D:/workspaces/privat/Ethernet/Debug/libEthernet.a:
+D:/workspaces/privat/OneWire/Debug/libOneWire.a:
+D:/workspaces/privat/SD/Debug/libSD.a:
+D:/workspaces/privat/SPI/Debug/libSPI.a:
+D:/workspaces/privat/TemplateParser/Debug/libTemplateParser.a:
+D:/workspaces/privat/Time/Debug/libTime.a:
+D:/workspaces/privat/Webduino/Debug/libWebduino.a:
 
 -include ../makefile.targets
