@@ -53,7 +53,7 @@ uint16_t PWMOutput::deserialize(void* data, uint16_t size)
 
 void PWMOutput::on()
 {
-    if (m_Enabled)
+    if (!m_locked)
     {
         setPWM(1.0);
     }
@@ -61,7 +61,7 @@ void PWMOutput::on()
 
 void PWMOutput::off()
 {
-    if (m_Enabled)
+    if (!m_locked)
     {
         setPWM(0.0);
     }
@@ -79,7 +79,7 @@ int8_t PWMOutput::supportsPWM()
 
 void PWMOutput::setPWM(float dC)
 {
-    if (m_Enabled)
+    if (m_locked)
     {
         //100% is enough...
         if (dC > 1.0)

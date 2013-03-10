@@ -37,7 +37,7 @@ private:
 
 protected:
     int8_t m_ControlledBy;
-    int8_t m_Enabled;
+    int8_t m_locked;
     virtual ~Actuator();
 
 public:
@@ -46,9 +46,9 @@ public:
     void setController(int8_t controller);
     int8_t getController();
 
-    virtual void enable();
-    virtual void disable();
-    virtual int8_t isEnabled();
+    virtual void lock();
+    virtual void unlock();
+    virtual int8_t isLocked();
 
     virtual void on() = 0;
     virtual void off() = 0;

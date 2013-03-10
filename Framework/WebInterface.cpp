@@ -87,9 +87,10 @@ enum
     T_ACTUATORNAME,
     T_CSELECT,
     T_COPTIONS,
-    T_ESELECT,
-    T_EOPTIONS,
-    T_ACTUATORSTATE
+    T_LSELECT,
+    T_LOPTIONS,
+    T_SSELECT,
+    T_SOPTIONS,
 };
 
 enum
@@ -158,9 +159,10 @@ static const char progTemplateRowIActuator[] PROGMEM = "##IACTUATOR##";
 static const char progTemplateRowActuatorName[] PROGMEM = "##ACTUATORNAME##";
 static const char progTemplateRowCSelect[] PROGMEM = "##CSELECT##";
 static const char progTemplateRowCOptions[] PROGMEM = "##COPTIONS##";
-static const char progTemplateRowESelect[] PROGMEM = "##ESELECT##";
-static const char progTemplateRowEOptions[] PROGMEM = "##EOPTIONS##";
-static const char progTemplateRowActuatorState[] PROGMEM = "##ACTUATORSTATE##";
+static const char progTemplateRowLSelect[] PROGMEM = "##LSELECT##";
+static const char progTemplateRowLOptions[] PROGMEM = "##LOPTIONS##";
+static const char progTemplateRowSSelect[] PROGMEM = "##SSELECT##";
+static const char progTemplateRowSOptions[] PROGMEM = "##SOPTIONS##";
 
 static const char* const templateFileString[] PROGMEM =
     { progTemplateRow, progTemplateDHCPSelectOption, progTemplateIP1,
@@ -175,8 +177,8 @@ static const char* const templateFileString[] PROGMEM =
 static const char* const templateRowFileString[] PROGMEM =
     { progTemplateRowColor, progTemplateRowIActuator,
       progTemplateRowActuatorName, progTemplateRowCSelect,
-      progTemplateRowCOptions, progTemplateRowESelect, progTemplateRowEOptions,
-      progTemplateRowActuatorState };
+      progTemplateRowCOptions, progTemplateRowLSelect, progTemplateRowLOptions,
+      progTemplateRowSSelect, progTemplateRowSOptions };
 
 static const char progInputDHCP[] PROGMEM = "dhcp";
 static const char progInputIP1[] PROGMEM = "ip1";
@@ -308,7 +310,7 @@ void printActuatorTable(WebServer* server)
     int i, j;
     int16_t matchIdx = 0;
     TemplateParser* parser;
-    char actuatorID[5], controllerID[5], enabledID[5];
+    char actuatorID[5], controllerID[5], lockedID[5], stateID[5];
 
     Actuator* currentActuator;
     Controller* currentController;
@@ -366,27 +368,29 @@ void printActuatorTable(WebServer* server)
                                            server);
                 }
                 break;
-            case T_ESELECT:
-                enabledID[0] = 'E';
-                itoa(i, &enabledID[1], 10);
-                server->print(enabledID);
+            case T_LSELECT:
+                lockedID[0] = 'L';
+                itoa(i, &lockedID[1], 10);
+                server->print(lockedID);
                 break;
-            case T_EOPTIONS:
-                parser->optionListItem("Disabled", "0", 0, server);
-                parser->optionListItem("Enabled",
+            case T_LOPTIONS:
+                parser->optionListItem("Unlocked", "0", 0, server);
+                parser->optionListItem("Locked",
                                        "1",
-                                       currentActuator->isEnabled(),
+                                       currentActuator->isLocked(),
                                        server);
                 break;
-            case T_ACTUATORSTATE:
-                if (currentActuator->isOn())
-                {
-                    server->print("On");
-                }
-                else
-                {
-                    server->print("Off");
-                }
+            case T_SSELECT:
+                stateID[0] = 'S';
+                itoa(i, &stateID[1], 10);
+                server->print(stateID);
+                break;
+            case T_SOPTIONS:
+                parser->optionListItem("Off", "0", 0, server);
+                parser->optionListItem("On",
+                                       "1",
+                                       currentActuator->isOn(),
+                                       server);
                 break;
             }
         }
@@ -655,13 +659,22 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
                 controllerIdx = atoi(value);
                 aquaduino->getActuator(actuatorIdx)->setController(controllerIdx);
             }
-            else if (name[0] == 'E' && name[1] >= '0' && name[1] <= '9')
+            else if (name[0] == 'L' && name[1] >= '0' && name[1] <= '9')
             {
                 actuatorIdx = atoi(&name[1]);
                 if (atoi(value) == 1)
-                    aquaduino->getActuator(actuatorIdx)->enable();
+                    aquaduino->getActuator(actuatorIdx)->lock();
                 else
-                    aquaduino->getActuator(actuatorIdx)->disable();
+                    aquaduino->getActuator(actuatorIdx)->unlock();
+            }
+            else if (name[0] == 'S' && name[1] >= '0' && name[1] <= '9')
+            {
+                actuatorIdx = atoi(&name[1]);
+                if ((atoi(value) == 1) && (aquaduino->getActuator(actuatorIdx)->getController()
+                        == -1))
+                    aquaduino->getActuator(actuatorIdx)->on();
+                else
+                    aquaduino->getActuator(actuatorIdx)->off();
             }
 
         }

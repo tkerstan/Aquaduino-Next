@@ -21,7 +21,7 @@
 #include "Actuator.h"
 
 Actuator::Actuator(const char* name) :
-        m_Enabled(1)
+        m_locked(1)
 {
     m_ControlledBy = -1;
     setName(name);
@@ -41,19 +41,17 @@ int8_t Actuator::getController()
     return m_ControlledBy;
 }
 
-void Actuator::enable()
+void Actuator::lock()
 {
-    m_Enabled = true;
-    this->on();
+    m_locked = true;
 }
 
-void Actuator::disable()
+void Actuator::unlock()
 {
-    this->off();
-    m_Enabled = false;
+    m_locked = false;
 }
 
-int8_t Actuator::isEnabled()
+int8_t Actuator::isLocked()
 {
-    return m_Enabled;
+    return m_locked;
 }

@@ -48,7 +48,7 @@ DigitalOutput::DigitalOutput(const char* name, int8_t pin, uint8_t onValue,
     pinMode(pin, OUTPUT);
     this->onValue = onValue;
     this->offValue = offValue;
-    this->m_Enabled = true;
+    this->m_locked = false;
     this->on();
 }
 
@@ -70,13 +70,13 @@ uint16_t DigitalOutput::deserialize(void* data, uint16_t size)
 
 void DigitalOutput::on()
 {
-    if (m_Enabled)
+    if (!m_locked)
         digitalWrite(pin, onValue);
 }
 
 void DigitalOutput::off()
 {
-    if (m_Enabled)
+    if (!m_locked)
         digitalWrite(pin, offValue);
 }
 
