@@ -79,8 +79,27 @@ Aquaduino::Aquaduino() :
     myMAC[1] = 0xAD;
     myMAC[2] = 0xBE;
     myMAC[3] = 0xEF;
-    myMAC[4] = 0xFE;
-    myMAC[5] = 0xED;
+    myMAC[4] = 0xDE;
+    myMAC[5] = 0xAD;
+
+    m_ConfigManager = new SDConfigManager("config");
+    readConfig(this);
+
+    if (doDHCP)
+    {
+        Serial.println(F("Waiting for DHCP reply..."));
+        status = Ethernet.begin(myMAC);
+    }
+    if (!doDHCP || !status)
+    {
+        Serial.println(F("Using static network configuration..."));
+        Ethernet.begin(myMAC, myIP, myDNS, myGateway, myNetmask);
+    }
+
+    myIP = Ethernet.localIP();
+    myDNS = Ethernet.dnsServerIP();
+    myGateway = Ethernet.gatewayIP();
+    myNetmask = Ethernet.subnetMask();
 
     Serial.print(F("IP: "));
     Serial.println(myIP);
@@ -93,23 +112,11 @@ Aquaduino::Aquaduino() :
     Serial.print(F("NTP Server: "));
     Serial.println(myNTP);
 
-    m_ConfigManager = new SDConfigManager("config");
-    readConfig(this);
-
-    if (doDHCP)
-        status = Ethernet.begin(myMAC);
-    if (!doDHCP || !status)
-        Ethernet.begin(myMAC, myIP, myDNS, myGateway, myNetmask);
-
-    myIP = Ethernet.localIP();
-    myDNS = Ethernet.dnsServerIP();
-    myGateway = Ethernet.gatewayIP();
-    myNetmask = Ethernet.subnetMask();
-
     //Init Time. If NTP Sync fails this will be used.
     setTime(0, 0, 0, 1, 1, 42);
     if (doNTP)
     {
+        Serial.println(F("Syncing time using NTP..."));
         enableNTP();
     }
 
@@ -493,7 +500,7 @@ void Aquaduino::run()
  * My system has 24 Power Outlets controlled by the Pins 14-37,
  * a Level sensor @ pin 40 and a DS18S20 @ pin 42.
  */
-const static uint8_t POWER_OUTLETS = 24;
+const static uint8_t POWER_OUTLETS = 8;
 const static uint8_t POWER_OUTLET_START_PIN = 14;
 const static uint8_t LEVEL_SENSOR_PIN = 38;
 const static uint8_t TEMPERATURE_SENSOR_PIN = 39;
@@ -565,8 +572,9 @@ void setup()
         itoa(i, &name[2], 10);
         powerOutlets[i] = new DigitalOutput(name,
                                             POWER_OUTLET_START_PIN + i,
-                                            LOW,
-                                            HIGH);
+                                            HIGH,
+                                            LOW);
+        powerOutlets[i]->on();
         aquaduino->addActuator(powerOutlets[i]);
     }
 
