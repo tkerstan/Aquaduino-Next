@@ -6,5 +6,4 @@ size: all
 
 	
 upload: hex
-	avrdude -CD:\IDE\arduino-1.0.3\hardware/tools/avr/etc/avrdude.conf -patmega2560 -cwiring -P\\.\COM6 -b115200 -D -Uflash:w:Aquaduino.hex:i 
-	
+	avrdude -C..\avrdude.conf -patmega2560 -cwiring -P\\.\COM4 -b115200 -D -Uflash:w:Aquaduino.hex:i 
