@@ -125,7 +125,7 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
 
     strcpy_P(templateFileName, progTemplateFileName);
 
-    sprintf(temperature, "%f", aquaduino->getTemperature());
+    dtostrf(aquaduino->getTemperature(),5,2, temperature);
     itoa(actorThreshold, threshold, 10);
     itoa(maxPWM, pwmmax, 10);
 
