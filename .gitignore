@@ -7,3 +7,5 @@
 *.bin
 *.hex
 Boards/
+Debug/
+Release/
