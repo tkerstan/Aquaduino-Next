@@ -115,11 +115,7 @@ Aquaduino::Aquaduino() :
 
     //Init Time. If NTP Sync fails this will be used.
     setTime(0, 0, 0, 1, 1, 42);
-    if (doNTP)
-    {
-        Serial.println(F("Syncing time using NTP..."));
-        enableNTP();
-    }
+}
 
 void Aquaduino::setMAC(uint8_t* mac)
 {
@@ -573,6 +569,13 @@ void setup()
 {
     Serial.begin(9600);
     aquaduino = new Aquaduino();
+
+    if (aquaduino->isNTPEnabled())
+    {
+        Serial.println(F("Syncing time using NTP..."));
+        aquaduino->enableNTP();
+    }
+
     webServer = new WebServer("", 80);
     aquaduino->setWebserver(webServer);
 
