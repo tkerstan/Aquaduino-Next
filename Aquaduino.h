@@ -62,6 +62,9 @@ private:
 public:
     Aquaduino();
 
+    void setMAC(uint8_t* mac);
+    void getMAC(uint8_t* mac);
+
     IPAddress* getIP();
     void setIP(IPAddress* ip);
 

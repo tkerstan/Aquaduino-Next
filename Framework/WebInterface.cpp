@@ -52,6 +52,12 @@ static const char progTemplateFileName[] PROGMEM = "conf.htm";
 enum
 {
     T_ACTORROW,
+    T_MAC1,
+    T_MAC2,
+    T_MAC3,
+    T_MAC4,
+    T_MAC5,
+    T_MAC6,
     T_DHCPSELECTOPTION,
     T_IP1,
     T_IP2,
@@ -95,6 +101,12 @@ enum
 
 enum
 {
+    I_MAC1,
+    I_MAC2,
+    I_MAC3,
+    I_MAC4,
+    I_MAC5,
+    I_MAC6,
     I_DHCP,
     I_IP1,
     I_IP2,
@@ -125,6 +137,12 @@ enum
 };
 
 static const char progTemplateRow[] PROGMEM = "##ACTORROW##";
+static const char progTemplateMAC1[] PROGMEM = "##MAC1##";
+static const char progTemplateMAC2[] PROGMEM = "##MAC2##";
+static const char progTemplateMAC3[] PROGMEM = "##MAC3##";
+static const char progTemplateMAC4[] PROGMEM = "##MAC4##";
+static const char progTemplateMAC5[] PROGMEM = "##MAC5##";
+static const char progTemplateMAC6[] PROGMEM = "##MAC6##";
 static const char progTemplateDHCPSelectOption[] PROGMEM
 = "##DHCPSELECTOPTION##";
 static const char progTemplateIP1[] PROGMEM = "##IP1##";
@@ -165,14 +183,16 @@ static const char progTemplateRowSSelect[] PROGMEM = "##SSELECT##";
 static const char progTemplateRowSOptions[] PROGMEM = "##SOPTIONS##";
 
 static const char* const templateFileString[] PROGMEM =
-    { progTemplateRow, progTemplateDHCPSelectOption, progTemplateIP1,
-      progTemplateIP2, progTemplateIP3, progTemplateIP4, progTemplateNM1,
-      progTemplateNM2, progTemplateNM3, progTemplateNM4, progTemplateGW1,
-      progTemplateGW2, progTemplateGW3, progTemplateGW4, progTemplateDNS1,
-      progTemplateDNS2, progTemplateDNS3, progTemplateDNS4,
-      progTemplateNTPSelectOption, progTemplateNTP1, progTemplateNTP2,
-      progTemplateNTP3, progTemplateNTP4, progTemplateNTPPeriod,
-      progTemplateTimeHour, progTemplateTimeMinute, progTemplateTimeSecond };
+    { progTemplateRow, progTemplateMAC1, progTemplateMAC2, progTemplateMAC3,
+      progTemplateMAC4, progTemplateMAC5, progTemplateMAC6,
+      progTemplateDHCPSelectOption, progTemplateIP1, progTemplateIP2,
+      progTemplateIP3, progTemplateIP4, progTemplateNM1, progTemplateNM2,
+      progTemplateNM3, progTemplateNM4, progTemplateGW1, progTemplateGW2,
+      progTemplateGW3, progTemplateGW4, progTemplateDNS1, progTemplateDNS2,
+      progTemplateDNS3, progTemplateDNS4, progTemplateNTPSelectOption,
+      progTemplateNTP1, progTemplateNTP2, progTemplateNTP3, progTemplateNTP4,
+      progTemplateNTPPeriod, progTemplateTimeHour, progTemplateTimeMinute,
+      progTemplateTimeSecond };
 
 static const char* const templateRowFileString[] PROGMEM =
     { progTemplateRowColor, progTemplateRowIActuator,
@@ -180,6 +200,12 @@ static const char* const templateRowFileString[] PROGMEM =
       progTemplateRowCOptions, progTemplateRowLSelect, progTemplateRowLOptions,
       progTemplateRowSSelect, progTemplateRowSOptions };
 
+static const char progInputMAC1[] PROGMEM = "mac1";
+static const char progInputMAC2[] PROGMEM = "mac2";
+static const char progInputMAC3[] PROGMEM = "mac3";
+static const char progInputMAC4[] PROGMEM = "mac4";
+static const char progInputMAC5[] PROGMEM = "mac5";
+static const char progInputMAC6[] PROGMEM = "mac6";
 static const char progInputDHCP[] PROGMEM = "dhcp";
 static const char progInputIP1[] PROGMEM = "ip1";
 static const char progInputIP2[] PROGMEM = "ip2";
@@ -208,8 +234,9 @@ static const char progInputMinute[] PROGMEM = "minute";
 static const char progInputSecond[] PROGMEM = "second";
 
 static const char* const inputStrings[] PROGMEM =
-    { progInputDHCP, progInputIP1, progInputIP2, progInputIP3, progInputIP4,
-      progInputNetmask1, progInputNetmask2, progInputNetmask3,
+    { progInputMAC1, progInputMAC2, progInputMAC3, progInputMAC4, progInputMAC5,
+      progInputMAC6, progInputDHCP, progInputIP1, progInputIP2, progInputIP3,
+      progInputIP4, progInputNetmask1, progInputNetmask2, progInputNetmask3,
       progInputNetmask4, progInputGateway1, progInputGateway2,
       progInputGateway3, progInputGateway4, progInputDNS1, progInputDNS2,
       progInputDNS3, progInputDNS4, progInputNTP, progInputNTP1, progInputNTP2,
@@ -404,6 +431,7 @@ void printTopLevelTemplate(WebServer* server)
     File templateFile;
     TemplateParser* parser;
     int16_t matchIdx = 0;
+    uint8_t mac[6];
     IPAddress* ip, *netmask, *dns, *gw, *ntp;
 
     char templateFileName[sizeof(progTemplateFileName)];
@@ -412,6 +440,7 @@ void printTopLevelTemplate(WebServer* server)
     parser = aquaduino->getTemplateParser();
     templateFile = SD.open(templateFileName, FILE_READ);
 
+    aquaduino->getMAC(mac);
     ip = aquaduino->getIP();
     netmask = aquaduino->getNetmask();
     gw = aquaduino->getGateway();
@@ -429,6 +458,24 @@ void printTopLevelTemplate(WebServer* server)
         {
         case T_ACTORROW:
             printActuatorTable(server);
+            break;
+        case T_MAC1:
+            server->print(mac[0], HEX);
+            break;
+        case T_MAC2:
+            server->print(mac[1], HEX);
+            break;
+        case T_MAC3:
+            server->print(mac[2], HEX);
+            break;
+        case T_MAC4:
+            server->print(mac[3], HEX);
+            break;
+        case T_MAC5:
+            server->print(mac[4], HEX);
+            break;
+        case T_MAC6:
+            server->print(mac[5], HEX);
             break;
         case T_DHCPSELECTOPTION:
             if (aquaduino->isDHCPEnabled())
@@ -534,6 +581,7 @@ void printTopLevelTemplate(WebServer* server)
 int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
 {
     int8_t repeat;
+    uint8_t mac[6];
     char name[30], value[30];
     IPAddress ip, netmask, gw, dns, ntp;
     int8_t doNTP = 0, doDHCP = 0;
@@ -550,7 +598,19 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
     {
         while ((repeat = server->readPOSTparam(name, 30, value, 30)) > 0)
         {
-            if (strcmp_P(name, (PGM_P) pgm_read_word(&(inputStrings[I_IP1]))) == 0)
+            if (strcmp_P(name, (PGM_P) pgm_read_word(&(inputStrings[I_MAC1]))) == 0)
+                mac[0] = strtol(value, NULL, 16);
+            else if (strcmp_P(name, (PGM_P) pgm_read_word(&(inputStrings[I_MAC2]))) == 0)
+                mac[1] = strtol(value, NULL, 16);
+            else if (strcmp_P(name, (PGM_P) pgm_read_word(&(inputStrings[I_MAC3]))) == 0)
+                mac[2] = strtol(value, NULL, 16);
+            else if (strcmp_P(name, (PGM_P) pgm_read_word(&(inputStrings[I_MAC4]))) == 0)
+                mac[3] = strtol(value, NULL, 16);
+            else if (strcmp_P(name, (PGM_P) pgm_read_word(&(inputStrings[I_MAC5]))) == 0)
+                mac[4] = strtol(value, NULL, 16);
+            else if (strcmp_P(name, (PGM_P) pgm_read_word(&(inputStrings[I_MAC6]))) == 0)
+                mac[5] = strtol(value, NULL, 16);
+            else if (strcmp_P(name, (PGM_P) pgm_read_word(&(inputStrings[I_IP1]))) == 0)
                 ip[0] = atoi(value);
             else if (strcmp_P(name,
                               (PGM_P) pgm_read_word(&(inputStrings[I_IP2])))
@@ -679,6 +739,7 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
 
         }
 
+        aquaduino->setMAC(mac);
         aquaduino->setIP(&ip);
         aquaduino->setNetmask(&netmask);
         aquaduino->setGateway(&gw);

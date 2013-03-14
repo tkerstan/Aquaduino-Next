@@ -75,6 +75,8 @@ Aquaduino::Aquaduino() :
         while(1);
     }
 
+    m_ConfigManager = new SDConfigManager("config");
+
     myMAC[0] = 0xDE;
     myMAC[1] = 0xAD;
     myMAC[2] = 0xBE;
@@ -82,7 +84,6 @@ Aquaduino::Aquaduino() :
     myMAC[4] = 0xDE;
     myMAC[5] = 0xAD;
 
-    m_ConfigManager = new SDConfigManager("config");
     readConfig(this);
 
     if (doDHCP)
@@ -120,6 +121,15 @@ Aquaduino::Aquaduino() :
         enableNTP();
     }
 
+void Aquaduino::setMAC(uint8_t* mac)
+{
+    for (int i = 0; i < 6; i++)
+        myMAC[i] = mac[i];
+}
+void Aquaduino::getMAC(uint8_t* mac)
+{
+    for (int i = 0; i < 6; i++)
+        mac[i] = myMAC[i];
 }
 
 IPAddress* Aquaduino::getIP()
