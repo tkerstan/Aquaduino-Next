@@ -21,6 +21,8 @@
 #ifndef WEBINTERFACE_H_
 #define WEBINTERFACE_H_
 
+#define WEBDUINO_NO_IMPLEMENTATION
+
 #include <WebServer.h>
 
 class WebInterface
