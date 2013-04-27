@@ -3,14 +3,6 @@
 	<name>Aquaduino</name>
 	<comment></comment>
 	<projects>
-		<project>Arduino</project>
-		<project>Ethernet</project>
-		<project>OneWire</project>
-		<project>SD</project>
-		<project>SPI</project>
-		<project>TemplateParser</project>
-		<project>Time</project>
-		<project>Webduino</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

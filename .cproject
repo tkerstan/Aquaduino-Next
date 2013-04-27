@@ -5,11 +5,6 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.lib.debug.258489203" moduleId="org.eclipse.cdt.core.settings" name="Debug">
 				<externalSettings>
 					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Aquaduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Debug"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Framework/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
 						<entry flags="RESOLVED" kind="libraryFile" name="Aquaduino" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
@@ -42,18 +37,7 @@
 								</option>
 								<option id="gnu.c.compiler.option.optimization.flags.684871391" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" value="-ffunction-sections -fdata-sections -fno-exceptions" valueType="string"/>
 								<option id="gnu.c.compiler.option.debugging.other.2053838711" name="Other debugging flags" superClass="gnu.c.compiler.option.debugging.other" value="" valueType="string"/>
-								<option id="gnu.c.compiler.option.include.paths.857029853" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Arduino}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Aquaduino}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/OneWire}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SD}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SD/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SPI}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Time}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Webduino}&quot;"/>
-								</option>
+								<option id="gnu.c.compiler.option.include.paths.857029853" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath"/>
 								<option id="gnu.c.compiler.option.misc.other.1987380623" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 -mmcu=atmega2560" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.454523363" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -63,15 +47,13 @@
 								<option id="gnu.cpp.compiler.option.include.paths.685859551" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Aquaduino}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Arduino}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/OneWire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/OneWire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SD}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SD/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SPI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TemplateParser}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Time}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Webduino}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TemplateParser}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.flags.765758958" name="Other optimization flags" superClass="gnu.cpp.compiler.option.optimization.flags" value="-ffunction-sections -fdata-sections -fno-exceptions" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.debugging.other.344890098" name="Other debugging flags" superClass="gnu.cpp.compiler.option.debugging.other" value="" valueType="string"/>
@@ -91,23 +73,23 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.8118688" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
 								<option id="gnu.cpp.link.option.libs.1180732614" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="c"/>
-									<listOptionValue builtIn="false" value="TemplateParser"/>
-									<listOptionValue builtIn="false" value="Time"/>
-									<listOptionValue builtIn="false" value="Arduino"/>
-									<listOptionValue builtIn="false" value="Ethernet"/>
-									<listOptionValue builtIn="false" value="SPI"/>
-									<listOptionValue builtIn="false" value="SD"/>
-									<listOptionValue builtIn="false" value="OneWire"/>
-									<listOptionValue builtIn="false" value="Webduino"/>
 									<listOptionValue builtIn="false" value="m"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Arduino"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Ethernet"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OneWire"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="SD"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="SPI"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="TemplateParser"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Time"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Webduino"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.625669167" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Arduino/Debug}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TemplateParser/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/OneWire/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SD/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SPI/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TemplateParser/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Time/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Webduino/Debug}&quot;"/>
 								</option>
@@ -119,18 +101,7 @@
 							</tool>
 							<tool errorParsers="" id="cdt.managedbuild.tool.gnu.cross.archiver.902043587" name="Cross GCC Archiver" superClass="cdt.managedbuild.tool.gnu.cross.archiver"/>
 							<tool errorParsers="org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.tool.gnu.cross.assembler.568734810" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler">
-								<option id="gnu.both.asm.option.include.paths.1884762712" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Arduino}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Aquaduino}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/OneWire}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SD}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SD/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SPI}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Time}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Webduino}&quot;"/>
-								</option>
+								<option id="gnu.both.asm.option.include.paths.1884762712" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath"/>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2127420491" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
@@ -140,96 +111,13 @@
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
-				<externalSettings containerId="Arduino;cdt.managedbuild.config.gnu.cross.lib.debug.258489203" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
-					</externalSetting>
-				</externalSettings>
-				<externalSettings containerId="Ethernet;cdt.managedbuild.config.gnu.cross.lib.debug.258489203" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Ethernet"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Debug"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Ethernet/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Ethernet" srcPrefixMapping="" srcRootPath=""/>
-					</externalSetting>
-				</externalSettings>
-				<externalSettings containerId="OneWire;cdt.managedbuild.config.gnu.cross.lib.debug.258489203" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/OneWire"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Debug"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/OneWire/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
-						<entry flags="RESOLVED" kind="libraryFile" name="OneWire" srcPrefixMapping="" srcRootPath=""/>
-					</externalSetting>
-				</externalSettings>
-				<externalSettings containerId="SD;cdt.managedbuild.config.gnu.cross.lib.debug.258489203" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/SD"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Debug"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/SD/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
-						<entry flags="RESOLVED" kind="libraryFile" name="SD" srcPrefixMapping="" srcRootPath=""/>
-					</externalSetting>
-				</externalSettings>
-				<externalSettings containerId="SPI;cdt.managedbuild.config.gnu.cross.lib.debug.258489203" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/SPI"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Debug"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/SPI/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
-						<entry flags="RESOLVED" kind="libraryFile" name="SPI" srcPrefixMapping="" srcRootPath=""/>
-					</externalSetting>
-				</externalSettings>
-				<externalSettings containerId="TemplateParser;cdt.managedbuild.config.gnu.cross.lib.debug.258489203" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/SPI"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Debug"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/SPI/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
-						<entry flags="RESOLVED" kind="libraryFile" name="SPI" srcPrefixMapping="" srcRootPath=""/>
-					</externalSetting>
-				</externalSettings>
-				<externalSettings containerId="Time;cdt.managedbuild.config.gnu.cross.lib.debug.258489203" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Time"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Debug"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Time/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Time" srcPrefixMapping="" srcRootPath=""/>
-					</externalSetting>
-				</externalSettings>
-				<externalSettings containerId="Webduino;cdt.managedbuild.config.gnu.cross.lib.debug.258489203" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Webduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Debug"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Webduino/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Webduino" srcPrefixMapping="" srcRootPath=""/>
-					</externalSetting>
-				</externalSettings>
-			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 		<cconfiguration id="cdt.managedbuild.config.gnu.cross.lib.release.1643897995">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.lib.release.1643897995" moduleId="org.eclipse.cdt.core.settings" name="Release">
 				<externalSettings>
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Aquaduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Release"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Framework/Release"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Aquaduino" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -261,18 +149,7 @@
 								</option>
 								<option id="gnu.c.compiler.option.optimization.flags.90849195" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" value="-ffunction-sections -fdata-sections -fno-exceptions" valueType="string"/>
 								<option id="gnu.c.compiler.option.debugging.other.1926855709" name="Other debugging flags" superClass="gnu.c.compiler.option.debugging.other" value="" valueType="string"/>
-								<option id="gnu.c.compiler.option.include.paths.1032261354" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Arduino}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Aquaduino}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/OneWire}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SD}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SD/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SPI}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Time}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Webduino}&quot;"/>
-								</option>
+								<option id="gnu.c.compiler.option.include.paths.1032261354" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath"/>
 								<option id="gnu.c.compiler.option.misc.other.299804569" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 -mmcu=atmega2560" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.320544101" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -290,17 +167,15 @@
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.74545562" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -mmcu=atmega2560" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1062625164" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Arduino}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Aquaduino}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/OneWire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Arduino}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/OneWire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SD}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SD/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SPI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TemplateParser}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Time}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Webduino}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TemplateParser}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.undef.921691239" name="Undefined symbols (-U)" superClass="gnu.cpp.compiler.option.preprocessor.undef"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1806954615" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -308,26 +183,26 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.1946170625" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker"/>
 							<tool command="gcc" id="cdt.managedbuild.tool.gnu.cross.cpp.linker.1199532484" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
 								<option id="gnu.cpp.link.option.libs.2089195022" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Arduino"/>
 									<listOptionValue builtIn="false" value="c"/>
-									<listOptionValue builtIn="false" value="TemplateParser"/>
-									<listOptionValue builtIn="false" value="Time"/>
-									<listOptionValue builtIn="false" value="Ethernet"/>
-									<listOptionValue builtIn="false" value="SPI"/>
-									<listOptionValue builtIn="false" value="SD"/>
-									<listOptionValue builtIn="false" value="OneWire"/>
-									<listOptionValue builtIn="false" value="Webduino"/>
 									<listOptionValue builtIn="false" value="m"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Arduino"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Ethernet"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OneWire"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="SD"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="SPI"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="TemplateParser"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Time"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Webduino"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.105320336" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Arduino/Release}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TemplateParser/Release}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet/Release}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/OneWire/Release}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SD/Release}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SPI/Release}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TemplateParser/Release}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Time/Release}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Webduino/Release}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SD/Release}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.flags.802852982" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-Os -Wl,--gc-sections,--relax -mmcu=atmega2560" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.371416370" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
@@ -337,18 +212,7 @@
 							</tool>
 							<tool command="ar" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="" id="cdt.managedbuild.tool.gnu.cross.archiver.1591307568" name="Cross GCC Archiver" superClass="cdt.managedbuild.tool.gnu.cross.archiver"/>
 							<tool command="as" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.tool.gnu.cross.assembler.555363965" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler">
-								<option id="gnu.both.asm.option.include.paths.1539501892" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Arduino}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Aquaduino}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/OneWire}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SD}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SD/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SPI}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Time}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Webduino}&quot;"/>
-								</option>
+								<option id="gnu.both.asm.option.include.paths.1539501892" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath"/>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1644428534" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
@@ -358,64 +222,7 @@
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
-				<externalSettings containerId="Arduino;cdt.managedbuild.config.gnu.cross.lib.release.1643897995" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Release"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
-					</externalSetting>
-				</externalSettings>
-				<externalSettings containerId="Ethernet;cdt.managedbuild.config.gnu.cross.lib.release.1643897995" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Release"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
-					</externalSetting>
-				</externalSettings>
-				<externalSettings containerId="OneWire;cdt.managedbuild.config.gnu.cross.lib.release.1643897995" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Release"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
-					</externalSetting>
-				</externalSettings>
-				<externalSettings containerId="SD;cdt.managedbuild.config.gnu.cross.lib.release.1643897995" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Release"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
-					</externalSetting>
-				</externalSettings>
-				<externalSettings containerId="SPI;cdt.managedbuild.config.gnu.cross.lib.release.1643897995" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Release"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
-					</externalSetting>
-				</externalSettings>
-				<externalSettings containerId="TemplateParser;cdt.managedbuild.config.gnu.cross.lib.release.1643897995" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Release"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
-					</externalSetting>
-				</externalSettings>
-				<externalSettings containerId="Time;cdt.managedbuild.config.gnu.cross.lib.release.1643897995" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Release"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
-					</externalSetting>
-				</externalSettings>
-				<externalSettings containerId="Webduino;cdt.managedbuild.config.gnu.cross.lib.release.1643897995" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Arduino/Release"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Arduino" srcPrefixMapping="" srcRootPath=""/>
-					</externalSetting>
-				</externalSettings>
-			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
