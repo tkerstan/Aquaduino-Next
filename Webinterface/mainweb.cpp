@@ -26,7 +26,25 @@
 #include <TemplateParser.h>
 
 static const char pMFileName[] PROGMEM = "main.htm";
-static const char pCRowFileName[] PROGMEM = "mainrow.htm";
+static const char pCRowFileName[] PROGMEM = "maincrow.htm";
+static const char pARowFileName[] PROGMEM = "mainarow.htm";
+
+
+/*
+ * Shared Keywords
+ */
+static const char pLink[] PROGMEM = "##LINK##";
+static const char pName[] PROGMEM = "##NAME##";
+static const char pColor[] PROGMEM = "##COLOR##";
+
+/*
+ * Main Template
+ */
+
+enum
+{
+    M_TEMPERATURE, M_HOUR, M_MINUTE, M_SECOND, M_CONTROLLER, M_ACTUATOR
+};
 
 static const char pHour[] PROGMEM = "##HOUR##";
 static const char pMinute[] PROGMEM = "##MINUTE##";
@@ -35,48 +53,221 @@ static const char pTemperature[] PROGMEM
 = "##TEMPERATURE##";
 static const char pController[] PROGMEM = "##CONTROLLERROW##";
 static const char pActuator[] PROGMEM = "##ACTUATORROW##";
-static const char pLink[] PROGMEM = "##LINK##";
-static const char pName[] PROGMEM = "##NAME##";
-
-enum {
-    M_TEMPERATURE,
-    M_HOUR,
-    M_MINUTE,
-    M_SECOND,
-    M_CONTROLLER,
-    M_ACTUATOR
-};
 
 static const char* const mainTemplate[] PROGMEM =
     { pTemperature, pHour, pMinute, pSecond, pController, pActuator };
 
+/*
+ * Controller Template
+ */
+
 static const char* const controllerTemplate[] PROGMEM =
-    { pLink, pName };
+    { pLink, pName, pColor };
+
+/*
+ * Actuator Template
+ */
+
+enum
+{
+    A_COLOR,
+    A_IACTUATOR,
+    A_ACTUATORNAME,
+    A_CSELECT,
+    A_COPTIONS,
+    A_LSELECT,
+    A_LOPTIONS,
+    A_SSELECT,
+    A_SOPTIONS,
+};
+
+static const char pIActuator[] PROGMEM = "##IACTUATOR##";
+static const char pCSelect[] PROGMEM = "##CSELECT##";
+static const char pCOptions[] PROGMEM = "##COPTIONS##";
+static const char pLSelect[] PROGMEM = "##LSELECT##";
+static const char pLOptions[] PROGMEM = "##LOPTIONS##";
+static const char pSSelect[] PROGMEM = "##SSELECT##";
+static const char pSOptions[] PROGMEM = "##SOPTIONS##";
+
+static const char* const actuatorTemplate[] PROGMEM =
+    { pColor, pIActuator, pName, pCSelect, pCOptions, pLSelect, pLOptions,
+      pSSelect, pSOptions };
+
+
+void printActuatorTable(WebServer* server)
+{
+    char filename[sizeof(pARowFileName)];
+    File f;
+    int i, j;
+    int16_t matchIdx = 0;
+    TemplateParser* parser;
+    char actuatorID[5], controllerID[5], lockedID[5], stateID[5];
+
+    Actuator* currentActuator;
+    Controller* currentController;
+
+    parser = aquaduino->getTemplateParser();
+
+    strcpy_P(filename, pARowFileName);
+
+    aquaduino->resetActuatorIterator();
+
+    while ((i = aquaduino->getNextActuator(&currentActuator)) != -1)
+    {
+        f = SD.open(filename, FILE_READ);
+        while ((matchIdx =
+                parser->processTemplateUntilNextMatch(&f,
+                                                      actuatorTemplate,
+                                                      sizeof(actuatorTemplate) / sizeof(char*),
+                                                      server))
+               != -1)
+        {
+
+            switch (matchIdx)
+            {
+            case A_COLOR:
+                if (i % 2 == 0)
+                {
+                    server->print("#FFFFFF");
+                }
+                else
+                {
+                    server->print("#99CCFF");
+                }
+                break;
+            case A_IACTUATOR:
+                actuatorID[0] = 'A';
+                itoa(i, &actuatorID[1], 10);
+                server->print(actuatorID);
+                break;
+            case A_ACTUATORNAME:
+                server->print(currentActuator->getName());
+                break;
+            case A_CSELECT:
+                controllerID[0] = 'C';
+                itoa(i, &controllerID[1], 10);
+                server->print(controllerID);
+                break;
+            case A_COPTIONS:
+                aquaduino->resetControllerIterator();
+                while ((j = aquaduino->getNextController(&currentController)) != -1)
+                {
+                    itoa(j, controllerID, 10);
+                    parser->optionListItem(currentController->getName(),
+                                           controllerID,
+                                           currentActuator->getController() == j,
+                                           server);
+                }
+                break;
+            case A_LSELECT:
+                lockedID[0] = 'L';
+                itoa(i, &lockedID[1], 10);
+                server->print(lockedID);
+                break;
+            case A_LOPTIONS:
+                parser->optionListItem("Unlocked", "0", 0, server);
+                parser->optionListItem("Locked",
+                                       "1",
+                                       currentActuator->isLocked(),
+                                       server);
+                break;
+            case A_SSELECT:
+                stateID[0] = 'S';
+                itoa(i, &stateID[1], 10);
+                server->print(stateID);
+                break;
+            case A_SOPTIONS:
+                parser->optionListItem("Off", "0", 0, server);
+                parser->optionListItem("On",
+                                       "1",
+                                       currentActuator->isOn(),
+                                       server);
+                break;
+            }
+        }
+        f.close();
+    }
+
+}
 
 void defaultCmd(WebServer &server, WebServer::ConnectionType type, char *, bool)
 {
     TemplateParser* parser;
     char fileName[sizeof(pMFileName)];
     char cRowFileName[sizeof(pCRowFileName)];
-    char* replacementStrings[2];
+    char aRowFileName[sizeof(pARowFileName)];
+    char* replacementStrings[3];
     File templateFile;
-    File templateRow;
+    File templateCRow;
+    File templateARow;
     int16_t matchIdx;
     Controller* controller;
-    Actuator* actuator;
 
-    char url[AQUADUINO_STRING_LENGTH];
-    char name[AQUADUINO_STRING_LENGTH];
+    char name[30], value[30];
+    uint16_t actuatorIdx;
+    uint16_t controllerIdx;
+    Actuator* actuator;
+    int8_t repeat = 0;
+
+
+    char curl[AQUADUINO_STRING_LENGTH];
+    char cname[AQUADUINO_STRING_LENGTH];
 
     parser = aquaduino->getTemplateParser();
 
     strcpy_P(fileName, pMFileName);
     strcpy_P(cRowFileName, pCRowFileName);
+    strcpy_P(aRowFileName, pARowFileName);
 
     templateFile = SD.open(fileName, FILE_READ);
-    templateRow = SD.open(cRowFileName, FILE_READ);
+    templateCRow = SD.open(cRowFileName, FILE_READ);
+    templateARow = SD.open(aRowFileName, FILE_READ);
 
-    if (type != WebServer::HEAD)
+    if (type == WebServer::POST)
+    {
+        while ((repeat = server.readPOSTparam(name, 30, value, 30)) > 0)
+        {
+
+            if (name[0] == 'A' && name[1] >= '0' && name[1] <= '9')
+            {
+                actuatorIdx = atoi(&name[1]);
+                aquaduino->getActuator(actuatorIdx)->setName(value);
+            }
+            else if (name[0] == 'C' && name[1] >= '0' && name[1] <= '9')
+            {
+                actuatorIdx = atoi(&name[1]);
+                controllerIdx = atoi(value);
+                aquaduino->getActuator(actuatorIdx)->setController(controllerIdx);
+            }
+            else if (name[0] == 'L' && name[1] >= '0' && name[1] <= '9')
+            {
+                actuatorIdx = atoi(&name[1]);
+                if (atoi(value) == 1)
+                    aquaduino->getActuator(actuatorIdx)->lock();
+                else
+                    aquaduino->getActuator(actuatorIdx)->unlock();
+            }
+            else if (name[0] == 'S' && name[1] >= '0' && name[1] <= '9')
+            {
+                actuatorIdx = atoi(&name[1]);
+                if ((atoi(value) == 1) && (aquaduino->getActuator(actuatorIdx)->getController()
+                        == -1))
+                    aquaduino->getActuator(actuatorIdx)->on();
+                else
+                    aquaduino->getActuator(actuatorIdx)->off();
+            }
+        }
+
+        aquaduino->resetActuatorIterator();
+        while (aquaduino->getNextActuator(&actuator) != -1)
+        {
+            aquaduino->writeConfig(actuator);
+        }
+
+        server.httpSeeOther("/");
+
+    }
+    else if (type != WebServer::HEAD)
     {
         server.httpSuccess();
 
@@ -107,11 +298,12 @@ void defaultCmd(WebServer &server, WebServer::ConnectionType type, char *, bool)
                 aquaduino->resetControllerIterator();
                 while (aquaduino->getNextController(&controller) != -1)
                 {
-                    strcpy(url, controller->getURL());
-                    strcpy(name, controller->getName());
-                    replacementStrings[0] = url;
-                    replacementStrings[1] = name;
-                    parser->processSingleTemplate(&templateRow,
+                    strcpy(curl, controller->getURL());
+                    strcpy(cname, controller->getName());
+                    replacementStrings[0] = curl;
+                    replacementStrings[1] = cname;
+                    replacementStrings[2] = "99CCFF";
+                    parser->processSingleTemplate(&templateCRow,
                                                   controllerTemplate,
                                                   replacementStrings,
                                                   sizeof(controllerTemplate) / sizeof(char*),
@@ -119,23 +311,12 @@ void defaultCmd(WebServer &server, WebServer::ConnectionType type, char *, bool)
                 }
                 break;
             case M_ACTUATOR:
-                aquaduino->resetActuatorIterator();
-                while (aquaduino->getNextActuator(&actuator) != -1)
-                {
-                    strcpy(url, actuator->getURL());
-                    strcpy(name, actuator->getName());
-                    replacementStrings[0] = url;
-                    replacementStrings[1] = name;
-                    parser->processSingleTemplate(&templateRow,
-                                                  controllerTemplate,
-                                                  replacementStrings,
-                                                  sizeof(controllerTemplate) / sizeof(char*),
-                                                  &server);
-                }
+                printActuatorTable(&server);
                 break;
             }
         }
     }
     templateFile.close();
-    templateRow.close();
+    templateCRow.close();
+    templateARow.close();
 }

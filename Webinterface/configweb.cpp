@@ -65,19 +65,6 @@ enum
 
 enum
 {
-    T_ROW_COLOR,
-    T_ROW_IACTUATOR,
-    T_ROW_ACTUATORNAME,
-    T_ROW_CSELECT,
-    T_ROW_COPTIONS,
-    T_ROW_LSELECT,
-    T_ROW_LOPTIONS,
-    T_ROW_SSELECT,
-    T_ROW_SOPTIONS,
-};
-
-enum
-{
     I_MAC1,
     I_MAC2,
     I_MAC3,
@@ -148,17 +135,6 @@ static const char progConfigTemplateTimeHour[] PROGMEM = "##HOUR##";
 static const char progConfigTemplateTimeMinute[] PROGMEM = "##MINUTE##";
 static const char progConfigTemplateTimeSecond[] PROGMEM = "##SECOND##";
 
-static const char progConfigTemplateRowFileName[] PROGMEM = "confrow.htm";
-static const char progConfigTemplateRowColor[] PROGMEM = "##COLOR##";
-static const char progConfigTemplateRowIActuator[] PROGMEM = "##IACTUATOR##";
-static const char progConfigTemplateRowActuatorName[] PROGMEM = "##ACTUATORNAME##";
-static const char progConfigTemplateRowCSelect[] PROGMEM = "##CSELECT##";
-static const char progConfigTemplateRowCOptions[] PROGMEM = "##COPTIONS##";
-static const char progConfigTemplateRowLSelect[] PROGMEM = "##LSELECT##";
-static const char progConfigTemplateRowLOptions[] PROGMEM = "##LOPTIONS##";
-static const char progConfigTemplateRowSSelect[] PROGMEM = "##SSELECT##";
-static const char progConfigTemplateRowSOptions[] PROGMEM = "##SOPTIONS##";
-
 static const char* const configTemplateStrings[] PROGMEM =
     { progConfigTemplateRow, progConfigTemplateMAC1, progConfigTemplateMAC2, progConfigTemplateMAC3,
       progConfigTemplateMAC4, progConfigTemplateMAC5, progConfigTemplateMAC6,
@@ -170,12 +146,6 @@ static const char* const configTemplateStrings[] PROGMEM =
       progConfigTemplateNTP1, progConfigTemplateNTP2, progConfigTemplateNTP3, progConfigTemplateNTP4,
       progConfigTemplateNTPPeriod, progConfigTemplateTimeHour, progConfigTemplateTimeMinute,
       progConfigTemplateTimeSecond };
-
-static const char* const configTemplateRowStrings[] PROGMEM =
-    { progConfigTemplateRowColor, progConfigTemplateRowIActuator,
-      progConfigTemplateRowActuatorName, progConfigTemplateRowCSelect,
-      progConfigTemplateRowCOptions, progConfigTemplateRowLSelect, progConfigTemplateRowLOptions,
-      progConfigTemplateRowSSelect, progConfigTemplateRowSOptions };
 
 static const char progConfigInputMAC1[] PROGMEM = "mac1";
 static const char progConfigInputMAC2[] PROGMEM = "mac2";
@@ -220,102 +190,6 @@ static const char* const configInputStrings[] PROGMEM =
       progConfigInputNTP3, progConfigInputNTP4, progConfigInputNTPPeriod, progConfigInputHour,
       progConfigInputMinute, progConfigInputSecond };
 
-void printActuatorTable(WebServer* server)
-{
-    char templateRowFileName[sizeof(progConfigTemplateRowFileName)];
-    File templateRowFile;
-    int i, j;
-    int16_t matchIdx = 0;
-    TemplateParser* parser;
-    char actuatorID[5], controllerID[5], lockedID[5], stateID[5];
-
-    Actuator* currentActuator;
-    Controller* currentController;
-
-    parser = aquaduino->getTemplateParser();
-
-    strcpy_P(templateRowFileName, progConfigTemplateRowFileName);
-
-    aquaduino->resetActuatorIterator();
-
-    while ((i = aquaduino->getNextActuator(&currentActuator)) != -1)
-    {
-        templateRowFile = SD.open(templateRowFileName, FILE_READ);
-        while ((matchIdx =
-                parser->processTemplateUntilNextMatch(&templateRowFile,
-                                                      configTemplateRowStrings,
-                                                      sizeof(configTemplateRowStrings) / sizeof(char*),
-                                                      server))
-               != -1)
-        {
-
-            switch (matchIdx)
-            {
-            case T_ROW_COLOR:
-                if (i % 2 == 0)
-                {
-                    server->print("#FFFFFF");
-                }
-                else
-                {
-                    server->print("#99CCFF");
-                }
-                break;
-            case T_ROW_IACTUATOR:
-                actuatorID[0] = 'A';
-                itoa(i, &actuatorID[1], 10);
-                server->print(actuatorID);
-                break;
-            case T_ROW_ACTUATORNAME:
-                server->print(currentActuator->getName());
-                break;
-            case T_ROW_CSELECT:
-                controllerID[0] = 'C';
-                itoa(i, &controllerID[1], 10);
-                server->print(controllerID);
-                break;
-            case T_ROW_COPTIONS:
-                aquaduino->resetControllerIterator();
-                while ((j = aquaduino->getNextController(&currentController)) != -1)
-                {
-                    itoa(j, controllerID, 10);
-                    parser->optionListItem(currentController->getName(),
-                                           controllerID,
-                                           currentActuator->getController() == j,
-                                           server);
-                }
-                break;
-            case T_ROW_LSELECT:
-                lockedID[0] = 'L';
-                itoa(i, &lockedID[1], 10);
-                server->print(lockedID);
-                break;
-            case T_ROW_LOPTIONS:
-                parser->optionListItem("Unlocked", "0", 0, server);
-                parser->optionListItem("Locked",
-                                       "1",
-                                       currentActuator->isLocked(),
-                                       server);
-                break;
-            case T_ROW_SSELECT:
-                stateID[0] = 'S';
-                itoa(i, &stateID[1], 10);
-                server->print(stateID);
-                break;
-            case T_ROW_SOPTIONS:
-                parser->optionListItem("Off", "0", 0, server);
-                parser->optionListItem("On",
-                                       "1",
-                                       currentActuator->isOn(),
-                                       server);
-                break;
-            }
-        }
-        templateRowFile.close();
-    }
-
-}
-
 void printTopLevelTemplate(WebServer* server)
 {
     File templateFile;
@@ -347,7 +221,7 @@ void printTopLevelTemplate(WebServer* server)
         switch (matchIdx)
         {
         case T_ACTORROW:
-            printActuatorTable(server);
+            //printActuatorTable(server);
             break;
         case T_MAC1:
             server->print(mac[0], HEX);
@@ -598,34 +472,7 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
                               (PGM_P) pgm_read_word(&(configInputStrings[I_SECOND])))
                      == 0)
                 second = atoi(value);
-            else if (name[0] == 'A' && name[1] >= '0' && name[1] <= '9')
-            {
-                actuatorIdx = atoi(&name[1]);
-                aquaduino->getActuator(actuatorIdx)->setName(value);
-            }
-            else if (name[0] == 'C' && name[1] >= '0' && name[1] <= '9')
-            {
-                actuatorIdx = atoi(&name[1]);
-                controllerIdx = atoi(value);
-                aquaduino->getActuator(actuatorIdx)->setController(controllerIdx);
-            }
-            else if (name[0] == 'L' && name[1] >= '0' && name[1] <= '9')
-            {
-                actuatorIdx = atoi(&name[1]);
-                if (atoi(value) == 1)
-                    aquaduino->getActuator(actuatorIdx)->lock();
-                else
-                    aquaduino->getActuator(actuatorIdx)->unlock();
-            }
-            else if (name[0] == 'S' && name[1] >= '0' && name[1] <= '9')
-            {
-                actuatorIdx = atoi(&name[1]);
-                if ((atoi(value) == 1) && (aquaduino->getActuator(actuatorIdx)->getController()
-                        == -1))
-                    aquaduino->getActuator(actuatorIdx)->on();
-                else
-                    aquaduino->getActuator(actuatorIdx)->off();
-            }
+
 
         }
 
