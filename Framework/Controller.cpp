@@ -35,11 +35,11 @@ void Controller::allMyActuators(int8_t on)
 {
     int8_t i = 0;
     int8_t actuators = 0;
-    Actuator* assignedActuators[MAX_ACTUATORS] =
+    Actuator* assignedActuators[MAX_ACTORS] =
         { 0 };
     actuators = aquaduino->getAssignedActuators(this,
                                                 assignedActuators,
-                                                MAX_ACTUATORS);
+                                                MAX_ACTORS);
 
     for (; i < actuators; i++)
         if (on)

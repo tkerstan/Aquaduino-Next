@@ -24,7 +24,7 @@
 #include <stdint.h>
 
 #define MAX_CONTROLLERS 15
-#define MAX_ACTUATORS 25
+#define MAX_ACTORS 25
 #define MAX_SENSORS 4
 #define TIME_ZONE +2
 
