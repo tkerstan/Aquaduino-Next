@@ -146,8 +146,8 @@ int8_t DigitalOutput::showWebinterface(WebServer* server,
                 server->print(getName());
                 break;
             case 1:
-                parser->optionListItem("LOW", "0", onValue == 0, server);
-                parser->optionListItem("HIGH", "1", onValue == 1, server);
+                parser->selectListOption("LOW", "0", onValue == 0, server);
+                parser->selectListOption("HIGH", "1", onValue == 1, server);
                 break;
             }
         }

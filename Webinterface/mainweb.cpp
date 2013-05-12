@@ -153,7 +153,7 @@ void printActuatorTable(WebServer* server)
                 while ((j = aquaduino->getNextController(&currentController)) != -1)
                 {
                     itoa(j, controllerID, 10);
-                    parser->optionListItem(currentController->getName(),
+                    parser->selectListOption(currentController->getName(),
                                            controllerID,
                                            currentActuator->getController() == j,
                                            server);
@@ -165,8 +165,8 @@ void printActuatorTable(WebServer* server)
                 server->print(lockedID);
                 break;
             case A_LOPTIONS:
-                parser->optionListItem("Unlocked", "0", 0, server);
-                parser->optionListItem("Locked",
+                parser->selectListOption("Unlocked", "0", 0, server);
+                parser->selectListOption("Locked",
                                        "1",
                                        currentActuator->isLocked(),
                                        server);
@@ -177,8 +177,8 @@ void printActuatorTable(WebServer* server)
                 server->print(stateID);
                 break;
             case A_SOPTIONS:
-                parser->optionListItem("Off", "0", 0, server);
-                parser->optionListItem("On",
+                parser->selectListOption("Off", "0", 0, server);
+                parser->selectListOption("On",
                                        "1",
                                        currentActuator->isOn(),
                                        server);

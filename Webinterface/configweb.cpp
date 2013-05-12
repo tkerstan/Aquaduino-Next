@@ -244,13 +244,13 @@ void printTopLevelTemplate(WebServer* server)
         case T_DHCPSELECTOPTION:
             if (aquaduino->isDHCPEnabled())
             {
-                parser->optionListItem("Yes", "1", 1, server);
-                parser->optionListItem("No", "0", 0, server);
+                parser->selectListOption("Yes", "1", 1, server);
+                parser->selectListOption("No", "0", 0, server);
             }
             else
             {
-                parser->optionListItem("Yes", "1", 0, server);
-                parser->optionListItem("No", "0", 1, server);
+                parser->selectListOption("Yes", "1", 0, server);
+                parser->selectListOption("No", "0", 1, server);
             }
             break;
         case T_IP1:
@@ -304,13 +304,13 @@ void printTopLevelTemplate(WebServer* server)
         case T_NTPSELECTOPTION:
             if (aquaduino->isNTPEnabled())
             {
-                parser->optionListItem("Yes", "1", 1, server);
-                parser->optionListItem("No", "0", 0, server);
+                parser->selectListOption("Yes", "1", 1, server);
+                parser->selectListOption("No", "0", 0, server);
             }
             else
             {
-                parser->optionListItem("Yes", "1", 0, server);
-                parser->optionListItem("No", "0", 1, server);
+                parser->selectListOption("Yes", "1", 0, server);
+                parser->selectListOption("No", "0", 1, server);
             }
             break;
         case T_NTP1:
