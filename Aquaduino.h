@@ -107,6 +107,8 @@ public:
     int8_t getNextActuator(Actuator** actuator);
     int8_t getAssignedActuators(Controller* controller, Actuator** actuators,
                                 int8_t max);
+    int8_t getAssignedActuatorIDs(Controller* controller, int8_t* actuatorIDs,
+                                  int8_t max);
     unsigned char getNrOfActuators();
 
     uint16_t serialize(void* buffer, uint16_t size);

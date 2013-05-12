@@ -53,7 +53,7 @@ Aquaduino::Aquaduino() :
         doDHCP(0),
         doNTP(0),
         m_Controllers(MAX_CONTROLLERS),
-        m_Actuators(MAX_ACTORS),
+        m_Actuators(MAX_ACTUATORS),
         temperatureSensor(NULL),
         levelSensor(NULL),
         myWebServer(NULL),
@@ -318,13 +318,13 @@ int8_t Aquaduino::getNextActuator(Actuator** actuator)
 int8_t Aquaduino::getAssignedActuators(Controller* controller,
                                        Actuator** actuators, int8_t max)
 {
-    int8_t actorIdx = -1;
+    int8_t actuatorIdx = -1;
     int8_t nrOfAssignedActuators = 0;
     Actuator* currentActuator;
     int8_t controllerIdx = m_Controllers.findElement(controller);
 
     m_Actuators.resetIterator();
-    while ((actorIdx = m_Actuators.getNext(&currentActuator)) != -1)
+    while ((actuatorIdx = m_Actuators.getNext(&currentActuator)) != -1)
     {
         if (currentActuator->getController() == controllerIdx)
         {
@@ -335,6 +335,28 @@ int8_t Aquaduino::getAssignedActuators(Controller* controller,
     }
     return nrOfAssignedActuators;
 }
+
+int8_t Aquaduino::getAssignedActuatorIDs(Controller* controller,
+                                       int8_t* actuatorIDs, int8_t max)
+{
+    int8_t actuatorIdx = -1;
+    int8_t nrOfAssignedActuators = 0;
+    Actuator* currentActuator;
+    int8_t controllerIdx = m_Controllers.findElement(controller);
+
+    m_Actuators.resetIterator();
+    while ((actuatorIdx = m_Actuators.getNext(&currentActuator)) != -1)
+    {
+        if (currentActuator->getController() == controllerIdx)
+        {
+            if (nrOfAssignedActuators < max)
+                actuatorIDs[nrOfAssignedActuators] = actuatorIdx;
+            nrOfAssignedActuators++;
+        }
+    }
+    return nrOfAssignedActuators;
+}
+
 
 unsigned char Aquaduino::getNrOfActuators()
 {
@@ -593,14 +615,14 @@ void setup()
 
     temperatureController = new TemperatureController("Temperature");
     levelController = new LevelController("Level", LEVEL_SENSOR_PIN);
-//    clockTimerController = new ClockTimerController("Clock Timer");
+    clockTimerController = new ClockTimerController("Clock Timer");
 
     levelSensor = new DigitalInput(LEVEL_SENSOR_PIN);
     temperatureSensor = new DS18S20(TEMPERATURE_SENSOR_PIN);
 
     aquaduino->addController(temperatureController);
     aquaduino->addController(levelController);
-//    aquaduino->addController(clockTimerController);
+    aquaduino->addController(clockTimerController);
 
     aquaduino->setTemperatureSensor(temperatureSensor);
     aquaduino->setLevelSensor(levelSensor);
