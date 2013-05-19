@@ -79,6 +79,7 @@ enum
     A_LOPTIONS,
     A_SSELECT,
     A_SOPTIONS,
+    A_LINK
 };
 
 static const char pIActuator[] PROGMEM = "##IACTUATOR##";
@@ -91,7 +92,7 @@ static const char pSOptions[] PROGMEM = "##SOPTIONS##";
 
 static const char* const actuatorTemplate[] PROGMEM =
     { pColor, pIActuator, pName, pCSelect, pCOptions, pLSelect, pLOptions,
-      pSSelect, pSOptions };
+      pSSelect, pSOptions, pLink };
 
 
 void printActuatorTable(WebServer* server)
@@ -182,6 +183,11 @@ void printActuatorTable(WebServer* server)
                                        "1",
                                        currentActuator->isOn(),
                                        server);
+                break;
+            case A_LINK:
+                actuatorID[0] = 'A';
+                itoa(i, &actuatorID[1], 10);
+                server->print(actuatorID);
                 break;
             }
         }
