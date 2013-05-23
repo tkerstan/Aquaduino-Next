@@ -93,11 +93,11 @@ uint16_t LevelController::deserialize(void* data, uint16_t size)
                       + sizeof(refillTimeout);
     if (mySize <= size)
     {
-        memcpy(&debounceDelayLow, data, sizeof(debounceDelayLow));
+        memcpy(&debounceDelayLow, bPtr, sizeof(debounceDelayLow));
         offset += sizeof(debounceDelayLow);
-        memcpy(&debounceDelayHigh, data + offset, sizeof(debounceDelayHigh));
+        memcpy(&debounceDelayHigh, bPtr + offset, sizeof(debounceDelayHigh));
         offset += sizeof(debounceDelayHigh);
-        memcpy(&refillTimeout, data + offset, sizeof(refillTimeout));
+        memcpy(&refillTimeout, bPtr + offset, sizeof(refillTimeout));
         return mySize;
     }
     return 0;

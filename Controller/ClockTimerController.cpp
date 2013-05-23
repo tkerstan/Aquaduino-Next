@@ -32,10 +32,12 @@ ClockTimerController::ClockTimerController(const char* name) :
 
 uint16_t ClockTimerController::serialize(void* buffer, uint16_t size)
 {
+    return 0;
 }
 
 uint16_t ClockTimerController::deserialize(void* data, uint16_t size)
 {
+    return 0;
 }
 
 int8_t ClockTimerController::run()

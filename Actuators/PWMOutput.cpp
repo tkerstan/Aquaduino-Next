@@ -21,34 +21,25 @@
 #include "PWMOutput.h"
 #include <Arduino.h>
 
-PWMOutput::PWMOutput(const char* name) :
-        Actuator(name)
+PWMOutput::PWMOutput(const char* name, int8_t pin, uint8_t onValue,
+                     uint8_t offValue) :
+        Actuator(name),
+        m_pin(pin),
+        m_onValue(onValue),
+        m_offValue(offValue),
+        m_dutyCycle(0.0)
 {
-    m_Type = ACTUATOR_PWMOUTPUT;
-
-    // Currently fixed at pin 7
     // TODO: Use digital_pin_to_timer!
-    pinMode(7, OUTPUT);
-
-    //Enable Fast PWM @ ~8kHZ for all OCR on Timer 4
-    //This was enough for my PC Fan to run without whistling
-    TCCR4A = _BV(COM4A1) | _BV(COM4B1) | _BV(COM4C1) | _BV(WGM41) | _BV(WGM40);
-    TCCR4B = _BV(WGM42) | _BV(CS40);
-
-    //No duty cycle
-    dutyCycle = 0.0;
-    OCR4B = dutyCycle * 0x3FF;
-
 }
 
 uint16_t PWMOutput::serialize(void* buffer, uint16_t size)
 {
-
+    return 0;
 }
 
 uint16_t PWMOutput::deserialize(void* data, uint16_t size)
 {
-
+    return 0;
 }
 
 void PWMOutput::on()
@@ -69,7 +60,7 @@ void PWMOutput::off()
 
 int8_t PWMOutput::isOn()
 {
-    return dutyCycle < 1.0;
+    return m_dutyCycle < 1.0;
 }
 
 int8_t PWMOutput::supportsPWM()
@@ -79,24 +70,24 @@ int8_t PWMOutput::supportsPWM()
 
 void PWMOutput::setPWM(float dC)
 {
-    if (m_locked)
+    if (!m_locked)
     {
         //100% is enough...
         if (dC > 1.0)
             dC = 1.0;
 
-        this->dutyCycle = 1.0 - dC;
-        OCR4B = this->dutyCycle * 0x3FF;
+        this->m_dutyCycle = 1.0 - dC;
+        //OCR4B = this->m_dutyCycle * 0x3FF;
     }
 }
 
 float PWMOutput::getPWM()
 {
-    return dutyCycle;
+    return m_dutyCycle;
 }
 
 int8_t PWMOutput::showWebinterface(WebServer* server,
                                    WebServer::ConnectionType type)
 {
-
+    return -1;
 }

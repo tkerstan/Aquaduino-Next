@@ -109,10 +109,6 @@ int8_t DigitalOutput::showWebinterface(WebServer* server,
     char templateFileName[sizeof(progTemplateFileName)];
     strcpy_P(templateFileName, progTemplateFileName);
 
-    char* replacementStrings[1];
-    //Todo: I hereby promise to not change the actuators name!!!
-    replacementStrings[0] = (char*) getName();
-
     if (type == WebServer::POST)
     {
         int8_t repeat;
