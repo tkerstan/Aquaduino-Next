@@ -31,6 +31,7 @@ class ClockTimer
     uint8_t hOff[CLOCKTIMER_MAX_TIMERS];
     uint8_t mOn[CLOCKTIMER_MAX_TIMERS];
     uint8_t mOff[CLOCKTIMER_MAX_TIMERS];
+
 public:
     ClockTimer();
 

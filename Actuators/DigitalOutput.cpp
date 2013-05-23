@@ -101,7 +101,8 @@ float DigitalOutput::getPWM()
 }
 
 int8_t DigitalOutput::showWebinterface(WebServer* server,
-                                       WebServer::ConnectionType type)
+                                       WebServer::ConnectionType type,
+                                       char* url)
 {
     File templateFile;
     TemplateParser* parser;

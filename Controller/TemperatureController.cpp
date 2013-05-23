@@ -111,7 +111,8 @@ int8_t TemperatureController::run()
 }
 
 int8_t TemperatureController::showWebinterface(WebServer* server,
-                                               WebServer::ConnectionType type)
+                                               WebServer::ConnectionType type,
+                                               char* url)
 {
     File templateFile;
     TemplateParser* parser;

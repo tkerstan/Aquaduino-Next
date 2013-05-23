@@ -44,9 +44,9 @@ void controllerDispatchCommand(WebServer &server,
         aquaduino->resetControllerIterator();
         while (aquaduino->getNextController(&controller) != -1)
         {
-            if (strcmp(controller->getURL(), *url_path) == 0)
+            if (strstr(*url_path, controller->getURL()) == *url_path)
             {
-                controller->showWebinterface(&server, type);
+                controller->showWebinterface(&server, type, *url_path);
                 if (type == WebServer::POST)
                 {
                     aquaduino->writeConfig(controller);
@@ -57,9 +57,9 @@ void controllerDispatchCommand(WebServer &server,
         aquaduino->resetActuatorIterator();
         while (aquaduino->getNextActuator(&actuator) != -1)
         {
-            if (strcmp(actuator->getURL(), *url_path) == 0)
+            if (strstr(*url_path, actuator->getURL()) == *url_path)
             {
-                actuator->showWebinterface(&server, type);
+                actuator->showWebinterface(&server, type, *url_path);
                 if (type == WebServer::POST)
                 {
                     aquaduino->writeConfig(actuator);

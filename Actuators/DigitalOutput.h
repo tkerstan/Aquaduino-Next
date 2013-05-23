@@ -46,7 +46,8 @@ public:
     virtual float getPWM();
 
     virtual int8_t showWebinterface(WebServer* server,
-                                    WebServer::ConnectionType type);
+                                    WebServer::ConnectionType type,
+                                    char* url);
 
 };
 

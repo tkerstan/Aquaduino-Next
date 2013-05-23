@@ -34,7 +34,10 @@ public:
 
     virtual int8_t run();
     virtual int8_t showWebinterface(WebServer* server,
-                                    WebServer::ConnectionType type);
+                                    WebServer::ConnectionType type,
+                                    char* url);
+private:
+    ClockTimer myTimers[MAX_CLOCKTIMERS];
 };
 
 #endif /* CLOCKTIMERCONTROLLER_H_ */

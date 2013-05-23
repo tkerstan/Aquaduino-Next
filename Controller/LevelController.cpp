@@ -170,7 +170,8 @@ int8_t LevelController::run()
 }
 
 int8_t LevelController::showWebinterface(WebServer* server,
-                                         WebServer::ConnectionType type)
+                                         WebServer::ConnectionType type,
+                                         char* url)
 {
     File templateFile;
     TemplateParser* parser;

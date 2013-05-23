@@ -87,7 +87,8 @@ float PWMOutput::getPWM()
 }
 
 int8_t PWMOutput::showWebinterface(WebServer* server,
-                                   WebServer::ConnectionType type)
+                                   WebServer::ConnectionType type,
+                                   char* url)
 {
     return -1;
 }

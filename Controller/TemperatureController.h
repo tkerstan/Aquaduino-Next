@@ -40,7 +40,8 @@ public:
 
     virtual int8_t run();
     virtual int8_t showWebinterface(WebServer* server,
-                                    WebServer::ConnectionType type);
+                                    WebServer::ConnectionType type,
+                                    char* url);
 };
 
 #endif /* TEMPERATURECONTROLLER_H_ */

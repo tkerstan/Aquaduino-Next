@@ -23,13 +23,7 @@
 
 ClockTimer::ClockTimer()
 {
-    for (int i = 0; i < CLOCKTIMER_MAX_TIMERS; i++)
-    {
-        this->hOn[i] = 0;
-        this->mOn[i] = 0;
-        this->hOff[i] = 0;
-        this->mOff[i] = 0;
-    }
+    clearAll();
 }
 
 void ClockTimer::setTimer(uint8_t index, uint8_t hOn, uint8_t mOn, uint8_t hOff,
