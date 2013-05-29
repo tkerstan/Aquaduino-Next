@@ -29,6 +29,7 @@ static const char progRowTemplate[] PROGMEM = "clockrow.htm";
 
 static const char progMainURL[] PROGMEM = "##URL##";
 static const char progMainSelect[] PROGMEM = "##CLOCKTIMERSELECT##";
+static const char progActuatorSelect[] PROGMEM = "##ACTUATORSELECT##";
 static const char progMainRow[] PROGMEM = "##CLOCKTIMERROW##";
 static const char progRowIHON[] PROGMEM = "##I_HON##";
 static const char progRowIMON[] PROGMEM = "##I_MON##";
@@ -39,9 +40,14 @@ static const char progRowMON[] PROGMEM = "##MON##";
 static const char progRowHOFF[] PROGMEM = "##HOFF##";
 static const char progRowMOFF[] PROGMEM = "##MOFF##";
 
+static const char progStringTimer[] PROGMEM = "timer";
+static const char progStringNone[] PROGMEM = "None";
+static const char progStringSelect[] PROGMEM = "select";
+static const char progStringActuator[] PROGMEM = "actuator";
+
 enum
 {
-    MAIN_URL, MAIN_SELECT, MAIN_ROW
+    MAIN_URL, MAIN_SELECT, MAIN_ACTUATORSELECT, MAIN_ROW
 };
 
 enum
@@ -57,7 +63,7 @@ enum
 };
 
 static const char* const mainStrings[] PROGMEM =
-    { progMainURL, progMainSelect, progMainRow };
+    { progMainURL, progMainSelect, progActuatorSelect, progMainRow };
 
 static const char* const rowStrings[] PROGMEM =
     { progRowIHON, progRowIMON, progRowIHOFF, progRowIMOFF, progRowHON,
@@ -66,7 +72,12 @@ static const char* const rowStrings[] PROGMEM =
 ClockTimerController::ClockTimerController(const char* name) :
         Controller(name)
 {
+    int8_t i = 0;
     m_Type = CONTROLLER_CLOCKTIMER;
+    for (; i < MAX_CLOCKTIMERS; i++)
+    {
+        m_ActuatorMapping[i] = -1;
+    }
 }
 
 uint16_t ClockTimerController::serialize(void* buffer, uint16_t size)
@@ -89,6 +100,7 @@ int8_t ClockTimerController::showWebinterface(WebServer* server,
                                               char* url)
 {
     static int8_t selectedTimer = 0;
+    int8_t selectedActuator = 0;
 
     TemplateParser* parser;
     char templateFileName[sizeof(progMainTemplate)];
@@ -98,9 +110,9 @@ int8_t ClockTimerController::showWebinterface(WebServer* server,
     int16_t matchIdx = 0;
 
     int8_t myActuators[MAX_ACTUATORS];
-    const char* actuatorNames[MAX_ACTUATORS];
-    char actuatorValArray[MAX_ACTUATORS][3];
-    char* actuatorValuePointers[MAX_ACTUATORS];
+    const char* actuatorNames[MAX_ACTUATORS+1];
+    char actuatorValArray[MAX_ACTUATORS+1][3];
+    const char* actuatorValuePointers[MAX_ACTUATORS+1];
 
     char timerNameValArray[MAX_CLOCKTIMERS][3];
     char* timerNameValPointers[MAX_CLOCKTIMERS];
@@ -118,11 +130,16 @@ int8_t ClockTimerController::showWebinterface(WebServer* server,
         do
         {
             repeat = server->readPOSTparam(name, 16, value, 16);
-            if (strstr(url, "select") != 0)
+            if (strstr_P(url, progStringSelect) != 0)
             {
-                if(strcmp(name, "timer") == 0)
+                if (strcmp_P(name, progStringTimer) == 0)
                 {
                     selectedTimer = atoi(value);
+                }
+            } else {
+                if (strcmp_P(name, progStringActuator) == 0)
+                {
+                    m_ActuatorMapping[selectedTimer] = atoi(value);
                 }
             }
 
@@ -145,13 +162,18 @@ int8_t ClockTimerController::showWebinterface(WebServer* server,
             timerNameValPointers[i] = timerNameValArray[i];
         }
 
-        for (i = 0; i < actuators; i++)
+        actuatorNames[0] = "None";
+        actuatorValuePointers[0] = "-1";
+
+        for (i = 1; i <= actuators; i++)
         {
             actuatorNames[i] =
-                    aquaduino->getActuator(myActuators[i])->getName();
+                    aquaduino->getActuator(myActuators[i-1])->getName();
 
-            itoa(myActuators[i], actuatorValArray[i], 10);
+            itoa(myActuators[i-1], actuatorValArray[i], 10);
             actuatorValuePointers[i] = actuatorValArray[i];
+            if ( m_ActuatorMapping[selectedTimer] == myActuators[i-1])
+                selectedActuator = i;
         }
 
         while ((matchIdx =
@@ -173,6 +195,15 @@ int8_t ClockTimerController::showWebinterface(WebServer* server,
                                    timerNameValPointers,
                                    selectedTimer,
                                    sizeof(timerNameValPointers) / sizeof(char*),
+                                   server);
+                break;
+
+            case MAIN_ACTUATORSELECT:
+                parser->selectList("actuator",
+                                   actuatorNames,
+                                   actuatorValuePointers,
+                                   selectedActuator,
+                                   actuators+1,
                                    server);
                 break;
             case MAIN_ROW:
@@ -202,16 +233,16 @@ int8_t ClockTimerController::showWebinterface(WebServer* server,
                             server->print(i * 5 + 3);
                             break;
                         case CTR_HON:
-                            server->print(myTimers[selectedTimer].getHourOn(i));
+                            server->print(m_Timers[selectedTimer].getHourOn(i));
                             break;
                         case CTR_MON:
-                            server->print(myTimers[selectedTimer].getMinuteOn(i));
+                            server->print(m_Timers[selectedTimer].getMinuteOn(i));
                             break;
                         case CTR_HOFF:
-                            server->print(myTimers[selectedTimer].getHourOff(i));
+                            server->print(m_Timers[selectedTimer].getHourOff(i));
                             break;
                         case CTR_MOFF:
-                            server->print(myTimers[selectedTimer].getMinuteOff(i));
+                            server->print(m_Timers[selectedTimer].getMinuteOff(i));
                             break;
                         }
                     }

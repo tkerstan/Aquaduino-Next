@@ -37,7 +37,8 @@ public:
                                     WebServer::ConnectionType type,
                                     char* url);
 private:
-    ClockTimer myTimers[MAX_CLOCKTIMERS];
+    ClockTimer m_Timers[MAX_CLOCKTIMERS];
+    int8_t m_ActuatorMapping[MAX_CLOCKTIMERS];
 };
 
 #endif /* CLOCKTIMERCONTROLLER_H_ */
