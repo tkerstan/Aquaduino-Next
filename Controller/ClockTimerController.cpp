@@ -70,7 +70,7 @@ static const char* const rowStrings[] PROGMEM =
       progRowMON, progRowHOFF, progRowMOFF };
 
 ClockTimerController::ClockTimerController(const char* name) :
-        Controller(name)
+        Controller(name), selectedTimer(0), selectedActuator(0)
 {
     int8_t i = 0;
     m_Type = CONTROLLER_CLOCKTIMER;
@@ -95,24 +95,71 @@ int8_t ClockTimerController::run()
     return 0;
 }
 
-int8_t ClockTimerController::showWebinterface(WebServer* server,
-                                              WebServer::ConnectionType type,
-                                              char* url)
+int8_t ClockTimerController::isMapped(int8_t actuatorNr)
 {
-    static int8_t selectedTimer = 0;
-    int8_t selectedActuator = 0;
+    int8_t mapped = 0;
+    int8_t i = 0;
+    Serial.print("isMapped(");
+    Serial.print(actuatorNr);
+    Serial.println(")");
+    for (i = 0; i < MAX_CLOCKTIMERS; i++)
+    {
+        Serial.println(m_ActuatorMapping[i]);
 
-    TemplateParser* parser;
-    char templateFileName[sizeof(progMainTemplate)];
-    char templateRowFileName[sizeof(progRowTemplate)];
-    File mainTemplateFile;
-    File rowTemplateFile;
-    int16_t matchIdx = 0;
+        mapped += m_ActuatorMapping[i] == actuatorNr;
+    }
+    Serial.print("Result = ");
+    Serial.println(mapped);
+    return mapped;
+}
+
+int8_t ClockTimerController::prepareActuatorSelect(
+        const char* actuatorNames[MAX_ACTUATORS + 1],
+        const char* actuatorValuePointers[MAX_ACTUATORS + 1],
+        char actuatorValArray[MAX_ACTUATORS + 1][3])
+{
+    int8_t i,j;
 
     int8_t myActuators[MAX_ACTUATORS];
-    const char* actuatorNames[MAX_ACTUATORS+1];
-    char actuatorValArray[MAX_ACTUATORS+1][3];
-    const char* actuatorValuePointers[MAX_ACTUATORS+1];
+    int8_t actuators = aquaduino->getAssignedActuatorIDs(this,
+                                                         myActuators,
+                                                         MAX_ACTUATORS);
+
+    actuatorNames[0] = "None";
+    actuatorValuePointers[0] = "-1";
+
+    selectedActuator = 0;
+
+    for (i = 1, j = 0; i <= actuators; i++)
+    {
+        if (m_ActuatorMapping[selectedTimer] == myActuators[i - 1])
+        {
+            selectedActuator = j+1;
+        }
+        if (selectedActuator == j+1 || !isMapped( myActuators[i - 1])){
+            actuatorNames[++j] =
+                    aquaduino->getActuator(myActuators[i - 1])->getName();
+
+            itoa(myActuators[i - 1], actuatorValArray[j], 10);
+            actuatorValuePointers[j] = actuatorValArray[j];
+        }
+    }
+
+    return j;
+}
+
+int8_t ClockTimerController::printMain(WebServer* server,
+                                      WebServer::ConnectionType type, char* url)
+{
+    TemplateParser* parser;
+    char templateFileName[sizeof(progMainTemplate)];
+
+    File mainTemplateFile;
+    int16_t matchIdx = 0;
+
+    const char* actuatorNames[MAX_ACTUATORS + 1];
+    char actuatorValArray[MAX_ACTUATORS + 1][3];
+    const char* actuatorValuePointers[MAX_ACTUATORS + 1];
 
     char timerNameValArray[MAX_CLOCKTIMERS][3];
     char* timerNameValPointers[MAX_CLOCKTIMERS];
@@ -121,138 +168,187 @@ int8_t ClockTimerController::showWebinterface(WebServer* server,
     int8_t i = 0;
 
     strcpy_P(templateFileName, progMainTemplate);
+
+    server->httpSuccess();
+    parser = aquaduino->getTemplateParser();
+    mainTemplateFile = SD.open(templateFileName, FILE_READ);
+
+    for (i = 0; i < MAX_CLOCKTIMERS; i++)
+    {
+        itoa(i, timerNameValArray[i], 10);
+        timerNameValPointers[i] = timerNameValArray[i];
+    }
+
+    actuators = prepareActuatorSelect(actuatorNames,
+                                      actuatorValuePointers,
+                                      actuatorValArray);
+
+    while ((matchIdx =
+            parser->processTemplateUntilNextMatch(&mainTemplateFile,
+                                                  mainStrings,
+                                                  sizeof(mainStrings) / sizeof(char*),
+                                                  server))
+           != -1)
+    {
+        switch (matchIdx)
+        {
+        case MAIN_URL:
+            server->print(getURL());
+            server->print("select");
+            break;
+        case MAIN_SELECT:
+            parser->selectList("timer",
+                               timerNameValPointers,
+                               timerNameValPointers,
+                               selectedTimer,
+                               sizeof(timerNameValPointers) / sizeof(char*),
+                               server);
+            break;
+
+        case MAIN_ACTUATORSELECT:
+            parser->selectList("actuator",
+                               actuatorNames,
+                               actuatorValuePointers,
+                               selectedActuator,
+                               actuators + 1,
+                               server);
+            break;
+        case MAIN_ROW:
+            printRow(server, type, url);
+            break;
+        }
+    }
+
+    mainTemplateFile.close();
+
+    return 0;
+}
+
+int8_t ClockTimerController::printRow(WebServer* server,
+                                      WebServer::ConnectionType type, char* url)
+{
+    TemplateParser* parser;
+    int8_t i;
+    File rowTemplateFile;
+    int16_t matchIdx = 0;
+    char templateRowFileName[sizeof(progRowTemplate)];
+
     strcpy_P(templateRowFileName, progRowTemplate);
 
-    if (type == WebServer::POST)
+    parser = aquaduino->getTemplateParser();
+
+    for (i = 0; i < CLOCKTIMER_MAX_TIMERS; i++)
     {
-        int8_t repeat;
-        char name[16], value[16];
-        do
-        {
-            repeat = server->readPOSTparam(name, 16, value, 16);
-            if (strstr_P(url, progStringSelect) != 0)
-            {
-                if (strcmp_P(name, progStringTimer) == 0)
-                {
-                    selectedTimer = atoi(value);
-                }
-            } else {
-                if (strcmp_P(name, progStringActuator) == 0)
-                {
-                    m_ActuatorMapping[selectedTimer] = atoi(value);
-                }
-            }
 
-        } while (repeat);
-
-        server->httpSeeOther(this->m_URL);
-    }
-    else
-    {
-        server->httpSuccess();
-        parser = aquaduino->getTemplateParser();
-        mainTemplateFile = SD.open(templateFileName, FILE_READ);
-        actuators = aquaduino->getAssignedActuatorIDs(this,
-                                                      myActuators,
-                                                      MAX_ACTUATORS);
-
-        for (i = 0; i < MAX_CLOCKTIMERS; i++)
-        {
-            itoa(i, timerNameValArray[i], 10);
-            timerNameValPointers[i] = timerNameValArray[i];
-        }
-
-        actuatorNames[0] = "None";
-        actuatorValuePointers[0] = "-1";
-
-        for (i = 1; i <= actuators; i++)
-        {
-            actuatorNames[i] =
-                    aquaduino->getActuator(myActuators[i-1])->getName();
-
-            itoa(myActuators[i-1], actuatorValArray[i], 10);
-            actuatorValuePointers[i] = actuatorValArray[i];
-            if ( m_ActuatorMapping[selectedTimer] == myActuators[i-1])
-                selectedActuator = i;
-        }
-
+        rowTemplateFile = SD.open(templateRowFileName, FILE_READ);
         while ((matchIdx =
-                parser->processTemplateUntilNextMatch(&mainTemplateFile,
-                                                      mainStrings,
-                                                      sizeof(mainStrings) / sizeof(char*),
+                parser->processTemplateUntilNextMatch(&rowTemplateFile,
+                                                      rowStrings,
+                                                      sizeof(rowStrings) / sizeof(char*),
                                                       server))
                != -1)
         {
             switch (matchIdx)
             {
-            case MAIN_URL:
-                server->print(getURL());
-                server->print("select");
+            case CTR_IHON:
+                server->print(i * 4 + 1);
                 break;
-            case MAIN_SELECT:
-                parser->selectList("timer",
-                                   timerNameValPointers,
-                                   timerNameValPointers,
-                                   selectedTimer,
-                                   sizeof(timerNameValPointers) / sizeof(char*),
-                                   server);
+            case CTR_IMON:
+                server->print(i * 4 + 2);
                 break;
-
-            case MAIN_ACTUATORSELECT:
-                parser->selectList("actuator",
-                                   actuatorNames,
-                                   actuatorValuePointers,
-                                   selectedActuator,
-                                   actuators+1,
-                                   server);
+            case CTR_IHOFF:
+                server->print(i * 4 + 3);
                 break;
-            case MAIN_ROW:
-                for (i = 0; i < CLOCKTIMER_MAX_TIMERS; i++)
-                {
-
-                    rowTemplateFile = SD.open(templateRowFileName, FILE_READ);
-                    while ((matchIdx =
-                            parser->processTemplateUntilNextMatch(&rowTemplateFile,
-                                                                  rowStrings,
-                                                                  sizeof(rowStrings) / sizeof(char*),
-                                                                  server))
-                           != -1)
-                    {
-                        switch (matchIdx)
-                        {
-                        case CTR_IHON:
-                            server->print(i * 5);
-                            break;
-                        case CTR_IMON:
-                            server->print(i * 5 + 1);
-                            break;
-                        case CTR_IHOFF:
-                            server->print(i * 5 + 2);
-                            break;
-                        case CTR_IMOFF:
-                            server->print(i * 5 + 3);
-                            break;
-                        case CTR_HON:
-                            server->print(m_Timers[selectedTimer].getHourOn(i));
-                            break;
-                        case CTR_MON:
-                            server->print(m_Timers[selectedTimer].getMinuteOn(i));
-                            break;
-                        case CTR_HOFF:
-                            server->print(m_Timers[selectedTimer].getHourOff(i));
-                            break;
-                        case CTR_MOFF:
-                            server->print(m_Timers[selectedTimer].getMinuteOff(i));
-                            break;
-                        }
-                    }
-                    rowTemplateFile.close();
-                }
+            case CTR_IMOFF:
+                server->print(i * 4 + 4);
+                break;
+            case CTR_HON:
+                server->print(m_Timers[selectedTimer].getHourOn(i));
+                break;
+            case CTR_MON:
+                server->print(m_Timers[selectedTimer].getMinuteOn(i));
+                break;
+            case CTR_HOFF:
+                server->print(m_Timers[selectedTimer].getHourOff(i));
+                break;
+            case CTR_MOFF:
+                server->print(m_Timers[selectedTimer].getMinuteOff(i));
                 break;
             }
         }
+        rowTemplateFile.close();
+    }
+    return 0;
+}
 
-        mainTemplateFile.close();
+int8_t ClockTimerController::processPost(WebServer* server,
+                                              WebServer::ConnectionType type,
+                                              char* url)
+{
+    int8_t repeat;
+    int8_t x,y;
+    int8_t input;
+    char name[16], value[16];
+    do
+    {
+        repeat = server->readPOSTparam(name, 16, value, 16);
+        if (strstr_P(url, progStringSelect) != 0)
+        {
+            if (strcmp_P(name, progStringTimer) == 0)
+            {
+                selectedTimer = atoi(value);
+            }
+        }
+        else
+        {
+            if (strcmp_P(name, progStringActuator) == 0)
+            {
+                m_ActuatorMapping[selectedTimer] = atoi(value);
+            }
+            else
+            {
+                input = atoi(name);
+                x = input / 4;
+                y = input % 4;
+                switch (y)
+                {
+                case 0:
+                    m_Timers[selectedTimer].setMinuteOff(x,atoi(value));
+
+                    break;
+                case 1:
+                    m_Timers[selectedTimer].setHourOn(x,atoi(value));
+
+                    break;
+                case 2:
+                    m_Timers[selectedTimer].setMinuteOn(x,atoi(value));
+
+                    break;
+                case 3:
+                    m_Timers[selectedTimer].setHourOff(x,atoi(value));
+                    break;
+                }
+            }
+        }
+
+    } while (repeat);
+    return 0;
+}
+
+int8_t ClockTimerController::showWebinterface(WebServer* server,
+                                              WebServer::ConnectionType type,
+                                              char* url)
+{
+
+
+    if (type == WebServer::POST)
+    {
+        processPost(server, type, url);
+        server->httpSeeOther(this->m_URL);
+    }
+    else
+    {
+        printMain(server, type, url);
     }
     return true;
 
