@@ -34,23 +34,11 @@ public:
 
     virtual int8_t run();
     virtual int8_t showWebinterface(WebServer* server,
-                                    WebServer::ConnectionType type, char* url);
+                                    WebServer::ConnectionType type,
+                                    char* url);
 private:
-    int8_t printMain(WebServer* server, WebServer::ConnectionType type,
-                     char* url);
-    int8_t printRow(WebServer* server, WebServer::ConnectionType type,
-                    char* url);
-    int8_t prepareActuatorSelect(
-            const char* actuatorNames[MAX_ACTUATORS + 1],
-            const char* actuatorValuePointers[MAX_ACTUATORS + 1],
-            char actuatorValArray[MAX_ACTUATORS + 1][3]);
-    int8_t processPost(WebServer* server, WebServer::ConnectionType type,
-                       char* url);
-    int8_t isMapped(int8_t actuatorNr);
     ClockTimer m_Timers[MAX_CLOCKTIMERS];
     int8_t m_ActuatorMapping[MAX_CLOCKTIMERS];
-    int8_t selectedTimer;
-    int8_t selectedActuator;
 };
 
 #endif /* CLOCKTIMERCONTROLLER_H_ */
