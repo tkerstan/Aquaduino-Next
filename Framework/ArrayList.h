@@ -221,7 +221,7 @@ void ArrayList<T>::setIterator(T element)
 template<class T>
 T ArrayList<T>::get(const int8_t index)
 {
-    if (index < m_Size)
+    if (0 <= index && index < m_Size)
         return m_Array[index];
     return NULL;
 }
@@ -229,7 +229,13 @@ T ArrayList<T>::get(const int8_t index)
 template<class T>
 T& ArrayList<T>::operator[](const int nIndex)
 {
-    return m_Array[nIndex];
+    if (0 <= nIndex && nIndex < m_Size)
+        return m_Array[nIndex];
+    if ( nIndex < 0)
+        return m_Array[0];
+    if ( nIndex >= m_Size )
+        return m_Array[m_Size-1];
+    return m_Array[0];
 }
 
 #endif /* ARRAYLIST_H_ */
