@@ -92,6 +92,17 @@ uint16_t ClockTimerController::deserialize(void* data, uint16_t size)
 
 int8_t ClockTimerController::run()
 {
+    int8_t i;
+    Actuator* actuator;
+    for (i=0; i < MAX_CLOCKTIMERS; i++)
+    {
+        actuator = aquaduino->getActuator(m_ActuatorMapping[i]);
+        if (actuator != NULL)
+            if (m_Timers[i].check())
+                actuator->on();
+            else
+                actuator->off();
+    }
     return 0;
 }
 
