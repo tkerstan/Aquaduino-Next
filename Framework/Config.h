@@ -23,12 +23,13 @@
 
 #include <stdint.h>
 
-#define MAX_CONTROLLERS 15
-#define MAX_ACTUATORS 25
-#define MAX_SENSORS 4
-#define MAX_CLOCKTIMERS 8
-#define TIME_ZONE +2
+#define MAX_CONTROLLERS             15
+#define MAX_ACTUATORS               25
+#define MAX_SENSORS                 4
+#define MAX_CLOCKTIMERS             8
+#define TIME_ZONE                   +2
+#define SERIALIZATION_BUFFER        200
 
-#define AQUADUINO_STRING_LENGTH 20
+#define AQUADUINO_STRING_LENGTH     20
 
 #endif /*CONFIG_H_*/
