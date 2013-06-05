@@ -27,7 +27,7 @@
 #include <Framework/Controller.h>
 #include <Framework/Sensor.h>
 
-static const uint16_t bufferSize = 100;
+static const uint16_t bufferSize = 200;
 
 class Aquaduino;
 
