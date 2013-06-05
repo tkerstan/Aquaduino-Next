@@ -41,7 +41,6 @@ static const char progRowHOFF[] PROGMEM = "##HOFF##";
 static const char progRowMOFF[] PROGMEM = "##MOFF##";
 
 static const char progStringTimer[] PROGMEM = "timer";
-static const char progStringNone[] PROGMEM = "None";
 static const char progStringSelect[] PROGMEM = "select";
 static const char progStringActuator[] PROGMEM = "actuator";
 
@@ -82,26 +81,81 @@ ClockTimerController::ClockTimerController(const char* name) :
 
 uint16_t ClockTimerController::serialize(void* buffer, uint16_t size)
 {
-    return 0;
+    uint8_t i;
+    uint8_t clockTimers = MAX_CLOCKTIMERS;
+    uint8_t* charBuffer = (uint8_t*) buffer;
+    uint16_t pos = 0;
+    uint16_t timerSize = 0;
+    int32_t left = size;
+
+    charBuffer[0] = clockTimers;
+
+    if (sizeof(m_ActuatorMapping) + sizeof(uint8_t) > size)
+        return 0;
+
+    pos += sizeof(uint8_t);
+    memcpy(charBuffer+pos, m_ActuatorMapping, sizeof(m_ActuatorMapping));
+    pos += sizeof(m_ActuatorMapping);
+    for ( i = 0; i < MAX_CLOCKTIMERS; i++)
+    {
+        left = ((int32_t) size) - pos - 2;
+        if (left < 0)
+            return 0;
+        timerSize = m_Timers[i].serialize(charBuffer+pos+2, left);
+        charBuffer[pos] = (timerSize & 0xFF00) >> 8;
+        charBuffer[pos+1] = timerSize & 0xFF;
+        pos += timerSize + 2;
+    }
+    return pos;
 }
 
 uint16_t ClockTimerController::deserialize(void* data, uint16_t size)
 {
-    return 0;
+    uint8_t i;
+    uint8_t clockTimers = 0;
+    uint8_t* charBuffer = (uint8_t*) data;
+    uint16_t pos = 0;
+    uint16_t timerSize = 0;
+
+    clockTimers = charBuffer[0];
+
+    if (clockTimers != MAX_CLOCKTIMERS)
+        return 0;
+
+    pos += sizeof(uint8_t);
+
+    memcpy(m_ActuatorMapping, charBuffer+pos, sizeof(m_ActuatorMapping));
+
+    pos += sizeof(m_ActuatorMapping);
+    for ( i = 0; i < MAX_CLOCKTIMERS; i++)
+    {
+        timerSize = charBuffer[pos] << 8;
+        timerSize += charBuffer[pos+1];
+        pos += 2;
+
+        if (m_Timers[i].deserialize(charBuffer+pos, timerSize) == 0)
+            return 0;
+        pos += timerSize;
+    }
+    return pos;
 }
 
 int8_t ClockTimerController::run()
 {
     int8_t i;
     Actuator* actuator;
+    Controller* controller;
     for (i=0; i < MAX_CLOCKTIMERS; i++)
     {
         actuator = aquaduino->getActuator(m_ActuatorMapping[i]);
-        if (actuator != NULL)
+        controller = aquaduino->getController(actuator->getController());
+        if (actuator != NULL && controller == this)
+        {
             if (m_Timers[i].check())
                 actuator->on();
             else
                 actuator->off();
+        }
     }
     return 0;
 }
@@ -321,25 +375,29 @@ int8_t ClockTimerController::processPost(WebServer* server,
             else
             {
                 input = atoi(name);
-                x = input / 4;
+                x = (input-1) / 4;
                 y = input % 4;
-                switch (y)
-                {
-                case 0:
-                    m_Timers[selectedTimer].setMinuteOff(x, atoi(value));
 
-                    break;
-                case 1:
-                    m_Timers[selectedTimer].setHourOn(x, atoi(value));
+                //Ignore input with name 0!
+                if (input != 0){
+                    switch (y)
+                    {
+                    case 0:
+                        m_Timers[selectedTimer].setMinuteOff(x, atoi(value));
 
-                    break;
-                case 2:
-                    m_Timers[selectedTimer].setMinuteOn(x, atoi(value));
+                        break;
+                    case 1:
+                        m_Timers[selectedTimer].setHourOn(x, atoi(value));
 
-                    break;
-                case 3:
-                    m_Timers[selectedTimer].setHourOff(x, atoi(value));
-                    break;
+                        break;
+                    case 2:
+                        m_Timers[selectedTimer].setMinuteOn(x, atoi(value));
+
+                        break;
+                    case 3:
+                        m_Timers[selectedTimer].setHourOff(x, atoi(value));
+                        break;
+                    }
                 }
             }
         }

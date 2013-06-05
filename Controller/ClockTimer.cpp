@@ -94,3 +94,43 @@ void ClockTimer::clearAll()
     }
 }
 
+uint16_t ClockTimer::serialize(void* buffer, uint16_t size)
+{
+    uint16_t mySize = sizeof(hOn) + sizeof(mOn) + sizeof(hOff) + sizeof(mOff);
+    uint16_t pos = 0;
+    uint8_t* charBuffer = (uint8_t*) buffer;
+
+    if (mySize > size)
+        return 0;
+
+    memcpy(charBuffer, hOn, sizeof(hOn));
+    pos += sizeof(hOn);
+    memcpy(charBuffer + pos, mOn, sizeof(mOn));
+    pos += sizeof(mOn);
+    memcpy(charBuffer + pos, hOff, sizeof(hOff));
+    pos += sizeof(hOff);
+    memcpy(charBuffer + pos, mOff, sizeof(mOff));
+
+    return mySize;
+}
+
+uint16_t ClockTimer::deserialize(void* data, uint16_t size)
+{
+    uint16_t mySize = sizeof(hOn) + sizeof(mOn) + sizeof(hOff) + sizeof(mOff);
+    uint16_t pos = 0;
+    uint8_t* charBuffer = (uint8_t*) data;
+
+    if (size != mySize)
+        return 0;
+
+    memcpy(hOn, charBuffer, sizeof(hOn));
+    pos += sizeof(hOn);
+    memcpy(mOn, charBuffer + pos, sizeof(mOn));
+    pos += sizeof(mOn);
+    memcpy(hOff, charBuffer + pos, sizeof(hOff));
+    pos += sizeof(hOff);
+    memcpy(mOff, charBuffer + pos, sizeof(mOff));
+
+    return mySize;
+}
+

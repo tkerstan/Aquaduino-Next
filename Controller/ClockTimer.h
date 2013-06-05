@@ -22,10 +22,11 @@
 #define CLOCKTIMER_H_
 
 #include <Arduino.h>
+#include <Framework/Serializable.h>
 
 const static uint8_t CLOCKTIMER_MAX_TIMERS = 4;
 
-class ClockTimer
+class ClockTimer: public Serializable
 {
     uint8_t hOn[CLOCKTIMER_MAX_TIMERS];
     uint8_t hOff[CLOCKTIMER_MAX_TIMERS];
@@ -74,6 +75,9 @@ public:
     void clearAll();
 
     int8_t check();
+
+    virtual uint16_t serialize(void* buffer, uint16_t size);
+    virtual uint16_t deserialize(void* data, uint16_t size);
 };
 
 #endif /* CLOCKTIMER_H_ */
