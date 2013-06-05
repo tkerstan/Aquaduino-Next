@@ -1,1 +1,16 @@
-TODO :)
+Aquaduino is a free open source controlling framework based on the Arduino Mega 2560.
+It is mainly developed for controlling fresh-water and salt-water aquaria.
+
+Main features:
+	* Management of multiple actuators, controllers and sensors.
+		* Actuators can freely be assigned to the available controllers.
+		* Available sensing tasks and controller tasks are called in FIFO order and run to completion.
+	* Network support
+		* DHCP & Static IP configuration
+		* NTP synchronization
+	* Extensible webinterface.
+		* Network configuration
+		* Controller configuration
+		* Actuator configuration
+	* Extensible configuration management interface.
+		* Support for SD card storage
