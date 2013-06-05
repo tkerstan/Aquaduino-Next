@@ -28,7 +28,20 @@
  */
 const int NTP_PACKET_SIZE = 48;
 
-IPAddress sntpServerIP(192, 53, 103, 108); //ptbtime1.ptb.de
+/** \brief ptbtime1.ptb.de
+ *
+ */
+IPAddress sntpServerIP(192, 53, 103, 108);
+
+/**
+ * \brief Routine for NTP synchronization.
+ *
+ * This routine contacts the NTP server specified in sntpServerIP.
+ * It waits 1 second for a response. If there is no response a timeout
+ * occurs and the routine exits and returns 0 as time.
+ *
+ * \returns Time since 1970 in seconds + timeZoneOffset in seconds
+ */
 
 time_t NTPSync()
 {

@@ -43,6 +43,13 @@ extern void controllerDispatchCommand(WebServer &server,
                                       char **url_path, char *url_tail,
                                       bool tail_complete);
 
+/**
+ * \brief Default Constructor
+ *
+ * Initializes Aquaduino with default values and then tries to read the configuration using
+ * the SDConfigManager. When there are multiple implementations of ConfigManager available
+ * this is the place to exchange them. Finally the network is configured.
+ */
 Aquaduino::Aquaduino() :
         myIP(192, 168, 1, 222),
         myNetmask(255, 255, 255, 0),
@@ -117,61 +124,103 @@ Aquaduino::Aquaduino() :
     setTime(0, 0, 0, 1, 1, 42);
 }
 
+/**
+ * \brief This method only stores the value in the object. It does not configure the network.
+ */
 void Aquaduino::setMAC(uint8_t* mac)
 {
     for (int i = 0; i < 6; i++)
         myMAC[i] = mac[i];
 }
+
+/**
+ * \returns Configured MAC address. May be different to active MAC!
+ */
 void Aquaduino::getMAC(uint8_t* mac)
 {
     for (int i = 0; i < 6; i++)
         mac[i] = myMAC[i];
 }
 
+/**
+ * \returns Configured IP address. May be different to active IP!
+ */
 IPAddress* Aquaduino::getIP()
 {
     return &myIP;
 }
+
+/**
+ * \brief This method only stores the value in the object. It does not configure the network.
+ */
+
 void Aquaduino::setIP(IPAddress* ip)
 {
     myIP = *ip;
 }
+
+/**
+ * \returns Configured netmask. May be different to active netmask!
+ */
 
 IPAddress* Aquaduino::getNetmask()
 {
     return &myNetmask;
 }
 
+/**
+ * \brief This method only stores the value in the object. It does not configure the network.
+ */
 void Aquaduino::setNetmask(IPAddress* netmask)
 {
     myNetmask = *netmask;
 }
+
+/**
+ * \returns Configured gateway address. May be different to active gateway address!
+ */
 
 IPAddress* Aquaduino::getGateway()
 {
     return &myGateway;
 }
 
+/**
+ * \brief This method only stores the value in the object. It does not configure the network.
+ */
+
 void Aquaduino::setGateway(IPAddress* gateway)
 {
     myGateway = *gateway;
 }
 
+/**
+ * \returns Configured DNS server address. May be different to active DNS server address!
+ */
 IPAddress* Aquaduino::getDNS()
 {
     return &myDNS;
 }
 
+/**
+ * \brief This method only stores the value in the object. It does not configure the network.
+ */
 void Aquaduino::setDNS(IPAddress* dns)
 {
     myDNS = *dns;
 }
 
+/**
+ * \returns Configured NTP server address.
+ */
 IPAddress* Aquaduino::getNTP()
 {
     return &myNTP;
 }
 
+/**
+ * \brief This method only stores the value in the object. It does not trigger a NTP update.
+ */
 void Aquaduino::setNTP(IPAddress* ntp)
 {
     myNTP = *ntp;
@@ -337,7 +386,7 @@ int8_t Aquaduino::getAssignedActuators(Controller* controller,
 }
 
 int8_t Aquaduino::getAssignedActuatorIDs(Controller* controller,
-                                       int8_t* actuatorIDs, int8_t max)
+                                         int8_t* actuatorIDs, int8_t max)
 {
     int8_t actuatorIdx = -1;
     int8_t nrOfAssignedActuators = 0;
@@ -356,7 +405,6 @@ int8_t Aquaduino::getAssignedActuatorIDs(Controller* controller,
     }
     return nrOfAssignedActuators;
 }
-
 
 unsigned char Aquaduino::getNrOfActuators()
 {
@@ -587,10 +635,11 @@ void setup();
 }
 #endif
 
-int freeRam () {
-  extern int __heap_start, *__brkval;
-  int v;
-  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
+int freeRam()
+{
+    extern int __heap_start, *__brkval;
+    int v;
+    return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
 }
 
 void setup()

@@ -39,6 +39,19 @@ class Actuator;
 class Sensor;
 class ConfigManager;
 
+/*! \brief Aquaduino main class.
+ *
+ *  The Aquaduino class contains all elements controlled by Aquaduino.
+ *  - Controller
+ *  - Actuator
+ *  - Sensor
+ *
+ *  To configure Aquaduino a WebServer based on Webduino is integrated.
+ *  The WebServer is used to provide a configuration page for:
+ *  - Network configuration
+ *  - Controller configuration
+ *  - Actuator configuration
+ */
 class Aquaduino: public Object, Serializable
 {
 private:
