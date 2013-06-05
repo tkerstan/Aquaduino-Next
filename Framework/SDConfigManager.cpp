@@ -53,7 +53,6 @@ int8_t SDConfigManager::writeConfig(Aquaduino* aquaduino)
     struct configuration config;
     uint16_t serializedBytes = 0;
     uint16_t writtenBytes = 0;
-    int8_t id;
 
     memset(&config, 0, sizeof(config));
 
@@ -164,7 +163,6 @@ int8_t SDConfigManager::readConfig(Aquaduino* aquaduino)
         }
     }
 
-    return 0;
     return 0;
 }
 
