@@ -1,16 +1,69 @@
-Aquaduino is a free open source controlling framework based on the Arduino Mega 2560.
-It is mainly developed for controlling fresh-water and salt-water aquaria.
+Aquaduino
+=========
 
-Main features:
-	* Management of multiple actuators, controllers and sensors.
-		* Actuators can freely be assigned to the available controllers.
-		* Available sensing tasks and controller tasks are called in FIFO order and run to completion.
-	* Network support
-		* DHCP & Static IP configuration
-		* NTP synchronization
-	* Extensible webinterface.
-		* Network configuration
-		* Controller configuration
-		* Actuator configuration
-	* Extensible configuration management interface.
-		* Support for SD card storage
+What is Aquaduino?
+------------------
+
+Aquaduino is an extensible open source control system framework for fish tanks or other related environments. 
+Auaduino is published under the GPLv3 and is written in C++. It is currently developed on a DFRduino Mega 2560
+(http://www.dfrobot.com/index.php?route=product/product&filter_name=mega%202560&product_id=458) with DFRduino
+Ethernet Shield (http://www.dfrobot.com/index.php?route=product/product&filter_name=Ethernet%20shield&page=2&product_id=455).
+It currently supports the control of digital outputs to control my relay modules
+(http://iteadstudio.com/store/index.php?main_page=product_info&cPath=18&products_id=430),
+temperature readings by using a Dallas DS18S20, automatic refill by using a level sensor with closing contact and a
+simple webinterface to manage the control of the power outlets. The strength of Aquaduino is its extensibility which
+allows developers to simply support further sensors, actors or controllers related to their special needs.
+
+The framework provided by Aquaduino uses Webduino (https://github.com/sirleech/Webduino). To provide a seamless
+integration of actuators like relays into controlling elements the Aquaduino webinterface automatically generates
+a configuration webinterface to assign the available actuators to the controlling elements of Aquaduino. Thus the
+actuators can easily be enabled, disabled or assigned at runtime to the different control elements.
+
+Features
+--------
+
+* Network and Webinterface
+    * Static or DHCP IP configuration
+    * NTP synchronization
+    * Generic top level webinterface
+        * Provides current status (Not implemented yet)
+        * Links to available controllers
+
+* Actuator/Controller/Sensor Framework
+    * Controllers are software components that control assigned actuators like power outlets,...
+    * Actuators can dynamically be assigned to controllers (through Webinterface)
+    * Sensor readings are triggered by the framework and globally available in the whole framework
+    * Controllers and actuators provide their own Webinterface
+    * Easily extensible to support different controllers and actuators
+    * Currently supported Controllers:
+        * Temperature controller
+            * Threshold based
+            * Definition of temperature where PWM based actor shall reach its maximum (linear scaling)
+            * Hysteresis (fixed to 0.3°C)
+        * Level controller
+            * Time based debounce mechanism to ignore waves
+            * Time out mechanism to prevent refill pump from running dry
+            * Hysteresis (Configurable by webinterface)
+        * Clocktimer controller
+            * Configurable amount of clocktimers (source code configuration)
+            * Configurable amount of time intervals per clocktimer (source code configuration)
+    * Currently supported Actuators
+        * Digital outputs
+    * Currently supported Sensors
+        * Level sensor (Digital Input)
+        * Temperature sensor (DS18S20)
+        * pH/ORP/EC in progress
+
+* Template Parser Framework
+    * Easy integration of HTML templates in controller webinterface code
+    * Completely stack based (No dynamic memory consumption)
+    * Templates stored on SD Card (No static memory consumption)
+
+* Configuration Management
+    * Support for SD Card storage
+
+Hardware Setup
+--------------
+
+Aquaduino runs on the Arduino Mega 2560 and requires an Ethernetshield. 
+For more information see https://sourceforge.net/p/aquaduino/home/Home/
