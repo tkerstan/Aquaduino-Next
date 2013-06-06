@@ -18,6 +18,83 @@
  *
  */
 
+/**
+ * \mainpage Aquaduino
+ *
+ * Aquaduino
+ * =========
+ *
+ * What is Aquaduino?
+ * ------------------
+ *
+ * Aquaduino is an extensible open source control system framework for fish tanks
+ * or other related environments. Aquaduino is published under the GPLv3 and is
+ * written in C++. It is currently developed on a DFRduino Mega 2560 with DFRduino
+ * Ethernet Shield. It currently supports the control of digital outputs to
+ * control my relay modules, temperature readings by using a Dallas DS18S20,
+ * automatic refill by using a level sensor with closing contact and a simple
+ * webinterface to manage the control of the power outlets. The strength of
+ * Aquaduino is its extensibility which allows developers to simply support
+ * further sensors, actors or controllers related to their special needs.
+ *
+ * The framework provided by Aquaduino uses Webduino. To provide a seamless
+ * integration of actuators like relays into controlling elements the Aquaduino
+ * WebInterface automatically generates a configuration WebInterface to assign
+ * the available actuators to the controlling elements of Aquaduino. Thus the
+ * actuators can easily be enabled, disabled or assigned at runtime to the
+ * different control elements.
+ *
+ * Features
+ * --------
+ *
+ * * Network and WebInterface
+ *     * Static or DHCP IP configuration
+ *     * NTP synchronization
+ *     * Configuration of actuators and controllers
+ *
+ * * Actuator / Controller / Sensor Framework
+ *     * Controllers are software components that control assigned actuators
+ *       like power outlets,...
+ *     * Actuators can dynamically be assigned to controllers
+ *     * Sensor readings are triggered by the framework and globally available
+ *       in the whole framework
+ *     * Controllers and actuators provide their own WebInterface
+ *     * Easily extensible to support different controllers and actuators
+ *     * Currently supported Controllers:
+ *         * Temperature controller (TemperatureController)
+ *             * Threshold based
+ *             * Definition of temperature where PWM based actor shall reach
+ *               its maximum (linear scaling)
+ *             * Hysteresis (fixed to 0.3 degree celsius)
+ *         * Level controller (LevelController)
+ *             * Time based debounce mechanism to ignore waves
+ *             * Time out mechanism to prevent refill pump from running dry
+ *             * Hysteresis (Configurable by webinterface)
+ *         * Clocktimer controller (ClockTimerController)
+ *             * Configurable amount of clocktimers
+ *             * Configurable amount of time intervals per clocktimer
+ *     * Currently supported Actuators
+ *         * Digital outputs
+ *     * Currently supported Sensors
+ *         * Level sensor (DigitalInput)
+ *         * Temperature sensor (DS18S20)
+ *         * pH/ORP/EC in progress
+ *
+ * * Template Parser Framework
+ *     * Easy integration of HTML templates in controller webinterface code
+ *     * Completely stack based (No dynamic memory consumption)
+ *     * Templates stored on SD Card (No static memory consumption)
+ *
+ * * Configuration Management
+ *     * Support for SD Card storage
+ *
+ * Hardware Setup
+ * --------------
+ *
+ * Aquaduino runs on the Arduino Mega 2560 and requires an Ethernetshield.
+ * For more information see https://sourceforge.net/p/aquaduino/home/Home/
+ */
+
 #include <Aquaduino.h>
 #include <Controller/TemperatureController.h>
 #include <Controller/LevelController.h>
@@ -46,9 +123,10 @@ extern void controllerDispatchCommand(WebServer &server,
 /**
  * \brief Default Constructor
  *
- * Initializes Aquaduino with default values and then tries to read the configuration using
- * the SDConfigManager. When there are multiple implementations of ConfigManager available
- * this is the place to exchange them. Finally the network is configured.
+ * Initializes Aquaduino with default values and then tries to read the
+ * configuration using the SDConfigManager. When there are multiple
+ * implementations of ConfigManager available this is the place to exchange
+ * them. Finally the network is brought up.
  */
 Aquaduino::Aquaduino() :
         myIP(192, 168, 1, 222),
@@ -125,7 +203,11 @@ Aquaduino::Aquaduino() :
 }
 
 /**
- * \brief This method only stores the value in the object. It does not configure the network.
+ * \brief Setter for MAC address.
+ * \param[in] mac pointer to MAC address.
+ *
+ * This method only stores the value in the object. It does not
+ * configure the network.
  */
 void Aquaduino::setMAC(uint8_t* mac)
 {
@@ -134,6 +216,9 @@ void Aquaduino::setMAC(uint8_t* mac)
 }
 
 /**
+ * \brief Getter for MAC address.
+ * \param mac buffer to store the mac. Needs to be at least 6 bytes!
+ *
  * \returns Configured MAC address. May be different to active MAC!
  */
 void Aquaduino::getMAC(uint8_t* mac)
@@ -143,6 +228,8 @@ void Aquaduino::getMAC(uint8_t* mac)
 }
 
 /**
+ * \brief Getter for IP address.
+ *
  * \returns Configured IP address. May be different to active IP!
  */
 IPAddress* Aquaduino::getIP()
@@ -151,7 +238,11 @@ IPAddress* Aquaduino::getIP()
 }
 
 /**
- * \brief This method only stores the value in the object. It does not configure the network.
+ * \brief Setter for IP address.
+ * \param[in] ip pointer to IP address.
+ *
+ * This method only stores the value in the object. It does not
+ * configure the network.
  */
 
 void Aquaduino::setIP(IPAddress* ip)
@@ -160,6 +251,8 @@ void Aquaduino::setIP(IPAddress* ip)
 }
 
 /**
+ * \brief Getter for netmask.
+ *
  * \returns Configured netmask. May be different to active netmask!
  */
 
@@ -169,7 +262,11 @@ IPAddress* Aquaduino::getNetmask()
 }
 
 /**
- * \brief This method only stores the value in the object. It does not configure the network.
+ * \brief Setter for netmask.
+ * \param[in] netmask pointer to netmask address.
+ *
+ * \brief This method only stores the value in the object. It does not
+ * configure the network.
  */
 void Aquaduino::setNetmask(IPAddress* netmask)
 {
@@ -177,7 +274,10 @@ void Aquaduino::setNetmask(IPAddress* netmask)
 }
 
 /**
- * \returns Configured gateway address. May be different to active gateway address!
+ * \brief Getter for gateway address.
+ *
+ * \returns Configured gateway address. May be different to active gateway
+ * address!
  */
 
 IPAddress* Aquaduino::getGateway()
@@ -186,7 +286,11 @@ IPAddress* Aquaduino::getGateway()
 }
 
 /**
- * \brief This method only stores the value in the object. It does not configure the network.
+ * \brief Setter for gateway address.
+ * \param[in] gateway pointer to gateway address.
+ *
+ * This method only stores the value in the object. It does not
+ * configure the network.
  */
 
 void Aquaduino::setGateway(IPAddress* gateway)
@@ -195,7 +299,10 @@ void Aquaduino::setGateway(IPAddress* gateway)
 }
 
 /**
- * \returns Configured DNS server address. May be different to active DNS server address!
+ * \brief Getter for DNS server address.
+ *
+ * \returns Configured DNS server address. May be different to active DNS
+ * server address!
  */
 IPAddress* Aquaduino::getDNS()
 {
@@ -203,7 +310,11 @@ IPAddress* Aquaduino::getDNS()
 }
 
 /**
- * \brief This method only stores the value in the object. It does not configure the network.
+ * \brief Setter for DNS address
+ * \param[in] dns pointer to DNS server address.
+ *
+ * This method only stores the value in the object. It does not
+ * configure the network.
  */
 void Aquaduino::setDNS(IPAddress* dns)
 {
@@ -211,6 +322,8 @@ void Aquaduino::setDNS(IPAddress* dns)
 }
 
 /**
+ * \brief Getter for NTP address.
+ *
  * \returns Configured NTP server address.
  */
 IPAddress* Aquaduino::getNTP()
@@ -219,57 +332,124 @@ IPAddress* Aquaduino::getNTP()
 }
 
 /**
- * \brief This method only stores the value in the object. It does not trigger a NTP update.
+ * \brief Setter for NTP address.
+ * \param[in] ntp pointer to NTP addresss
+ *
+ * This method only stores the value in the object. It does not
+ * trigger a NTP update.
  */
 void Aquaduino::setNTP(IPAddress* ntp)
 {
     myNTP = *ntp;
 }
 
+/**
+ * \brief Getter for NTP synchronization interval.
+ *
+ * \returns NTP synchronization interval in minutes.
+ */
 uint16_t Aquaduino::getNtpSyncInterval()
 {
     return ntpSyncInterval;
 }
+
+/**
+ * \brief Setter for NTP synchronization interval.
+ * \param[in] syncInterval NTP synchronization interval in minutes
+ *
+ * This method only stores the value in the object. It does not
+ * trigger a NTP update.
+ */
 
 void Aquaduino::setNtpSyncInterval(uint16_t syncInterval)
 {
     ntpSyncInterval = syncInterval;
 }
 
+/**
+ * \brief Enables DHCP flag.
+ *
+ * Enables the DHCP flag. When this flag is set during construction time
+ * a DHCP request is performed.
+ */
+
 void Aquaduino::enableDHCP()
 {
     doDHCP = 1;
 }
 
+/**
+ * \brief Disables DHCP flag.
+ *
+ * Disables the DHCP flag. When this flag is not set during construction time
+ * no DHCP request is performed. Instead the IP configuration read by the
+ * configuration manager is used as static configuration. The configuration
+ * manager stores the values set by setIP, setNetmask, setGateway and
+ * setDNS when they are updated using the configuration WebInterface.
+ */
 void Aquaduino::disableDHCP()
 {
     doDHCP = 0;
 }
 
+/**
+ * \brief Checks whether DHCP is enabled or not.
+ *
+ * \returns Value of the DHCP flag.
+ */
 int8_t Aquaduino::isDHCPEnabled()
 {
     return doDHCP;
 }
 
+/**
+ * \brief Enables NTP synchronization.
+ *
+ * Enables the NTP flag and directly performs a NTP synchronization request.
+ * The NTP synchronization interval is set to the value set by
+ * setNtpSyncInterval.
+ */
 void Aquaduino::enableNTP()
 {
     doNTP = 1;
-    setSyncInterval(900); //Sync every 15 minutes
+    setSyncInterval(ntpSyncInterval * 60);
     setSyncProvider(&::NTPSync);
 }
 
+/**
+ * \brief Disables NTP synchronization.
+ *
+ * Disables the NTP synchronization and leaves current time untouched.
+ */
 void Aquaduino::disableNTP()
 {
     doNTP = 0;
-    setSyncInterval(900); //Sync every 15 minutes
+    setSyncInterval(ntpSyncInterval * 60);
     setSyncProvider(NULL);
 }
 
+/**
+ * \brief Checks whether NTP synchronization is enabled or not.
+ *
+ * \returns Value of the NTP flag.
+ */
 int8_t Aquaduino::isNTPEnabled()
 {
     return doNTP;
 }
 
+/**
+ * \brief Sets the current time.
+ * \param[in] hour
+ * \param[in] minute
+ * \param[in] second
+ * \param[in] day
+ * \param[in] month
+ * \param[in] year
+ *
+ * Sets the current time when NTP synchronization is disabled. Otherwise no
+ * update will be performed.
+ */
 void Aquaduino::setTime(int8_t hour, int8_t minute, int8_t second, int8_t day,
                         int8_t month, int16_t year)
 {
@@ -277,6 +457,20 @@ void Aquaduino::setTime(int8_t hour, int8_t minute, int8_t second, int8_t day,
         ::setTime(hour, minute, second, day, month, year);
 }
 
+/**
+ * \brief Adds a controller to Aquaduino.
+ * \param[in] newController The controller to be added.
+ *
+ * Adds the controller specified by newController. The controllers are stored
+ * in an ArrayList and can later be identified by their index in this
+ * ArrayList. If the store operation was successful the controllers URL
+ * is set to "C" followed by its index. Thus a controller stored at index 1
+ * will receive the URL "C1". After the URL was set the configuration manager
+ * is triggered to read the configuration of the controller.
+ *
+ * \returns Index of the controller in the ArrayList m_Controllers. When the
+ * operation fails -1 is returned.
+ */
 int8_t Aquaduino::addController(Controller* newController)
 {
     char buffer[5];
@@ -298,31 +492,77 @@ int8_t Aquaduino::addController(Controller* newController)
     return idx;
 }
 
-Controller* Aquaduino::getController(unsigned int controller)
+/**
+ * \brief Getter for controllers assigned to Aquaduino.
+ * \param[in] idx index location.
+ *
+ * \returns controller object stored at position idx. Can be NULL.
+ */
+Controller* Aquaduino::getController(unsigned int idx)
 {
-    return m_Controllers.get(controller);
+    return m_Controllers.get(idx);
 }
 
+/**
+ * \brief Gets the index of a controller object.
+ * \param[in] controller to be identified.
+ *
+ * \returns the index in m_Controllers if the object is stored in there. If
+ * that is not the case -1 is returned.
+ */
 int8_t Aquaduino::getControllerID(Controller* controller)
 {
     return m_Controllers.findElement(controller);
 }
 
+/**
+ * \brief Resets the iterator for the controllers stored in m_Controllers.
+ *
+ * The iterator is placed to the first slot in m_Controllers.
+ */
 void Aquaduino::resetControllerIterator()
 {
     m_Controllers.resetIterator();
 }
 
+/**
+ * \brief Returns the next controller in m_Controllers.
+ * \param[out] controller stores the pointer to the next controller in here.
+ *
+ * Since the ArrayList m_Controllers may get fragmented the ArrayList
+ * provides the functionality to iterate over all available elements
+ * in the ArrayList. This method delegates the call to the method of the
+ * ArrayList.
+ */
 int8_t Aquaduino::getNextController(Controller** controller)
 {
     return m_Controllers.getNext(controller);
 }
 
+/**
+ * \brief Getter for the number of assigned controllers.
+ *
+ * \returns the number of assigned controllers.
+ */
 unsigned char Aquaduino::getNrOfControllers()
 {
     return m_Controllers.getNrOfElements();
 }
 
+/**
+ * \brief Adds an actuators to Aquaduino.
+ * \param[in] newActuator pointer to the actuator object to be added.
+ *
+ * Adds the actuator specified by newActuator. The actuators are stored
+ * in an ArrayList and can later be identified by their index in this
+ * ArrayList. If the store operation was successful the actuators URL
+ * is set to "A" followed by its index. Thus an actuator stored at index 1
+ * will receive the URL "A1". After the URL was set the configuration manager
+ * is triggered to read the configuration of the actuator.
+ *
+ * \returns Index of the actuator in the ArrayList m_Actuators. When the
+ * operation fails -1 is returned.
+ */
 int8_t Aquaduino::addActuator(Actuator* newActuator)
 {
     char buffer[5];
@@ -344,26 +584,64 @@ int8_t Aquaduino::addActuator(Actuator* newActuator)
     return idx;
 }
 
-Actuator* Aquaduino::getActuator(unsigned int actuator)
+/**
+ * \brief Getter for actuators assigned to Aquaduino.
+ * \param[in] idx index within the ArrayList m_Actuators.
+ *
+ * \returns actuator object stored at position idx. Can be NULL.
+ */
+Actuator* Aquaduino::getActuator(unsigned int idx)
 {
     return m_Actuators.get(actuator);
 }
 
+/**
+ * \brief Gets the index of an actuator object.
+ * \param[in] actuator pointer to the actuator object to be found.
+ *
+ * \returns the index in m_Actuators if the object is stored in there. If
+ * that is not the case -1 is returned.
+ */
 int8_t Aquaduino::getActuatorID(Actuator* actuator)
 {
     return m_Actuators.findElement(actuator);
 }
 
+/**
+ * \brief Resets the iterator for the actuators stored in m_Actuators.
+ *
+ * The iterator is placed to the first slot in m_Actuators.
+ */
 void Aquaduino::resetActuatorIterator()
 {
     m_Actuators.resetIterator();
 }
 
+/**
+ * \brief Returns the next actuator in m_Actuators.
+ * \param[out] actuator the pointer to the actuator is stored in here.
+ *
+ * Since the ArrayList m_Actuators may get fragmented the ArrayList
+ * provides the functionality to iterate over all available elements
+ * in the ArrayList. This method delegates the call to the method of the
+ * ArrayList.
+ *
+ * \returns the index of the next actuator.
+ */
 int8_t Aquaduino::getNextActuator(Actuator** actuator)
 {
     return m_Actuators.getNext(actuator);
 }
 
+/**
+ * \brief Identifies the actuators assigned to a specific controller.
+ *
+ * This method iterates over all actuators and checks which actuators
+ * are assigned to the controller specified by controller. The resulting
+ * objects are stored in the passed array of actuator pointers with size max.
+ *
+ * returns the number of assigned actuators.
+ */
 int8_t Aquaduino::getAssignedActuators(Controller* controller,
                                        Actuator** actuators, int8_t max)
 {
@@ -385,6 +663,19 @@ int8_t Aquaduino::getAssignedActuators(Controller* controller,
     return nrOfAssignedActuators;
 }
 
+/**
+ * \brief Identifies the actuators assigned to a specific controller.
+ * @param[in] controller The controller for which the assigned actuators shall
+ *                       be identified.
+ * @param[out] actuatorIDs Array to store the identified actuators.
+ * @param[in] max size of the array.
+ *
+ * This method iterates over all actuators and checks which actuators
+ * are assigned to the specified controller. The resulting
+ * indices are stored in the passed array of indices with size max.
+ *
+ * returns the number of assigned actuators.
+ */
 int8_t Aquaduino::getAssignedActuatorIDs(Controller* controller,
                                          int8_t* actuatorIDs, int8_t max)
 {
@@ -406,11 +697,27 @@ int8_t Aquaduino::getAssignedActuatorIDs(Controller* controller,
     return nrOfAssignedActuators;
 }
 
+/**
+ * \brief Getter for the number of assigned actuators.
+ *
+ * \returns the number of assigned actuators.
+ */
 unsigned char Aquaduino::getNrOfActuators()
 {
     return m_Actuators.getNrOfElements();
 }
 
+/**
+ * \brief Serializes the Aquaduino configuration
+ * \param[out] buffer pointer to the buffer where the serialized data is going
+ *                    to be stored.
+ * \param[in] size Size of the buffer.
+ *
+ * \implements Serializable
+ *
+ * \returns amount of data serialized in bytes. Returns 0 if serialization
+ * failed.
+ */
 uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
 {
     uint8_t* bPtr = (uint8_t*) buffer;
@@ -437,6 +744,16 @@ uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
     return (uint16_t) bPtr - (uint16_t) buffer;
 }
 
+/**
+ * \brief Deserializes the Aquaduino configuration
+ * \param[in] data pointer to the data where the serialized data is stored.
+ * \param[in] size Size of the buffer.
+ *
+ * \implements Serializable
+ *
+ * \returns amount of data deserialized in bytes. Returns 0 if deserialization
+ * failed.
+ */
 uint16_t Aquaduino::deserialize(void* data, uint16_t size)
 {
     uint8_t* bPtr = (uint8_t*) data;
@@ -462,89 +779,221 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
 
     return (uint16_t) bPtr - (uint16_t) data;
 }
+
+/**
+ * \brief Write Aquaduino configuration
+ * \param[in] aquaduino The aquaduino instance of which the configuration
+ *                      shall be written.
+ *
+ * Delegates the call to the ConfigurationManager to write the configuration.
+ *
+ * \returns The number of written bytes. -1 if writing failed.
+ */
 int8_t Aquaduino::writeConfig(Aquaduino* aquaduino)
 {
     return m_ConfigManager->writeConfig(aquaduino);
 }
 
+/**
+ * \brief Write Actuator configuration
+ * \param[in] actuator The actuator instance of which the configuration
+ *                     shall be written.
+ *
+ * Delegates the call to the ConfigurationManager to write the configuration.
+ *
+ * \returns The number of written bytes. -1 if writing failed.
+ */
 int8_t Aquaduino::writeConfig(Actuator* actuator)
 {
     return m_ConfigManager->writeConfig(actuator);
 }
 
+/**
+ * \brief Write Controller configuration
+ * \param[in] controller The controller instance of which the configuration
+ *                       shall be written.
+ *
+ * Delegates the call to the ConfigurationManager to write the configuration.
+ *
+ * \returns The number of written bytes. -1 if writing failed.
+ */
 int8_t Aquaduino::writeConfig(Controller* controller)
 {
     return m_ConfigManager->writeConfig(controller);
 }
 
+/**
+ * \brief Write Sensor configuration
+ * \param[in] sensor The sensor instance of which the configuration
+ *                   shall be written.
+ *
+ * Delegates the call to the ConfigurationManager to write the configuration.
+ *
+ * \returns The number of written bytes. -1 if writing failed.
+ */
 int8_t Aquaduino::writeConfig(Sensor* sensor)
 {
     return m_ConfigManager->writeConfig(sensor);
 }
 
+/**
+ * \brief Reads the Aquaduino configuration
+ * \param[in] aquaduino The aquaduino instance of which the configuration
+ *                     shall be read.
+ *
+ * \returns amount of data read in bytes. -1 if reading failed.
+ */
 int8_t Aquaduino::readConfig(Aquaduino* aquaduino)
 {
     return m_ConfigManager->readConfig(aquaduino);
 }
 
+/**
+ * \brief Reads Actuator configuration
+ * \param[in] actuator The actuator instance of which the configuration
+ *                     shall be read.
+ *
+ * Delegates the call to the ConfigurationManager to read the configuration.
+ *
+ * \returns The number of read bytes. -1 if reading failed.
+ */
 int8_t Aquaduino::readConfig(Actuator* actuator)
 {
     return m_ConfigManager->readConfig(actuator);
 }
 
+/**
+ * \brief Reads Controller configuration
+ * \param[in] controller The controller instance of which the configuration
+ *                       shall be read.
+ *
+ * Delegates the call to the ConfigurationManager to read the configuration.
+ *
+ * \returns The number of read bytes. -1 if reading failed.
+ */
 int8_t Aquaduino::readConfig(Controller* controller)
 {
     return m_ConfigManager->readConfig(controller);
 }
 
+/**
+ * \brief Reads Sensor configuration
+ * \param[in] sensor The sensor instance of which the configuration
+ *                   shall be read.
+ *
+ * Delegates the call to the ConfigurationManager to read the configuration.
+ *
+ * \returns The number of read bytes. -1 if reading failed.
+ */
 int8_t Aquaduino::readConfig(Sensor* sensor)
 {
     return m_ConfigManager->readConfig(sensor);
 }
 
+/**
+ * \brief Setter for the temperature sensor.
+ * \param[in] tempSensor instance of the temperature sensor
+ *
+ * Sets the temperature sensor to be used.
+ */
 void Aquaduino::setTemperatureSensor(Sensor* tempSensor)
 {
     this->temperatureSensor = tempSensor;
 }
 
+/**
+ * \brief Getter for the temperature.
+ *
+ * Accesses the member variable. No read on the sensor is triggered.
+ *
+ * \returns The last read temperature.
+ *
+ */
 double Aquaduino::getTemperature()
 {
     return temp;
 }
 
+/**
+ * \brief Setter for the level sensor.
+ * \param[in] levSensor instance of the temperature sensor
+ *
+ * Sets the level sensor to be used.
+ */
 void Aquaduino::setLevelSensor(Sensor* levSensor)
 {
     this->levelSensor = levSensor;
 }
 
+/**
+ * \brief Getter for the water level.
+ *
+ * Accesses the member variable. No read on the sensor is triggered.
+ *
+ * \returns The last read water level.
+ *
+ */
 double Aquaduino::getLevel()
 {
     return level;
 }
 
+/**
+ * \brief Setter for the Webduino webserver instance.
+ * \param[in] webServer WebServer instance to be used.
+ *
+ * Sets athe WebServer instance to be used and attaches the prepared handler
+ * routines. Finally the WebServer is initialized.
+ */
 void Aquaduino::setWebserver(WebServer* webServer)
 {
     myWebServer = webServer;
+    //
     webServer->setDefaultCommand(&defaultCmd);
     webServer->setUrlPathCommand(&controllerDispatchCommand);
     webServer->begin();
 }
 
+/**
+ * \brief Getter for the WebServer
+ *
+ * \returns The instance of the used WebServer
+ */
 WebServer* Aquaduino::getWebserver()
 {
     return myWebServer;
 }
 
+/**
+ * \brief Setter for the TemplateParser to be used for HTML template parsing.
+ * \param[in] parser Instance of the used TemplateParser.
+ *
+ * Sets the instance of the used TemplateParser
+ *
+ * \returns The instance of the used WebServer
+ */
 void Aquaduino::setTemplateParser(TemplateParser* parser)
 {
     m_TemplateParser = parser;
 }
 
+/**
+ * \brief Getter for the TemplateParser
+ *
+ * \returns The instance of the used TemplateParser
+ */
 TemplateParser* Aquaduino::getTemplateParser()
 {
     return m_TemplateParser;
 }
 
+/**
+ * \brief Top level run method.
+ *
+ * This is the top level run method. It triggers the sensor readings,
+ * controller run methods and the WebServer processing. Needs to be called
+ * periodically i.e. within the loop() function of the Arduino environment.
+ */
 void Aquaduino::run()
 {
     int8_t controllerIdx = -1;
