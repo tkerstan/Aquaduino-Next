@@ -25,30 +25,26 @@
 #include <stdint.h>
 
 template<class T>
-class ArrayList
+class ArrayMap
 {
 private:
     T* m_Array;
     int8_t m_Size;
-    int8_t m_Head;
     int8_t m_Current;
-    int8_t m_Tail;
 
 protected:
     int8_t findHead();
     int8_t findTail();
 
 public:
-    ArrayList(const int8_t size);
-    virtual ~ArrayList();
+    ArrayMap(const int8_t size);
+    virtual ~ArrayMap();
 
     int8_t add(const T e);
     int8_t remove(const T e);
     int8_t findElement(const T e);
     int8_t getNrOfElements();
 
-    int8_t getHead(T* result);
-    int8_t getTail(T* result);
     int8_t getCurrent(T* result);
     int8_t getNext(T* result);
     void resetIterator();
@@ -59,60 +55,55 @@ public:
 };
 
 template<class T>
-ArrayList<T>::ArrayList(const int8_t size) :
-        m_Size(size), m_Head(0), m_Current(0), m_Tail(0)
+ArrayMap<T>::ArrayMap(const int8_t size) :
+        m_Size(size), m_Current(0)
 {
     m_Array = (T*) malloc(sizeof(T) * size);
     memset(m_Array, 0, sizeof(T) * size);
 }
 
 template<class T>
-ArrayList<T>::~ArrayList()
+ArrayMap<T>::~ArrayMap()
 {
     delete m_Array;
 }
 
 template<class T>
-int8_t ArrayList<T>::findHead()
+int8_t ArrayMap<T>::findHead()
 {
     int8_t i = 0;
     for (; i < m_Size; i++)
         if (m_Array[i] != NULL)
         {
-            m_Head = i;
             return i;
         }
-    m_Head = 0;
     return -1;
 }
 
 template<class T>
-int8_t ArrayList<T>::findTail()
+int8_t ArrayMap<T>::findTail()
 {
     int8_t i = m_Size - 1;
 
     for (; i >= 0; i--)
         if (m_Array[i] != NULL)
         {
-            m_Tail = i;
             return i;
         }
-    m_Tail = 0;
     return -1;
 }
 
 template<class T>
-int8_t ArrayList<T>::add(const T e)
+int8_t ArrayMap<T>::add(const T e)
 {
     int8_t i = 0;
 
     for (; i < m_Size; i++)
     {
-        m_Tail = (m_Tail + i) % m_Size;
-        if (m_Array[m_Tail] == NULL)
+        if (m_Array[i] == NULL)
         {
-            m_Array[m_Tail] = e;
-            return m_Tail;
+            m_Array[i] = e;
+            return i;
         }
     }
 
@@ -120,17 +111,13 @@ int8_t ArrayList<T>::add(const T e)
 }
 
 template<class T>
-int8_t ArrayList<T>::remove(const T e)
+int8_t ArrayMap<T>::remove(const T e)
 {
     int8_t pos = findElement(e);
 
     if (pos >= 0)
     {
         m_Array[pos] == NULL;
-        if (pos == m_Head)
-            findHead();
-        if (pos == m_Tail)
-            findTail();
         return pos;
 
     }
@@ -138,7 +125,7 @@ int8_t ArrayList<T>::remove(const T e)
 }
 
 template<class T>
-int8_t ArrayList<T>::findElement(const T e)
+int8_t ArrayMap<T>::findElement(const T e)
 {
     int8_t i = 0;
 
@@ -152,7 +139,7 @@ int8_t ArrayList<T>::findElement(const T e)
 }
 
 template<class T>
-int8_t ArrayList<T>::getNrOfElements()
+int8_t ArrayMap<T>::getNrOfElements()
 {
     int8_t i = 0;
     int8_t elements = 0;
@@ -167,23 +154,7 @@ int8_t ArrayList<T>::getNrOfElements()
 }
 
 template<class T>
-int8_t ArrayList<T>::getHead(T* result)
-{
-    *result = m_Array[m_Head];
-
-    return m_Head;
-}
-
-template<class T>
-int8_t ArrayList<T>::getTail(T* result)
-{
-    *result = m_Array[m_Tail];
-
-    return m_Tail;
-}
-
-template<class T>
-int8_t ArrayList<T>::getCurrent(T* result)
+int8_t ArrayMap<T>::getCurrent(T* result)
 {
     *result = m_Array[m_Current];
 
@@ -191,9 +162,9 @@ int8_t ArrayList<T>::getCurrent(T* result)
 }
 
 template<class T>
-int8_t ArrayList<T>::getNext(T* result)
+int8_t ArrayMap<T>::getNext(T* result)
 {
-    for (m_Current = m_Current; m_Current < m_Size; m_Current++)
+    for (; m_Current < m_Size; m_Current++)
     {
         if (m_Array[m_Current] != NULL)
         {
@@ -207,19 +178,19 @@ int8_t ArrayList<T>::getNext(T* result)
 }
 
 template<class T>
-void ArrayList<T>::resetIterator()
+void ArrayMap<T>::resetIterator()
 {
-    m_Current = m_Head;
+    m_Current = findHead();
 }
 
 template<class T>
-void ArrayList<T>::setIterator(T element)
+void ArrayMap<T>::setIterator(T element)
 {
     m_Current = element;
 }
 
 template<class T>
-T ArrayList<T>::get(const int8_t index)
+T ArrayMap<T>::get(const int8_t index)
 {
     if (0 <= index && index < m_Size)
         return m_Array[index];
@@ -227,7 +198,7 @@ T ArrayList<T>::get(const int8_t index)
 }
 
 template<class T>
-T& ArrayList<T>::operator[](const int nIndex)
+T& ArrayMap<T>::operator[](const int nIndex)
 {
     if (0 <= nIndex && nIndex < m_Size)
         return m_Array[nIndex];

@@ -28,7 +28,7 @@
 #include "Framework/Controller.h"
 #include "Framework/Actuator.h"
 #include "Framework/Sensor.h"
-#include "Framework/ArrayList.h"
+#include "Framework/ArrayMap.h"
 #include "Framework/SDConfigManager.h"
 #include "Framework/Object.h"
 #include "Framework/Serializable.h"
@@ -61,8 +61,8 @@ private:
     int8_t doDHCP;
     int8_t doNTP;
 
-    ArrayList<Controller*> m_Controllers;
-    ArrayList<Actuator*> m_Actuators;
+    ArrayMap<Controller*> m_Controllers;
+    ArrayMap<Actuator*> m_Actuators;
     Sensor* temperatureSensor;
     Sensor* levelSensor;
     WebServer* myWebServer;
