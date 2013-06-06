@@ -25,9 +25,25 @@
 
 #include <WebServer.h>
 
+/**
+ * \brief Interface to access the Webduino webserver
+ *
+ * This interface provides access to the webserver when a class needs to
+ * present its webpage.
+ */
 class WebInterface
 {
 public:
+    /**
+     * \brief Callback for webpage presentation
+     * \param[in] server Instance of the Webduino webserver
+     * \param[in] type Type of the request (GET, POST,...)
+     * \param[in] url URL used in request. Allows for subURL decoding.
+     *
+     * This method needs to be implemented by the class providing this
+     * interface to present its webpage using the Webduino webserver.
+     *
+     */
     virtual int8_t showWebinterface(WebServer* server,
                                     WebServer::ConnectionType type,
                                     char* url) = 0;

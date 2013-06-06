@@ -21,10 +21,20 @@
 #include "Object.h"
 #include "string.h"
 
+/**
+ * \brief Default constructor
+ *
+ * Empty.
+ */
 Object::Object()
 {
 }
 
+/**
+ * \brief Constructor
+ * \param[in] name The name of the object.
+ * \param[in] url The url of the object.
+ */
 Object::Object(const char* name, const char* url)
 {
     setName(name);
@@ -32,32 +42,64 @@ Object::Object(const char* name, const char* url)
     m_Type = 0;
 }
 
+/**
+ * \brief Destructor
+ *
+ * Empty.
+ */
 Object::~Object()
 {
 }
 
+/**
+ * \brief Setter for the object name.
+ * \param[in] name Name to be assigned
+ *
+ * The name is copied to the member variable of this object.
+ */
 void Object::setName(const char* name)
 {
     strncpy(m_Name, name, sizeof(m_Name));
     m_Name[sizeof(m_Name) - 1] = 0;
 }
 
+/**
+ * \brief Getter for the name of the object.
+ *
+ * \returns The name of this object.
+ */
 const char* Object::getName()
 {
     return m_Name;
 }
 
+/**
+ * \brief Setter for the object URL.
+ * \param[in] url URL to be assigned
+ *
+ * The url is copied to the member variable of this object.
+ */
 void Object::setURL(const char* url)
 {
     strncpy(m_URL, url, sizeof(m_URL));
     m_URL[sizeof(m_URL) - 1] = 0;
 }
 
+/**
+ * \brief Getter for the URL of the object.
+ *
+ * \returns The URL of this object.
+ */
 const char* Object::getURL()
 {
     return m_URL;
 }
 
+/**
+ * \brief Getter for the type of the object.
+ *
+ * \returns The type of this object.
+ */
 int16_t Object::getType()
 {
     return m_Type;

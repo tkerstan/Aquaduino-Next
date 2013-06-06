@@ -24,6 +24,11 @@
 #include <Framework/Config.h>
 #include <Framework/ObjectTypes.h>
 
+/**\brief Base class for all Controller, Actuators, Sensors and the Aquaduino.
+ *
+ * Provides common functionality to manage name, URL and type of an Aquaduino
+ * component.
+ */
 class Object
 {
 public:

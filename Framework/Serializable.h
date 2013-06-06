@@ -23,10 +23,35 @@
 
 #include <Arduino.h>
 
+/**
+ * \brief Interface for serialization methods.
+ *
+ * This interface provides the serialization methods to be used for storing
+ * and restoring the configuration of objects.
+ */
 class Serializable
 {
 public:
+    /**
+     * \brief Callback for serialization of an object.
+     * \param[out] buffer The buffer where the serialized data is going to be
+     *                    stored.
+     * \param[in] size The size of the buffer.
+     *
+     * This method needs to be implemented to serialize the desired data of the
+     * class providing this interface.
+     */
     virtual uint16_t serialize(void* buffer, uint16_t size) = 0;
+
+   /**
+     * \brief Callback for deserialization of an object.
+     * \param[out] data The buffer where the serialized data is going to be
+     *                    stored.
+     * \param[in] size The size of the buffer.
+     *
+     * This method needs to be implemented to deserialize the desired data of
+     * the class providing this interface.
+     */
     virtual uint16_t deserialize(void* data, uint16_t size) = 0;
 };
 
