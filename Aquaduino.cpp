@@ -592,7 +592,7 @@ int8_t Aquaduino::addActuator(Actuator* newActuator)
  */
 Actuator* Aquaduino::getActuator(unsigned int idx)
 {
-    return m_Actuators.get(actuator);
+    return m_Actuators.get(idx);
 }
 
 /**
