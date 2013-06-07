@@ -256,7 +256,7 @@ T ArrayMap<T>::get(const int8_t index)
 
 /**
  * \brief Gets an element from the map.
- * \param index Index of the element to get.
+ * \param nIndex Index of the element to get.
  *
  * \returns The element at the specified index.
  */
