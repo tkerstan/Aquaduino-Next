@@ -24,6 +24,13 @@
 #include <stddef.h>
 #include <stdint.h>
 
+/**
+ * \brief Map implementation using a fixed array
+ *
+ * Simple map implementation. Keys are returned when adding the element to
+ * the map. The value is then accessible by this key. Also provides an iterator
+ * over the map.
+ */
 template<class T>
 class ArrayMap
 {
@@ -31,10 +38,12 @@ private:
     T* m_Array;
     int8_t m_Size;
     int8_t m_Current;
+    int8_t m_Last;
+    ArrayMap();
+    ArrayMap(const ArrayMap<T>& m);
 
 protected:
     int8_t findHead();
-    int8_t findTail();
 
 public:
     ArrayMap(const int8_t size);
@@ -45,29 +54,64 @@ public:
     int8_t findElement(const T e);
     int8_t getNrOfElements();
 
-    int8_t getCurrent(T* result);
     int8_t getNext(T* result);
     void resetIterator();
-    void setIterator(T element);
 
     T get(const int8_t index);
     T& operator[](const int nIndex);
 };
 
+/**
+ * \brief Default constructor
+ *
+ * Private & Empty.
+ */
+template<class T>
+ArrayMap<T>::ArrayMap() :
+        m_Array(NULL), m_Size(0), m_Current(0), m_Last(0)
+{
+}
+
+/**
+ * \brief Copy constructor
+ *
+ * Private & Empty.
+ */
+template<class T>
+ArrayMap<T>::ArrayMap(const ArrayMap<T>& m)
+{
+}
+
+/**
+ * \brief Constructor
+ * \param[in] size Number of elements the map can hold.
+ *
+ * Allocates the map using malloc and initializes it to zero.
+ */
 template<class T>
 ArrayMap<T>::ArrayMap(const int8_t size) :
-        m_Size(size), m_Current(0)
+        m_Size(size), m_Current(-1), m_Last(0)
 {
     m_Array = (T*) malloc(sizeof(T) * size);
     memset(m_Array, 0, sizeof(T) * size);
 }
 
+/**
+ * \brief Destructor
+ *
+ * Deletes the array allocated by malloc.
+ */
 template<class T>
 ArrayMap<T>::~ArrayMap()
 {
     delete m_Array;
 }
 
+/*
+ * \brief Finds the first non empty element in the array.
+ *
+ * \returns Index if the first non empty element in the array.
+ */
 template<class T>
 int8_t ArrayMap<T>::findHead()
 {
@@ -80,29 +124,23 @@ int8_t ArrayMap<T>::findHead()
     return -1;
 }
 
-template<class T>
-int8_t ArrayMap<T>::findTail()
-{
-    int8_t i = m_Size - 1;
-
-    for (; i >= 0; i--)
-        if (m_Array[i] != NULL)
-        {
-            return i;
-        }
-    return -1;
-}
-
+/**
+ * \brief Adds an element to the map.
+ *
+ * \returns Index of the element in the array.
+ */
 template<class T>
 int8_t ArrayMap<T>::add(const T e)
 {
-    int8_t i = 0;
+    int8_t i = m_Last;
 
     for (; i < m_Size; i++)
     {
         if (m_Array[i] == NULL)
         {
             m_Array[i] = e;
+            //Initialize the iterator when map was empty.
+            m_Current = m_Current < 0 ? i : m_Current;
             return i;
         }
     }
@@ -110,6 +148,12 @@ int8_t ArrayMap<T>::add(const T e)
     return -1;
 }
 
+/**
+ * \brief Deletes an element from the map.
+ *
+ * \returns The index where the element was stored. -1 when the element did
+ * not exist in the map.
+ */
 template<class T>
 int8_t ArrayMap<T>::remove(const T e)
 {
@@ -118,12 +162,18 @@ int8_t ArrayMap<T>::remove(const T e)
     if (pos >= 0)
     {
         m_Array[pos] == NULL;
+        m_Last = pos;
         return pos;
 
     }
     return -1;
 }
 
+/*
+ * \brief Finds an element in the map.
+ *
+ * \returns Index of the element in the map. -1 if it is not found.
+ */
 template<class T>
 int8_t ArrayMap<T>::findElement(const T e)
 {
@@ -138,6 +188,11 @@ int8_t ArrayMap<T>::findElement(const T e)
     return -1;
 }
 
+/**
+ * \brief Gets the number of stored elements in the map.
+ *
+ * \return The number of elements stored in the map.
+ */
 template<class T>
 int8_t ArrayMap<T>::getNrOfElements()
 {
@@ -153,18 +208,15 @@ int8_t ArrayMap<T>::getNrOfElements()
     return elements;
 }
 
-template<class T>
-int8_t ArrayMap<T>::getCurrent(T* result)
-{
-    *result = m_Array[m_Current];
-
-    return m_Current;
-}
-
+/**
+ * \brief Gets the next element using the internal iterator.
+ *
+ * \returns Next element in the map.
+ */
 template<class T>
 int8_t ArrayMap<T>::getNext(T* result)
 {
-    for (; m_Current < m_Size; m_Current++)
+    for (; m_Current >= 0 && m_Current < m_Size; m_Current++)
     {
         if (m_Array[m_Current] != NULL)
         {
@@ -177,18 +229,23 @@ int8_t ArrayMap<T>::getNext(T* result)
     return -1;
 }
 
+/**
+ * \brief Resets the internal iterator.
+ *
+ * Resets the internal iterator to the first element in the map.
+ */
 template<class T>
 void ArrayMap<T>::resetIterator()
 {
     m_Current = findHead();
 }
 
-template<class T>
-void ArrayMap<T>::setIterator(T element)
-{
-    m_Current = element;
-}
-
+/**
+ * \brief Gets an element from the map.
+ * \param index Index of the element to get.
+ *
+ * \returns The element at the specified index.
+ */
 template<class T>
 T ArrayMap<T>::get(const int8_t index)
 {
@@ -197,6 +254,12 @@ T ArrayMap<T>::get(const int8_t index)
     return NULL;
 }
 
+/**
+ * \brief Gets an element from the map.
+ * \param index Index of the element to get.
+ *
+ * \returns The element at the specified index.
+ */
 template<class T>
 T& ArrayMap<T>::operator[](const int nIndex)
 {
