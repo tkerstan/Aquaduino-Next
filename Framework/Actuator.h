@@ -29,6 +29,21 @@
 
 class Controller;
 
+/**
+ * \brief Abstract class for common actuator methods.
+ *
+ * This class provides the basic functionality of common actuators like turning
+ * them on and off or if possible control them using a PWM signal.
+ *
+ * All Actuators must implement the Serializable and WebInterface interfaces to
+ * provide access to the configuration of the actuator.
+ *
+ * An actuator can be assigned to a single controller. This relationship is
+ * stored in the Actuator object as an index. The Aquaduino class itself stores
+ * the controller in an ArrayMap. The index of a controller within this map is
+ * stored here. The index can then be stored directly in a configuration file
+ * by the ConfigManager.
+ */
 class Actuator: public Object, public Serializable, public WebInterface
 {
 private:
@@ -38,6 +53,7 @@ private:
 protected:
     int8_t m_ControlledBy;
     int8_t m_locked;
+
     virtual ~Actuator();
 
 public:
@@ -50,14 +66,53 @@ public:
     virtual void unlock();
     virtual int8_t isLocked();
 
+    /**
+     * \brief Activates the actuator.
+     *
+     * Needs to be implemented by derived class.
+     */
     virtual void on() = 0;
+
+    /**
+     * \brief Disables the actuator.
+     *
+     * Needs to be implemented by derived class.
+     */
+
     virtual void off() = 0;
+
+    /**
+     * \brief Checks whether this actuator is enabled or not.
+     *
+     * Needs to be implemented by derived class.
+     */
     virtual int8_t isOn() = 0;
 
+    /**
+     * \brief Checks for PWM support.
+     *
+     * Needs to be implemented by derived class.
+     */
     virtual int8_t supportsPWM() = 0;
+
+    /**
+     * \brief Sets PWM duty cycle.
+     * \param[in] dutyCycle PWM duty cycle.
+     *
+     * Needs to be implemented by derived class.
+     */
     virtual void setPWM(float dutyCycle) = 0;
+
+    /**
+     * \brief Gets the current PWM duty cycle this actuator operates with.
+     *
+     * \returns Current PWM duty cycle.
+     */
     virtual float getPWM() = 0;
 
+    /**
+     * Derived actuators need to implement this.
+     */
     virtual int8_t showWebinterface(WebServer* server,
                                     WebServer::ConnectionType type,
                                     char* url) = 0;
