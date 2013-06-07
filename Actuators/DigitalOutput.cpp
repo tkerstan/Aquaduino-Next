@@ -55,17 +55,31 @@ DigitalOutput::DigitalOutput(const char* name, int8_t pin, uint8_t onValue,
 uint16_t DigitalOutput::serialize(void* buffer, uint16_t size)
 {
     uint8_t* bPtr = (uint8_t*) buffer;
-    memcpy(bPtr, &onValue, sizeof(onValue));
-    memcpy(bPtr + sizeof(onValue), &offValue, sizeof(offValue));
-    return 1;
+    uint16_t mySize = sizeof(onValue) + sizeof(offValue);
+
+    if (mySize <= size)
+    {
+        memcpy(bPtr, &onValue, sizeof(onValue));
+        memcpy(bPtr + sizeof(onValue), &offValue, sizeof(offValue));
+    }
+    else
+        return 0;
+
+    return mySize;
 }
 
 uint16_t DigitalOutput::deserialize(void* data, uint16_t size)
 {
     uint8_t* bPtr = (uint8_t*) data;
+    uint16_t mySize = sizeof(onValue) + sizeof(offValue);
+
+    if (size < mySize)
+        return 0;
+
     memcpy(&onValue, bPtr, sizeof(onValue));
     memcpy(&offValue, bPtr + sizeof(onValue), sizeof(offValue));
-    return 1;
+
+    return mySize;
 }
 
 void DigitalOutput::on()
