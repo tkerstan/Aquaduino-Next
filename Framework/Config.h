@@ -23,13 +23,40 @@
 
 #include <stdint.h>
 
+/**
+ * \brief Defines the maximum number of controllers the system can manage
+ */
 #define MAX_CONTROLLERS             15
+
+/**
+ * \brief Defines the maximum number of actuators the system can manage
+ */
 #define MAX_ACTUATORS               25
+
+/**
+ * \brief Defines the maximum number of sensors the system can manage
+ */
 #define MAX_SENSORS                 4
+
+/**
+ * \brief Defines the maximum number of Clocktimers the system can manage
+ */
 #define MAX_CLOCKTIMERS             8
+
+/**
+ * \brief Defines the default timezone
+ */
 #define TIME_ZONE                   +2
+
+/**
+ * \brief Defines the size of the serialization buffer.
+ */
 #define SERIALIZATION_BUFFER        200
 
+/**
+ * \brief Defines the maximum length of Strings stored in Aquaduino components
+ * like Controller, Actuator, Sensor, ...
+ */
 #define AQUADUINO_STRING_LENGTH     20
 
 #endif /*CONFIG_H_*/
