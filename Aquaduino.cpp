@@ -1113,8 +1113,8 @@ void setup()
                                             POWER_OUTLET_START_PIN + i,
                                             HIGH,
                                             LOW);
-        powerOutlets[i]->on();
         aquaduino->addActuator(powerOutlets[i]);
+        powerOutlets[i]->on();
     }
 
     temperatureController = new TemperatureController("Temperature");
