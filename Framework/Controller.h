@@ -21,19 +21,32 @@
 #ifndef AQUADUINOCONTROLLER_H_
 #define AQUADUINOCONTROLLER_H_
 
-#define WEBDUINO_NO_IMPLEMENTATION
-
 #include "Object.h"
 #include "Serializable.h"
 #include "WebInterface.h"
 #include "Config.h"
-#include <WebServer.h>
 
+/**
+ * \brief A controller realizes a control task like water level monitoring,
+ * temperature monitoring,...
+ *
+ * The control task is implemented in its ::run method. The ::run() method
+ * is called by the Aquaduino main loop when the controller is registered
+ * using Aqaduino::addController.
+ *
+ * When the controller shall be configurable throuh the web it needs to
+ * implement the WebInterface interface.
+ */
 class Controller: public Object, public Serializable, public WebInterface
 {
 public:
     Controller(const char* name);
 
+    /**
+     * \brief Interface method for triggering the controller.
+     *
+     * Called by Aquaduino::run
+     */
     virtual int8_t run() = 0;
     virtual int8_t showWebinterface(WebServer* server,
                                     WebServer::ConnectionType type,
@@ -42,6 +55,21 @@ public:
 protected:
     virtual ~Controller();
     void allMyActuators(int8_t on);
+
+private:
+    /**
+     * \brief Copy constructor
+     *
+     * Empty.
+     */
+    Controller (Controller& c){};
+
+    /**
+     * \brief Copy constructor
+     *
+     * Empty.
+     */
+    Controller (const Controller& c){};
 };
 
 #endif /* AQUADUINOCONTROLLER_H_ */

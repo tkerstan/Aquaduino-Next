@@ -22,15 +22,33 @@
 #include "Aquaduino.h"
 #include "Actuator.h"
 
+/**
+ * \brief Constructor
+ * \param[in] name Name of the controller.
+ *
+ * The name is copied into the object.
+ */
 Controller::Controller(const char* name)
 {
     setName(name);
 }
 
+/**
+ * \brief Destructor
+ *
+ * Empty.
+ */
 Controller::~Controller()
 {
 }
 
+/**
+ * \brief Performs action on all assigned actuators.
+ * \param[in] on Flag for turning all actuators on or off
+ *
+ * On = 0 --> all actuators are turned off.
+ * On = 1 --> all actuators are turned on.
+ */
 void Controller::allMyActuators(int8_t on)
 {
     int8_t i = 0;
