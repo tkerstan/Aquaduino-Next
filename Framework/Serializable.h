@@ -40,6 +40,8 @@ public:
      *
      * This method needs to be implemented to serialize the desired data of the
      * class providing this interface.
+     *
+     * \returns Number of bytes serialized.
      */
     virtual uint16_t serialize(void* buffer, uint16_t size) = 0;
 
@@ -51,6 +53,8 @@ public:
      *
      * This method needs to be implemented to deserialize the desired data of
      * the class providing this interface.
+     *
+     * \returns Number of bytes deserialized.
      */
     virtual uint16_t deserialize(void* data, uint16_t size) = 0;
 };
