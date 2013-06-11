@@ -58,6 +58,7 @@ enum CONFIG_TEMPLATE
     T_NTP3,
     T_NTP4,
     T_NTPPERIOD,
+    T_TIMEZONE,
     T_HOUR,
     T_MINUTE,
     T_SECOND
@@ -94,6 +95,7 @@ enum CONFIG_INPUTS
     I_NTP3,
     I_NTP4,
     I_NTPPERIOD,
+    I_TIMEZONE,
     I_HOUR,
     I_MINUTE,
     I_SECOND,
@@ -125,29 +127,34 @@ static const char progConfigTemplateDNS1[] PROGMEM = "##DNS1##";
 static const char progConfigTemplateDNS2[] PROGMEM = "##DNS2##";
 static const char progConfigTemplateDNS3[] PROGMEM = "##DNS3##";
 static const char progConfigTemplateDNS4[] PROGMEM = "##DNS4##";
-static const char progConfigTemplateNTPSelectOption[] PROGMEM = "##NTPSELECTOPTION##";
+static const char progConfigTemplateNTPSelectOption[] PROGMEM
+= "##NTPSELECTOPTION##";
 static const char progConfigTemplateNTP1[] PROGMEM = "##NTP1##";
 static const char progConfigTemplateNTP2[] PROGMEM = "##NTP2##";
 static const char progConfigTemplateNTP3[] PROGMEM = "##NTP3##";
 static const char progConfigTemplateNTP4[] PROGMEM = "##NTP4##";
 static const char progConfigTemplateNTPPeriod[] PROGMEM = "##NTPPERIOD##";
+static const char progConfigTemplateTimezone[] PROGMEM = "##TIMEZONE##";
 static const char progConfigTemplateTimeHour[] PROGMEM = "##HOUR##";
 static const char progConfigTemplateTimeMinute[] PROGMEM = "##MINUTE##";
 static const char progConfigTemplateTimeSecond[] PROGMEM = "##SECOND##";
 
 static const char* const configTemplateStrings[] PROGMEM =
-    { progConfigTemplateRow, progConfigTemplateMAC1, progConfigTemplateMAC2, progConfigTemplateMAC3,
-      progConfigTemplateMAC4, progConfigTemplateMAC5, progConfigTemplateMAC6,
-      progConfigTemplateDHCPSelectOption, progConfigTemplateIP1, progConfigTemplateIP2,
-      progConfigTemplateIP3, progConfigTemplateIP4, progConfigTemplateNM1, progConfigTemplateNM2,
-      progConfigTemplateNM3, progConfigTemplateNM4, progConfigTemplateGW1, progConfigTemplateGW2,
-      progConfigTemplateGW3, progConfigTemplateGW4, progConfigTemplateDNS1, progConfigTemplateDNS2,
-      progConfigTemplateDNS3, progConfigTemplateDNS4, progConfigTemplateNTPSelectOption,
-      progConfigTemplateNTP1, progConfigTemplateNTP2, progConfigTemplateNTP3, progConfigTemplateNTP4,
-      progConfigTemplateNTPPeriod, progConfigTemplateTimeHour, progConfigTemplateTimeMinute,
-      progConfigTemplateTimeSecond };
+    { progConfigTemplateRow, progConfigTemplateMAC1, progConfigTemplateMAC2,
+      progConfigTemplateMAC3, progConfigTemplateMAC4, progConfigTemplateMAC5,
+      progConfigTemplateMAC6, progConfigTemplateDHCPSelectOption,
+      progConfigTemplateIP1, progConfigTemplateIP2, progConfigTemplateIP3,
+      progConfigTemplateIP4, progConfigTemplateNM1, progConfigTemplateNM2,
+      progConfigTemplateNM3, progConfigTemplateNM4, progConfigTemplateGW1,
+      progConfigTemplateGW2, progConfigTemplateGW3, progConfigTemplateGW4,
+      progConfigTemplateDNS1, progConfigTemplateDNS2, progConfigTemplateDNS3,
+      progConfigTemplateDNS4, progConfigTemplateNTPSelectOption,
+      progConfigTemplateNTP1, progConfigTemplateNTP2, progConfigTemplateNTP3,
+      progConfigTemplateNTP4, progConfigTemplateNTPPeriod,
+      progConfigTemplateTimezone, progConfigTemplateTimeHour,
+      progConfigTemplateTimeMinute, progConfigTemplateTimeSecond };
 
-static const char progConfigInputMAC1[]  PROGMEM = "mac1";
+static const char progConfigInputMAC1[] PROGMEM = "mac1";
 static const char progConfigInputMAC2[] PROGMEM = "mac2";
 static const char progConfigInputMAC3[] PROGMEM = "mac3";
 static const char progConfigInputMAC4[] PROGMEM = "mac4";
@@ -176,19 +183,23 @@ static const char progConfigInputNTP2[] PROGMEM = "ntp2";
 static const char progConfigInputNTP3[] PROGMEM = "ntp3";
 static const char progConfigInputNTP4[] PROGMEM = "ntp4";
 static const char progConfigInputNTPPeriod[] PROGMEM = "ntpperiod";
+static const char progConfigInputTimezone[] PROGMEM = "timezone";
 static const char progConfigInputHour[] PROGMEM = "hour";
 static const char progConfigInputMinute[] PROGMEM = "minute";
 static const char progConfigInputSecond[] PROGMEM = "second";
 
 static const char* const configInputStrings[] PROGMEM =
-    { progConfigInputMAC1, progConfigInputMAC2, progConfigInputMAC3, progConfigInputMAC4, progConfigInputMAC5,
-      progConfigInputMAC6, progConfigInputDHCP, progConfigInputIP1, progConfigInputIP2, progConfigInputIP3,
-      progConfigInputIP4, progConfigInputNetmask1, progConfigInputNetmask2, progConfigInputNetmask3,
-      progConfigInputNetmask4, progConfigInputGateway1, progConfigInputGateway2,
-      progConfigInputGateway3, progConfigInputGateway4, progConfigInputDNS1, progConfigInputDNS2,
-      progConfigInputDNS3, progConfigInputDNS4, progConfigInputNTP, progConfigInputNTP1, progConfigInputNTP2,
-      progConfigInputNTP3, progConfigInputNTP4, progConfigInputNTPPeriod, progConfigInputHour,
-      progConfigInputMinute, progConfigInputSecond };
+    { progConfigInputMAC1, progConfigInputMAC2, progConfigInputMAC3,
+      progConfigInputMAC4, progConfigInputMAC5, progConfigInputMAC6,
+      progConfigInputDHCP, progConfigInputIP1, progConfigInputIP2,
+      progConfigInputIP3, progConfigInputIP4, progConfigInputNetmask1,
+      progConfigInputNetmask2, progConfigInputNetmask3, progConfigInputNetmask4,
+      progConfigInputGateway1, progConfigInputGateway2, progConfigInputGateway3,
+      progConfigInputGateway4, progConfigInputDNS1, progConfigInputDNS2,
+      progConfigInputDNS3, progConfigInputDNS4, progConfigInputNTP,
+      progConfigInputNTP1, progConfigInputNTP2, progConfigInputNTP3,
+      progConfigInputNTP4, progConfigInputNTPPeriod, progConfigInputTimezone,
+      progConfigInputHour, progConfigInputMinute, progConfigInputSecond };
 
 /**
  * \brief Prints the configuration webpage.
@@ -334,6 +345,9 @@ void printConfigTemplate(WebServer* server)
         case T_NTPPERIOD:
             server->print(aquaduino->getNtpSyncInterval());
             break;
+        case T_TIMEZONE:
+            server->print(aquaduino->getTimezone());
+            break;
         case T_HOUR:
             server->print(hour());
             break;
@@ -363,6 +377,7 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
     IPAddress ip, netmask, gw, dns, ntp;
     int8_t doNTP = 0, doDHCP = 0;
     uint16_t ntpperiod = 5;
+    int8_t timezone = TIME_ZONE;
     int8_t hour = 0;
     int8_t minute = 0;
     int8_t second = 0;
@@ -375,19 +390,33 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
     {
         while ((repeat = server->readPOSTparam(name, 30, value, 30)) > 0)
         {
-            if (strcmp_P(name, (PGM_P) pgm_read_word(&(configInputStrings[I_MAC1]))) == 0)
+            if (strcmp_P(name,
+                         (PGM_P) pgm_read_word(&(configInputStrings[I_MAC1])))
+                == 0)
                 mac[0] = strtol(value, NULL, 16);
-            else if (strcmp_P(name, (PGM_P) pgm_read_word(&(configInputStrings[I_MAC2]))) == 0)
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_MAC2])))
+                     == 0)
                 mac[1] = strtol(value, NULL, 16);
-            else if (strcmp_P(name, (PGM_P) pgm_read_word(&(configInputStrings[I_MAC3]))) == 0)
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_MAC3])))
+                     == 0)
                 mac[2] = strtol(value, NULL, 16);
-            else if (strcmp_P(name, (PGM_P) pgm_read_word(&(configInputStrings[I_MAC4]))) == 0)
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_MAC4])))
+                     == 0)
                 mac[3] = strtol(value, NULL, 16);
-            else if (strcmp_P(name, (PGM_P) pgm_read_word(&(configInputStrings[I_MAC5]))) == 0)
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_MAC5])))
+                     == 0)
                 mac[4] = strtol(value, NULL, 16);
-            else if (strcmp_P(name, (PGM_P) pgm_read_word(&(configInputStrings[I_MAC6]))) == 0)
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_MAC6])))
+                     == 0)
                 mac[5] = strtol(value, NULL, 16);
-            else if (strcmp_P(name, (PGM_P) pgm_read_word(&(configInputStrings[I_IP1]))) == 0)
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_IP1])))
+                     == 0)
                 ip[0] = atoi(value);
             else if (strcmp_P(name,
                               (PGM_P) pgm_read_word(&(configInputStrings[I_IP2])))
@@ -433,7 +462,9 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
                               (PGM_P) pgm_read_word(&(configInputStrings[I_GATEWAY4])))
                      == 0)
                 gw[3] = atoi(value);
-            if (strcmp_P(name, (PGM_P) pgm_read_word(&(configInputStrings[I_DNS1]))) == 0)
+            if (strcmp_P(name,
+                         (PGM_P) pgm_read_word(&(configInputStrings[I_DNS1])))
+                == 0)
                 dns[0] = atoi(value);
             else if (strcmp_P(name,
                               (PGM_P) pgm_read_word(&(configInputStrings[I_DNS2])))
@@ -447,7 +478,9 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
                               (PGM_P) pgm_read_word(&(configInputStrings[I_DNS4])))
                      == 0)
                 dns[3] = atoi(value);
-            if (strcmp_P(name, (PGM_P) pgm_read_word(&(configInputStrings[I_NTP1]))) == 0)
+            if (strcmp_P(name,
+                         (PGM_P) pgm_read_word(&(configInputStrings[I_NTP1])))
+                == 0)
                 ntp[0] = atoi(value);
             else if (strcmp_P(name,
                               (PGM_P) pgm_read_word(&(configInputStrings[I_NTP2])))
@@ -474,6 +507,10 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
                      == 0)
                 ntpperiod = atoi(value);
             else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_TIMEZONE])))
+                     == 0)
+                timezone = atoi(value);
+            else if (strcmp_P(name,
                               (PGM_P) pgm_read_word(&(configInputStrings[I_HOUR])))
                      == 0)
                 hour = atoi(value);
@@ -485,7 +522,6 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
                               (PGM_P) pgm_read_word(&(configInputStrings[I_SECOND])))
                      == 0)
                 second = atoi(value);
-
 
         }
 
@@ -510,6 +546,8 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
         }
 
         aquaduino->setNtpSyncInterval(ntpperiod);
+
+        aquaduino->setTimezone(timezone);
 
         aquaduino->writeConfig(aquaduino);
 

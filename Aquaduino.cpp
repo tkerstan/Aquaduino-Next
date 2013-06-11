@@ -134,6 +134,7 @@ Aquaduino::Aquaduino() :
         myDNS(192, 168, 1, 1),
         myGateway(192, 168, 1, 1),
         myNTP(192, 53, 103, 108),
+        timezone(TIME_ZONE),
         ntpSyncInterval(5),
         doDHCP(0),
         doNTP(0),
@@ -364,6 +365,16 @@ uint16_t Aquaduino::getNtpSyncInterval()
 void Aquaduino::setNtpSyncInterval(uint16_t syncInterval)
 {
     ntpSyncInterval = syncInterval;
+}
+
+void Aquaduino::setTimezone(int8_t zone)
+{
+    this->timezone = zone;
+}
+
+int8_t Aquaduino::getTimezone()
+{
+    return this->timezone;
 }
 
 /**
@@ -734,12 +745,14 @@ uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
     bPtr += sizeof(uint32_t);
     memcpy(bPtr, &myNTP[0], sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy(bPtr, &ntpSyncInterval, sizeof(uint16_t));
-    bPtr += sizeof(uint16_t);
-    memcpy(bPtr, &doDHCP, sizeof(uint16_t));
-    bPtr += sizeof(int8_t);
-    memcpy(bPtr, &doNTP, sizeof(uint16_t));
-    bPtr += sizeof(int8_t);
+    memcpy(bPtr, &ntpSyncInterval, sizeof(ntpSyncInterval));
+    bPtr += sizeof(ntpSyncInterval);
+    memcpy(bPtr, &doDHCP, sizeof(doDHCP));
+    bPtr += sizeof(doDHCP);
+    memcpy(bPtr, &doNTP, sizeof(doNTP));
+    bPtr += sizeof(doNTP);
+    memcpy(bPtr, &timezone, sizeof(timezone));
+    bPtr += sizeof(timezone);
 
     return (uint16_t) bPtr - (uint16_t) buffer;
 }
@@ -770,12 +783,14 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
     bPtr += sizeof(uint32_t);
     memcpy(&myNTP[0], bPtr, sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy(&ntpSyncInterval, bPtr, sizeof(uint16_t));
-    bPtr += sizeof(uint16_t);
-    memcpy(&doDHCP, bPtr, sizeof(uint16_t));
-    bPtr += sizeof(int8_t);
-    memcpy(&doNTP, bPtr, sizeof(uint16_t));
-    bPtr += sizeof(int8_t);
+    memcpy(&ntpSyncInterval, bPtr, sizeof(ntpSyncInterval));
+    bPtr += sizeof(ntpSyncInterval);
+    memcpy(&doDHCP, bPtr, sizeof(doDHCP));
+    bPtr += sizeof(doDHCP);
+    memcpy(&doNTP, bPtr, sizeof(doNTP));
+    bPtr += sizeof(doNTP);
+    memcpy(&timezone, bPtr, sizeof(timezone));
+    bPtr += sizeof(timezone);
 
     return (uint16_t) bPtr - (uint16_t) data;
 }
