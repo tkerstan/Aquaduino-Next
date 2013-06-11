@@ -30,9 +30,13 @@
  * \brief A controller realizes a control task like water level monitoring,
  * temperature monitoring,...
  *
- * The control task is implemented in its ::run method. The ::run() method
- * is called by the Aquaduino main loop when the controller is registered
- * using Aqaduino::addController.
+ * The control task is implemented by overwriting the Controller::run method.
+ * The Controller::run method is called by the Aquaduino main loop when
+ * the controller is registered using Aqaduino::addController.
+ *
+ * The run methods of all controllers are called in the order they were
+ * added to Aquaduino and run to completion. Thus keep in mind to keep
+ * the method simple and without delays.
  *
  * When the controller shall be configurable throuh the web it needs to
  * implement the WebInterface interface.

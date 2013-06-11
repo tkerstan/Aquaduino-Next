@@ -942,13 +942,20 @@ double Aquaduino::getLevel()
  * \brief Setter for the Webduino webserver instance.
  * \param[in] webServer WebServer instance to be used.
  *
- * Sets athe WebServer instance to be used and attaches the prepared handler
+ * Sets the WebServer instance to be used and attaches the prepared handler
  * routines. Finally the WebServer is initialized.
+ *
+ * See ::defaultCmd for implementation of the main web page and
+ * ::controllerDispatchCommand for the implementation of the request
+ * dispatching to the registered controllers and actuators.
+ *
  */
 void Aquaduino::setWebserver(WebServer* webServer)
 {
     myWebServer = webServer;
-    //
+
+    /**
+     */
     webServer->setDefaultCommand(&defaultCmd);
     webServer->setUrlPathCommand(&controllerDispatchCommand);
     webServer->begin();
