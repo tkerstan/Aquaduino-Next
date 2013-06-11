@@ -24,10 +24,17 @@
 #include <Framework/Controller.h>
 #include <Framework/Actuator.h>
 
+/**
+ * \brief Controller for temperature monitoring
+ *
+ * Turns on all assigned actuators when temperature exceeds m_Threshold.
+ * When the temperature drops below m_Threshold - HYSTERESIS all assigned
+ * actuators are turned off.
+ */
 class TemperatureController: public Controller
 {
 private:
-    uint8_t actorThreshold;
+    uint8_t m_Threshold;
     uint8_t maxPWM;
 public:
     TemperatureController(const char* name);

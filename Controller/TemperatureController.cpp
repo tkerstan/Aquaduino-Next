@@ -23,7 +23,6 @@
 #include <SD.h>
 #include <TemplateParser.h>
 
-const static uint8_t TEMP_HISTORY = 10;
 const static double HYSTERESIS = 0.3;
 
 const static char progTemplateString1[] PROGMEM = "##TEMPERATURE##";
@@ -38,14 +37,23 @@ const static char progInputPWMMax[] PROGMEM = "PWMMax";
 
 const static char progTemplateFileName[] PROGMEM = "temp.htm";
 
+/**
+ * Constructor
+ * \param[in] name The name of the controller
+ */
 TemperatureController::TemperatureController(const char* name) :
         Controller(name)
 {
     m_Type = CONTROLLER_TEMPERATURE;
-    actorThreshold = 25.0;
+    m_Threshold = 25.0;
     maxPWM = 28.0;
 }
 
+/**
+ * \brief Destructor
+ *
+ * Empty.
+ */
 TemperatureController::~TemperatureController()
 {
 }
@@ -55,11 +63,11 @@ uint16_t TemperatureController::serialize(void* buffer, uint16_t size)
     uint8_t* bPtr = (uint8_t*) buffer;
     uint8_t offset = 0;
 
-    uint16_t mySize = sizeof(actorThreshold) + sizeof(maxPWM);
+    uint16_t mySize = sizeof(m_Threshold) + sizeof(maxPWM);
     if (mySize <= size)
     {
-        memcpy(bPtr, &actorThreshold, sizeof(actorThreshold));
-        offset += sizeof(actorThreshold);
+        memcpy(bPtr, &m_Threshold, sizeof(m_Threshold));
+        offset += sizeof(m_Threshold);
         memcpy(bPtr + offset, &maxPWM, sizeof(maxPWM));
         return mySize;
     }
@@ -71,25 +79,32 @@ uint16_t TemperatureController::deserialize(void* data, uint16_t size)
     uint8_t* bPtr = (uint8_t*) data;
     uint8_t offset = 0;
 
-    uint16_t mySize = sizeof(actorThreshold) + sizeof(maxPWM);
+    uint16_t mySize = sizeof(m_Threshold) + sizeof(maxPWM);
     if (mySize <= size)
     {
-        memcpy(&actorThreshold, bPtr, sizeof(actorThreshold));
-        offset += sizeof(actorThreshold);
+        memcpy(&m_Threshold, bPtr, sizeof(m_Threshold));
+        offset += sizeof(m_Threshold);
         memcpy(&maxPWM, bPtr + offset, sizeof(maxPWM));
         return mySize;
     }
     return 0;
 }
 
+/**
+ * \brief Run method triggered by Aquaduino::run
+ *
+ * Turns on all assigned actuators when temperature exceeds m_Threshold.
+ * When the temperature drops below m_Threshold - HYSTERESIS all assigned
+ * actuators are turned off.
+ */
 int8_t TemperatureController::run()
 {
     float temp;
 
     temp = aquaduino->getTemperature();
-    if (temp >= actorThreshold)
+    if (temp >= m_Threshold)
         allMyActuators(1);
-    else if (actorThreshold - temp > HYSTERESIS)
+    else if (m_Threshold - temp > HYSTERESIS)
         allMyActuators(0);
     return true;
 }
@@ -111,7 +126,7 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
     strcpy_P(templateFileName, progTemplateFileName);
 
     dtostrf(aquaduino->getTemperature(), 5, 2, temperature);
-    itoa(actorThreshold, threshold, 10);
+    itoa(m_Threshold, threshold, 10);
     itoa(maxPWM, pwmmax, 10);
 
     replacementStrings[0] = temperature;
@@ -128,7 +143,7 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
             if (strcmp_P(name, progInputThreshold) == 0)
             {
                 uint8_t d = atoi(value);
-                actorThreshold = d;
+                m_Threshold = d;
             }
             else if (strcmp_P(name, progInputPWMMax) == 0)
             {
