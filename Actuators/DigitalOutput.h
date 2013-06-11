@@ -23,12 +23,18 @@
 
 #include <Framework/Actuator.h>
 
+/**
+ * \brief Class for the digital outputs of the Arduino
+ *
+ * Implements only the functionality for pure digital outputs.
+ */
 class DigitalOutput: public Actuator
 {
 private:
     int8_t pin;
     uint8_t onValue;
     uint8_t offValue;
+    float dutyCycle;
 public:
     DigitalOutput(const char* name, int8_t pin, uint8_t onValue,
                   uint8_t offValue);

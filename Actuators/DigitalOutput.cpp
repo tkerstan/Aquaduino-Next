@@ -39,6 +39,17 @@ enum
     I_TYPE
 };
 
+
+/**
+ * \brief Constructor
+ * \param[in] name Initial name of the Actuator
+ * \param[in] pin Pin number of the Actuator
+ * \param[in] onValue Value that enables the Actuator
+ * \param[in] offValue Value that disables the Actuator
+ *
+ * The parameters onValue and OffValue allow for Actuators that are driven
+ * inverted (On=0 and Off=1) like normally closed relays.
+ */
 DigitalOutput::DigitalOutput(const char* name, int8_t pin, uint8_t onValue,
                              uint8_t offValue) :
         Actuator(name)
@@ -49,6 +60,7 @@ DigitalOutput::DigitalOutput(const char* name, int8_t pin, uint8_t onValue,
     this->onValue = onValue;
     this->offValue = offValue;
     this->m_locked = false;
+    this->dutyCycle = 0;
     this->on();
 }
 
@@ -82,36 +94,81 @@ uint16_t DigitalOutput::deserialize(void* data, uint16_t size)
     return mySize;
 }
 
+/**
+ * \brief Enables the DigitalOutput
+ *
+ * If not locked writes onValue to the pin
+ */
 void DigitalOutput::on()
 {
     if (!m_locked)
+    {
         digitalWrite(pin, onValue);
+        if(supportsPWM())
+            dutyCycle = 1.0;
+    }
 }
 
+/**
+ * \brief Disables the DigitalOutput
+ *
+ * If not locked writes offValue to the pin
+ */
 void DigitalOutput::off()
 {
     if (!m_locked)
+    {
         digitalWrite(pin, offValue);
+        if(supportsPWM())
+            dutyCycle = 0.0;
+    }
+
 }
 
+/**
+ * \brief Checks whether the DigitalOutput is enabled or not.
+ *
+ * returns state of the actuator
+ */
 int8_t DigitalOutput::isOn()
 {
     return digitalRead(pin) == onValue;
 }
 
+/**
+ * \brief Checks whether the DigitalOutput supports PWM or not.
+ *
+ * \returns 0 if not, 1 otherwise.
+ */
 int8_t DigitalOutput::supportsPWM()
 {
-    return false;
+    return digitalPinHasPWM(pin);
 }
 
+/**
+ * \brief Sets the PWM duty cycle.
+ * \param[in] dutyCycle Must be less or equal 1.0
+ *
+ * If the DigitalOutput supports PWM this method enables the PWM mode with
+ * the given duty cycle.
+ */
 void DigitalOutput::setPWM(float dutyCycle)
 {
-    this->on();
+    if (supportsPWM() && dutyCycle <= 1.0)
+    {
+        this->dutyCycle = (uint8_t) (dutyCycle * 255);
+        analogWrite(pin, dutyCycle);
+    }
 }
 
+/**
+ * \brief Gets current duty cycle when PWM is active.
+ *
+ * \returns Current duty cycle
+ */
 float DigitalOutput::getPWM()
 {
-    return isOn() ? 1.0 : 0.0;
+    return dutyCycle;
 }
 
 int8_t DigitalOutput::showWebinterface(WebServer* server,
