@@ -26,7 +26,7 @@
 
 static const char progConfigTemplateFileName[] PROGMEM = "conf.htm";
 
-enum
+enum CONFIG_TEMPLATE
 {
     T_ACTORROW,
     T_MAC1,
@@ -63,7 +63,7 @@ enum
     T_SECOND
 };
 
-enum
+enum CONFIG_INPUTS
 {
     I_MAC1,
     I_MAC2,
@@ -147,7 +147,7 @@ static const char* const configTemplateStrings[] PROGMEM =
       progConfigTemplateNTPPeriod, progConfigTemplateTimeHour, progConfigTemplateTimeMinute,
       progConfigTemplateTimeSecond };
 
-static const char progConfigInputMAC1[] PROGMEM = "mac1";
+static const char progConfigInputMAC1[]  PROGMEM = "mac1";
 static const char progConfigInputMAC2[] PROGMEM = "mac2";
 static const char progConfigInputMAC3[] PROGMEM = "mac3";
 static const char progConfigInputMAC4[] PROGMEM = "mac4";
@@ -190,7 +190,13 @@ static const char* const configInputStrings[] PROGMEM =
       progConfigInputNTP3, progConfigInputNTP4, progConfigInputNTPPeriod, progConfigInputHour,
       progConfigInputMinute, progConfigInputSecond };
 
-void printTopLevelTemplate(WebServer* server)
+/**
+ * \brief Prints the configuration webpage.
+ *
+ * Prints the configuation webpage using the template in
+ * progConfigTemplateFileName.
+ */
+void printConfigTemplate(WebServer* server)
 {
     File templateFile;
     TemplateParser* parser;
@@ -342,6 +348,13 @@ void printTopLevelTemplate(WebServer* server)
     templateFile.close();
 }
 
+/**
+ * \brief This command is trigger upon request to the URL "/config"
+ * \param[in] server Webserver instance to use
+ * \param[in] type Request type
+ *
+ * Request is redirected from ::controllerDispatchCommand.
+ */
 int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
 {
     int8_t repeat;
@@ -350,9 +363,9 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
     IPAddress ip, netmask, gw, dns, ntp;
     int8_t doNTP = 0, doDHCP = 0;
     uint16_t ntpperiod = 5;
-    uint16_t actuatorIdx;
-    uint16_t controllerIdx;
-    int8_t hour, minute, second;
+    int8_t hour = 0;
+    int8_t minute = 0;
+    int8_t second = 0;
     Actuator* actuator;
 
     /*
@@ -511,7 +524,7 @@ int8_t configCmd(WebServer* server, WebServer::ConnectionType type)
     else
     {
         server->httpSuccess();
-        printTopLevelTemplate(server);
+        printConfigTemplate(server);
     }
     return true;
 }

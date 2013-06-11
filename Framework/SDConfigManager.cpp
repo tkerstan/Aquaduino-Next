@@ -22,29 +22,63 @@
 #include "SD.h"
 #include <Aquaduino.h>
 
+/**
+ * Default constructor.
+ *
+ * Sets empty folder for configuration files.
+ */
 SDConfigManager::SDConfigManager()
 {
-    m_prefix[0] = 0;
+    m_folder[0] = 0;
 }
 
-SDConfigManager::SDConfigManager(const char* prefix)
+/**
+ * Constructor
+ * \param[in] folder folder of configuration files
+ *
+ * Checks if the folder already exists. If not the folder is created.
+ */
+SDConfigManager::SDConfigManager(const char* folder)
 {
     File f;
 
-    strncpy(m_prefix, prefix, PREFIX_LENGTH - 1);
-    m_prefix[PREFIX_LENGTH - 1] = 0;
+    strncpy(m_folder, folder, PREFIX_LENGTH - 1);
+    m_folder[PREFIX_LENGTH - 1] = 0;
 
-    if (!SD.exists(m_prefix))
-        SD.mkdir(m_prefix);
+    if (!SD.exists(m_folder))
+        SD.mkdir(m_folder);
     else
     {
-        f = SD.open(m_prefix, FILE_READ);
+        f = SD.open(m_folder, FILE_READ);
         if (!f.isDirectory())
-            m_prefix[0] = 0;
+            m_folder[0] = 0;
     }
 }
 
+/**
+ * \brief Destructor
+ *
+ * Empty.
+ */
 SDConfigManager::~SDConfigManager()
+{
+}
+
+/**
+ * \brief Copy Constructor
+ *
+ * Empty.
+ */
+SDConfigManager::SDConfigManager(SDConfigManager&)
+{
+}
+
+/**
+ * \brief Copy Constructor
+ *
+ * Empty.
+ */
+SDConfigManager::SDConfigManager(const SDConfigManager&)
 {
 }
 
@@ -237,7 +271,7 @@ uint16_t SDConfigManager::writeStructToFile(const char* fileName,
     char path[PREFIX_LENGTH + FILENAME_LENGTH];
     memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
 
-    strcat(path, m_prefix);
+    strcat(path, m_folder);
     strcat(path, "/");
     strcat(path, fileName);
 
@@ -271,7 +305,7 @@ uint16_t SDConfigManager::readStructFromFile(const char* fileName,
 
     memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
 
-    strcat(path, m_prefix);
+    strcat(path, m_folder);
     strcat(path, "/");
     strcat(path, fileName);
 

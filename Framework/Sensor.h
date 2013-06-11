@@ -23,13 +23,23 @@
 
 #include "Object.h"
 
+/**
+ * \brief Base class for Sensors
+ *
+ * Sensors shall provide a read method to read their values. This class may
+ * also derive from Serializable and WebInterface when there is need for
+ * configuration of sensors.
+ */
 class Sensor: public Object
 {
-protected:
-    virtual ~Sensor();
 public:
     virtual double read() = 0;
     Sensor();
+protected:
+    virtual ~Sensor();
+private:
+    Sensor(Sensor&);
+    Sensor(const Sensor&);
 };
 
 #endif /* AQUADUINOSENSOR_H_ */

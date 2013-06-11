@@ -26,12 +26,18 @@
 static const int8_t PREFIX_LENGTH = 12;
 static const int8_t FILENAME_LENGTH = 12;
 
+/**
+ * \brief Configuration Manager using SD card to store and restore
+ * configurations.
+ *
+ * This configuration manager uses the availabe SD card. The initialization
+ * of the SD class is implemented in Aquaduino::Aquaduino.
+ */
 class SDConfigManager: public ConfigManager
 {
 public:
     SDConfigManager();
     SDConfigManager(const char* prefix);
-    virtual ~SDConfigManager();
 
     virtual int8_t writeConfig(Aquaduino* aquaduino);
     virtual int8_t writeConfig(Actuator* actuator);
@@ -50,7 +56,10 @@ protected:
                                 struct configuration* config);
 
 private:
-    char m_prefix[PREFIX_LENGTH];
+    SDConfigManager(SDConfigManager&);
+    SDConfigManager(const SDConfigManager&);
+    virtual ~SDConfigManager();
+    char m_folder[PREFIX_LENGTH];
 };
 
 #endif /* SDCONFIGMANAGER_H_ */

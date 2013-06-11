@@ -19,10 +19,40 @@
  */
 #include "Sensor.h"
 
+/**
+ * \brief Default Constructor
+ *
+ * Empty.
+ */
 Sensor::Sensor()
 {
 }
 
+/**
+ * \brief Default Destructor
+ *
+ * Empty.
+ */
 Sensor::~Sensor()
 {
+}
+
+/**
+ * \brief Copy Constructor
+ *
+ * Empty.
+ */
+Sensor::Sensor(Sensor&)
+{
+
+}
+
+/**
+ * \brief Copy Constructor
+ *
+ * Empty.
+ */
+Sensor::Sensor(const Sensor&)
+{
+
 }
