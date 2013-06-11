@@ -23,6 +23,9 @@
 
 #include <Framework/Sensor.h>
 
+/**
+ * \brief Class for using Arduino pins as digital input.
+ */
 class DigitalInput: public Sensor
 {
 private:

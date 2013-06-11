@@ -49,20 +49,18 @@ const static char progInputDelayLow[] PROGMEM = "delayLow";
 const static char progInputDelayHigh[] PROGMEM = "delayHigh";
 const static char progInputRefillTimeout[] PROGMEM = "refillTimeout";
 
-LevelController::LevelController(const char* name, uint8_t pin) :
+/**
+ * \brief Constructor
+ * \param[in] name Name of the controller
+ */
+LevelController::LevelController(const char* name) :
         Controller(name)
 {
     m_Type = CONTROLLER_LEVEL;
-    myPin = pin;
-    myActor = NULL;
     debounceDelayHigh = 3;
-    debounceDelayLow = 10;
-    lastTime = 0;
+    hysteresis = 10;
     state = LEVELCONTROLLER_STATE_OK;
-    lastState = LEVELCONTROLLER_STATE_OK;
     refillTimeout = 30;
-    pinMode(myPin, INPUT);
-    digitalWrite(myPin, LOW);
 }
 
 uint16_t LevelController::serialize(void* buffer, uint16_t size)
@@ -70,12 +68,12 @@ uint16_t LevelController::serialize(void* buffer, uint16_t size)
     uint8_t* bPtr = (uint8_t*) buffer;
     uint8_t offset = 0;
 
-    uint16_t mySize = sizeof(debounceDelayLow) + sizeof(debounceDelayHigh)
+    uint16_t mySize = sizeof(hysteresis) + sizeof(debounceDelayHigh)
                       + sizeof(refillTimeout);
     if (mySize <= size)
     {
-        memcpy(bPtr, &debounceDelayLow, sizeof(debounceDelayLow));
-        offset += sizeof(debounceDelayLow);
+        memcpy(bPtr, &hysteresis, sizeof(hysteresis));
+        offset += sizeof(hysteresis);
         memcpy(bPtr + offset, &debounceDelayHigh, sizeof(debounceDelayHigh));
         offset += sizeof(debounceDelayHigh);
         memcpy(bPtr + offset, &refillTimeout, sizeof(refillTimeout));
@@ -89,12 +87,12 @@ uint16_t LevelController::deserialize(void* data, uint16_t size)
     uint8_t* bPtr = (uint8_t*) data;
     uint8_t offset = 0;
 
-    uint16_t mySize = sizeof(debounceDelayLow) + sizeof(debounceDelayHigh)
+    uint16_t mySize = sizeof(hysteresis) + sizeof(debounceDelayHigh)
                       + sizeof(refillTimeout);
     if (mySize <= size)
     {
-        memcpy(&debounceDelayLow, bPtr, sizeof(debounceDelayLow));
-        offset += sizeof(debounceDelayLow);
+        memcpy(&hysteresis, bPtr, sizeof(hysteresis));
+        offset += sizeof(hysteresis);
         memcpy(&debounceDelayHigh, bPtr + offset, sizeof(debounceDelayHigh));
         offset += sizeof(debounceDelayHigh);
         memcpy(&refillTimeout, bPtr + offset, sizeof(refillTimeout));
@@ -103,8 +101,47 @@ uint16_t LevelController::deserialize(void* data, uint16_t size)
     return 0;
 }
 
+/**
+ * \brief Run method triggered by Aquaduino::run
+ *
+ * This method implements a state machine for the refill process.
+ *
+ * When in state LEVELCONTROLLER_STATE_OK the state machine waits for
+ * the reading to become HIGH and performs a transition to
+ * LEVELCONTROLLER_STATE_DEBOUNCE.
+ *
+ * In state LEVELCONTROLLER_STATE_DEBOUNCE it is checked if the reading becomes
+ * LOW within the time LevelController::debounceDelayHigh seconds. When this is
+ * the case a transition back to LEVELCONTROLLER_STATE_OK is performed. This is
+ * the case when the level sensor detected a wave. When the signal is HIGH for
+ * at least LevelController::debounceDelayHigh seconds a transition to
+ * LEVELCONTROLLER_STATE_REFILL is performed and all assigned actuators are
+ * activated.
+ *
+ * In state LEVELCONTROLLER_STATE_REFILL it is checked whether the signal
+ * remains HIGH for more than LevelController::refillTimeout seconds. If thats
+ * the case it is assumed that the water reservoir ran out of water and the
+ * refill process is stopped and a transition to
+ * LevelController::LEVELCONTROLLER_STATE_REFILL_TIMEOUT is performed.
+ * If the signal gets LOW within LevelController::refillTimeout seconds a
+ * transition to LEVELCONTROLLER_STATE_OVERRUN is performed.
+ *
+ * In state LEVELCONTROLLER_STATE_OVERRUN it is checked whether the reading
+ * remains LOW and a time of LevelController::hysteresis seconds passes. If
+ * this is the case the refill process has finished and a transition to
+ * LEVELCONTROLLER_STATE_OK is performed. If the reading gets HIGH again
+ * a transition back to LEVELCONTROLLER_STATE_REFILL.
+ *
+ * In state LEVELCONTROLLER_STATE_REFILL_TIMEOUT nothing happens until
+ * the state machine variables are reseted from outside this function. This
+ * reset is currently implemented in the POST request processing in
+ * LevelController::showWebinterface.
+ *
+ */
 int8_t LevelController::run()
 {
+    static unsigned long lastTime = 0;
+
     long reading = round(aquaduino->getLevel());
     unsigned long millisNow = millis();
     long deltaTSwitch = millisNow - lastTime;
@@ -151,7 +188,7 @@ int8_t LevelController::run()
         }
         break;
     case LEVELCONTROLLER_STATE_OVERRUN:
-        if (reading == LOW && deltaTSwitch > debounceDelayLow * 1000)
+        if (reading == LOW && deltaTSwitch > hysteresis * 1000)
         {
             state = LEVELCONTROLLER_STATE_OK;
             allMyActuators(0);
@@ -197,7 +234,7 @@ int8_t LevelController::showWebinterface(WebServer* server,
     strcpy_P(stateString4, progStateString4);
     strcpy_P(stateString5, progStateString5);
 
-    itoa(debounceDelayLow, debounceLowString, 10);
+    itoa(hysteresis, debounceLowString, 10);
     itoa(debounceDelayHigh, debounceHighString, 10);
     itoa(refillTimeout, refillTimeoutString, 10);
 
@@ -222,7 +259,7 @@ int8_t LevelController::showWebinterface(WebServer* server,
             if (strcmp_P(name, progInputDelayLow) == 0)
             {
                 uint8_t d = atoi(value);
-                debounceDelayLow = d;
+                hysteresis = d;
             }
             else if (strcmp_P(name, progInputDelayHigh) == 0)
             {
@@ -236,7 +273,6 @@ int8_t LevelController::showWebinterface(WebServer* server,
             }
         } while (repeat);
         state = LEVELCONTROLLER_STATE_OK;
-        lastTime = 0;
         server->httpSeeOther(this->m_URL);
     }
     else

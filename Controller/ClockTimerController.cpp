@@ -68,6 +68,12 @@ static const char* const rowStrings[] PROGMEM =
     { progRowIHON, progRowIMON, progRowIHOFF, progRowIMOFF, progRowHON,
       progRowMON, progRowHOFF, progRowMOFF };
 
+/**
+ * \brief Constructor
+ * \param[in] name The name of the controller.
+ *
+ * Initializes the mapping of actuators to clocktimers.
+ */
 ClockTimerController::ClockTimerController(const char* name) :
         Controller(name), selectedTimer(0), selectedActuator(0)
 {
@@ -77,6 +83,15 @@ ClockTimerController::ClockTimerController(const char* name) :
     {
         m_ActuatorMapping[i] = -1;
     }
+}
+
+/**
+ * \brief Destructor
+ *
+ * Empty.
+ */
+ClockTimerController::~ClockTimerController()
+{
 }
 
 uint16_t ClockTimerController::serialize(void* buffer, uint16_t size)
@@ -94,16 +109,16 @@ uint16_t ClockTimerController::serialize(void* buffer, uint16_t size)
         return 0;
 
     pos += sizeof(uint8_t);
-    memcpy(charBuffer+pos, m_ActuatorMapping, sizeof(m_ActuatorMapping));
+    memcpy(charBuffer + pos, m_ActuatorMapping, sizeof(m_ActuatorMapping));
     pos += sizeof(m_ActuatorMapping);
-    for ( i = 0; i < MAX_CLOCKTIMERS; i++)
+    for (i = 0; i < MAX_CLOCKTIMERS; i++)
     {
         left = ((int32_t) size) - pos - 2;
         if (left < 0)
             return 0;
-        timerSize = m_Timers[i].serialize(charBuffer+pos+2, left);
+        timerSize = m_Timers[i].serialize(charBuffer + pos + 2, left);
         charBuffer[pos] = (timerSize & 0xFF00) >> 8;
-        charBuffer[pos+1] = timerSize & 0xFF;
+        charBuffer[pos + 1] = timerSize & 0xFF;
         pos += timerSize + 2;
     }
     return pos;
@@ -124,28 +139,34 @@ uint16_t ClockTimerController::deserialize(void* data, uint16_t size)
 
     pos += sizeof(uint8_t);
 
-    memcpy(m_ActuatorMapping, charBuffer+pos, sizeof(m_ActuatorMapping));
+    memcpy(m_ActuatorMapping, charBuffer + pos, sizeof(m_ActuatorMapping));
 
     pos += sizeof(m_ActuatorMapping);
-    for ( i = 0; i < MAX_CLOCKTIMERS; i++)
+    for (i = 0; i < MAX_CLOCKTIMERS; i++)
     {
         timerSize = charBuffer[pos] << 8;
-        timerSize += charBuffer[pos+1];
+        timerSize += charBuffer[pos + 1];
         pos += 2;
 
-        if (m_Timers[i].deserialize(charBuffer+pos, timerSize) == 0)
+        if (m_Timers[i].deserialize(charBuffer + pos, timerSize) == 0)
             return 0;
         pos += timerSize;
     }
     return pos;
 }
 
+/**
+ * \brief This method is regularly triggered by Aquaduino::run.
+ *
+ * Enables or disables the actuators based on the clocktimers and the
+ * internal mapping of actuators to clocktimers.
+ */
 int8_t ClockTimerController::run()
 {
     int8_t i;
     Actuator* actuator;
     Controller* controller;
-    for (i=0; i < MAX_CLOCKTIMERS; i++)
+    for (i = 0; i < MAX_CLOCKTIMERS; i++)
     {
         actuator = aquaduino->getActuator(m_ActuatorMapping[i]);
         controller = aquaduino->getController(actuator->getController());
@@ -160,6 +181,13 @@ int8_t ClockTimerController::run()
     return 0;
 }
 
+/**
+ * \brief Internal method
+ *
+ * Checks if an actuator is mapped to a clocktimer
+ *
+ * \returns 1 if yes, 0 otherwise.
+ */
 int8_t ClockTimerController::isMapped(int8_t actuatorNr)
 {
     int8_t mapped = 0;
@@ -169,6 +197,18 @@ int8_t ClockTimerController::isMapped(int8_t actuatorNr)
     return mapped;
 }
 
+/**
+ * \brief Internal method
+ * \param[out] actuatorNames Array of pointers to the actuator names.
+ * \param[out] actuatorValue Array of pointers to the actuator value names.
+ * \param[out] actuatorValArray Array of char buffers where the value names are
+ *                             stored. Cannot be stored here on the stack.
+ *
+ * Fills the passed parameters to be usable in the selectList method of
+ * the TemplateParser instance.
+ *
+ * \returns number of available select options
+ */
 int8_t ClockTimerController::prepareActuatorSelect(
         const char* actuatorNames[MAX_ACTUATORS + 1],
         const char* actuatorValuePointers[MAX_ACTUATORS + 1],
@@ -196,7 +236,6 @@ int8_t ClockTimerController::prepareActuatorSelect(
         {
             actuatorNames[++j] =
                     aquaduino->getActuator(myActuators[i - 1])->getName();
-
             itoa(myActuators[i - 1], actuatorValArray[j], 10);
             actuatorValuePointers[j] = actuatorValArray[j];
         }
@@ -205,6 +244,12 @@ int8_t ClockTimerController::prepareActuatorSelect(
     return j;
 }
 
+/**
+ * \brief Prints the main page of the WebInterface.
+ * \param[in] server Instance of the Webduino webserver
+ * \param[in] type Type of the request (GET, POST,...)
+ * \param[in] url URL used in request. Allows for subURL decoding.
+ */
 int8_t ClockTimerController::printMain(WebServer* server,
                                        WebServer::ConnectionType type,
                                        char* url)
@@ -282,6 +327,12 @@ int8_t ClockTimerController::printMain(WebServer* server,
     return 0;
 }
 
+/**
+ * \brief Prints the row of a clocktimer entry.
+ * \param[in] server Instance of the Webduino webserver
+ * \param[in] type Type of the request (GET, POST,...)
+ * \param[in] url URL used in request. Allows for subURL decoding.
+ */
 int8_t ClockTimerController::printRow(WebServer* server,
                                       WebServer::ConnectionType type, char* url)
 {
@@ -295,7 +346,7 @@ int8_t ClockTimerController::printRow(WebServer* server,
 
     parser = aquaduino->getTemplateParser();
 
-    for (i = 0; i < CLOCKTIMER_MAX_TIMERS; i++)
+    for (i = 0; i < max_timers; i++)
     {
 
         rowTemplateFile = SD.open(templateRowFileName, FILE_READ);
@@ -339,6 +390,12 @@ int8_t ClockTimerController::printRow(WebServer* server,
     return 0;
 }
 
+/**
+ * \brief Processes the input submitted by a POST request.
+ * \param[in] server Instance of the Webduino webserver
+ * \param[in] type Type of the request (GET, POST,...)
+ * \param[in] url URL used in request. Allows for subURL decoding.
+ */
 int8_t ClockTimerController::processPost(WebServer* server,
                                          WebServer::ConnectionType type,
                                          char* url)
@@ -364,10 +421,12 @@ int8_t ClockTimerController::processPost(WebServer* server,
             if (strcmp_P(name, progStringActuator) == 0)
             {
                 val = atoi(value);
-                if (val != -1){
-                    if (!isMapped (atoi(value)))
-                            m_ActuatorMapping[selectedTimer] = atoi(value);
-                } else
+                if (val != -1)
+                {
+                    if (!isMapped(atoi(value)))
+                        m_ActuatorMapping[selectedTimer] = atoi(value);
+                }
+                else
                 {
                     m_ActuatorMapping[selectedTimer] = -1;
                 }
@@ -375,11 +434,12 @@ int8_t ClockTimerController::processPost(WebServer* server,
             else
             {
                 input = atoi(name);
-                x = (input-1) / 4;
+                x = (input - 1) / 4;
                 y = input % 4;
 
                 //Ignore input with name 0!
-                if (input != 0){
+                if (input != 0)
+                {
                     switch (y)
                     {
                     case 0:

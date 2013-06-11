@@ -20,12 +20,21 @@
 #include "DigitalInput.h"
 #include <Arduino.h>
 
+/**
+ * \brief Constructor
+ * \param[in] pin pin to be used as input
+ */
 DigitalInput::DigitalInput(unsigned char pin)
 {
     m_Type = SENSOR_DIGITALINPUT;
     myPin = pin;
 }
 
+/**
+ * \brief Returns the value of the digital input
+ *
+ * \returns 1 if input is HIGH or 0 if input is LOW.
+ */
 double DigitalInput::read()
 {
     return digitalRead(myPin);

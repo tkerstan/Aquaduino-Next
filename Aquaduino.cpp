@@ -1125,7 +1125,7 @@ void setup()
     }
 
     temperatureController = new TemperatureController("Temperature");
-    levelController = new LevelController("Level", LEVEL_SENSOR_PIN);
+    levelController = new LevelController("Level");
     clockTimerController = new ClockTimerController("Clock Timer");
 
     levelSensor = new DigitalInput(LEVEL_SENSOR_PIN);

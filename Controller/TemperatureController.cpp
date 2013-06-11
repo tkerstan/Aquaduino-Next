@@ -42,7 +42,6 @@ TemperatureController::TemperatureController(const char* name) :
         Controller(name)
 {
     m_Type = CONTROLLER_TEMPERATURE;
-    myActor = NULL;
     actorThreshold = 25.0;
     maxPWM = 28.0;
 }
@@ -85,29 +84,14 @@ uint16_t TemperatureController::deserialize(void* data, uint16_t size)
 
 int8_t TemperatureController::run()
 {
-    if (myActor != NULL)
-    {
-        float temp = aquaduino->getTemperature();
-        if (temp >= actorThreshold && myActor != NULL)
-        {
-            if (myActor->supportsPWM())
-            {
-                float dutyCycle = (temp - actorThreshold)
-                        / (maxPWM - actorThreshold);
-                myActor->setPWM(dutyCycle);
-            }
-            else
-            {
-                myActor->on();
-            }
-        }
-        else if (actorThreshold - temp > HYSTERESIS)
-        {
-            myActor->off();
-        }
-        return true;
-    }
-    return false;
+    float temp;
+
+    temp = aquaduino->getTemperature();
+    if (temp >= actorThreshold)
+        allMyActuators(1);
+    else if (actorThreshold - temp > HYSTERESIS)
+        allMyActuators(0);
+    return true;
 }
 
 int8_t TemperatureController::showWebinterface(WebServer* server,
@@ -126,7 +110,7 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
 
     strcpy_P(templateFileName, progTemplateFileName);
 
-    dtostrf(aquaduino->getTemperature(),5,2, temperature);
+    dtostrf(aquaduino->getTemperature(), 5, 2, temperature);
     itoa(actorThreshold, threshold, 10);
     itoa(maxPWM, pwmmax, 10);
 

@@ -23,18 +23,21 @@
 
 #include <Arduino.h>
 #include <Framework/Serializable.h>
+#include <Framework/Config.h>
 
-const static uint8_t CLOCKTIMER_MAX_TIMERS = 4;
+const static uint8_t max_timers = CLOCKTIMER_MAX_TIMERS;
 
+/**
+ * \brief Implementation of a clocktimer to allow for time based control of
+ * actuators
+ *
+ * Each clocktimer has up to #CLOCKTIMER_MAX_TIMERS entries.
+ */
 class ClockTimer: public Serializable
 {
-    uint8_t hOn[CLOCKTIMER_MAX_TIMERS];
-    uint8_t hOff[CLOCKTIMER_MAX_TIMERS];
-    uint8_t mOn[CLOCKTIMER_MAX_TIMERS];
-    uint8_t mOff[CLOCKTIMER_MAX_TIMERS];
-
 public:
     ClockTimer();
+    virtual ~ClockTimer();
 
     void setTimer(uint8_t index, uint8_t hOn, uint8_t mOn, uint8_t hOff,
                   uint8_t mOff);
@@ -42,35 +45,35 @@ public:
                   uint8_t* mOff);
     uint8_t getHourOn(uint8_t index)
     {
-        return hOn[index % CLOCKTIMER_MAX_TIMERS];
+        return hOn[index % max_timers];
     }
     uint8_t getMinuteOn(uint8_t index)
     {
-        return mOn[index % CLOCKTIMER_MAX_TIMERS];
+        return mOn[index % max_timers];
     }
     uint8_t getHourOff(uint8_t index)
     {
-        return hOff[index % CLOCKTIMER_MAX_TIMERS];
+        return hOff[index % max_timers];
     }
     uint8_t getMinuteOff(uint8_t index)
     {
-        return mOff[index % CLOCKTIMER_MAX_TIMERS];
+        return mOff[index % max_timers];
     }
     void setHourOn(uint8_t index, uint8_t value)
     {
-        hOn[index % CLOCKTIMER_MAX_TIMERS] = value % 24;
+        hOn[index % max_timers] = value % 24;
     }
     void setMinuteOn(uint8_t index, uint8_t value)
     {
-        mOn[index % CLOCKTIMER_MAX_TIMERS] = value % 60;
+        mOn[index % max_timers] = value % 60;
     }
     void setHourOff(uint8_t index, uint8_t value)
     {
-        hOff[index % CLOCKTIMER_MAX_TIMERS] = value % 24;
+        hOff[index % max_timers] = value % 24;
     }
     void setMinuteOff(uint8_t index, uint8_t value)
     {
-        mOff[index % CLOCKTIMER_MAX_TIMERS] = value % 60;
+        mOff[index % max_timers] = value % 60;
     }
     void clearAll();
 
@@ -78,6 +81,15 @@ public:
 
     virtual uint16_t serialize(void* buffer, uint16_t size);
     virtual uint16_t deserialize(void* data, uint16_t size);
+
+private:
+    ClockTimer(const ClockTimer&);
+    ClockTimer(ClockTimer&);
+
+    uint8_t hOn[max_timers];
+    uint8_t hOff[max_timers];
+    uint8_t mOn[max_timers];
+    uint8_t mOff[max_timers];
 };
 
 #endif /* CLOCKTIMER_H_ */

@@ -24,20 +24,25 @@
 #include <Framework/Controller.h>
 #include <Framework/Actuator.h>
 
+/**
+ * \brief Water level controller
+ *
+ * This controller is responsible to monitor the water level. When it detects
+ * the water level is low it enables its assigned actuators to perform a refill.
+ *
+ * The controllers behaviour is configured by LevelController::debounceDelayHigh,
+ * LevelController::hysteresis and LevelController::refillTimeOut. All values
+ * are interpreted in seconds. LevelController::debounceDelayHigh defines the
+ * minimum time that needs to pass before the refill process starts. This is
+ * useful to filter out waves detected by the level sensor.
+ * LevelController::hysteresis defines the time the refill process keeps
+ * running after a detection of a finished refill process by the level sensor.
+ *
+ */
 class LevelController: public Controller
 {
-private:
-    Actuator* myActor;
-    uint8_t myPin;
-    int16_t debounceDelayHigh;
-    int16_t debounceDelayLow;
-    int16_t refillTimeout;
-    int8_t lastState;
-    int8_t state;
-    unsigned long lastTime;
-
 public:
-    LevelController(const char* name, uint8_t pin);
+    LevelController(const char* name);
 
     virtual uint16_t serialize(void* buffer, uint16_t size);
     virtual uint16_t deserialize(void* data, uint16_t size);
@@ -46,6 +51,11 @@ public:
     virtual int8_t showWebinterface(WebServer* server,
                                     WebServer::ConnectionType type,
                                     char* url);
+private:
+    int16_t debounceDelayHigh;
+    int16_t hysteresis;
+    int16_t refillTimeout;
+    int8_t state;
 };
 
 #endif /* LEVELCONTROLLER_H_ */

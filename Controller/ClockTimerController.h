@@ -24,10 +24,27 @@
 #include <Framework/Controller.h>
 #include "ClockTimer.h"
 
+/**
+ * \brief Controller implementation to provide clocktimers for actuators.
+ *
+ * The number of available clocktimers is defined by #MAX_CLOCKTIMERS.
+ * The number of timers per clocktimer is defined by #CLOCKTIMER_MAX_TIMERS
+ *
+ * The class implements a mapping of its assigned actuators to its clocktimers
+ * using the array m_ActuatorMapping. Within this array the index(key) of
+ * the actuator assigned to the clocktimer are stored. m_ActuatorMapping[0] = 0
+ * represents the mapping of clocktimer 0 to the actuator with index(key) 0 of
+ * the Aquaduino object.
+ *
+ * The WebInterface of this controller allows for the assignment of actuators
+ * to clocktimers. Only one actuator must be assigned to a a single clocktimer.
+ *
+ */
 class ClockTimerController: public Controller
 {
 public:
     ClockTimerController(const char* name);
+    virtual ~ClockTimerController();
 
     virtual uint16_t serialize(void* buffer, uint16_t size);
     virtual uint16_t deserialize(void* data, uint16_t size);
@@ -36,6 +53,9 @@ public:
     virtual int8_t showWebinterface(WebServer* server,
                                     WebServer::ConnectionType type, char* url);
 private:
+    ClockTimerController(ClockTimerController&);
+    ClockTimerController(const ClockTimerController&);
+
     int8_t printMain(WebServer* server, WebServer::ConnectionType type,
                      char* url);
     int8_t printRow(WebServer* server, WebServer::ConnectionType type,

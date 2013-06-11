@@ -27,10 +27,8 @@
 class TemperatureController: public Controller
 {
 private:
-    uint8_t myPin;
     uint8_t actorThreshold;
     uint8_t maxPWM;
-    Actuator* myActor;
 public:
     TemperatureController(const char* name);
     virtual ~TemperatureController();

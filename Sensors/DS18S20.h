@@ -24,6 +24,14 @@
 #include <Arduino.h>
 #include <OneWire.h>
 
+/**
+ * \brief Basic implementation for DS18S20 Temperature Sensors
+ *
+ * Allows for reading a single DS18S20. The temperature is calculated as
+ * arithmetic mean of a history of #TEMP_HISTORY values. The returned value
+ * thus adjusts slowly temperature differences. This prevents controllers
+ * from enabling or disabling actuators when there is a single faulty read.
+ */
 class DS18S20: public Sensor
 {
 private:

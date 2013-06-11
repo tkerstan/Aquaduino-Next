@@ -44,6 +44,11 @@
 #define MAX_CLOCKTIMERS             8
 
 /**
+ * \brief Defines the maximum number of timers per clocktimer
+ */
+#define CLOCKTIMER_MAX_TIMERS       4
+
+/**
  * \brief Defines the default timezone
  */
 #define TIME_ZONE                   +2

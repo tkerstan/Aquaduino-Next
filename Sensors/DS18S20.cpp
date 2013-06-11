@@ -26,6 +26,10 @@ static float temp_hist[TEMP_HISTORY];
 
 static byte runs = 0;
 
+/**
+ * \brief Constructor
+ * \param[in] pin Pin where the DS18S20 is attached.
+ */
 DS18S20::DS18S20(int pin) :
         myOneWire(pin)
 {
@@ -37,6 +41,17 @@ DS18S20::DS18S20(int pin) :
     }
 }
 
+/**
+ * \brief Reads the sensor
+ *
+ * Currently only supports one DS18S20.
+ * Reading is done on two phases to remove delay calls.
+ * First phase (readPending = 0) searches for attached DS18S20 and issues a
+ * conversion.
+ *
+ * Second phase (readPending = 1) reads the value when more than one second
+ * has passed since the read was issued.
+ */
 double DS18S20::read()
 {
     byte i;
