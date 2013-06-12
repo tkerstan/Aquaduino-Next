@@ -95,7 +95,7 @@ uint16_t DigitalOutput::deserialize(void* data, uint16_t size)
 }
 
 /**
- * \brief Enables the DigitalOutput
+ * \brief Enables the DigitalOutput if not locked
  *
  * If not locked writes onValue to the pin
  */
@@ -110,7 +110,7 @@ void DigitalOutput::on()
 }
 
 /**
- * \brief Disables the DigitalOutput
+ * \brief Disables the DigitalOutput if not locked
  *
  * If not locked writes offValue to the pin
  */
@@ -123,6 +123,30 @@ void DigitalOutput::off()
             dutyCycle = 0.0;
     }
 
+}
+
+/**
+ * \brief Enables the DigitalOutput
+ *
+ * Writes onValue to the pin.
+ */
+void DigitalOutput::forceOn()
+{
+    digitalWrite(pin, onValue);
+    if(supportsPWM())
+        dutyCycle = 1.0;
+}
+
+/**
+ * \brief Disables the DigitalOutput
+ *
+ * Writes offValue to the pin.
+ */
+void DigitalOutput::forceOff()
+{
+    digitalWrite(pin, offValue);
+    if(supportsPWM())
+        dutyCycle = 0.0;
 }
 
 /**

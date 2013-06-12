@@ -44,6 +44,8 @@ public:
 
     virtual void on();
     virtual void off();
+    virtual void forceOn();
+    virtual void forceOff();
 
     virtual int8_t isOn();
     virtual int8_t supportsPWM();

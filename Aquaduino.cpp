@@ -1662,9 +1662,9 @@ int8_t Aquaduino::showWebinterface(WebServer* server,
                 actuatorIdx = atoi(&name[1]);
                 if ((atoi(value) == 1) && (aquaduino->getActuator(actuatorIdx)->getController()
                         == -1))
-                    aquaduino->getActuator(actuatorIdx)->on();
+                    aquaduino->getActuator(actuatorIdx)->forceOn();
                 else
-                    aquaduino->getActuator(actuatorIdx)->off();
+                    aquaduino->getActuator(actuatorIdx)->forceOff();
             }
         }
 

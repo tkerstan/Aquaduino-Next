@@ -69,6 +69,7 @@ public:
     /**
      * \brief Activates the actuator.
      *
+     * Actuator shall not be activated when locked.
      * Needs to be implemented by derived class.
      */
     virtual void on() = 0;
@@ -76,10 +77,24 @@ public:
     /**
      * \brief Disables the actuator.
      *
+     * Actuator shall not be deactivated when locked.
      * Needs to be implemented by derived class.
      */
-
     virtual void off() = 0;
+
+    /**
+     * \brief Activates the actuator even in locked state.
+     *
+     * Needs to be implemented by derived class.
+     */
+    virtual void forceOn() = 0;
+
+    /**
+     * \brief Disables the actuator even in locked state.
+     *
+     * Needs to be implemented by derived class.
+     */
+    virtual void forceOff() = 0;
 
     /**
      * \brief Checks whether this actuator is enabled or not.
