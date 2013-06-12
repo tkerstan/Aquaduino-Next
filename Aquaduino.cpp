@@ -102,23 +102,17 @@
 #include <Actuators/DigitalOutput.h>
 #include <Sensors/DS18S20.h>
 #include <Sensors/DigitalInput.h>
-
+#include <SD.h>
+#include <TemplateParser.h>
 #include <Time.h>
 #include <EthernetUdp.h>
 #include <WebServer.h>
-#include <SD.h>
 #include <stdlib.h>
+#include <Framework/Flashvars.h>
 
 Aquaduino* aquaduino;
 
 extern time_t NTPSync();
-
-extern void defaultCmd(WebServer &server, WebServer::ConnectionType type,
-                       char *, bool);
-extern void controllerDispatchCommand(WebServer &server,
-                                      WebServer::ConnectionType type,
-                                      char **url_path, char *url_tail,
-                                      bool tail_complete);
 
 /**
  * \brief Default Constructor
@@ -129,23 +123,23 @@ extern void controllerDispatchCommand(WebServer &server,
  * them. Finally the network is brought up.
  */
 Aquaduino::Aquaduino() :
-        myIP(192, 168, 1, 222),
-        myNetmask(255, 255, 255, 0),
-        myDNS(192, 168, 1, 1),
-        myGateway(192, 168, 1, 1),
-        myNTP(192, 53, 103, 108),
-        timezone(TIME_ZONE),
-        ntpSyncInterval(5),
-        doDHCP(0),
-        doNTP(0),
+        m_IP(192, 168, 1, 222),
+        m_Netmask(255, 255, 255, 0),
+        m_DNSServer(192, 168, 1, 1),
+        m_Gateway(192, 168, 1, 1),
+        m_NTPServer(192, 53, 103, 108),
+        m_Timezone(TIME_ZONE),
+        m_NTPSyncInterval(5),
+        m_DHCP(0),
+        m_NTP(0),
         m_Controllers(MAX_CONTROLLERS),
         m_Actuators(MAX_ACTUATORS),
-        temperatureSensor(NULL),
-        levelSensor(NULL),
-        myWebServer(NULL),
+        m_TemperatureSensor(NULL),
+        m_LevelSensor(NULL),
+        m_WebServer(NULL),
         m_TemplateParser(NULL),
-        temp(0),
-        level(0)
+        m_Temperature(0),
+        m_Level(0)
 {
     int8_t status = 0;
     m_Type = AQUADUINO;
@@ -163,41 +157,41 @@ Aquaduino::Aquaduino() :
 
     m_ConfigManager = new SDConfigManager("config");
 
-    myMAC[0] = 0xDE;
-    myMAC[1] = 0xAD;
-    myMAC[2] = 0xBE;
-    myMAC[3] = 0xEF;
-    myMAC[4] = 0xDE;
-    myMAC[5] = 0xAD;
+    m_MAC[0] = 0xDE;
+    m_MAC[1] = 0xAD;
+    m_MAC[2] = 0xBE;
+    m_MAC[3] = 0xEF;
+    m_MAC[4] = 0xDE;
+    m_MAC[5] = 0xAD;
 
     readConfig(this);
 
-    if (doDHCP)
+    if (m_DHCP)
     {
         Serial.println(F("Waiting for DHCP reply..."));
-        status = Ethernet.begin(myMAC);
+        status = Ethernet.begin(m_MAC);
     }
-    if (!doDHCP || !status)
+    if (!m_DHCP || !status)
     {
         Serial.println(F("Using static network configuration..."));
-        Ethernet.begin(myMAC, myIP, myDNS, myGateway, myNetmask);
+        Ethernet.begin(m_MAC, m_IP, m_DNSServer, m_Gateway, m_Netmask);
     }
 
-    myIP = Ethernet.localIP();
-    myDNS = Ethernet.dnsServerIP();
-    myGateway = Ethernet.gatewayIP();
-    myNetmask = Ethernet.subnetMask();
+    m_IP = Ethernet.localIP();
+    m_DNSServer = Ethernet.dnsServerIP();
+    m_Gateway = Ethernet.gatewayIP();
+    m_Netmask = Ethernet.subnetMask();
 
     Serial.print(F("IP: "));
-    Serial.println(myIP);
+    Serial.println(m_IP);
     Serial.print(F("Netmask: "));
-    Serial.println(myNetmask);
+    Serial.println(m_Netmask);
     Serial.print(F("Gateway: "));
-    Serial.println(myGateway);
+    Serial.println(m_Gateway);
     Serial.print(F("DNS Server: "));
-    Serial.println(myDNS);
+    Serial.println(m_DNSServer);
     Serial.print(F("NTP Server: "));
-    Serial.println(myNTP);
+    Serial.println(m_NTPServer);
 
     //Init Time. If NTP Sync fails this will be used.
     setTime(0, 0, 0, 1, 1, 42);
@@ -213,7 +207,7 @@ Aquaduino::Aquaduino() :
 void Aquaduino::setMAC(uint8_t* mac)
 {
     for (int i = 0; i < 6; i++)
-        myMAC[i] = mac[i];
+        m_MAC[i] = mac[i];
 }
 
 /**
@@ -225,7 +219,7 @@ void Aquaduino::setMAC(uint8_t* mac)
 void Aquaduino::getMAC(uint8_t* mac)
 {
     for (int i = 0; i < 6; i++)
-        mac[i] = myMAC[i];
+        mac[i] = m_MAC[i];
 }
 
 /**
@@ -235,7 +229,7 @@ void Aquaduino::getMAC(uint8_t* mac)
  */
 IPAddress* Aquaduino::getIP()
 {
-    return &myIP;
+    return &m_IP;
 }
 
 /**
@@ -248,7 +242,7 @@ IPAddress* Aquaduino::getIP()
 
 void Aquaduino::setIP(IPAddress* ip)
 {
-    myIP = *ip;
+    m_IP = *ip;
 }
 
 /**
@@ -259,7 +253,7 @@ void Aquaduino::setIP(IPAddress* ip)
 
 IPAddress* Aquaduino::getNetmask()
 {
-    return &myNetmask;
+    return &m_Netmask;
 }
 
 /**
@@ -271,7 +265,7 @@ IPAddress* Aquaduino::getNetmask()
  */
 void Aquaduino::setNetmask(IPAddress* netmask)
 {
-    myNetmask = *netmask;
+    m_Netmask = *netmask;
 }
 
 /**
@@ -283,7 +277,7 @@ void Aquaduino::setNetmask(IPAddress* netmask)
 
 IPAddress* Aquaduino::getGateway()
 {
-    return &myGateway;
+    return &m_Gateway;
 }
 
 /**
@@ -296,7 +290,7 @@ IPAddress* Aquaduino::getGateway()
 
 void Aquaduino::setGateway(IPAddress* gateway)
 {
-    myGateway = *gateway;
+    m_Gateway = *gateway;
 }
 
 /**
@@ -307,7 +301,7 @@ void Aquaduino::setGateway(IPAddress* gateway)
  */
 IPAddress* Aquaduino::getDNS()
 {
-    return &myDNS;
+    return &m_DNSServer;
 }
 
 /**
@@ -319,7 +313,7 @@ IPAddress* Aquaduino::getDNS()
  */
 void Aquaduino::setDNS(IPAddress* dns)
 {
-    myDNS = *dns;
+    m_DNSServer = *dns;
 }
 
 /**
@@ -329,7 +323,7 @@ void Aquaduino::setDNS(IPAddress* dns)
  */
 IPAddress* Aquaduino::getNTP()
 {
-    return &myNTP;
+    return &m_NTPServer;
 }
 
 /**
@@ -341,7 +335,7 @@ IPAddress* Aquaduino::getNTP()
  */
 void Aquaduino::setNTP(IPAddress* ntp)
 {
-    myNTP = *ntp;
+    m_NTPServer = *ntp;
 }
 
 /**
@@ -351,7 +345,7 @@ void Aquaduino::setNTP(IPAddress* ntp)
  */
 uint16_t Aquaduino::getNtpSyncInterval()
 {
-    return ntpSyncInterval;
+    return m_NTPSyncInterval;
 }
 
 /**
@@ -364,17 +358,17 @@ uint16_t Aquaduino::getNtpSyncInterval()
 
 void Aquaduino::setNtpSyncInterval(uint16_t syncInterval)
 {
-    ntpSyncInterval = syncInterval;
+    m_NTPSyncInterval = syncInterval;
 }
 
 void Aquaduino::setTimezone(int8_t zone)
 {
-    this->timezone = zone;
+    this->m_Timezone = zone;
 }
 
 int8_t Aquaduino::getTimezone()
 {
-    return this->timezone;
+    return this->m_Timezone;
 }
 
 /**
@@ -386,7 +380,7 @@ int8_t Aquaduino::getTimezone()
 
 void Aquaduino::enableDHCP()
 {
-    doDHCP = 1;
+    m_DHCP = 1;
 }
 
 /**
@@ -400,7 +394,7 @@ void Aquaduino::enableDHCP()
  */
 void Aquaduino::disableDHCP()
 {
-    doDHCP = 0;
+    m_DHCP = 0;
 }
 
 /**
@@ -410,7 +404,7 @@ void Aquaduino::disableDHCP()
  */
 int8_t Aquaduino::isDHCPEnabled()
 {
-    return doDHCP;
+    return m_DHCP;
 }
 
 /**
@@ -422,8 +416,8 @@ int8_t Aquaduino::isDHCPEnabled()
  */
 void Aquaduino::enableNTP()
 {
-    doNTP = 1;
-    setSyncInterval(ntpSyncInterval * 60);
+    m_NTP = 1;
+    setSyncInterval(m_NTPSyncInterval * 60);
     setSyncProvider(&::NTPSync);
 }
 
@@ -434,8 +428,8 @@ void Aquaduino::enableNTP()
  */
 void Aquaduino::disableNTP()
 {
-    doNTP = 0;
-    setSyncInterval(ntpSyncInterval * 60);
+    m_NTP = 0;
+    setSyncInterval(m_NTPSyncInterval * 60);
     setSyncProvider(NULL);
 }
 
@@ -446,7 +440,7 @@ void Aquaduino::disableNTP()
  */
 int8_t Aquaduino::isNTPEnabled()
 {
-    return doNTP;
+    return m_NTP;
 }
 
 /**
@@ -464,7 +458,7 @@ int8_t Aquaduino::isNTPEnabled()
 void Aquaduino::setTime(int8_t hour, int8_t minute, int8_t second, int8_t day,
                         int8_t month, int16_t year)
 {
-    if (!doNTP)
+    if (!m_NTP)
         ::setTime(hour, minute, second, day, month, year);
 }
 
@@ -733,26 +727,26 @@ uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
 {
     uint8_t* bPtr = (uint8_t*) buffer;
 
-    memcpy(bPtr, myMAC, sizeof(myMAC));
-    bPtr += sizeof(myMAC);
-    memcpy(bPtr, &myIP[0], sizeof(uint32_t));
+    memcpy(bPtr, m_MAC, sizeof(m_MAC));
+    bPtr += sizeof(m_MAC);
+    memcpy(bPtr, &m_IP[0], sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy(bPtr, &myNetmask[0], sizeof(uint32_t));
+    memcpy(bPtr, &m_Netmask[0], sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy(bPtr, &myDNS[0], sizeof(uint32_t));
+    memcpy(bPtr, &m_DNSServer[0], sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy(bPtr, &myGateway[0], sizeof(uint32_t));
+    memcpy(bPtr, &m_Gateway[0], sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy(bPtr, &myNTP[0], sizeof(uint32_t));
+    memcpy(bPtr, &m_NTPServer[0], sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy(bPtr, &ntpSyncInterval, sizeof(ntpSyncInterval));
-    bPtr += sizeof(ntpSyncInterval);
-    memcpy(bPtr, &doDHCP, sizeof(doDHCP));
-    bPtr += sizeof(doDHCP);
-    memcpy(bPtr, &doNTP, sizeof(doNTP));
-    bPtr += sizeof(doNTP);
-    memcpy(bPtr, &timezone, sizeof(timezone));
-    bPtr += sizeof(timezone);
+    memcpy(bPtr, &m_NTPSyncInterval, sizeof(m_NTPSyncInterval));
+    bPtr += sizeof(m_NTPSyncInterval);
+    memcpy(bPtr, &m_DHCP, sizeof(m_DHCP));
+    bPtr += sizeof(m_DHCP);
+    memcpy(bPtr, &m_NTP, sizeof(m_NTP));
+    bPtr += sizeof(m_NTP);
+    memcpy(bPtr, &m_Timezone, sizeof(m_Timezone));
+    bPtr += sizeof(m_Timezone);
 
     return (uint16_t) bPtr - (uint16_t) buffer;
 }
@@ -771,26 +765,26 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
 {
     uint8_t* bPtr = (uint8_t*) data;
 
-    memcpy(myMAC, bPtr, sizeof(myMAC));
-    bPtr += sizeof(myMAC);
-    memcpy(&myIP[0], bPtr, sizeof(uint32_t));
+    memcpy(m_MAC, bPtr, sizeof(m_MAC));
+    bPtr += sizeof(m_MAC);
+    memcpy(&m_IP[0], bPtr, sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy(&myNetmask[0], bPtr, sizeof(uint32_t));
+    memcpy(&m_Netmask[0], bPtr, sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy(&myDNS[0], bPtr, sizeof(uint32_t));
+    memcpy(&m_DNSServer[0], bPtr, sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy(&myGateway[0], bPtr, sizeof(uint32_t));
+    memcpy(&m_Gateway[0], bPtr, sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy(&myNTP[0], bPtr, sizeof(uint32_t));
+    memcpy(&m_NTPServer[0], bPtr, sizeof(uint32_t));
     bPtr += sizeof(uint32_t);
-    memcpy(&ntpSyncInterval, bPtr, sizeof(ntpSyncInterval));
-    bPtr += sizeof(ntpSyncInterval);
-    memcpy(&doDHCP, bPtr, sizeof(doDHCP));
-    bPtr += sizeof(doDHCP);
-    memcpy(&doNTP, bPtr, sizeof(doNTP));
-    bPtr += sizeof(doNTP);
-    memcpy(&timezone, bPtr, sizeof(timezone));
-    bPtr += sizeof(timezone);
+    memcpy(&m_NTPSyncInterval, bPtr, sizeof(m_NTPSyncInterval));
+    bPtr += sizeof(m_NTPSyncInterval);
+    memcpy(&m_DHCP, bPtr, sizeof(m_DHCP));
+    bPtr += sizeof(m_DHCP);
+    memcpy(&m_NTP, bPtr, sizeof(m_NTP));
+    bPtr += sizeof(m_NTP);
+    memcpy(&m_Timezone, bPtr, sizeof(m_Timezone));
+    bPtr += sizeof(m_Timezone);
 
     return (uint16_t) bPtr - (uint16_t) data;
 }
@@ -913,7 +907,7 @@ int8_t Aquaduino::readConfig(Sensor* sensor)
  */
 void Aquaduino::setTemperatureSensor(Sensor* tempSensor)
 {
-    this->temperatureSensor = tempSensor;
+    this->m_TemperatureSensor = tempSensor;
 }
 
 /**
@@ -926,7 +920,7 @@ void Aquaduino::setTemperatureSensor(Sensor* tempSensor)
  */
 double Aquaduino::getTemperature()
 {
-    return temp;
+    return m_Temperature;
 }
 
 /**
@@ -937,7 +931,7 @@ double Aquaduino::getTemperature()
  */
 void Aquaduino::setLevelSensor(Sensor* levSensor)
 {
-    this->levelSensor = levSensor;
+    this->m_LevelSensor = levSensor;
 }
 
 /**
@@ -950,8 +944,13 @@ void Aquaduino::setLevelSensor(Sensor* levSensor)
  */
 double Aquaduino::getLevel()
 {
-    return level;
+    return m_Level;
 }
+
+void defaultCmd(WebServer &server, WebServer::ConnectionType type, char * url,
+                bool);
+void dispatchCommand(WebServer &server, WebServer::ConnectionType type,
+                     char **url_path, char *url_tail, bool tail_complete);
 
 /**
  * \brief Setter for the Webduino webserver instance.
@@ -967,12 +966,12 @@ double Aquaduino::getLevel()
  */
 void Aquaduino::setWebserver(WebServer* webServer)
 {
-    myWebServer = webServer;
+    m_WebServer = webServer;
 
     /**
      */
     webServer->setDefaultCommand(&defaultCmd);
-    webServer->setUrlPathCommand(&controllerDispatchCommand);
+    webServer->setUrlPathCommand(&dispatchCommand);
     webServer->begin();
 }
 
@@ -983,7 +982,7 @@ void Aquaduino::setWebserver(WebServer* webServer)
  */
 WebServer* Aquaduino::getWebserver()
 {
-    return myWebServer;
+    return m_WebServer;
 }
 
 /**
@@ -1010,6 +1009,716 @@ TemplateParser* Aquaduino::getTemplateParser()
 }
 
 /**
+ * ----------------------------------------------------------------------------
+ *
+ */
+
+/**
+ * \brief Prints the main web page.
+ *
+ * Prints the main web page specified in pMFileName.
+ */
+void defaultCmd(WebServer &server, WebServer::ConnectionType type, char * url,
+                bool)
+{
+    aquaduino->showWebinterface(&server, type, url);
+}
+
+/**
+ * \brief This command is triggered when the request is not the default page.
+ * \param [in] server Webserver instance to use.
+ * \param[in] type Request type
+ * \param[in] url_path URL of the request
+ * \param[in] url_tail contains the part of the URL that wasn't matched against
+ *            the registered command table.
+ * \param[in] tail_complete is true if the complete URL fit in url_tail,  false if
+ *            part of it was lost because the buffer was too small.
+ *
+ * This command dispatches the request based on its URL.
+ *
+ * For the Aquaduino configuration webpage the URL "config" is hardcoded here
+ * and the configCmd is called when the url_path matches this string.
+ * Actuator and Controller URLs are compared to url_path. When they match
+ * the showWebinterface of the Actuator or Controller is called.
+ *
+ */
+void dispatchCommand(WebServer &server, WebServer::ConnectionType type,
+                     char **url_path, char *url_tail, bool tail_complete)
+{
+    Controller* controller;
+    Actuator* actuator;
+
+    if (type != WebServer::HEAD)
+    {
+
+        aquaduino->resetControllerIterator();
+        while (aquaduino->getNextController(&controller) != -1)
+        {
+            if (strstr(*url_path, controller->getURL()) == *url_path)
+            {
+                controller->showWebinterface(&server, type, *url_path);
+                if (type == WebServer::POST)
+                    aquaduino->writeConfig(controller);
+                return;
+            }
+        }
+
+        aquaduino->resetActuatorIterator();
+        while (aquaduino->getNextActuator(&actuator) != -1)
+        {
+            if (strstr(*url_path, actuator->getURL()) == *url_path)
+            {
+                actuator->showWebinterface(&server, type, *url_path);
+                if (type == WebServer::POST)
+                    aquaduino->writeConfig(actuator);
+                return;
+            }
+        }
+
+        aquaduino->showWebinterface(&server, type, *url_path);
+    }
+}
+
+/**
+ * \brief Prints the configuration webpage.
+ *
+ * Prints the configuation webpage using the template in
+ * progConfigTemplateFileName.
+ */
+void Aquaduino::printConfigWebpage(WebServer* server)
+{
+    File templateFile;
+    TemplateParser* parser;
+    int16_t matchIdx = 0;
+    uint8_t mac[6];
+    IPAddress* ip, *netmask, *dns, *gw, *ntp;
+
+    char templateFileName[sizeof(size_progConfigTemplateFileName)];
+    strcpy_P(templateFileName, progConfigTemplateFileName);
+
+    parser = aquaduino->getTemplateParser();
+    templateFile = SD.open(templateFileName, FILE_READ);
+
+    aquaduino->getMAC(mac);
+    ip = aquaduino->getIP();
+    netmask = aquaduino->getNetmask();
+    gw = aquaduino->getGateway();
+    dns = aquaduino->getDNS();
+    ntp = aquaduino->getNTP();
+
+    while ((matchIdx =
+            parser->processTemplateUntilNextMatch(&templateFile,
+                                                  configTemplateStrings,
+                                                  nr_configTemplateStrings,
+                                                  server))
+           >= 0)
+    {
+        switch (matchIdx)
+        {
+        case T_ACTORROW:
+            //printActuatorTable(server);
+            break;
+        case T_MAC1:
+            server->print(mac[0], HEX);
+            break;
+        case T_MAC2:
+            server->print(mac[1], HEX);
+            break;
+        case T_MAC3:
+            server->print(mac[2], HEX);
+            break;
+        case T_MAC4:
+            server->print(mac[3], HEX);
+            break;
+        case T_MAC5:
+            server->print(mac[4], HEX);
+            break;
+        case T_MAC6:
+            server->print(mac[5], HEX);
+            break;
+        case T_DHCPSELECTOPTION:
+            if (aquaduino->isDHCPEnabled())
+            {
+                parser->selectListOption("Yes", "1", 1, server);
+                parser->selectListOption("No", "0", 0, server);
+            }
+            else
+            {
+                parser->selectListOption("Yes", "1", 0, server);
+                parser->selectListOption("No", "0", 1, server);
+            }
+            break;
+        case T_IP1:
+            server->print((*ip)[0]);
+            break;
+        case T_IP2:
+            server->print((*ip)[1]);
+            break;
+        case T_IP3:
+            server->print((*ip)[2]);
+            break;
+        case T_IP4:
+            server->print((*ip)[3]);
+            break;
+        case T_NETMASK1:
+            server->print((*netmask)[0]);
+            break;
+        case T_NETMASK2:
+            server->print((*netmask)[1]);
+            break;
+        case T_NETMASK3:
+            server->print((*netmask)[2]);
+            break;
+        case T_NETMASK4:
+            server->print((*netmask)[3]);
+            break;
+        case T_GATEWAY1:
+            server->print((*gw)[0]);
+            break;
+        case T_GATEWAY2:
+            server->print((*gw)[1]);
+            break;
+        case T_GATEWAY3:
+            server->print((*gw)[2]);
+            break;
+        case T_GATEWAY4:
+            server->print((*gw)[3]);
+            break;
+        case T_DNS1:
+            server->print((*dns)[0]);
+            break;
+        case T_DNS2:
+            server->print((*dns)[1]);
+            break;
+        case T_DNS3:
+            server->print((*dns)[2]);
+            break;
+        case T_DNS4:
+            server->print((*dns)[3]);
+            break;
+        case T_NTPSELECTOPTION:
+            if (aquaduino->isNTPEnabled())
+            {
+                parser->selectListOption("Yes", "1", 1, server);
+                parser->selectListOption("No", "0", 0, server);
+            }
+            else
+            {
+                parser->selectListOption("Yes", "1", 0, server);
+                parser->selectListOption("No", "0", 1, server);
+            }
+            break;
+        case T_NTP1:
+            server->print((*ntp)[0]);
+            break;
+        case T_NTP2:
+            server->print((*ntp)[1]);
+            break;
+        case T_NTP3:
+            server->print((*ntp)[2]);
+            break;
+        case T_NTP4:
+            server->print((*ntp)[3]);
+            break;
+        case T_NTPPERIOD:
+            server->print(aquaduino->getNtpSyncInterval());
+            break;
+        case T_TIMEZONE:
+            server->print(aquaduino->getTimezone());
+            break;
+        case T_HOUR:
+            server->print(hour());
+            break;
+        case T_MINUTE:
+            server->print(minute());
+            break;
+        case T_SECOND:
+            server->print(second());
+            break;
+        }
+    }
+    templateFile.close();
+}
+
+/**
+ * \brief This command is trigger upon request to the URL "/config"
+ * \param[in] server Webserver instance to use
+ * \param[in] type Request type
+ *
+ * Request is redirected from ::controllerDispatchCommand.
+ */
+int8_t Aquaduino::configWebpageProcessPost(WebServer* server, WebServer::ConnectionType type)
+{
+    int8_t repeat;
+    uint8_t mac[6];
+    char name[30], value[30];
+    IPAddress ip, netmask, gw, dns, ntp;
+    int8_t doNTP = 0, doDHCP = 0;
+    uint16_t ntpperiod = 5;
+    int8_t timezone = TIME_ZONE;
+    int8_t hour = 0;
+    int8_t minute = 0;
+    int8_t second = 0;
+    Actuator* actuator;
+
+    /*
+     * TODO: Implement security checks when processing POST parameters
+     */
+    if (type == WebServer::POST)
+    {
+        while ((repeat = server->readPOSTparam(name, 30, value, 30)) > 0)
+        {
+            if (strcmp_P(name,
+                         (PGM_P) pgm_read_word(&(configInputStrings[I_MAC1])))
+                == 0)
+                mac[0] = strtol(value, NULL, 16);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_MAC2])))
+                     == 0)
+                mac[1] = strtol(value, NULL, 16);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_MAC3])))
+                     == 0)
+                mac[2] = strtol(value, NULL, 16);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_MAC4])))
+                     == 0)
+                mac[3] = strtol(value, NULL, 16);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_MAC5])))
+                     == 0)
+                mac[4] = strtol(value, NULL, 16);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_MAC6])))
+                     == 0)
+                mac[5] = strtol(value, NULL, 16);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_IP1])))
+                     == 0)
+                ip[0] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_IP2])))
+                     == 0)
+                ip[1] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_IP3])))
+                     == 0)
+                ip[2] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_IP4])))
+                     == 0)
+                ip[3] = atoi(value);
+            if (strcmp_P(name,
+                         (PGM_P) pgm_read_word(&(configInputStrings[I_NETMASK1])))
+                == 0)
+                netmask[0] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_NETMASK2])))
+                     == 0)
+                netmask[1] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_NETMASK3])))
+                     == 0)
+                netmask[2] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_NETMASK4])))
+                     == 0)
+                netmask[3] = atoi(value);
+            if (strcmp_P(name,
+                         (PGM_P) pgm_read_word(&(configInputStrings[I_GATEWAY1])))
+                == 0)
+                gw[0] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_GATEWAY2])))
+                     == 0)
+                gw[1] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_GATEWAY3])))
+                     == 0)
+                gw[2] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_GATEWAY4])))
+                     == 0)
+                gw[3] = atoi(value);
+            if (strcmp_P(name,
+                         (PGM_P) pgm_read_word(&(configInputStrings[I_DNS1])))
+                == 0)
+                dns[0] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_DNS2])))
+                     == 0)
+                dns[1] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_DNS3])))
+                     == 0)
+                dns[2] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_DNS4])))
+                     == 0)
+                dns[3] = atoi(value);
+            if (strcmp_P(name,
+                         (PGM_P) pgm_read_word(&(configInputStrings[I_NTP1])))
+                == 0)
+                ntp[0] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_NTP2])))
+                     == 0)
+                ntp[1] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_NTP3])))
+                     == 0)
+                ntp[2] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_NTP4])))
+                     == 0)
+                ntp[3] = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_NTP])))
+                     == 0)
+                doNTP = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_DHCP])))
+                     == 0)
+                doDHCP = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_NTPPERIOD])))
+                     == 0)
+                ntpperiod = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_TIMEZONE])))
+                     == 0)
+                timezone = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_HOUR])))
+                     == 0)
+                hour = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_MINUTE])))
+                     == 0)
+                minute = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_SECOND])))
+                     == 0)
+                second = atoi(value);
+
+        }
+
+        aquaduino->setMAC(mac);
+        aquaduino->setIP(&ip);
+        aquaduino->setNetmask(&netmask);
+        aquaduino->setGateway(&gw);
+        aquaduino->setDNS(&dns);
+        aquaduino->setNTP(&ntp);
+
+        if (doDHCP)
+            aquaduino->enableDHCP();
+        else
+            aquaduino->disableDHCP();
+
+        if (doNTP)
+            aquaduino->enableNTP();
+        else
+        {
+            aquaduino->disableNTP();
+            aquaduino->setTime(hour, minute, second, 0, 0, 0);
+        }
+
+        aquaduino->setNtpSyncInterval(ntpperiod);
+
+        aquaduino->setTimezone(timezone);
+
+        aquaduino->writeConfig(aquaduino);
+
+        aquaduino->resetActuatorIterator();
+        while (aquaduino->getNextActuator(&actuator) != -1)
+        {
+            aquaduino->writeConfig(actuator);
+        }
+
+        server->httpSeeOther("/config");
+    }
+    return true;
+}
+
+/**
+ * \brief This command is trigger upon request to the URL "/config"
+ * \param[in] server Webserver instance to use
+ * \param[in] type Request type
+ *
+ * Request is redirected from ::controllerDispatchCommand.
+ */
+int8_t Aquaduino::configWebpage(WebServer* server, WebServer::ConnectionType type)
+{
+    if (type == WebServer::POST)
+    {
+        configWebpageProcessPost(server, type);
+    }
+    else
+    {
+        server->httpSuccess();
+        printConfigWebpage(server);
+    }
+
+    return true;
+}
+
+/**
+ * \brief Prints the actuator table below the main information.
+ *
+ * Prints the actuator table using the template specified in pARowFileName.
+ */
+void Aquaduino::printActuatorTable(WebServer* server)
+{
+    int i, j;
+    int16_t matchIdx = 0;
+    TemplateParser* parser;
+    char actuatorID[5], controllerID[5], lockedID[5], stateID[5];
+    char aRowFileName[size_pARowFileName];
+    File templateARow;
+    Actuator* currentActuator;
+    Controller* currentController;
+
+    parser = aquaduino->getTemplateParser();
+    strcpy_P(aRowFileName, pARowFileName);
+
+    aquaduino->resetActuatorIterator();
+
+    while ((i = aquaduino->getNextActuator(&currentActuator)) != -1)
+    {
+        templateARow = SD.open(aRowFileName, FILE_READ);
+        while ((matchIdx =
+                parser->processTemplateUntilNextMatch(&templateARow,
+                                                      actuatorTemplate,
+                                                      nr_actuatorTemplate,
+                                                      server))
+               != -1)
+        {
+
+            switch (matchIdx)
+            {
+            case A_COLOR:
+                if (i % 2 == 0)
+                {
+                    server->print("#FFFFFF");
+                }
+                else
+                {
+                    server->print("#99CCFF");
+                }
+                break;
+            case A_IACTUATOR:
+                actuatorID[0] = 'A';
+                itoa(i, &actuatorID[1], 10);
+                server->print(actuatorID);
+                break;
+            case A_ACTUATORNAME:
+                server->print(currentActuator->getName());
+                break;
+            case A_CSELECT:
+                controllerID[0] = 'C';
+                itoa(i, &controllerID[1], 10);
+                server->print(controllerID);
+                break;
+            case A_COPTIONS:
+                aquaduino->resetControllerIterator();
+                while ((j = aquaduino->getNextController(&currentController)) != -1)
+                {
+                    itoa(j, controllerID, 10);
+                    parser->selectListOption(currentController->getName(),
+                                             controllerID,
+                                             currentActuator->getController() == j,
+                                             server);
+                }
+                break;
+            case A_LSELECT:
+                lockedID[0] = 'L';
+                itoa(i, &lockedID[1], 10);
+                server->print(lockedID);
+                break;
+            case A_LOPTIONS:
+                parser->selectListOption("Unlocked", "0", 0, server);
+                parser->selectListOption("Locked",
+                                         "1",
+                                         currentActuator->isLocked(),
+                                         server);
+                break;
+            case A_SSELECT:
+                stateID[0] = 'S';
+                itoa(i, &stateID[1], 10);
+                server->print(stateID);
+                break;
+            case A_SOPTIONS:
+                parser->selectListOption("Off", "0", 0, server);
+                parser->selectListOption("On",
+                                         "1",
+                                         currentActuator->isOn(),
+                                         server);
+                break;
+            case A_LINK:
+                actuatorID[0] = 'A';
+                itoa(i, &actuatorID[1], 10);
+                server->print(actuatorID);
+                break;
+            }
+        }
+        templateARow.close();
+    }
+
+}
+
+/**
+ * \brief Prints the controller table below the main information.
+ *
+ * Prints the controller table using the template specified in pCRowFileName.
+ */
+void Aquaduino::printControllerTable(WebServer* server)
+{
+    TemplateParser* parser;
+    Controller* controller;
+    char curl[AQUADUINO_STRING_LENGTH];
+    char cname[AQUADUINO_STRING_LENGTH];
+    char* replacementStrings[3];
+    File templateCRow;
+    char cRowFileName[size_pCRowFileName];
+
+    strcpy_P(cRowFileName, pCRowFileName);
+    templateCRow = SD.open(cRowFileName, FILE_READ);
+
+    parser = aquaduino->getTemplateParser();
+
+    aquaduino->resetControllerIterator();
+    while (aquaduino->getNextController(&controller) != -1)
+    {
+        strcpy(curl, controller->getURL());
+        strcpy(cname, controller->getName());
+        replacementStrings[0] = curl;
+        replacementStrings[1] = cname;
+        replacementStrings[2] = "99CCFF";
+        parser->processSingleTemplate(&templateCRow,
+                                      controllerTemplate,
+                                      replacementStrings,
+                                      nr_controllerTemplate,
+                                      server);
+    }
+    templateCRow.close();
+}
+
+/**
+ * \brief Prints the main web page.
+ *
+ * Prints the main web page specified in pMFileName.
+ */
+int8_t Aquaduino::showWebinterface(WebServer* server,
+                                   WebServer::ConnectionType type, char* url)
+{
+    TemplateParser* parser;
+    char fileName[size_pMFileName];
+    File templateFile;
+    int16_t matchIdx;
+    char name[30], value[30];
+    uint16_t actuatorIdx;
+    uint16_t controllerIdx;
+    Actuator* actuator;
+    int8_t repeat = 0;
+
+    parser = aquaduino->getTemplateParser();
+
+    strcpy_P(fileName, pMFileName);
+
+    templateFile = SD.open(fileName, FILE_READ);
+
+    if (strcmp("config", url) == 0)
+    {
+        configWebpage(server, type);
+        return 1;
+    }
+
+    if (type == WebServer::POST)
+    {
+        while ((repeat = server->readPOSTparam(name, 30, value, 30)) > 0)
+        {
+
+            if (name[0] == 'A' && name[1] >= '0' && name[1] <= '9')
+            {
+                actuatorIdx = atoi(&name[1]);
+                aquaduino->getActuator(actuatorIdx)->setName(value);
+            }
+            else if (name[0] == 'C' && name[1] >= '0' && name[1] <= '9')
+            {
+                actuatorIdx = atoi(&name[1]);
+                controllerIdx = atoi(value);
+                aquaduino->getActuator(actuatorIdx)->setController(controllerIdx);
+            }
+            else if (name[0] == 'L' && name[1] >= '0' && name[1] <= '9')
+            {
+                actuatorIdx = atoi(&name[1]);
+                if (atoi(value) == 1)
+                    aquaduino->getActuator(actuatorIdx)->lock();
+                else
+                    aquaduino->getActuator(actuatorIdx)->unlock();
+            }
+            else if (name[0] == 'S' && name[1] >= '0' && name[1] <= '9')
+            {
+                actuatorIdx = atoi(&name[1]);
+                if ((atoi(value) == 1) && (aquaduino->getActuator(actuatorIdx)->getController()
+                        == -1))
+                    aquaduino->getActuator(actuatorIdx)->on();
+                else
+                    aquaduino->getActuator(actuatorIdx)->off();
+            }
+        }
+
+        aquaduino->resetActuatorIterator();
+        while (aquaduino->getNextActuator(&actuator) != -1)
+        {
+            aquaduino->writeConfig(actuator);
+        }
+
+        server->httpSeeOther("/");
+
+    }
+    else if (type != WebServer::HEAD)
+    {
+        server->httpSuccess();
+
+        matchIdx = 0;
+
+        while ((matchIdx =
+                parser->processTemplateUntilNextMatch(&templateFile,
+                                                      mainTemplate,
+                                                      nr_mainTemplate,
+                                                      server))
+               >= 0)
+        {
+            switch (matchIdx)
+            {
+            case M_TEMPERATURE:
+                server->print(aquaduino->getTemperature());
+                break;
+            case M_HOUR:
+                server->print(hour());
+                break;
+            case M_MINUTE:
+                server->print(minute());
+                break;
+            case M_SECOND:
+                server->print(second());
+                break;
+            case M_CONTROLLER:
+                printControllerTable(server);
+                break;
+            case M_ACTUATOR:
+                printActuatorTable(server);
+                break;
+            }
+        }
+    }
+    templateFile.close();
+
+    return 1;
+}
+
+/**
  * \brief Top level run method.
  *
  * This is the top level run method. It triggers the sensor readings,
@@ -1021,8 +1730,8 @@ void Aquaduino::run()
     int8_t controllerIdx = -1;
     Controller* currentController;
 
-    temp = temperatureSensor->read();
-    level = levelSensor->read() > 0 ? 1 : 0;
+    m_Temperature = m_TemperatureSensor->read();
+    m_Level = m_LevelSensor->read() > 0 ? 1 : 0;
 
     m_Controllers.resetIterator();
     while ((controllerIdx = m_Controllers.getNext(&currentController)) != -1)
@@ -1030,9 +1739,9 @@ void Aquaduino::run()
         currentController->run();
     }
 
-    if (myWebServer != NULL)
+    if (m_WebServer != NULL)
     {
-        myWebServer->processConnection();
+        m_WebServer->processConnection();
     }
 }
 
@@ -1093,18 +1802,6 @@ WebServer* webServer;
  * Other declarations and definitions
  *
  */
-extern int __data_start;
-extern int __bss_start;
-
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-void loop();
-void setup();
-#ifdef __cplusplus
-}
-#endif
 
 int freeRam()
 {
@@ -1154,18 +1851,6 @@ void setup()
     aquaduino->setLevelSensor(levelSensor);
 
 #ifdef DEBUG
-    Serial.print(F("Data Start: 0x"));
-    Serial.println((int) &__data_start, HEX);
-    Serial.print(F("BSS Start: 0x"));
-    Serial.println((int) &__bss_start, HEX);
-    Serial.print(F("Heap Start: 0x"));
-    Serial.println((int) __malloc_heap_start, HEX);
-
-    Serial.print(F("Last allocated Element ends: 0x"));
-    Serial.println(((uint16_t) temperatureSensor) + sizeof(temperatureSensor)
-                   + 1,
-                   HEX);
-
     Serial.print(F("Free Memory:"));
     Serial.println(freeRam());
 #endif

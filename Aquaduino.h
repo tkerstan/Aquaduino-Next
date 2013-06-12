@@ -32,6 +32,7 @@
 #include "Framework/SDConfigManager.h"
 #include "Framework/Object.h"
 #include "Framework/Serializable.h"
+#include "Framework/WebInterface.h"
 
 class WebServer;
 class Controller;
@@ -52,27 +53,8 @@ class ConfigManager;
  *  - Controller configuration
  *  - Actuator configuration
  */
-class Aquaduino: public Object, Serializable
+class Aquaduino: public Object, Serializable, WebInterface
 {
-private:
-    byte myMAC[6];
-    IPAddress myIP, myNetmask, myDNS, myGateway, myNTP;
-    int8_t timezone;
-    uint16_t ntpSyncInterval;
-    int8_t doDHCP;
-    int8_t doNTP;
-
-    ArrayMap<Controller*> m_Controllers;
-    ArrayMap<Actuator*> m_Actuators;
-    Sensor* temperatureSensor;
-    Sensor* levelSensor;
-    WebServer* myWebServer;
-    TemplateParser* m_TemplateParser;
-    double temp;
-    double level;
-
-    ConfigManager* m_ConfigManager;
-
 public:
     Aquaduino();
 
@@ -154,7 +136,38 @@ public:
     void setLevelSensor(Sensor* levSensor);
     double getLevel();
 
+    virtual int8_t showWebinterface(WebServer* server,
+                                    WebServer::ConnectionType type, char* url);
+
     void run();
+
+protected:
+    void printConfigWebpage(WebServer* server);
+    int8_t configWebpageProcessPost(WebServer* server,
+                                    WebServer::ConnectionType type);
+    int8_t configWebpage(WebServer* server, WebServer::ConnectionType type);
+
+    void printActuatorTable(WebServer* server);
+    void printControllerTable(WebServer* server);
+
+private:
+    byte m_MAC[6];
+    IPAddress m_IP, m_Netmask, m_DNSServer, m_Gateway, m_NTPServer;
+    int8_t m_Timezone;
+    uint16_t m_NTPSyncInterval;
+    int8_t m_DHCP;
+    int8_t m_NTP;
+
+    ArrayMap<Controller*> m_Controllers;
+    ArrayMap<Actuator*> m_Actuators;
+    Sensor* m_TemperatureSensor;
+    Sensor* m_LevelSensor;
+    WebServer* m_WebServer;
+    TemplateParser* m_TemplateParser;
+    double m_Temperature;
+    double m_Level;
+
+    ConfigManager* m_ConfigManager;
 };
 
 extern Aquaduino* aquaduino;
