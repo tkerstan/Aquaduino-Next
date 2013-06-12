@@ -1660,8 +1660,7 @@ int8_t Aquaduino::showWebinterface(WebServer* server,
             else if (name[0] == 'S' && name[1] >= '0' && name[1] <= '9')
             {
                 actuatorIdx = atoi(&name[1]);
-                if ((atoi(value) == 1) && (aquaduino->getActuator(actuatorIdx)->getController()
-                        == -1))
+                if (atoi(value) == 1)
                     aquaduino->getActuator(actuatorIdx)->forceOn();
                 else
                     aquaduino->getActuator(actuatorIdx)->forceOff();
