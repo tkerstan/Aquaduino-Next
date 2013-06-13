@@ -1046,16 +1046,24 @@ void dispatchCommand(WebServer &server, WebServer::ConnectionType type,
 {
     Controller* controller;
     Actuator* actuator;
+    char* topLevelURL = NULL;
+    char* subURL = NULL;
+    uint8_t pos = 0;
 
     if (type != WebServer::HEAD)
     {
+        //SubURL decoding.
+        pos=strcspn(*url_path, URL_DELIMITER);
+        if (pos != strlen(*url_path))
+            subURL = &((*url_path)[pos+1]);
+        topLevelURL = strtok(*url_path, URL_DELIMITER);
 
         aquaduino->resetControllerIterator();
         while (aquaduino->getNextController(&controller) != -1)
         {
-            if (strstr(*url_path, controller->getURL()) == *url_path)
+            if (strcmp(topLevelURL, controller->getURL()) == 0)
             {
-                controller->showWebinterface(&server, type, *url_path);
+                controller->showWebinterface(&server, type, subURL);
                 if (type == WebServer::POST)
                     aquaduino->writeConfig(controller);
                 return;
@@ -1065,9 +1073,9 @@ void dispatchCommand(WebServer &server, WebServer::ConnectionType type,
         aquaduino->resetActuatorIterator();
         while (aquaduino->getNextActuator(&actuator) != -1)
         {
-            if (strstr(*url_path, actuator->getURL()) == *url_path)
+            if (strcmp(topLevelURL, actuator->getURL()) == 0)
             {
-                actuator->showWebinterface(&server, type, *url_path);
+                actuator->showWebinterface(&server, type, subURL);
                 if (type == WebServer::POST)
                     aquaduino->writeConfig(actuator);
                 return;
@@ -1795,7 +1803,7 @@ void Aquaduino::run()
  * My system has 24 Power Outlets controlled by the Pins 14-37,
  * a Level sensor @ pin 40 and a DS18S20 @ pin 42.
  */
-const static uint8_t POWER_OUTLETS = 8;
+const static uint8_t POWER_OUTLETS = 24;
 const static uint8_t POWER_OUTLET_START_PIN = 14;
 const static uint8_t LEVEL_SENSOR_PIN = 38;
 const static uint8_t TEMPERATURE_SENSOR_PIN = 39;

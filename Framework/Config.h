@@ -64,4 +64,9 @@
  */
 #define AQUADUINO_STRING_LENGTH     20
 
+/**
+ * \brief Defines the delimiter in URLs to mark the beginning of a subURL
+ */
+#define URL_DELIMITER               "."
+
 #endif /*CONFIG_H_*/

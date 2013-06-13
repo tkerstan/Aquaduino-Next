@@ -297,7 +297,8 @@ int8_t ClockTimerController::printMain(WebServer* server,
         {
         case MAIN_URL:
             server->print(getURL());
-            server->print("select");
+            server->print(".");
+            server->print((__FlashStringHelper*) &progStringSelect[0]);
             break;
         case MAIN_SELECT:
             parser->selectList("timer",
@@ -408,7 +409,7 @@ int8_t ClockTimerController::processPost(WebServer* server,
     do
     {
         repeat = server->readPOSTparam(name, 16, value, 16);
-        if (strstr_P(url, progStringSelect) != 0)
+        if (url != NULL && strcmp_P(url, progStringSelect) == 0)
         {
             if (strcmp_P(name, progStringTimer) == 0)
             {
