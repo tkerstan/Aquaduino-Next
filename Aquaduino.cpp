@@ -1247,7 +1247,8 @@ void Aquaduino::printConfigWebpage(WebServer* server)
  *
  * Request is redirected from ::controllerDispatchCommand.
  */
-int8_t Aquaduino::configWebpageProcessPost(WebServer* server, WebServer::ConnectionType type)
+int8_t Aquaduino::configWebpageProcessPost(WebServer* server,
+                                           WebServer::ConnectionType type)
 {
     int8_t repeat;
     uint8_t mac[6];
@@ -1447,7 +1448,8 @@ int8_t Aquaduino::configWebpageProcessPost(WebServer* server, WebServer::Connect
  *
  * Request is redirected from ::controllerDispatchCommand.
  */
-int8_t Aquaduino::configWebpage(WebServer* server, WebServer::ConnectionType type)
+int8_t Aquaduino::configWebpage(WebServer* server,
+                                WebServer::ConnectionType type)
 {
     if (type == WebServer::POST)
     {
@@ -1463,11 +1465,70 @@ int8_t Aquaduino::configWebpage(WebServer* server, WebServer::ConnectionType typ
 }
 
 /**
+ * \brief Processes the POST request of the main web page.
+ * \param[in] server Webserver instance to use
+ * \param[in] type Request type
+ *
+ * \return true if successful.
+ */
+int8_t Aquaduino::mainWebpageProcessPost(WebServer* server, WebServer::ConnectionType type)
+{
+    int8_t repeat = 0;
+    char name[30], value[30];
+    int8_t actuatorIdx;
+    int8_t controllerIdx;
+    Actuator* actuator;
+
+    while ((repeat = server->readPOSTparam(name, 30, value, 30)) > 0)
+    {
+
+        if (name[0] == 'A' && name[1] >= '0' && name[1] <= '9')
+        {
+            actuatorIdx = atoi(&name[1]);
+            aquaduino->getActuator(actuatorIdx)->setName(value);
+        }
+        else if (name[0] == 'C' && name[1] >= '0' && name[1] <= '9')
+        {
+            actuatorIdx = atoi(&name[1]);
+            controllerIdx = atoi(value);
+            aquaduino->getActuator(actuatorIdx)->setController(controllerIdx);
+        }
+        else if (name[0] == 'L' && name[1] >= '0' && name[1] <= '9')
+        {
+            actuatorIdx = atoi(&name[1]);
+            if (atoi(value) == 1)
+                aquaduino->getActuator(actuatorIdx)->lock();
+            else
+                aquaduino->getActuator(actuatorIdx)->unlock();
+        }
+        else if (name[0] == 'S' && name[1] >= '0' && name[1] <= '9')
+        {
+            actuatorIdx = atoi(&name[1]);
+            if (atoi(value) == 1)
+                aquaduino->getActuator(actuatorIdx)->forceOn();
+            else
+                aquaduino->getActuator(actuatorIdx)->forceOff();
+        }
+    }
+
+    aquaduino->resetActuatorIterator();
+    while (aquaduino->getNextActuator(&actuator) != -1)
+    {
+        aquaduino->writeConfig(actuator);
+    }
+
+    server->httpSeeOther("/");
+
+    return true;
+}
+
+/**
  * \brief Prints the actuator table below the main information.
+ * \param[in] server Webserver instance to use
  *
  * Prints the actuator table using the template specified in pARowFileName.
  */
-void Aquaduino::printActuatorTable(WebServer* server)
+int8_t Aquaduino::printMainActuatorTable(WebServer* server)
 {
     int i, j;
     int16_t matchIdx = 0;
@@ -1564,14 +1625,16 @@ void Aquaduino::printActuatorTable(WebServer* server)
         templateARow.close();
     }
 
+    return 1;
 }
 
 /**
  * \brief Prints the controller table below the main information.
+ * \param[in] server Webserver instance to use
  *
  * Prints the controller table using the template specified in pCRowFileName.
  */
-void Aquaduino::printControllerTable(WebServer* server)
+int8_t Aquaduino::printMainControllerTable(WebServer* server)
 {
     TemplateParser* parser;
     Controller* controller;
@@ -1601,120 +1664,97 @@ void Aquaduino::printControllerTable(WebServer* server)
                                       server);
     }
     templateCRow.close();
+
+    return 1;
 }
 
 /**
- * \brief Prints the main web page.
+ * \brief Prints the main web page
+ * \param[in] server Webserver instance to use
  *
- * Prints the main web page specified in pMFileName.
+ * \returns true if successful.
  */
-int8_t Aquaduino::showWebinterface(WebServer* server,
-                                   WebServer::ConnectionType type, char* url)
+
+int8_t Aquaduino::printMainWebpage(WebServer* server)
 {
     TemplateParser* parser;
     char fileName[size_pMFileName];
     File templateFile;
     int16_t matchIdx;
-    char name[30], value[30];
-    uint16_t actuatorIdx;
-    uint16_t controllerIdx;
-    Actuator* actuator;
-    int8_t repeat = 0;
 
     parser = aquaduino->getTemplateParser();
 
     strcpy_P(fileName, pMFileName);
-
     templateFile = SD.open(fileName, FILE_READ);
 
-    if (strcmp("config", url) == 0)
+    server->httpSuccess();
+
+    matchIdx = 0;
+
+    while ((matchIdx = parser->processTemplateUntilNextMatch(&templateFile,
+                                                             mainTemplate,
+                                                             nr_mainTemplate,
+                                                             server))
+           >= 0)
     {
-        configWebpage(server, type);
-        return 1;
-    }
-
-    if (type == WebServer::POST)
-    {
-        while ((repeat = server->readPOSTparam(name, 30, value, 30)) > 0)
+        switch (matchIdx)
         {
-
-            if (name[0] == 'A' && name[1] >= '0' && name[1] <= '9')
-            {
-                actuatorIdx = atoi(&name[1]);
-                aquaduino->getActuator(actuatorIdx)->setName(value);
-            }
-            else if (name[0] == 'C' && name[1] >= '0' && name[1] <= '9')
-            {
-                actuatorIdx = atoi(&name[1]);
-                controllerIdx = atoi(value);
-                aquaduino->getActuator(actuatorIdx)->setController(controllerIdx);
-            }
-            else if (name[0] == 'L' && name[1] >= '0' && name[1] <= '9')
-            {
-                actuatorIdx = atoi(&name[1]);
-                if (atoi(value) == 1)
-                    aquaduino->getActuator(actuatorIdx)->lock();
-                else
-                    aquaduino->getActuator(actuatorIdx)->unlock();
-            }
-            else if (name[0] == 'S' && name[1] >= '0' && name[1] <= '9')
-            {
-                actuatorIdx = atoi(&name[1]);
-                if (atoi(value) == 1)
-                    aquaduino->getActuator(actuatorIdx)->forceOn();
-                else
-                    aquaduino->getActuator(actuatorIdx)->forceOff();
-            }
-        }
-
-        aquaduino->resetActuatorIterator();
-        while (aquaduino->getNextActuator(&actuator) != -1)
-        {
-            aquaduino->writeConfig(actuator);
-        }
-
-        server->httpSeeOther("/");
-
-    }
-    else if (type != WebServer::HEAD)
-    {
-        server->httpSuccess();
-
-        matchIdx = 0;
-
-        while ((matchIdx =
-                parser->processTemplateUntilNextMatch(&templateFile,
-                                                      mainTemplate,
-                                                      nr_mainTemplate,
-                                                      server))
-               >= 0)
-        {
-            switch (matchIdx)
-            {
-            case M_TEMPERATURE:
-                server->print(aquaduino->getTemperature());
-                break;
-            case M_HOUR:
-                server->print(hour());
-                break;
-            case M_MINUTE:
-                server->print(minute());
-                break;
-            case M_SECOND:
-                server->print(second());
-                break;
-            case M_CONTROLLER:
-                printControllerTable(server);
-                break;
-            case M_ACTUATOR:
-                printActuatorTable(server);
-                break;
-            }
+        case M_TEMPERATURE:
+            server->print(aquaduino->getTemperature());
+            break;
+        case M_HOUR:
+            server->print(hour());
+            break;
+        case M_MINUTE:
+            server->print(minute());
+            break;
+        case M_SECOND:
+            server->print(second());
+            break;
+        case M_CONTROLLER:
+            printMainControllerTable(server);
+            break;
+        case M_ACTUATOR:
+            printMainActuatorTable(server);
+            break;
         }
     }
-    templateFile.close();
 
     return 1;
+}
+
+/**
+ * \brief Handler for main web page
+ * \param[in] server Webserver instance to use
+ * \param[in] type Request type
+ *
+ * Dispatches the request to the appropriate submethod.
+ *
+ * \returns true if successful.
+ */
+int8_t Aquaduino::mainWebpage(WebServer* server, WebServer::ConnectionType type)
+{
+    if (type == WebServer::POST)
+        return mainWebpageProcessPost(server, type);
+    else if (type != WebServer::HEAD)
+        printMainWebpage(server);
+    return 1;
+}
+
+/**
+ * \brief Handles all request not covered by actuators, controllers and sensors
+ *
+ * Provides man web page and configuration web page.
+ *
+ * \returns true if successful.
+ */
+int8_t Aquaduino::showWebinterface(WebServer* server,
+                                   WebServer::ConnectionType type, char* url)
+{
+    if (strcmp("config", url) == 0)
+        return configWebpage(server, type);
+
+    return mainWebpage(server, type);
 }
 
 /**

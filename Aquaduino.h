@@ -146,9 +146,12 @@ protected:
     int8_t configWebpageProcessPost(WebServer* server,
                                     WebServer::ConnectionType type);
     int8_t configWebpage(WebServer* server, WebServer::ConnectionType type);
+    int8_t mainWebpageProcessPost(WebServer* server, WebServer::ConnectionType type);
+    int8_t printMainActuatorTable(WebServer* server);
+    int8_t printMainControllerTable(WebServer* server);
+    int8_t printMainWebpage(WebServer* server);
+    int8_t mainWebpage(WebServer* server, WebServer::ConnectionType type);
 
-    void printActuatorTable(WebServer* server);
-    void printControllerTable(WebServer* server);
 
 private:
     byte m_MAC[6];
