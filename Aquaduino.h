@@ -171,6 +171,8 @@ private:
     double m_Level;
 
     ConfigManager* m_ConfigManager;
+
+    static const uint16_t m_Size;
 };
 
 extern Aquaduino* aquaduino;

@@ -478,15 +478,9 @@ void Aquaduino::setTime(int8_t hour, int8_t minute, int8_t second, int8_t day,
  */
 int8_t Aquaduino::addController(Controller* newController)
 {
-    char buffer[5];
-    memset(buffer, 0, 5);
+    char buffer[5] = {0};
+
     int8_t idx = m_Controllers.add(newController);
-#ifdef DEBUG
-    Serial.print(F("Added controller "));
-    Serial.print(newController->getName());
-    Serial.print(F(" @ position "));
-    Serial.println(idx);
-#endif
     if (idx != -1)
     {
         buffer[0] = 'C';
@@ -570,15 +564,9 @@ unsigned char Aquaduino::getNrOfControllers()
  */
 int8_t Aquaduino::addActuator(Actuator* newActuator)
 {
-    char buffer[5];
-    memset(buffer, 0, 5);
+    char buffer[5] = {0};
+
     int8_t idx = m_Actuators.add(newActuator);
-#ifdef DEBUG
-    Serial.print(F("Added actuator "));
-    Serial.print(newActuator->getName());
-    Serial.print(F(" @ position "));
-    Serial.println(idx);
-#endif
     if (idx != -1)
     {
         buffer[0] = 'A';
@@ -712,6 +700,11 @@ unsigned char Aquaduino::getNrOfActuators()
     return m_Actuators.getNrOfElements();
 }
 
+const uint16_t Aquaduino::m_Size = sizeof(m_MAC) + sizeof(uint32_t) + sizeof(uint32_t)
+                     + sizeof(uint32_t) + sizeof(uint32_t) + sizeof(uint32_t)
+                     + sizeof(m_NTPSyncInterval) + sizeof(m_DHCP) + sizeof(m_NTP)
+                     + sizeof(m_Timezone);
+
 /**
  * \brief Serializes the Aquaduino configuration
  * \param[out] buffer pointer to the buffer where the serialized data is going
@@ -726,6 +719,9 @@ unsigned char Aquaduino::getNrOfActuators()
 uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
 {
     uint8_t* bPtr = (uint8_t*) buffer;
+
+    if (size > m_Size || buffer == NULL)
+        return 0;
 
     memcpy(bPtr, m_MAC, sizeof(m_MAC));
     bPtr += sizeof(m_MAC);
@@ -748,7 +744,7 @@ uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
     memcpy(bPtr, &m_Timezone, sizeof(m_Timezone));
     bPtr += sizeof(m_Timezone);
 
-    return (uint16_t) bPtr - (uint16_t) buffer;
+    return m_Size;
 }
 
 /**
@@ -764,6 +760,9 @@ uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
 uint16_t Aquaduino::deserialize(void* data, uint16_t size)
 {
     uint8_t* bPtr = (uint8_t*) data;
+
+    if (m_Size > size || data == NULL)
+        return 0;
 
     memcpy(m_MAC, bPtr, sizeof(m_MAC));
     bPtr += sizeof(m_MAC);
@@ -786,7 +785,7 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
     memcpy(&m_Timezone, bPtr, sizeof(m_Timezone));
     bPtr += sizeof(m_Timezone);
 
-    return (uint16_t) bPtr - (uint16_t) data;
+    return m_Size;
 }
 
 /**
@@ -1471,7 +1470,8 @@ int8_t Aquaduino::configWebpage(WebServer* server,
  *
  * \return true if successful.
  */
-int8_t Aquaduino::mainWebpageProcessPost(WebServer* server, WebServer::ConnectionType type)
+int8_t Aquaduino::mainWebpageProcessPost(WebServer* server,
+                                         WebServer::ConnectionType type)
 {
     int8_t repeat = 0;
     char name[30], value[30];
@@ -1852,6 +1852,7 @@ int freeRam()
 void setup()
 {
     Serial.begin(9600);
+    Serial.println(F("Starting Aquaduino..."));
     aquaduino = new Aquaduino();
 
     if (aquaduino->isNTPEnabled())
@@ -1860,9 +1861,11 @@ void setup()
         aquaduino->enableNTP();
     }
 
+    Serial.println(F("Starting Webserver..."));
     webServer = new WebServer("", 80);
     aquaduino->setWebserver(webServer);
 
+    Serial.println(F("Initializing actuators..."));
     for (int i = 0; i < POWER_OUTLETS; i++)
     {
         char name[6] = "PO";
@@ -1875,25 +1878,23 @@ void setup()
         powerOutlets[i]->on();
     }
 
+    Serial.println(F("Initializing controllers..."));
     temperatureController = new TemperatureController("Temperature");
     levelController = new LevelController("Level");
     clockTimerController = new ClockTimerController("Clock Timer");
-
-    levelSensor = new DigitalInput(LEVEL_SENSOR_PIN);
-    temperatureSensor = new DS18S20(TEMPERATURE_SENSOR_PIN);
 
     aquaduino->addController(temperatureController);
     aquaduino->addController(levelController);
     aquaduino->addController(clockTimerController);
 
+    Serial.println(F("Initializing sensors..."));
+    levelSensor = new DigitalInput(LEVEL_SENSOR_PIN);
+    temperatureSensor = new DS18S20(TEMPERATURE_SENSOR_PIN);
+
     aquaduino->setTemperatureSensor(temperatureSensor);
     aquaduino->setLevelSensor(levelSensor);
 
-#ifdef DEBUG
-    Serial.print(F("Free Memory:"));
-    Serial.println(freeRam());
-#endif
-
+    Serial.println(F("Starting main loop..."));
 }
 
 void loop()

@@ -54,9 +54,6 @@ time_t NTPSync()
 
     uint8_t status = 0;
     uint16_t timeout = 1000;
-#ifdef DEBUG
-    Serial.println(F("Syncing NTP Time..."));
-#endif
 
     // set all bytes in the buffer to 0
     memset(packetBuffer, 0, NTP_PACKET_SIZE);
@@ -102,16 +99,10 @@ time_t NTPSync()
 
     if (status)
     {
-#ifdef DEBUG
-        Serial.println(F("NTP sync successful."));
-#endif
-                       return secsSince1900 - seventy_years + timeZoneOffset;
-                   }
-                   else
-                   {
-#ifdef DEBUG
-                       Serial.println(F("NTP sync failed."));
-#endif
-                       return 0;
-                   }
-               }
+        return secsSince1900 - seventy_years + timeZoneOffset;
+    }
+    else
+    {
+        return 0;
+    }
+}

@@ -119,6 +119,7 @@ int8_t SDConfigManager::writeConfig(Actuator* actuator)
     memset(&config, 0, sizeof(config));
 
     id = aquaduino->getActuatorID(actuator);
+    Serial.println(id);
     fileName[0] = 'A';
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
@@ -275,10 +276,8 @@ uint16_t SDConfigManager::writeStructToFile(const char* fileName,
     strcat(path, "/");
     strcat(path, fileName);
 
-#ifdef DEBUG
     Serial.print("Writing configuration to ");
     Serial.print(path);
-#endif
 
     configFile = SD.open(path, FILE_WRITE);
     configFile.seek(SEEK_SET);
@@ -286,12 +285,10 @@ uint16_t SDConfigManager::writeStructToFile(const char* fileName,
                                     sizeof(struct configuration));
     configFile.close();
 
-#ifdef DEBUG
     if (writtenBytes == sizeof(struct configuration))
         Serial.println(" : successful");
     else
         Serial.println(" : failed");
-#endif
 
     return writtenBytes;
 }
@@ -311,27 +308,23 @@ uint16_t SDConfigManager::readStructFromFile(const char* fileName,
 
     if (SD.exists(path))
     {
-#ifdef DEBUG
         Serial.print("Reading configuration from ");
         Serial.print(path);
-#endif
+
         configFile = SD.open(path, FILE_READ);
         readBytes = configFile.read(config, sizeof(struct configuration));
         configFile.close();
-#ifdef DEBUG
+
         if (readBytes == sizeof(struct configuration))
             Serial.println(" : successful");
         else
             Serial.println(" : failed");
-#endif
     }
-#ifdef DEBUG
     else
     {
         Serial.print(path);
         Serial.println(" does not exist");
     }
-#endif
 
     return readBytes;
 }
