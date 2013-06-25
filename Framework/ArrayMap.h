@@ -50,6 +50,7 @@ public:
     virtual ~ArrayMap();
 
     int8_t add(const T e);
+    int8_t set(int8_t idx, const T e);
     int8_t remove(const T e);
     int8_t findElement(const T e);
     int8_t getNrOfElements();
@@ -143,6 +144,25 @@ int8_t ArrayMap<T>::add(const T e)
             m_Current = m_Current < 0 ? i : m_Current;
             return i;
         }
+    }
+
+    return -1;
+}
+
+/**
+ * \brief Adds an element to the map.
+ *
+ * \returns Index of the element in the array.
+ */
+template<class T>
+int8_t ArrayMap<T>::set(int8_t idx, const T e)
+{
+    if (m_Array[idx] == NULL)
+    {
+        m_Array[idx] = e;
+        //Initialize the iterator when map was empty.
+        m_Current = m_Current < 0 ? idx : m_Current;
+        return idx;
     }
 
     return -1;
