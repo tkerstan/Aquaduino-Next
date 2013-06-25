@@ -22,6 +22,7 @@
 #define CONFIG_H_
 
 #include <stdint.h>
+#include <Framework/ObjectTypes.h>
 
 /**
  * \brief Defines the maximum number of controllers the system can manage
@@ -31,7 +32,7 @@
 /**
  * \brief Defines the maximum number of actuators the system can manage
  */
-#define MAX_ACTUATORS               25
+#define MAX_ACTUATORS               8
 
 /**
  * \brief Defines the maximum number of sensors the system can manage
@@ -68,5 +69,10 @@
  * \brief Defines the delimiter in URLs to mark the beginning of a subURL
  */
 #define URL_DELIMITER               "."
+
+#define ACTUATOR_CONFIG { ACTUATOR_DIGITALOUTPUT, ACTUATOR_DIGITALOUTPUT, \
+                          ACTUATOR_DIGITALOUTPUT, ACTUATOR_DIGITALOUTPUT, \
+                          ACTUATOR_DIGITALOUTPUT, ACTUATOR_DIGITALOUTPUT, \
+                          ACTUATOR_DIGITALOUTPUT, ACTUATOR_DIGITALOUTPUT} \
 
 #endif /*CONFIG_H_*/

@@ -111,6 +111,13 @@ public:
                                   int8_t max);
     unsigned char getNrOfActuators();
 
+    int8_t addSensor(Sensor* newSensor);
+    Sensor* getSensor(unsigned int sensor);
+    int8_t getSensorID(Sensor* sensor);
+    void resetSensorIterator();
+    int8_t getNextSensor(Sensor** sensor);
+    unsigned char getNrOfSensors();
+
     uint16_t serialize(void* buffer, uint16_t size);
     uint16_t deserialize(void* data, uint16_t size);
 
@@ -163,6 +170,7 @@ private:
 
     ArrayMap<Controller*> m_Controllers;
     ArrayMap<Actuator*> m_Actuators;
+    ArrayMap<Sensor*> m_Sensors;
     Sensor* m_TemperatureSensor;
     Sensor* m_LevelSensor;
     WebServer* m_WebServer;

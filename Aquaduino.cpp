@@ -114,6 +114,15 @@ Aquaduino* aquaduino;
 
 extern time_t NTPSync();
 
+/*
+ * My system has 24 Power Outlets controlled by the Pins 14-37,
+ * a Level sensor @ pin 40 and a DS18S20 @ pin 42.
+ */
+const static uint8_t POWER_OUTLETS = 24;
+const static uint8_t POWER_OUTLET_START_PIN = 14;
+const static uint8_t LEVEL_SENSOR_PIN = 38;
+const static uint8_t TEMPERATURE_SENSOR_PIN = 39;
+
 /**
  * \brief Default Constructor
  *
@@ -134,6 +143,7 @@ Aquaduino::Aquaduino() :
         m_NTP(0),
         m_Controllers(MAX_CONTROLLERS),
         m_Actuators(MAX_ACTUATORS),
+        m_Sensors(MAX_SENSORS),
         m_TemperatureSensor(NULL),
         m_LevelSensor(NULL),
         m_WebServer(NULL),
@@ -141,6 +151,8 @@ Aquaduino::Aquaduino() :
         m_Temperature(0),
         m_Level(0)
 {
+    aquaduino = this;
+
     int8_t status = 0;
     m_Type = AQUADUINO;
     // Deselect all SPI devices!
@@ -148,6 +160,7 @@ Aquaduino::Aquaduino() :
     digitalWrite(4, HIGH);
     pinMode(10, OUTPUT);
     digitalWrite(10, HIGH);
+    int8_t actuatorConfig[MAX_ACTUATORS] = ACTUATOR_CONFIG;
 
     if (!SD.begin(4))
     {
@@ -195,6 +208,38 @@ Aquaduino::Aquaduino() :
 
     //Init Time. If NTP Sync fails this will be used.
     setTime(0, 0, 0, 1, 1, 42);
+
+    if (isNTPEnabled())
+    {
+        Serial.println(F("Syncing time using NTP..."));
+        enableNTP();
+    }
+
+    Serial.println(F("Starting Webserver..."));
+    setWebserver(new WebServer("", 80));
+
+    Serial.println(F("Initializing actuators..."));
+    for (int i = 0; i < MAX_ACTUATORS; i++)
+    {
+        char name[6] = "A";
+        itoa(i, &name[2], 10);
+        if (actuatorConfig[i] == ACTUATOR_DIGITALOUTPUT)
+            addActuator(new DigitalOutput(name,
+                                          POWER_OUTLET_START_PIN + i,
+                                          HIGH,
+                                          LOW));
+    }
+
+    Serial.println(F("Initializing controllers..."));
+    addController(new TemperatureController("Temperature"));
+    addController(new LevelController("Level"));
+    addController(new ClockTimerController("Clock Timer"));
+
+    Serial.println(F("Initializing sensors..."));
+    setTemperatureSensor(new DS18S20(TEMPERATURE_SENSOR_PIN));
+    setLevelSensor(new DigitalInput(LEVEL_SENSOR_PIN));
+    m_Sensors.add(m_TemperatureSensor);
+    m_Sensors.add(m_LevelSensor);
 }
 
 /**
@@ -478,7 +523,8 @@ void Aquaduino::setTime(int8_t hour, int8_t minute, int8_t second, int8_t day,
  */
 int8_t Aquaduino::addController(Controller* newController)
 {
-    char buffer[5] = {0};
+    char buffer[5] =
+        { 0 };
 
     int8_t idx = m_Controllers.add(newController);
     if (idx != -1)
@@ -564,7 +610,8 @@ unsigned char Aquaduino::getNrOfControllers()
  */
 int8_t Aquaduino::addActuator(Actuator* newActuator)
 {
-    char buffer[5] = {0};
+    char buffer[5] =
+        { 0 };
 
     int8_t idx = m_Actuators.add(newActuator);
     if (idx != -1)
@@ -700,10 +747,45 @@ unsigned char Aquaduino::getNrOfActuators()
     return m_Actuators.getNrOfElements();
 }
 
-const uint16_t Aquaduino::m_Size = sizeof(m_MAC) + sizeof(uint32_t) + sizeof(uint32_t)
-                     + sizeof(uint32_t) + sizeof(uint32_t) + sizeof(uint32_t)
-                     + sizeof(m_NTPSyncInterval) + sizeof(m_DHCP) + sizeof(m_NTP)
-                     + sizeof(m_Timezone);
+int8_t Aquaduino::addSensor(Sensor* newSensor)
+{
+    return m_Sensors.add(newSensor);
+}
+
+Sensor* Aquaduino::getSensor(unsigned int sensor)
+{
+    return m_Sensors[sensor];
+}
+
+int8_t Aquaduino::getSensorID(Sensor* sensor)
+{
+    return m_Sensors.findElement(sensor);
+}
+
+void Aquaduino::resetSensorIterator()
+{
+    m_Sensors.resetIterator();
+}
+
+int8_t Aquaduino::getNextSensor(Sensor** sensor)
+{
+    return m_Sensors.getNext(sensor);
+}
+
+unsigned char Aquaduino::getNrOfSensors()
+{
+    return m_Sensors.getNrOfElements();
+}
+
+/*
+ * ============================================================================
+ */
+
+const uint16_t Aquaduino::m_Size = sizeof(m_MAC) + sizeof(uint32_t)
+                                   + sizeof(uint32_t) + sizeof(uint32_t)
+                                   + sizeof(uint32_t) + sizeof(uint32_t)
+                                   + sizeof(m_NTPSyncInterval) + sizeof(m_DHCP)
+                                   + sizeof(m_NTP) + sizeof(m_Timezone);
 
 /**
  * \brief Serializes the Aquaduino configuration
@@ -1053,9 +1135,9 @@ void dispatchCommand(WebServer &server, WebServer::ConnectionType type,
     if (type != WebServer::HEAD)
     {
         //SubURL decoding.
-        pos=strcspn(*url_path, URL_DELIMITER);
+        pos = strcspn(*url_path, URL_DELIMITER);
         if (pos != strlen(*url_path))
-            subURL = &((*url_path)[pos+1]);
+            subURL = &((*url_path)[pos + 1]);
         topLevelURL = strtok(*url_path, URL_DELIMITER);
 
         aquaduino->resetControllerIterator();
@@ -1794,60 +1876,6 @@ void Aquaduino::run()
 
 /*
  * ============================================================================
- *
- * Aquaduino specific declarations and definitions
- *
- */
-
-/*
- * My system has 24 Power Outlets controlled by the Pins 14-37,
- * a Level sensor @ pin 40 and a DS18S20 @ pin 42.
- */
-const static uint8_t POWER_OUTLETS = 24;
-const static uint8_t POWER_OUTLET_START_PIN = 14;
-const static uint8_t LEVEL_SENSOR_PIN = 38;
-const static uint8_t TEMPERATURE_SENSOR_PIN = 39;
-
-/*
- * Controller definitions:
- *
- * Configuration Controller is responsible for assigning the
- * available Actors to the different controllers in the system
- *
- * The other controllers are up to the developer. Feel free to
- * insert your own controllers here.
- *
- */
-TemperatureController* temperatureController;
-LevelController* levelController;
-ClockTimerController* clockTimerController;
-
-/*
- * Actor definitions. For me up to now 24 simple power outlets
- * controlled by a digital HIGH LOW is enough to drive the connected
- * relays. You can extend the Aquaduino Actor class to implement your
- * own actors. These actors can be assigned to the differen controllers
- * using the webinterface of the Configuration controller
- */
-DigitalOutput* powerOutlets[POWER_OUTLETS];
-
-/*
- * Sensor definitions
- */
-Sensor* levelSensor;
-Sensor* temperatureSensor;
-
-/*
- * Pointer to the Webserver offering the webinterface. Webduino is used
- * with a small modification. See dispatchCommand method in Webserver.h.
- */
-WebServer* webServer;
-
-/*
- * ============================================================================
- *
- * Other declarations and definitions
- *
  */
 
 int freeRam()
@@ -1861,46 +1889,7 @@ void setup()
 {
     Serial.begin(9600);
     Serial.println(F("Starting Aquaduino..."));
-    aquaduino = new Aquaduino();
-
-    if (aquaduino->isNTPEnabled())
-    {
-        Serial.println(F("Syncing time using NTP..."));
-        aquaduino->enableNTP();
-    }
-
-    Serial.println(F("Starting Webserver..."));
-    webServer = new WebServer("", 80);
-    aquaduino->setWebserver(webServer);
-
-    Serial.println(F("Initializing actuators..."));
-    for (int i = 0; i < POWER_OUTLETS; i++)
-    {
-        char name[6] = "PO";
-        itoa(i, &name[2], 10);
-        powerOutlets[i] = new DigitalOutput(name,
-                                            POWER_OUTLET_START_PIN + i,
-                                            HIGH,
-                                            LOW);
-        aquaduino->addActuator(powerOutlets[i]);
-        powerOutlets[i]->on();
-    }
-
-    Serial.println(F("Initializing controllers..."));
-    temperatureController = new TemperatureController("Temperature");
-    levelController = new LevelController("Level");
-    clockTimerController = new ClockTimerController("Clock Timer");
-
-    aquaduino->addController(temperatureController);
-    aquaduino->addController(levelController);
-    aquaduino->addController(clockTimerController);
-
-    Serial.println(F("Initializing sensors..."));
-    levelSensor = new DigitalInput(LEVEL_SENSOR_PIN);
-    temperatureSensor = new DS18S20(TEMPERATURE_SENSOR_PIN);
-
-    aquaduino->setTemperatureSensor(temperatureSensor);
-    aquaduino->setLevelSensor(levelSensor);
+    new Aquaduino();
 
     Serial.println(F("Starting main loop..."));
 }
