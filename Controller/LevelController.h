@@ -56,6 +56,7 @@ private:
     int16_t hysteresis;
     int16_t refillTimeout;
     int8_t state;
+    int8_t sensor;
 };
 
 #endif /* LEVELCONTROLLER_H_ */

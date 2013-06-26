@@ -38,11 +38,7 @@ const static char progTemplateString5[] PROGMEM = "##REFILLTIMEOUT##";
 
 enum
 {
-    LC_SSELECT,
-    LC_STATE,
-    LC_DELAYLOW,
-    LC_DELAYHIGH,
-    LC_REFILLTIMEOUT
+    LC_SSELECT, LC_STATE, LC_DELAYLOW, LC_DELAYHIGH, LC_REFILLTIMEOUT
 };
 
 const static char* const templateStrings[] PROGMEM =
@@ -54,10 +50,14 @@ const static char progStateString2[] PROGMEM = "DEBOUNCE";
 const static char progStateString3[] PROGMEM = "REFILL";
 const static char progStateString4[] PROGMEM = "OVERRUN";
 const static char progStateString5[] PROGMEM = "TIMEOUT";
+const static char* const stateStrings[] PROGMEM =
+    { progStateString1, progStateString2, progStateString3, progStateString4,
+      progStateString5 };
 
 const static char progInputDelayLow[] PROGMEM = "delayLow";
 const static char progInputDelayHigh[] PROGMEM = "delayHigh";
 const static char progInputRefillTimeout[] PROGMEM = "refillTimeout";
+const static char progInputSensor[] PROGMEM = "sensor";
 
 /**
  * \brief Constructor
@@ -71,6 +71,7 @@ LevelController::LevelController(const char* name) :
     hysteresis = 10;
     state = LEVELCONTROLLER_STATE_OK;
     refillTimeout = 30;
+    sensor = -1;
 }
 
 uint16_t LevelController::serialize(void* buffer, uint16_t size)
@@ -79,7 +80,7 @@ uint16_t LevelController::serialize(void* buffer, uint16_t size)
     uint8_t offset = 0;
 
     uint16_t mySize = sizeof(hysteresis) + sizeof(debounceDelayHigh)
-                      + sizeof(refillTimeout);
+                      + sizeof(refillTimeout) + sizeof(sensor);
     if (mySize <= size)
     {
         memcpy(bPtr, &hysteresis, sizeof(hysteresis));
@@ -87,6 +88,8 @@ uint16_t LevelController::serialize(void* buffer, uint16_t size)
         memcpy(bPtr + offset, &debounceDelayHigh, sizeof(debounceDelayHigh));
         offset += sizeof(debounceDelayHigh);
         memcpy(bPtr + offset, &refillTimeout, sizeof(refillTimeout));
+        offset += sizeof(refillTimeout);
+        memcpy(bPtr + offset, &sensor, sizeof(sensor));
         return mySize;
     }
     return 0;
@@ -106,6 +109,10 @@ uint16_t LevelController::deserialize(void* data, uint16_t size)
         memcpy(&debounceDelayHigh, bPtr + offset, sizeof(debounceDelayHigh));
         offset += sizeof(debounceDelayHigh);
         memcpy(&refillTimeout, bPtr + offset, sizeof(refillTimeout));
+        offset += sizeof(refillTimeout);
+        memcpy(&sensor, bPtr + offset, sizeof(sensor));
+        if (sensor < 0 || sensor >= MAX_SENSORS)
+            sensor = -1;
         return mySize;
     }
     return 0;
@@ -152,7 +159,10 @@ int8_t LevelController::run()
 {
     static unsigned long lastTime = 0;
 
-    long reading = 0;
+    if(sensor < 0 || sensor >= MAX_SENSORS)
+        return -1;
+
+    long reading = aquaduino->getSensorValue(sensor);
     unsigned long millisNow = millis();
     long deltaTSwitch = millisNow - lastTime;
 
@@ -224,33 +234,16 @@ int8_t LevelController::showWebinterface(WebServer* server,
     TemplateParser* parser;
     int8_t matchIdx;
 
-    char* states[5];
-
     char templateFileName[sizeof(progTemplateFileName)];
-
-    char stateString1[sizeof(progStateString1)];
-    char stateString2[sizeof(progStateString2)];
-    char stateString3[sizeof(progStateString3)];
-    char stateString4[sizeof(progStateString4)];
-    char stateString5[sizeof(progStateString5)];
-
     strcpy_P(templateFileName, progTemplateFileName);
-    strcpy_P(stateString1, progStateString1);
-    strcpy_P(stateString2, progStateString2);
-    strcpy_P(stateString3, progStateString3);
-    strcpy_P(stateString4, progStateString4);
-    strcpy_P(stateString5, progStateString5);
 
-    itoa(hysteresis, debounceLowString, 10);
-    itoa(debounceDelayHigh, debounceHighString, 10);
-    itoa(refillTimeout, refillTimeoutString, 10);
+    const char* sensorNames[MAX_SENSORS + 1];
+    char sensorValArray[MAX_SENSORS + 1][3];
+    const char* sensorValuePointers[MAX_SENSORS + 1];
 
-    states[0] = stateString1;
-    states[1] = stateString2;
-    states[2] = stateString3;
-    states[3] = stateString4;
-    states[4] = stateString5;
-
+    Sensor* sensor;
+    int8_t sensorIdx;
+    int8_t i = 0;
 
     if (type == WebServer::POST)
     {
@@ -274,38 +267,59 @@ int8_t LevelController::showWebinterface(WebServer* server,
                 uint8_t d = atoi(value);
                 refillTimeout = d;
             }
+            else if (strcmp_P(name, progInputSensor) == 0)
+            {
+                this->sensor = atoi(value);
+            }
         } while (repeat);
         state = LEVELCONTROLLER_STATE_OK;
         server->httpSeeOther(this->m_URL);
     }
     else
     {
+
         server->httpSuccess();
         parser = aquaduino->getTemplateParser();
         templateFile = SD.open(templateFileName, FILE_READ);
+        aquaduino->resetSensorIterator();
+        sensorNames[0] = "None";
+        sensorValuePointers[0] = "-1";
+        i = 1;
+        while ((sensorIdx = aquaduino->getNextSensor(&sensor)) != -1)
+        {
+            sensorNames[i] = sensor->getName();
+            itoa(sensorIdx, sensorValArray[i], 10);
+            sensorValuePointers[i] = sensorValArray[i];
+            i++;
+        }
         while ((matchIdx =
                 parser->processTemplateUntilNextMatch(&templateFile,
                                                       templateStrings,
-                                                      sizeof(templateStrings)/
-                                                      sizeof(char*),
+                                                      sizeof(templateStrings) / sizeof(char*),
                                                       server))
                != -1)
         {
-            switch(matchIdx)
+            switch (matchIdx)
             {
             case LC_SSELECT:
+                parser->selectList("sensor",
+                                   sensorNames,
+                                   sensorValuePointers,
+                                   this->sensor+1,
+                                   i,
+                                   server);
                 break;
             case LC_STATE:
-                server->print((__FlashStringHelper*) &states[state]);
+                server->print((__FlashStringHelper *) pgm_read_word(&(stateStrings[state])));
                 break;
             case LC_DELAYLOW:
-                server->print((__FlashStringHelper*) progInputDelayLow);
+                server->print(hysteresis);
                 break;
             case LC_DELAYHIGH:
-                server->print((__FlashStringHelper*) &progInputDelayHigh);
+                server->print(debounceDelayHigh);
                 break;
             case LC_REFILLTIMEOUT:
-                server->print((__FlashStringHelper*) progInputRefillTimeout);
+                server->print(refillTimeout);
                 break;
             }
         }
