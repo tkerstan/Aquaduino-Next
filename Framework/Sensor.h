@@ -22,6 +22,8 @@
 #define AQUADUINOSENSOR_H_
 
 #include "Object.h"
+#include "Serializable.h"
+#include "WebInterface.h"
 
 /**
  * \brief Base class for Sensors
@@ -30,11 +32,12 @@
  * also derive from Serializable and WebInterface when there is need for
  * configuration of sensors.
  */
-class Sensor: public Object
+class Sensor: public Object, public WebInterface, public Serializable
 {
 public:
-    virtual double read() = 0;
     Sensor();
+    virtual double read() = 0;
+
 protected:
     virtual ~Sensor();
 private:

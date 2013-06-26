@@ -81,8 +81,16 @@
 <form id="form1" name="form1" method="post" action=""> 
   <table width="277" border="0">
   <tr>
-    <td width="193" bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt1'})" for="1">Temperature Threshold:</label></td>
-    <td width="74" bgcolor="#99CCFF"><input name="Threshold" type="text" id="1" value="##THRESHOLD##" size="3" maxlength="2"/>&deg;C</td>
+  	<td width="193" bgcolor="#99CCFF">
+  		Sensor:
+  	</td>
+  	<td width="74" bgcolor="#99CCFF">
+  		##SSELECT##
+	</td>
+  </tr>  
+  <tr>
+    <td bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt1'})" for="1">Temperature Threshold:</label></td>
+    <td bgcolor="#99CCFF"><input name="Threshold" type="text" id="1" value="##THRESHOLD##" size="3" maxlength="2"/>&deg;C</td>
   </tr>
   <tr>
     <td bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt2'})" for="1">Maximum Fanspeed @:</label></td>

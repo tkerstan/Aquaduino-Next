@@ -34,15 +34,20 @@
  */
 class DS18S20: public Sensor
 {
+public:
+    DS18S20();
+    double read();
+
+    uint16_t serialize(void* buffer, uint16_t size);
+    uint16_t deserialize(void* data, uint16_t size);
+    int8_t showWebinterface(WebServer* server, WebServer::ConnectionType type,
+                            char* url);
+
 private:
     uint8_t myPin;
     double celsius;
     double fahrenheit;
-    OneWire myOneWire;
-
-public:
-    DS18S20(int pin);
-    double read();
+    OneWire *myOneWire;
 };
 
 #endif /* DS18S20_H_ */

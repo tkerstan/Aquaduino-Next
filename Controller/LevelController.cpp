@@ -30,14 +30,24 @@ const static uint8_t LEVELCONTROLLER_STATE_OVERRUN = 3;
 const static uint8_t LEVELCONTROLLER_STATE_REFILL_TIMEOUT = 4;
 
 const static char progTemplateFileName[] PROGMEM = "level.htm";
-const static char progTemplateString1[] PROGMEM = "##STATE##";
-const static char progTemplateString2[] PROGMEM = "##DELAYLOW##";
-const static char progTemplateString3[] PROGMEM = "##DELAYHIGH##";
-const static char progTemplateString4[] PROGMEM = "##REFILLTIMEOUT##";
+const static char progTemplateString1[] PROGMEM = "##SSELECT##";
+const static char progTemplateString2[] PROGMEM = "##STATE##";
+const static char progTemplateString3[] PROGMEM = "##DELAYLOW##";
+const static char progTemplateString4[] PROGMEM = "##DELAYHIGH##";
+const static char progTemplateString5[] PROGMEM = "##REFILLTIMEOUT##";
+
+enum
+{
+    LC_SSELECT,
+    LC_STATE,
+    LC_DELAYLOW,
+    LC_DELAYHIGH,
+    LC_REFILLTIMEOUT
+};
 
 const static char* const templateStrings[] PROGMEM =
     { progTemplateString1, progTemplateString2, progTemplateString3,
-      progTemplateString4 };
+      progTemplateString4, progTemplateString5 };
 
 const static char progStateString1[] PROGMEM = "OK";
 const static char progStateString2[] PROGMEM = "DEBOUNCE";
@@ -142,7 +152,7 @@ int8_t LevelController::run()
 {
     static unsigned long lastTime = 0;
 
-    long reading = round(aquaduino->getLevel());
+    long reading = 0;
     unsigned long millisNow = millis();
     long deltaTSwitch = millisNow - lastTime;
 
@@ -212,11 +222,8 @@ int8_t LevelController::showWebinterface(WebServer* server,
 {
     File templateFile;
     TemplateParser* parser;
+    int8_t matchIdx;
 
-    char* replacementStrings[4];
-    char debounceLowString[4];
-    char debounceHighString[4];
-    char refillTimeoutString[4];
     char* states[5];
 
     char templateFileName[sizeof(progTemplateFileName)];
@@ -244,10 +251,6 @@ int8_t LevelController::showWebinterface(WebServer* server,
     states[3] = stateString4;
     states[4] = stateString5;
 
-    replacementStrings[0] = states[state];
-    replacementStrings[1] = debounceLowString;
-    replacementStrings[2] = debounceHighString;
-    replacementStrings[3] = refillTimeoutString;
 
     if (type == WebServer::POST)
     {
@@ -280,11 +283,32 @@ int8_t LevelController::showWebinterface(WebServer* server,
         server->httpSuccess();
         parser = aquaduino->getTemplateParser();
         templateFile = SD.open(templateFileName, FILE_READ);
-        parser->processSingleTemplate(&templateFile,
-                                      templateStrings,
-                                      replacementStrings,
-                                      4,
-                                      server);
+        while ((matchIdx =
+                parser->processTemplateUntilNextMatch(&templateFile,
+                                                      templateStrings,
+                                                      sizeof(templateStrings)/
+                                                      sizeof(char*),
+                                                      server))
+               != -1)
+        {
+            switch(matchIdx)
+            {
+            case LC_SSELECT:
+                break;
+            case LC_STATE:
+                server->print((__FlashStringHelper*) &states[state]);
+                break;
+            case LC_DELAYLOW:
+                server->print((__FlashStringHelper*) progInputDelayLow);
+                break;
+            case LC_DELAYHIGH:
+                server->print((__FlashStringHelper*) &progInputDelayHigh);
+                break;
+            case LC_REFILLTIMEOUT:
+                server->print((__FlashStringHelper*) progInputRefillTimeout);
+                break;
+            }
+        }
         templateFile.close();
     }
     return true;

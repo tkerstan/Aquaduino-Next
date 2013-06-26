@@ -119,7 +119,6 @@ int8_t SDConfigManager::writeConfig(Actuator* actuator)
     memset(&config, 0, sizeof(config));
 
     id = aquaduino->getActuatorID(actuator);
-    Serial.println(id);
     fileName[0] = 'A';
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
@@ -177,6 +176,34 @@ int8_t SDConfigManager::writeConfig(Controller* controller)
 
 int8_t SDConfigManager::writeConfig(Sensor* sensor)
 {
+    struct configuration config;
+    char fileName[FILENAME_LENGTH];
+    uint16_t serializedBytes = 0;
+    uint16_t writtenBytes = 0;
+    int8_t id;
+
+    memset(&config, 0, sizeof(config));
+
+    id = aquaduino->getSensorID(sensor);
+    fileName[0] = 'S';
+    itoa(id, &fileName[1], 10);
+    strcat(fileName, ".cfg");
+
+    serializedBytes = sensor->serialize(config.data, bufferSize);
+
+    if (serializedBytes)
+    {
+        config.controllerIdx = -1;
+        config.objectType = sensor->getType();
+        config.actuatorIdx = -1;
+        config.sensorIdx = -1;
+        strcpy(config.name, sensor->getName());
+
+        writtenBytes = writeStructToFile(fileName, &config);
+
+        if (writtenBytes != sizeof(struct configuration))
+            return -1;
+    }
     return 0;
 }
 
@@ -193,9 +220,6 @@ int8_t SDConfigManager::readConfig(Aquaduino* aquaduino)
     {
         if (aquaduino->getType() == config.objectType)
             aquaduino->deserialize(config.data, bufferSize);
-        else
-        {
-        }
     }
 
     return 0;
@@ -221,9 +245,6 @@ int8_t SDConfigManager::readConfig(Actuator* actuator)
     {
         if (actuator->getType() == config.objectType)
             actuator->deserialize(config.data, bufferSize);
-        else
-        {
-        }
         actuator->setName(config.name);
         actuator->setController(config.controllerIdx);
     }
@@ -251,9 +272,7 @@ int8_t SDConfigManager::readConfig(Controller* controller)
     {
         if (controller->getType() == config.objectType)
             controller->deserialize(config.data, bufferSize);
-        else
-        {
-        }
+        controller->setName(config.name);
     }
 
     return 0;
@@ -261,6 +280,27 @@ int8_t SDConfigManager::readConfig(Controller* controller)
 
 int8_t SDConfigManager::readConfig(Sensor* sensor)
 {
+    struct configuration config;
+    char fileName[FILENAME_LENGTH];
+    uint16_t readBytes = 0;
+    int8_t id;
+
+    memset(&config, 0, sizeof(config));
+
+    id = aquaduino->getSensorID(sensor);
+    fileName[0] = 'S';
+    itoa(id, &fileName[1], 10);
+    strcat(fileName, ".cfg");
+
+    readBytes = readStructFromFile(fileName, &config);
+
+    if (readBytes == sizeof(struct configuration))
+    {
+        if (sensor->getType() == config.objectType)
+            sensor->deserialize(config.data, bufferSize);
+        sensor->setName(config.name);
+    }
+
     return 0;
 }
 

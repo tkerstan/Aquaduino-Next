@@ -144,12 +144,8 @@ Aquaduino::Aquaduino() :
         m_Controllers(MAX_CONTROLLERS),
         m_Actuators(MAX_ACTUATORS),
         m_Sensors(MAX_SENSORS),
-        m_TemperatureSensor(NULL),
-        m_LevelSensor(NULL),
         m_WebServer(NULL),
-        m_TemplateParser(NULL),
-        m_Temperature(0),
-        m_Level(0)
+        m_TemplateParser(NULL)
 {
     aquaduino = this;
 
@@ -161,6 +157,8 @@ Aquaduino::Aquaduino() :
     pinMode(10, OUTPUT);
     digitalWrite(10, HIGH);
     int8_t actuatorConfig[MAX_ACTUATORS] = ACTUATOR_CONFIG;
+    int8_t controllerConfig[MAX_CONTROLLERS] = CONTROLLER_CONFIG;
+    int8_t sensorConfig[MAX_SENSORS] = SENSOR_CONFIG;
 
     if (!SD.begin(4))
     {
@@ -221,25 +219,51 @@ Aquaduino::Aquaduino() :
     Serial.println(F("Initializing actuators..."));
     for (int i = 0; i < MAX_ACTUATORS; i++)
     {
-        char name[6] = "A";
-        itoa(i, &name[2], 10);
-        if (actuatorConfig[i] == ACTUATOR_DIGITALOUTPUT)
-            addActuator(new DigitalOutput(name,
+        switch (actuatorConfig[i])
+        {
+        case ACTUATOR_DIGITALOUTPUT:
+            addActuator(new DigitalOutput(NULL,
                                           POWER_OUTLET_START_PIN + i,
                                           HIGH,
                                           LOW));
+            break;
+        case ACTUATOR_PWMOUTPUT:
+            break;
+        }
     }
 
     Serial.println(F("Initializing controllers..."));
-    addController(new TemperatureController("Temperature"));
-    addController(new LevelController("Level"));
-    addController(new ClockTimerController("Clock Timer"));
+    for (int i = 0; i < MAX_CONTROLLERS; i++)
+    {
+        switch (controllerConfig[i])
+        {
+        case CONTROLLER_LEVEL:
+            addController(new LevelController("Level"));
+            break;
+        case CONTROLLER_TEMPERATURE:
+            addController(new TemperatureController("Temperature"));
+            break;
+        case CONTROLLER_CLOCKTIMER:
+            addController(new ClockTimerController("Clock Timer"));
+            break;
+        }
+    }
 
     Serial.println(F("Initializing sensors..."));
-    setTemperatureSensor(new DS18S20(TEMPERATURE_SENSOR_PIN));
-    setLevelSensor(new DigitalInput(LEVEL_SENSOR_PIN));
-    m_Sensors.add(m_TemperatureSensor);
-    m_Sensors.add(m_LevelSensor);
+    for (int i = 0; i < MAX_SENSORS; i++)
+    {
+        switch (sensorConfig[i])
+        {
+        case SENSOR_DIGITALINPUT:
+            addSensor(new DigitalInput());
+            m_Sensors[i]->setName("Level");
+            break;
+        case SENSOR_DS18S20:
+            addSensor(new DS18S20());
+            m_Sensors[i]->setName("DS18S20");
+            break;
+        }
+    }
 }
 
 /**
@@ -749,7 +773,18 @@ unsigned char Aquaduino::getNrOfActuators()
 
 int8_t Aquaduino::addSensor(Sensor* newSensor)
 {
-    return m_Sensors.add(newSensor);
+    char buffer[5] =
+        { 0 };
+
+    int8_t idx = m_Sensors.add(newSensor);
+    if (idx != -1)
+    {
+        buffer[0] = 'S';
+        itoa(idx, &buffer[1], 10);
+        newSensor->setURL(buffer);
+        readConfig(newSensor);
+    }
+    return idx;
 }
 
 Sensor* Aquaduino::getSensor(unsigned int sensor)
@@ -775,6 +810,13 @@ int8_t Aquaduino::getNextSensor(Sensor** sensor)
 unsigned char Aquaduino::getNrOfSensors()
 {
     return m_Sensors.getNrOfElements();
+}
+
+double Aquaduino::getSensorValue(int8_t idx)
+{
+    if (idx >= 0 && idx < MAX_SENSORS)
+        return m_SensorReadings[idx];
+    return 0;
 }
 
 /*
@@ -980,54 +1022,6 @@ int8_t Aquaduino::readConfig(Sensor* sensor)
     return m_ConfigManager->readConfig(sensor);
 }
 
-/**
- * \brief Setter for the temperature sensor.
- * \param[in] tempSensor instance of the temperature sensor
- *
- * Sets the temperature sensor to be used.
- */
-void Aquaduino::setTemperatureSensor(Sensor* tempSensor)
-{
-    this->m_TemperatureSensor = tempSensor;
-}
-
-/**
- * \brief Getter for the temperature.
- *
- * Accesses the member variable. No read on the sensor is triggered.
- *
- * \returns The last read temperature.
- *
- */
-double Aquaduino::getTemperature()
-{
-    return m_Temperature;
-}
-
-/**
- * \brief Setter for the level sensor.
- * \param[in] levSensor instance of the temperature sensor
- *
- * Sets the level sensor to be used.
- */
-void Aquaduino::setLevelSensor(Sensor* levSensor)
-{
-    this->m_LevelSensor = levSensor;
-}
-
-/**
- * \brief Getter for the water level.
- *
- * Accesses the member variable. No read on the sensor is triggered.
- *
- * \returns The last read water level.
- *
- */
-double Aquaduino::getLevel()
-{
-    return m_Level;
-}
-
 void defaultCmd(WebServer &server, WebServer::ConnectionType type, char * url,
                 bool);
 void dispatchCommand(WebServer &server, WebServer::ConnectionType type,
@@ -1128,6 +1122,8 @@ void dispatchCommand(WebServer &server, WebServer::ConnectionType type,
 {
     Controller* controller;
     Actuator* actuator;
+    Sensor* sensor;
+
     char* topLevelURL = NULL;
     char* subURL = NULL;
     uint8_t pos = 0;
@@ -1148,6 +1144,18 @@ void dispatchCommand(WebServer &server, WebServer::ConnectionType type,
                 controller->showWebinterface(&server, type, subURL);
                 if (type == WebServer::POST)
                     aquaduino->writeConfig(controller);
+                return;
+            }
+        }
+
+        aquaduino->resetSensorIterator();
+        while (aquaduino->getNextSensor(&sensor) != -1)
+        {
+            if (strcmp(topLevelURL, sensor->getURL()) == 0)
+            {
+                sensor->showWebinterface(&server, type, subURL);
+                if (type == WebServer::POST)
+                    aquaduino->writeConfig(sensor);
                 return;
             }
         }
@@ -1567,7 +1575,10 @@ int8_t Aquaduino::mainWebpageProcessPost(WebServer* server,
     char name[30], value[30];
     int8_t actuatorIdx;
     int8_t controllerIdx;
+    int8_t sensorIdx;
     Actuator* actuator;
+    Controller* controller;
+    Sensor* sensor;
 
     while ((repeat = server->readPOSTparam(name, 30, value, 30)) > 0)
     {
@@ -1575,37 +1586,53 @@ int8_t Aquaduino::mainWebpageProcessPost(WebServer* server,
         if (name[0] == 'A' && name[1] >= '0' && name[1] <= '9')
         {
             actuatorIdx = atoi(&name[1]);
-            aquaduino->getActuator(actuatorIdx)->setName(value);
+            getActuator(actuatorIdx)->setName(value);
         }
         else if (name[0] == 'C' && name[1] >= '0' && name[1] <= '9')
         {
             actuatorIdx = atoi(&name[1]);
             controllerIdx = atoi(value);
-            aquaduino->getActuator(actuatorIdx)->setController(controllerIdx);
+            getActuator(actuatorIdx)->setController(controllerIdx);
         }
         else if (name[0] == 'L' && name[1] >= '0' && name[1] <= '9')
         {
             actuatorIdx = atoi(&name[1]);
             if (atoi(value) == 1)
-                aquaduino->getActuator(actuatorIdx)->lock();
+                getActuator(actuatorIdx)->lock();
             else
-                aquaduino->getActuator(actuatorIdx)->unlock();
+                getActuator(actuatorIdx)->unlock();
         }
-        else if (name[0] == 'S' && name[1] >= '0' && name[1] <= '9')
+        else if (name[0] == 'E' && name[1] >= '0' && name[1] <= '9')
         {
             actuatorIdx = atoi(&name[1]);
             if (atoi(value) == 1)
-                aquaduino->getActuator(actuatorIdx)->forceOn();
+                getActuator(actuatorIdx)->forceOn();
             else
-                aquaduino->getActuator(actuatorIdx)->forceOff();
+                getActuator(actuatorIdx)->forceOff();
+        }
+        else if (name[0] == 'S' && name[1] >= '0' && name[1] <= '9')
+        {
+            sensorIdx = atoi(&name[1]);
+            getSensor(sensorIdx)->setName(value);
+        }
+        else if (name[0] == 'N' && name[1] >= '0' && name[1] <= '9')
+        {
+            controllerIdx = atoi(&name[1]);
+            getController(controllerIdx)->setName(value);
         }
     }
 
-    aquaduino->resetActuatorIterator();
-    while (aquaduino->getNextActuator(&actuator) != -1)
-    {
-        aquaduino->writeConfig(actuator);
-    }
+    resetActuatorIterator();
+    while (getNextActuator(&actuator) != -1)
+        writeConfig(actuator);
+
+    resetControllerIterator();
+    while (getNextController(&controller) != -1)
+        writeConfig(controller);
+
+    resetSensorIterator();
+    while (getNextSensor(&sensor) != -1)
+        writeConfig(sensor);
 
     server->httpSeeOther("/");
 
@@ -1694,7 +1721,7 @@ int8_t Aquaduino::printMainActuatorTable(WebServer* server)
                                          server);
                 break;
             case A_SSELECT:
-                stateID[0] = 'S';
+                stateID[0] = 'E';
                 itoa(i, &stateID[1], 10);
                 server->print(stateID);
                 break;
@@ -1728,32 +1755,114 @@ int8_t Aquaduino::printMainControllerTable(WebServer* server)
 {
     TemplateParser* parser;
     Controller* controller;
-    char curl[AQUADUINO_STRING_LENGTH];
-    char cname[AQUADUINO_STRING_LENGTH];
-    char* replacementStrings[3];
+    int16_t matchIdx;
     File templateCRow;
     char cRowFileName[size_pCRowFileName];
+    char controllerID[5];
+    int8_t i;
 
     strcpy_P(cRowFileName, pCRowFileName);
     templateCRow = SD.open(cRowFileName, FILE_READ);
 
     parser = aquaduino->getTemplateParser();
 
-    aquaduino->resetControllerIterator();
-    while (aquaduino->getNextController(&controller) != -1)
+    resetControllerIterator();
+    while ((i = getNextController(&controller)) != -1)
     {
-        strcpy(curl, controller->getURL());
-        strcpy(cname, controller->getName());
-        replacementStrings[0] = curl;
-        replacementStrings[1] = cname;
-        replacementStrings[2] = "99CCFF";
-        parser->processSingleTemplate(&templateCRow,
-                                      controllerTemplate,
-                                      replacementStrings,
-                                      nr_controllerTemplate,
-                                      server);
+        while ((matchIdx =
+                parser->processTemplateUntilNextMatch(&templateCRow,
+                                                      controllerTemplate,
+                                                      nr_controllerTemplate,
+                                                      server))
+               != -1)
+        {
+            switch (matchIdx)
+            {
+            case C_COLOR:
+                if (i % 2 == 0)
+                    server->print("#FFFFFF");
+                else
+                    server->print("#99CCFF");
+                break;
+            case C_INAME:
+                controllerID[0] = 'N';
+                itoa(i, &controllerID[1], 10);
+                server->print(controllerID);
+                break;
+            case C_NAME:
+                server->print(controller->getName());
+                break;
+            case C_LINK:
+                server->print(controller->getURL());
+                break;
+            }
+        }
+        templateCRow.seek(SEEK_SET);
     }
     templateCRow.close();
+
+    return 1;
+}
+
+/**
+ * \brief Prints the sensor table below the main information.
+ * \param[in] server Webserver instance to use
+ *
+ * Prints the sensor table using the template specified in pCRowFileName.
+ */
+int8_t Aquaduino::printMainSensorTable(WebServer* server)
+{
+    TemplateParser* parser;
+    Sensor* sensor;
+    int16_t matchIdx;
+    File templateSRow;
+    char sRowFileName[size_pSRowFileName];
+    char sensorID[5];
+    int8_t i;
+
+    strcpy_P(sRowFileName, pSRowFileName);
+    templateSRow = SD.open(sRowFileName, FILE_READ);
+
+    parser = aquaduino->getTemplateParser();
+
+    resetSensorIterator();
+    while ((i = getNextSensor(&sensor)) != -1)
+    {
+        while ((matchIdx =
+                parser->processTemplateUntilNextMatch(&templateSRow,
+                                                      sensorTemplate,
+                                                      nr_sensorTemplate,
+                                                      server))
+               != -1)
+        {
+            switch (matchIdx)
+            {
+            case S_COLOR:
+                if (i % 2 == 0)
+                    server->print("#FFFFFF");
+                else
+                    server->print("#99CCFF");
+                break;
+            case S_INAME:
+                sensorID[0] = 'S';
+                itoa(i, &sensorID[1], 10);
+                server->print(sensorID);
+                break;
+            case S_NAME:
+                server->print(sensor->getName());
+                break;
+            case S_VALUE:
+                server->print(m_SensorReadings[i]);
+                break;
+
+            case S_LINK:
+                server->print(sensor->getURL());
+                break;
+            }
+        }
+        templateSRow.seek(SEEK_SET);
+    }
+    templateSRow.close();
 
     return 1;
 }
@@ -1789,9 +1898,6 @@ int8_t Aquaduino::printMainWebpage(WebServer* server)
     {
         switch (matchIdx)
         {
-        case M_TEMPERATURE:
-            server->print(aquaduino->getTemperature());
-            break;
         case M_HOUR:
             server->print(hour());
             break;
@@ -1803,6 +1909,9 @@ int8_t Aquaduino::printMainWebpage(WebServer* server)
             break;
         case M_CONTROLLER:
             printMainControllerTable(server);
+            break;
+        case M_SENSOR:
+            printMainSensorTable(server);
             break;
         case M_ACTUATOR:
             printMainActuatorTable(server);
@@ -1857,10 +1966,15 @@ int8_t Aquaduino::showWebinterface(WebServer* server,
 void Aquaduino::run()
 {
     int8_t controllerIdx = -1;
+    int8_t sensorIdx = -1;
     Controller* currentController;
+    Sensor* currentSensor;
 
-    m_Temperature = m_TemperatureSensor->read();
-    m_Level = m_LevelSensor->read() > 0 ? 1 : 0;
+    m_Sensors.resetIterator();
+    while ((sensorIdx = m_Sensors.getNext(&currentSensor)) != -1)
+    {
+        m_SensorReadings[sensorIdx] = currentSensor->read();
+    }
 
     m_Controllers.resetIterator();
     while ((controllerIdx = m_Controllers.getNext(&currentController)) != -1)

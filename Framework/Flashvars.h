@@ -75,6 +75,31 @@ enum CONFIG_INPUTS
 };
 
 /*
+ * Sensor Template
+ */
+
+enum CONTROLLER_TEMPLATE
+{
+    C_COLOR,
+    C_INAME,
+    C_NAME,
+    C_LINK
+};
+
+/*
+ * Sensor Template
+ */
+
+enum SENSOR_TEMPLATE
+{
+    S_COLOR,
+    S_INAME,
+    S_NAME,
+    S_VALUE,
+    S_LINK
+};
+
+/*
  * Actuator Template
  */
 
@@ -98,7 +123,7 @@ enum ACTUATOR_TEMPLATE
 
 enum MAIN_TEMPLATE
 {
-    M_TEMPERATURE, M_HOUR, M_MINUTE, M_SECOND, M_CONTROLLER, M_ACTUATOR
+    M_HOUR, M_MINUTE, M_SECOND, M_CONTROLLER, M_SENSOR, M_ACTUATOR
 };
 
 #include <avr/pgmspace.h>
@@ -111,6 +136,7 @@ extern const char pgm_minute[];
 extern const char pgm_second[];
 extern const char pgm_link[];
 extern const char pgm_name[];
+extern const char pgm_iname[];
 extern const char pgm_color[];
 
 /**
@@ -122,6 +148,9 @@ extern const uint8_t size_pMFileName;
 extern const char pCRowFileName[];
 extern const uint8_t size_pCRowFileName;
 
+extern const char pSRowFileName[];
+extern const uint8_t size_pSRowFileName;
+
 extern const char pARowFileName[];
 extern const uint8_t size_pARowFileName;
 
@@ -132,16 +161,11 @@ extern const char pActuator[];
 extern const char* const mainTemplate[];
 extern const uint8_t nr_mainTemplate;
 
+extern const char* const sensorTemplate[];
+extern const uint8_t nr_sensorTemplate;
+
 extern const char* const controllerTemplate[];
 extern const uint8_t nr_controllerTemplate;
-
-extern const char pIActuator[];
-extern const char pCSelect[];
-extern const char pCOptions[];
-extern const char pLSelect[];
-extern const char pLOptions[];
-extern const char pSSelect[];
-extern const char pSOptions[];
 
 extern const char* const actuatorTemplate[];
 extern const uint8_t nr_actuatorTemplate;
@@ -152,74 +176,8 @@ extern const uint8_t nr_actuatorTemplate;
 extern const char progConfigTemplateFileName[];
 extern const uint16_t size_progConfigTemplateFileName;
 
-extern const char progConfigTemplateRow[];
-extern const char progConfigTemplateMAC1[];
-extern const char progConfigTemplateMAC2[];
-extern const char progConfigTemplateMAC3[];
-extern const char progConfigTemplateMAC4[];
-extern const char progConfigTemplateMAC5[];
-extern const char progConfigTemplateMAC6[];
-extern const char progConfigTemplateDHCPSelectOption[];
-extern const char progConfigTemplateIP1[];
-extern const char progConfigTemplateIP2[];
-extern const char progConfigTemplateIP3[];
-extern const char progConfigTemplateIP4[];
-extern const char progConfigTemplateNM1[];
-extern const char progConfigTemplateNM2[];
-extern const char progConfigTemplateNM3[];
-extern const char progConfigTemplateNM4[];
-extern const char progConfigTemplateGW1[];
-extern const char progConfigTemplateGW2[];
-extern const char progConfigTemplateGW3[];
-extern const char progConfigTemplateGW4[];
-extern const char progConfigTemplateDNS1[];
-extern const char progConfigTemplateDNS2[];
-extern const char progConfigTemplateDNS3[];
-extern const char progConfigTemplateDNS4[];
-extern const char progConfigTemplateNTPSelectOption[];
-extern const char progConfigTemplateNTP1[];
-extern const char progConfigTemplateNTP2[];
-extern const char progConfigTemplateNTP3[];
-extern const char progConfigTemplateNTP4[];
-extern const char progConfigTemplateNTPPeriod[];
-extern const char progConfigTemplateTimezone[];
-
 extern const char* const configTemplateStrings[];
 extern const uint16_t nr_configTemplateStrings;
-
-extern const char progConfigInputMAC1[];
-extern const char progConfigInputMAC2[];
-extern const char progConfigInputMAC3[];
-extern const char progConfigInputMAC4[];
-extern const char progConfigInputMAC5[];
-extern const char progConfigInputMAC6[];
-extern const char progConfigInputDHCP[];
-extern const char progConfigInputIP1[];
-extern const char progConfigInputIP2[];
-extern const char progConfigInputIP3[];
-extern const char progConfigInputIP4[];
-extern const char progConfigInputNetmask1[];
-extern const char progConfigInputNetmask2[];
-extern const char progConfigInputNetmask3[];
-extern const char progConfigInputNetmask4[];
-extern const char progConfigInputGateway1[];
-extern const char progConfigInputGateway2[];
-extern const char progConfigInputGateway3[];
-extern const char progConfigInputGateway4[];
-extern const char progConfigInputDNS1[];
-extern const char progConfigInputDNS2[];
-extern const char progConfigInputDNS3[];
-extern const char progConfigInputDNS4[];
-extern const char progConfigInputNTP[];
-extern const char progConfigInputNTP1[];
-extern const char progConfigInputNTP2[];
-extern const char progConfigInputNTP3[];
-extern const char progConfigInputNTP4[];
-extern const char progConfigInputNTPPeriod[];
-extern const char progConfigInputTimezone[];
-extern const char progConfigInputHour[];
-extern const char progConfigInputMinute[];
-extern const char progConfigInputSecond[];
 
 extern const char* const configInputStrings[];
 extern const uint16_t nr_configInputStrings;

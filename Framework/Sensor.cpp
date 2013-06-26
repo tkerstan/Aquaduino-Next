@@ -18,6 +18,7 @@
  *
  */
 #include "Sensor.h"
+#include <string.h>
 
 /**
  * \brief Default Constructor
@@ -26,6 +27,8 @@
  */
 Sensor::Sensor()
 {
+    memset(m_Name, 0, sizeof(m_Name));
+    memset(m_URL, 0, sizeof(m_URL));
 }
 
 /**
