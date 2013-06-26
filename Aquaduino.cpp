@@ -1176,6 +1176,8 @@ void dispatchCommand(WebServer &server, WebServer::ConnectionType type,
     }
 }
 
+int freeRam();
+
 /**
  * \brief Prints the configuration webpage.
  *
@@ -1331,6 +1333,10 @@ void Aquaduino::printConfigWebpage(WebServer* server)
             break;
         case T_SECOND:
             server->print(second());
+            break;
+        case T_FREERAM:
+            server->print(freeRam());
+            server->print(F(" Bytes"));
             break;
         }
     }
