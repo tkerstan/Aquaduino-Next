@@ -67,11 +67,11 @@ LevelController::LevelController(const char* name) :
         Controller(name)
 {
     m_Type = CONTROLLER_LEVEL;
-    debounceDelayHigh = 3;
-    hysteresis = 10;
-    state = LEVELCONTROLLER_STATE_OK;
-    refillTimeout = 30;
-    sensor = -1;
+    m_DebounceDelay = 3;
+    m_Hysteresis = 10;
+    m_State = LEVELCONTROLLER_STATE_OK;
+    m_RefillTimeout = 30;
+    m_Sensor = -1;
 }
 
 uint16_t LevelController::serialize(void* buffer, uint16_t size)
@@ -79,17 +79,17 @@ uint16_t LevelController::serialize(void* buffer, uint16_t size)
     uint8_t* bPtr = (uint8_t*) buffer;
     uint8_t offset = 0;
 
-    uint16_t mySize = sizeof(hysteresis) + sizeof(debounceDelayHigh)
-                      + sizeof(refillTimeout) + sizeof(sensor);
+    uint16_t mySize = sizeof(m_Hysteresis) + sizeof(m_DebounceDelay)
+                      + sizeof(m_RefillTimeout) + sizeof(m_Sensor);
     if (mySize <= size)
     {
-        memcpy(bPtr, &hysteresis, sizeof(hysteresis));
-        offset += sizeof(hysteresis);
-        memcpy(bPtr + offset, &debounceDelayHigh, sizeof(debounceDelayHigh));
-        offset += sizeof(debounceDelayHigh);
-        memcpy(bPtr + offset, &refillTimeout, sizeof(refillTimeout));
-        offset += sizeof(refillTimeout);
-        memcpy(bPtr + offset, &sensor, sizeof(sensor));
+        memcpy(bPtr, &m_Hysteresis, sizeof(m_Hysteresis));
+        offset += sizeof(m_Hysteresis);
+        memcpy(bPtr + offset, &m_DebounceDelay, sizeof(m_DebounceDelay));
+        offset += sizeof(m_DebounceDelay);
+        memcpy(bPtr + offset, &m_RefillTimeout, sizeof(m_RefillTimeout));
+        offset += sizeof(m_RefillTimeout);
+        memcpy(bPtr + offset, &m_Sensor, sizeof(m_Sensor));
         return mySize;
     }
     return 0;
@@ -100,19 +100,19 @@ uint16_t LevelController::deserialize(void* data, uint16_t size)
     uint8_t* bPtr = (uint8_t*) data;
     uint8_t offset = 0;
 
-    uint16_t mySize = sizeof(hysteresis) + sizeof(debounceDelayHigh)
-                      + sizeof(refillTimeout);
+    uint16_t mySize = sizeof(m_Hysteresis) + sizeof(m_DebounceDelay)
+                      + sizeof(m_RefillTimeout);
     if (mySize <= size)
     {
-        memcpy(&hysteresis, bPtr, sizeof(hysteresis));
-        offset += sizeof(hysteresis);
-        memcpy(&debounceDelayHigh, bPtr + offset, sizeof(debounceDelayHigh));
-        offset += sizeof(debounceDelayHigh);
-        memcpy(&refillTimeout, bPtr + offset, sizeof(refillTimeout));
-        offset += sizeof(refillTimeout);
-        memcpy(&sensor, bPtr + offset, sizeof(sensor));
-        if (sensor < 0 || sensor >= MAX_SENSORS)
-            sensor = -1;
+        memcpy(&m_Hysteresis, bPtr, sizeof(m_Hysteresis));
+        offset += sizeof(m_Hysteresis);
+        memcpy(&m_DebounceDelay, bPtr + offset, sizeof(m_DebounceDelay));
+        offset += sizeof(m_DebounceDelay);
+        memcpy(&m_RefillTimeout, bPtr + offset, sizeof(m_RefillTimeout));
+        offset += sizeof(m_RefillTimeout);
+        memcpy(&m_Sensor, bPtr + offset, sizeof(m_Sensor));
+        if (m_Sensor < 0 || m_Sensor >= MAX_SENSORS)
+            m_Sensor = -1;
         return mySize;
     }
     return 0;
@@ -159,63 +159,63 @@ int8_t LevelController::run()
 {
     static unsigned long lastTime = 0;
 
-    if(sensor < 0 || sensor >= MAX_SENSORS)
+    if(m_Sensor < 0 || m_Sensor >= MAX_SENSORS)
         return -1;
 
-    long reading = aquaduino->getSensorValue(sensor);
+    long reading = aquaduino->getSensorValue(m_Sensor);
     unsigned long millisNow = millis();
     long deltaTSwitch = millisNow - lastTime;
 
     //Check for overflow while processing refill
     //May double the debounce delays in case of overflow
-    if (state != LEVELCONTROLLER_STATE_OK && lastTime > millisNow)
+    if (m_State != LEVELCONTROLLER_STATE_OK && lastTime > millisNow)
     {
         lastTime = 0;
     }
 
-    switch (state)
+    switch (m_State)
     {
     case LEVELCONTROLLER_STATE_OK:
         allMyActuators(0);
         if (reading == HIGH)
         {
-            state = LEVELCONTROLLER_STATE_DEBOUNCE;
+            m_State = LEVELCONTROLLER_STATE_DEBOUNCE;
             lastTime = millisNow;
         }
         break;
     case LEVELCONTROLLER_STATE_DEBOUNCE:
-        if (reading == HIGH && deltaTSwitch > 1000 * debounceDelayHigh)
+        if (reading == HIGH && deltaTSwitch > 1000 * m_DebounceDelay)
         {
             allMyActuators(1);
             lastTime = millisNow;
-            state = LEVELCONTROLLER_STATE_REFILL;
+            m_State = LEVELCONTROLLER_STATE_REFILL;
         }
         else if (reading == LOW)
         {
-            state = LEVELCONTROLLER_STATE_OK;
+            m_State = LEVELCONTROLLER_STATE_OK;
         }
         break;
     case LEVELCONTROLLER_STATE_REFILL:
         if (reading == LOW)
         {
-            state = LEVELCONTROLLER_STATE_OVERRUN;
+            m_State = LEVELCONTROLLER_STATE_OVERRUN;
             lastTime = millisNow;
         }
-        else if (reading == HIGH && deltaTSwitch > 1000 * refillTimeout)
+        else if (reading == HIGH && deltaTSwitch > 1000 * m_RefillTimeout)
         {
-            state = LEVELCONTROLLER_STATE_REFILL_TIMEOUT;
+            m_State = LEVELCONTROLLER_STATE_REFILL_TIMEOUT;
             allMyActuators(0);
         }
         break;
     case LEVELCONTROLLER_STATE_OVERRUN:
-        if (reading == LOW && deltaTSwitch > hysteresis * 1000)
+        if (reading == LOW && deltaTSwitch > m_Hysteresis * 1000)
         {
-            state = LEVELCONTROLLER_STATE_OK;
+            m_State = LEVELCONTROLLER_STATE_OK;
             allMyActuators(0);
         }
         else if (reading == HIGH)
         {
-            state = LEVELCONTROLLER_STATE_REFILL;
+            m_State = LEVELCONTROLLER_STATE_REFILL;
         }
         break;
     case LEVELCONTROLLER_STATE_REFILL_TIMEOUT:
@@ -255,24 +255,24 @@ int8_t LevelController::showWebinterface(WebServer* server,
             if (strcmp_P(name, progInputDelayLow) == 0)
             {
                 uint8_t d = atoi(value);
-                hysteresis = d;
+                m_Hysteresis = d;
             }
             else if (strcmp_P(name, progInputDelayHigh) == 0)
             {
                 uint8_t d = atoi(value);
-                debounceDelayHigh = d;
+                m_DebounceDelay = d;
             }
             else if (strcmp_P(name, progInputRefillTimeout) == 0)
             {
                 uint8_t d = atoi(value);
-                refillTimeout = d;
+                m_RefillTimeout = d;
             }
             else if (strcmp_P(name, progInputSensor) == 0)
             {
-                this->sensor = atoi(value);
+                m_Sensor = atoi(value);
             }
         } while (repeat);
-        state = LEVELCONTROLLER_STATE_OK;
+        m_State = LEVELCONTROLLER_STATE_OK;
         server->httpSeeOther(this->m_URL);
     }
     else
@@ -305,21 +305,21 @@ int8_t LevelController::showWebinterface(WebServer* server,
                 parser->selectList("sensor",
                                    sensorNames,
                                    sensorValuePointers,
-                                   this->sensor+1,
+                                   m_Sensor+1,
                                    i,
                                    server);
                 break;
             case LC_STATE:
-                server->print((__FlashStringHelper *) pgm_read_word(&(stateStrings[state])));
+                server->print((__FlashStringHelper *) pgm_read_word(&(stateStrings[m_State])));
                 break;
             case LC_DELAYLOW:
-                server->print(hysteresis);
+                server->print(m_Hysteresis);
                 break;
             case LC_DELAYHIGH:
-                server->print(debounceDelayHigh);
+                server->print(m_DebounceDelay);
                 break;
             case LC_REFILLTIMEOUT:
-                server->print(refillTimeout);
+                server->print(m_RefillTimeout);
                 break;
             }
         }

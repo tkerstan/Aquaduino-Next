@@ -52,11 +52,11 @@ public:
                                     WebServer::ConnectionType type,
                                     char* url);
 private:
-    int16_t debounceDelayHigh;
-    int16_t hysteresis;
-    int16_t refillTimeout;
-    int8_t state;
-    int8_t sensor;
+    int16_t m_DebounceDelay;
+    int16_t m_Hysteresis;
+    int16_t m_RefillTimeout;
+    int8_t m_State;
+    int8_t m_Sensor;
 };
 
 #endif /* LEVELCONTROLLER_H_ */
