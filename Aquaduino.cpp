@@ -1925,6 +1925,8 @@ int8_t Aquaduino::printMainWebpage(WebServer* server)
         }
     }
 
+    templateFile.close();
+
     return 1;
 }
 
