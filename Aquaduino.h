@@ -118,6 +118,8 @@ public:
     int8_t getNextSensor(Sensor** sensor);
     unsigned char getNrOfSensors();
 
+    double getSensorValue(int8_t idx);
+
     uint16_t serialize(void* buffer, uint16_t size);
     uint16_t deserialize(void* data, uint16_t size);
 
@@ -137,12 +139,6 @@ public:
     void setTemplateParser(TemplateParser* parser);
     TemplateParser* getTemplateParser();
 
-    void setTemperatureSensor(Sensor* tempSensor);
-    double getTemperature();
-
-    void setLevelSensor(Sensor* levSensor);
-    double getLevel();
-
     virtual int8_t showWebinterface(WebServer* server,
                                     WebServer::ConnectionType type, char* url);
 
@@ -156,6 +152,7 @@ protected:
     int8_t mainWebpageProcessPost(WebServer* server, WebServer::ConnectionType type);
     int8_t printMainActuatorTable(WebServer* server);
     int8_t printMainControllerTable(WebServer* server);
+    int8_t printMainSensorTable(WebServer* server);
     int8_t printMainWebpage(WebServer* server);
     int8_t mainWebpage(WebServer* server, WebServer::ConnectionType type);
 
@@ -171,16 +168,14 @@ private:
     ArrayMap<Controller*> m_Controllers;
     ArrayMap<Actuator*> m_Actuators;
     ArrayMap<Sensor*> m_Sensors;
-    Sensor* m_TemperatureSensor;
-    Sensor* m_LevelSensor;
     WebServer* m_WebServer;
     TemplateParser* m_TemplateParser;
-    double m_Temperature;
-    double m_Level;
 
     ConfigManager* m_ConfigManager;
 
     static const uint16_t m_Size;
+
+    double m_SensorReadings[MAX_SENSORS];
 };
 
 extern Aquaduino* aquaduino;

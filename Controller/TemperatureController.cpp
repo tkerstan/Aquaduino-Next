@@ -101,7 +101,7 @@ int8_t TemperatureController::run()
 {
     float temp;
 
-    temp = aquaduino->getTemperature();
+    temp = 0;
     if (temp >= m_Threshold)
         allMyActuators(1);
     else if (m_Threshold - temp > HYSTERESIS)
@@ -125,7 +125,7 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
 
     strcpy_P(templateFileName, progTemplateFileName);
 
-    dtostrf(aquaduino->getTemperature(), 5, 2, temperature);
+    dtostrf(0, 5, 2, temperature);
     itoa(m_Threshold, threshold, 10);
     itoa(maxPWM, pwmmax, 10);
 

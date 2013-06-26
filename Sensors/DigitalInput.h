@@ -28,11 +28,18 @@
  */
 class DigitalInput: public Sensor
 {
+public:
+    DigitalInput();
+    double read();
+
+    uint16_t serialize(void* buffer, uint16_t size);
+    uint16_t deserialize(void* data, uint16_t size);
+    int8_t showWebinterface(WebServer* server,
+                                        WebServer::ConnectionType type,
+                                        char* url);
+
 private:
     unsigned char myPin;
-public:
-    double read();
-    DigitalInput(unsigned char pin);
 };
 
 #endif /* DIGITALINPUT_H_ */

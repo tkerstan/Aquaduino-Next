@@ -19,6 +19,11 @@
  */
 
 #include "DS18S20.h"
+#include <Aquaduino.h>
+#include "DigitalInput.h"
+#include <Arduino.h>
+#include <SD.h>
+#include <TemplateParser.h>
 
 #define TEMP_HISTORY	10
 
@@ -30,8 +35,7 @@ static byte runs = 0;
  * \brief Constructor
  * \param[in] pin Pin where the DS18S20 is attached.
  */
-DS18S20::DS18S20(int pin) :
-        myOneWire(pin)
+DS18S20::DS18S20()
 {
     int i;
     m_Type = SENSOR_DS18S20;
@@ -39,6 +43,8 @@ DS18S20::DS18S20(int pin) :
     {
         temp_hist[i] = 0.0;
     }
+    myPin = 0;
+    myOneWire = NULL;
 }
 
 /**
@@ -61,11 +67,14 @@ double DS18S20::read()
     static int readPending = false;
     static unsigned long lastReadCommand = 0;
 
+    if (myOneWire == NULL)
+        return 0;
+
     if (readPending == 0)
     {
-        if (!myOneWire.search(addr))
+        if (!myOneWire->search(addr))
         {
-            myOneWire.reset_search();
+            myOneWire->reset_search();
             return celsius;
         }
 
@@ -89,22 +98,22 @@ double DS18S20::read()
         default:
             return 0.0;
         }
-        myOneWire.reset();
-        myOneWire.select(addr);
-        myOneWire.write(0x44, 1); // start conversion, with parasite power on at the end
+        myOneWire->reset();
+        myOneWire->select(addr);
+        myOneWire->write(0x44, 1); // start conversion, with parasite power on at the end
         lastReadCommand = millis();
         readPending = 1;
 
     }
     else if ((readPending == 1) && (millis() - lastReadCommand > 750))
     {
-        myOneWire.reset();
-        myOneWire.select(addr);
-        myOneWire.write(0xBE);         // Read Scratchpad
+        myOneWire->reset();
+        myOneWire->select(addr);
+        myOneWire->write(0xBE);         // Read Scratchpad
 
         for (i = 0; i < 9; i++)
         {           // we need 9 bytes
-            data[i] = myOneWire.read();
+            data[i] = myOneWire->read();
         }
 
         // convert the data to actual temperature
@@ -143,5 +152,98 @@ double DS18S20::read()
         celsius /= TEMP_HISTORY;
     }
     return celsius;
+}
+
+uint16_t DS18S20::serialize(void* buffer, uint16_t size)
+{
+    memcpy(buffer, &myPin, sizeof(myPin));
+    return sizeof(myPin);
+}
+
+uint16_t DS18S20::deserialize(void* data, uint16_t size)
+{
+    memcpy(&myPin, data, sizeof(myPin));
+    if (myOneWire == NULL)
+        myOneWire = new OneWire(myPin);
+    return sizeof(myPin);
+}
+
+const static char progTemplateFileName[] PROGMEM = "DS18S20.htm";
+const static char progTemplateString1[] PROGMEM = "##INAME##";
+const static char progTemplateString2[] PROGMEM = "##NAME##";
+const static char progTemplateString3[] PROGMEM = "##PIN##";
+
+const static char* const templateStrings[] PROGMEM =
+    { progTemplateString1, progTemplateString2, progTemplateString3};
+
+static const char progInput[] PROGMEM = "ipin";
+static const char* const inputStrings[] PROGMEM =
+    { progInput };
+
+
+enum
+{
+    S_INAME,
+    S_NAME,
+    S_PIN
+};
+
+enum
+{
+    I_TYPE
+};
+
+int8_t DS18S20::showWebinterface(WebServer* server, WebServer::ConnectionType type,
+                        char* url)
+{
+    File templateFile;
+    TemplateParser* parser;
+    int16_t matchIdx;
+    char templateFileName[sizeof(progTemplateFileName)];
+    strcpy_P(templateFileName, progTemplateFileName);
+
+    if (type == WebServer::POST)
+    {
+        int8_t repeat;
+        char name[16], value[16];
+        do
+        {
+            repeat = server->readPOSTparam(name, 16, value, 16);
+            if (strcmp_P(name, (PGM_P) pgm_read_word(&(inputStrings[I_TYPE]))) == 0)
+            {
+                myPin = atoi(value);
+            }
+        } while (repeat);
+        server->httpSeeOther(this->m_URL);
+    }
+    else
+    {
+        server->httpSuccess();
+        parser = aquaduino->getTemplateParser();
+        templateFile = SD.open(templateFileName, FILE_READ);
+        while ((matchIdx =
+                parser->processTemplateUntilNextMatch(&templateFile,
+                                                      templateStrings,
+                                                      sizeof(templateStrings) / sizeof(char*),
+                                                      server))
+               >= 0)
+        {
+            switch (matchIdx)
+            {
+            case S_INAME:
+                server->print((__FlashStringHelper*) &inputStrings[0][0]);
+                break;
+            case S_NAME:
+                server->print(getName());
+                break;
+            case S_PIN:
+                server->print(myPin);
+                break;
+            }
+        }
+
+        templateFile.close();
+    }
+    return true;
 }
 

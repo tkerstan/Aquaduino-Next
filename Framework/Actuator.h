@@ -125,13 +125,6 @@ public:
      */
     virtual float getPWM() = 0;
 
-    /**
-     * Derived actuators need to implement this.
-     */
-    virtual int8_t showWebinterface(WebServer* server,
-                                    WebServer::ConnectionType type,
-                                    char* url) = 0;
-
 };
 
 #endif /* AQUADUINOACTOR_H_ */

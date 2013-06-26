@@ -6,8 +6,10 @@
 extern const char pgm_hour[] PROGMEM = "##HOUR##";
 extern const char pgm_minute[] PROGMEM = "##MINUTE##";
 extern const char pgm_second[] PROGMEM = "##SECOND##";
+extern const char pgm_iname[] PROGMEM = "##INAME##";
 extern const char pgm_link[] PROGMEM = "##LINK##";
 extern const char pgm_name[] PROGMEM = "##NAME##";
+extern const char pgm_value[] PROGMEM = "##VALUE##";
 extern const char pgm_color[] PROGMEM = "##COLOR##";
 
 /**
@@ -19,24 +21,30 @@ extern const uint8_t size_pMFileName = sizeof(pMFileName);
 extern const char pCRowFileName[] PROGMEM = "maincrow.htm";
 extern const uint8_t size_pCRowFileName = sizeof(pCRowFileName);
 
+extern const char pSRowFileName[] PROGMEM = "mainsrow.htm";
+extern const uint8_t size_pSRowFileName = sizeof(pSRowFileName);
+
 extern const char pARowFileName[] PROGMEM = "mainarow.htm";
 extern const uint8_t size_pARowFileName = sizeof(pARowFileName);
 
-extern const char pTemperature[] PROGMEM
-= "##TEMPERATURE##";
 extern const char pController[] PROGMEM = "##CONTROLLERROW##";
 extern const char pActuator[] PROGMEM = "##ACTUATORROW##";
+extern const char pSensor[] PROGMEM = "##SENSORROW##";
 
 extern const char* const mainTemplate[] PROGMEM =
-    { pTemperature, pgm_hour, pgm_minute, pgm_second, pController, pActuator };
+    { pgm_hour, pgm_minute, pgm_second, pController, pSensor, pActuator };
 extern const uint8_t nr_mainTemplate = sizeof(mainTemplate) / sizeof(char*);
 
 extern const char* const controllerTemplate[] PROGMEM =
-    { pgm_link, pgm_name, pgm_color };
+    { pgm_color, pgm_iname, pgm_name, pgm_link };
 extern const uint8_t nr_controllerTemplate = sizeof(controllerTemplate)
         / sizeof(char*);
 
-extern const char pIActuator[] PROGMEM = "##IACTUATOR##";
+extern const char* const sensorTemplate[] PROGMEM =
+    { pgm_color, pgm_iname, pgm_name, pgm_value, pgm_link };
+extern const uint8_t nr_sensorTemplate = sizeof(sensorTemplate)
+        / sizeof(char*);
+
 extern const char pCSelect[] PROGMEM = "##CSELECT##";
 extern const char pCOptions[] PROGMEM = "##COPTIONS##";
 extern const char pLSelect[] PROGMEM = "##LSELECT##";
@@ -45,7 +53,7 @@ extern const char pSSelect[] PROGMEM = "##SSELECT##";
 extern const char pSOptions[] PROGMEM = "##SOPTIONS##";
 
 extern const char* const actuatorTemplate[] PROGMEM =
-    { pgm_color, pIActuator, pgm_name, pCSelect, pCOptions, pLSelect, pLOptions,
+    { pgm_color, pgm_iname, pgm_name, pCSelect, pCOptions, pLSelect, pLOptions,
       pSSelect, pSOptions, pgm_link };
 extern const uint8_t nr_actuatorTemplate = sizeof(actuatorTemplate)
         / sizeof(char*);

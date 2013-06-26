@@ -27,7 +27,7 @@
 /**
  * \brief Defines the maximum number of controllers the system can manage
  */
-#define MAX_CONTROLLERS             15
+#define MAX_CONTROLLERS             3
 
 /**
  * \brief Defines the maximum number of actuators the system can manage
@@ -37,7 +37,32 @@
 /**
  * \brief Defines the maximum number of sensors the system can manage
  */
-#define MAX_SENSORS                 4
+#define MAX_SENSORS                 2
+
+/**
+ * \brief Defines the actuators being used
+ */
+#define ACTUATOR_CONFIG             { ACTUATOR_DIGITALOUTPUT, \
+                                      ACTUATOR_DIGITALOUTPUT, \
+                                      ACTUATOR_DIGITALOUTPUT, \
+                                      ACTUATOR_DIGITALOUTPUT, \
+                                      ACTUATOR_DIGITALOUTPUT, \
+                                      ACTUATOR_DIGITALOUTPUT, \
+                                      ACTUATOR_DIGITALOUTPUT, \
+                                      ACTUATOR_DIGITALOUTPUT }
+
+/**
+ * \brief Defines the controllers being used
+ */
+#define CONTROLLER_CONFIG           { CONTROLLER_LEVEL, \
+                                      CONTROLLER_TEMPERATURE, \
+                                      CONTROLLER_CLOCKTIMER } \
+
+/**
+ * \brief Defines the sensors being used
+ */
+#define SENSOR_CONFIG               { SENSOR_DIGITALINPUT, \
+                                      SENSOR_DS18S20 }
 
 /**
  * \brief Defines the maximum number of Clocktimers the system can manage
@@ -69,10 +94,5 @@
  * \brief Defines the delimiter in URLs to mark the beginning of a subURL
  */
 #define URL_DELIMITER               "."
-
-#define ACTUATOR_CONFIG { ACTUATOR_DIGITALOUTPUT, ACTUATOR_DIGITALOUTPUT, \
-                          ACTUATOR_DIGITALOUTPUT, ACTUATOR_DIGITALOUTPUT, \
-                          ACTUATOR_DIGITALOUTPUT, ACTUATOR_DIGITALOUTPUT, \
-                          ACTUATOR_DIGITALOUTPUT, ACTUATOR_DIGITALOUTPUT} \
 
 #endif /*CONFIG_H_*/
