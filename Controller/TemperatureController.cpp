@@ -23,17 +23,25 @@
 #include <SD.h>
 #include <TemplateParser.h>
 
-const static double HYSTERESIS = 0.3;
-
-const static char progTemplateString1[] PROGMEM = "##TEMPERATURE##";
-const static char progTemplateString2[] PROGMEM = "##THRESHOLD##";
-const static char progTemplateString3[] PROGMEM = "##PWMMAX##";
+const static char progTemplateString1[] PROGMEM = "##SSELECT##";
+const static char progTemplateString2[] PROGMEM = "##TEMPERATURE##";
+const static char progTemplateString3[] PROGMEM = "##THRESHOLD##";
+const static char progTemplateString4[] PROGMEM = "##PWMMAX##";
+const static char progTemplateString5[] PROGMEM = "##HYSTERESIS##";
 
 const static char* const templateStrings[] PROGMEM =
-    { progTemplateString1, progTemplateString2, progTemplateString3 };
+    { progTemplateString1, progTemplateString2, progTemplateString3,
+      progTemplateString4, progTemplateString5 };
+
+enum
+{
+    TC_SSELECT, TC_TEMPERATURE, TC_THRESHOLD, TC_PWMMAX, TC_HYSTERESIS
+};
 
 const static char progInputThreshold[] PROGMEM = "Threshold";
 const static char progInputPWMMax[] PROGMEM = "PWMMax";
+const static char progInputHysteresis[] PROGMEM = "Hysteresis";
+const static char progInputSensor[] PROGMEM = "sensor";
 
 const static char progTemplateFileName[] PROGMEM = "temp.htm";
 
@@ -46,7 +54,8 @@ TemperatureController::TemperatureController(const char* name) :
 {
     m_Type = CONTROLLER_TEMPERATURE;
     m_Threshold = 25.0;
-    maxPWM = 28.0;
+    m_MaxPWM = 28.0;
+    m_Hysteresis = 0.3;
 }
 
 /**
@@ -63,12 +72,14 @@ uint16_t TemperatureController::serialize(void* buffer, uint16_t size)
     uint8_t* bPtr = (uint8_t*) buffer;
     uint8_t offset = 0;
 
-    uint16_t mySize = sizeof(m_Threshold) + sizeof(maxPWM);
+    uint16_t mySize = sizeof(m_Threshold) + sizeof(m_MaxPWM);
     if (mySize <= size)
     {
         memcpy(bPtr, &m_Threshold, sizeof(m_Threshold));
         offset += sizeof(m_Threshold);
-        memcpy(bPtr + offset, &maxPWM, sizeof(maxPWM));
+        memcpy(bPtr + offset, &m_MaxPWM, sizeof(m_MaxPWM));
+        offset += sizeof(m_MaxPWM);
+        memcpy(bPtr + offset, &m_Sensor, sizeof(m_Sensor));
         return mySize;
     }
     return 0;
@@ -79,12 +90,17 @@ uint16_t TemperatureController::deserialize(void* data, uint16_t size)
     uint8_t* bPtr = (uint8_t*) data;
     uint8_t offset = 0;
 
-    uint16_t mySize = sizeof(m_Threshold) + sizeof(maxPWM);
+    uint16_t mySize = sizeof(m_Threshold) + sizeof(m_MaxPWM);
     if (mySize <= size)
     {
         memcpy(&m_Threshold, bPtr, sizeof(m_Threshold));
         offset += sizeof(m_Threshold);
-        memcpy(&maxPWM, bPtr + offset, sizeof(maxPWM));
+        memcpy(&m_MaxPWM, bPtr + offset, sizeof(m_MaxPWM));
+        offset += sizeof(m_MaxPWM);
+        memcpy(&m_Sensor, bPtr + offset, sizeof(m_Sensor));
+        if (m_Sensor < 0 || m_Sensor >= MAX_SENSORS)
+            m_Sensor = -1;
+
         return mySize;
     }
     return 0;
@@ -100,11 +116,13 @@ uint16_t TemperatureController::deserialize(void* data, uint16_t size)
 int8_t TemperatureController::run()
 {
     float temp;
+    if (m_Sensor == -1)
+        return -1;
 
-    temp = 0;
+    temp = aquaduino->getSensorValue(m_Sensor);
     if (temp >= m_Threshold)
         allMyActuators(1);
-    else if (m_Threshold - temp > HYSTERESIS)
+    else if (m_Threshold - temp > m_Hysteresis)
         allMyActuators(0);
     return true;
 }
@@ -115,23 +133,16 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
 {
     File templateFile;
     TemplateParser* parser;
+    int8_t matchIdx;
+    const char* sensorNames[MAX_SENSORS + 1];
+    char sensorValArray[MAX_SENSORS + 1][3];
+    const char* sensorValuePointers[MAX_SENSORS + 1];
+    int8_t i = 0, sensorIdx;
+    Sensor* sensor;
 
     char templateFileName[sizeof(progTemplateFileName)];
-    char* replacementStrings[3];
-
-    char temperature[10];
-    char threshold[4];
-    char pwmmax[4];
 
     strcpy_P(templateFileName, progTemplateFileName);
-
-    dtostrf(0, 5, 2, temperature);
-    itoa(m_Threshold, threshold, 10);
-    itoa(maxPWM, pwmmax, 10);
-
-    replacementStrings[0] = temperature;
-    replacementStrings[1] = threshold;
-    replacementStrings[2] = pwmmax;
 
     if (type == WebServer::POST)
     {
@@ -141,15 +152,14 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
         {
             repeat = server->readPOSTparam(name, 16, value, 16);
             if (strcmp_P(name, progInputThreshold) == 0)
-            {
-                uint8_t d = atoi(value);
-                m_Threshold = d;
-            }
+                m_Threshold = atof(value);
             else if (strcmp_P(name, progInputPWMMax) == 0)
-            {
-                uint8_t d = atoi(value);
-                maxPWM = d;
-            }
+                m_MaxPWM = atof(value);
+            else if (strcmp_P(name, progInputHysteresis) == 0)
+                m_Hysteresis = atof(value);
+            else if (strcmp_P(name, progInputSensor) == 0)
+                m_Sensor = atoi(value);
+
         } while (repeat);
 
         server->httpSeeOther(this->m_URL);
@@ -159,11 +169,48 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
         server->httpSuccess();
         parser = aquaduino->getTemplateParser();
         templateFile = SD.open(templateFileName, FILE_READ);
-        parser->processSingleTemplate(&templateFile,
-                                      templateStrings,
-                                      replacementStrings,
-                                      3,
-                                      server);
+        aquaduino->resetSensorIterator();
+        sensorNames[0] = "None";
+        sensorValuePointers[0] = "-1";
+        i = 1;
+        while ((sensorIdx = aquaduino->getNextSensor(&sensor)) != -1)
+        {
+            sensorNames[i] = sensor->getName();
+            itoa(sensorIdx, sensorValArray[i], 10);
+            sensorValuePointers[i] = sensorValArray[i];
+            i++;
+        }
+        while ((matchIdx =
+                parser->processTemplateUntilNextMatch(&templateFile,
+                                                      templateStrings,
+                                                      sizeof(templateStrings) / sizeof(char*),
+                                                      server))
+               != -1)
+        {
+            switch (matchIdx)
+            {
+            case TC_SSELECT:
+                parser->selectList("sensor",
+                                   sensorNames,
+                                   sensorValuePointers,
+                                   this->m_Sensor+1,
+                                   i,
+                                   server);
+                break;
+            case TC_TEMPERATURE:
+                server->print(aquaduino->getSensorValue(m_Sensor));
+                break;
+            case TC_THRESHOLD:
+                server->print(m_Threshold);
+                break;
+            case TC_PWMMAX:
+                server->print(m_MaxPWM);
+                break;
+            case TC_HYSTERESIS:
+                server->print(m_Hysteresis);
+                break;
+            }
+        }
         templateFile.close();
     }
     return true;

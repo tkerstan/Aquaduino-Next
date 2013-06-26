@@ -21,6 +21,10 @@
     The PWM is increased linear inbetween the threshold and the the maximum.
 </div>
 
+<div id="tt3" class="xbtooltip" style="border:1px solid black">
+    The actuator is turned off when the temperature drops below threshold - hysteresis<br/>
+    This prevents the actuator from being turned on shortly after it has been turned out.
+</div>
 
 <script type="text/javascript">
   (function(window, document, undefined){
@@ -90,12 +94,22 @@
   </tr>  
   <tr>
     <td bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt1'})" for="1">Temperature Threshold:</label></td>
-    <td bgcolor="#99CCFF"><input name="Threshold" type="text" id="1" value="##THRESHOLD##" size="3" maxlength="2"/>&deg;C</td>
+    <td bgcolor="#99CCFF"><input name="Threshold" type="text" id="1" value="##THRESHOLD##" size="3" maxlength="5"/>&deg;C</td>
   </tr>
   <tr>
     <td bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt2'})" for="1">Maximum Fanspeed @:</label></td>
-    <td bgcolor="#99CCFF"><input type="text" name="PWMMax" value="##PWMMAX##" id="2" size="3" maxlength="2"/>&deg;C</td>
+    <td bgcolor="#99CCFF"><input type="text" name="PWMMax" value="##PWMMAX##" id="2" size="3" maxlength="6"/>&deg;C</td>
   </tr>
+  <tr>
+  	<td bgcolor="#99CCFF">
+  	    <label onmouseover="XBT(this, {id:'tt3'})" for="1">
+  		Hysteresis:
+  		</label>
+  	</td>
+  	<td bgcolor="#99CCFF">
+  		<input type="text" name="Hysteresis" value="##HYSTERESIS##" id="2" size="3" maxlength="5"/>&deg;C</td>
+	</td>
+  
 </table>
 <input type="submit" value="Apply">
 </form>

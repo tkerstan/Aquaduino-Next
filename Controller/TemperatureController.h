@@ -33,9 +33,6 @@
  */
 class TemperatureController: public Controller
 {
-private:
-    uint8_t m_Threshold;
-    uint8_t maxPWM;
 public:
     TemperatureController(const char* name);
     virtual ~TemperatureController();
@@ -47,6 +44,12 @@ public:
     virtual int8_t showWebinterface(WebServer* server,
                                     WebServer::ConnectionType type,
                                     char* url);
+private:
+    double m_Threshold;
+    double m_MaxPWM;
+    int8_t m_Sensor;
+    double m_Hysteresis;
+
 };
 
 #endif /* TEMPERATURECONTROLLER_H_ */

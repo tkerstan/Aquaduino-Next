@@ -33,7 +33,8 @@ enum CONFIG_TEMPLATE
     T_TIMEZONE,
     T_HOUR,
     T_MINUTE,
-    T_SECOND
+    T_SECOND,
+    T_FREERAM
 };
 
 enum CONFIG_INPUTS

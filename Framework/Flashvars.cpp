@@ -42,8 +42,7 @@ extern const uint8_t nr_controllerTemplate = sizeof(controllerTemplate)
 
 extern const char* const sensorTemplate[] PROGMEM =
     { pgm_color, pgm_iname, pgm_name, pgm_value, pgm_link };
-extern const uint8_t nr_sensorTemplate = sizeof(sensorTemplate)
-        / sizeof(char*);
+extern const uint8_t nr_sensorTemplate = sizeof(sensorTemplate) / sizeof(char*);
 
 extern const char pCSelect[] PROGMEM = "##CSELECT##";
 extern const char pCOptions[] PROGMEM = "##COPTIONS##";
@@ -98,6 +97,7 @@ extern const char progConfigTemplateNTP3[] PROGMEM = "##NTP3##";
 extern const char progConfigTemplateNTP4[] PROGMEM = "##NTP4##";
 extern const char progConfigTemplateNTPPeriod[] PROGMEM = "##NTPPERIOD##";
 extern const char progConfigTemplateTimezone[] PROGMEM = "##TIMEZONE##";
+extern const char progConfigTemplateFreeRAM[] PROGMEM = "##FREERAM##";
 
 extern const char* const configTemplateStrings[] PROGMEM =
     { progConfigTemplateRow, progConfigTemplateMAC1, progConfigTemplateMAC2,
@@ -111,7 +111,8 @@ extern const char* const configTemplateStrings[] PROGMEM =
       progConfigTemplateDNS4, progConfigTemplateNTPSelectOption,
       progConfigTemplateNTP1, progConfigTemplateNTP2, progConfigTemplateNTP3,
       progConfigTemplateNTP4, progConfigTemplateNTPPeriod,
-      progConfigTemplateTimezone, pgm_hour, pgm_minute, pgm_second };
+      progConfigTemplateTimezone, pgm_hour, pgm_minute, pgm_second,
+      progConfigTemplateFreeRAM };
 extern const uint16_t nr_configTemplateStrings = sizeof(configTemplateStrings)
         / sizeof(char*);
 
