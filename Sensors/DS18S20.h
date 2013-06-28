@@ -44,10 +44,15 @@ public:
                             char* url);
 
 private:
-    uint8_t myPin;
-    double celsius;
-    double fahrenheit;
-    OneWire *myOneWire;
+    int8_t findDevice(uint8_t *address, uint8_t size);
+    void issueReadCommand(uint8_t* addr);
+    int8_t read(uint8_t* addr, uint8_t* data, uint8_t size);
+    uint16_t convertToRaw(uint8_t* data, uint8_t size, int8_t type);
+    uint8_t m_Pin;
+    double m_Celsius;
+    double m_Fahrenheit;
+    OneWire *m_OneWire;
+    uint8_t m_Address[8];
 };
 
 #endif /* DS18S20_H_ */
