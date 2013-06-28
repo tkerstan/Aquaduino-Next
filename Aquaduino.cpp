@@ -114,15 +114,6 @@ Aquaduino* aquaduino;
 
 extern time_t NTPSync();
 
-/*
- * My system has 24 Power Outlets controlled by the Pins 14-37,
- * a Level sensor @ pin 40 and a DS18S20 @ pin 42.
- */
-const static uint8_t POWER_OUTLETS = 24;
-const static uint8_t POWER_OUTLET_START_PIN = 14;
-const static uint8_t LEVEL_SENSOR_PIN = 38;
-const static uint8_t TEMPERATURE_SENSOR_PIN = 39;
-
 /**
  * \brief Default Constructor
  *
@@ -223,7 +214,6 @@ Aquaduino::Aquaduino() :
         {
         case ACTUATOR_DIGITALOUTPUT:
             addActuator(new DigitalOutput(NULL,
-                                          POWER_OUTLET_START_PIN + i,
                                           HIGH,
                                           LOW));
             break;

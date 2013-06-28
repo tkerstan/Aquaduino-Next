@@ -31,13 +31,12 @@
 class DigitalOutput: public Actuator
 {
 private:
-    int8_t pin;
-    uint8_t onValue;
-    uint8_t offValue;
-    float dutyCycle;
+    int8_t m_Pin;
+    uint8_t m_OnValue;
+    uint8_t m_OffValue;
+    float m_DutyCycle;
 public:
-    DigitalOutput(const char* name, int8_t pin, uint8_t onValue,
-                  uint8_t offValue);
+    DigitalOutput(const char* name, uint8_t onValue, uint8_t offValue);
 
     virtual uint16_t serialize(void* buffer, uint16_t size);
     virtual uint16_t deserialize(void* data, uint16_t size);
@@ -54,8 +53,7 @@ public:
     virtual float getPWM();
 
     virtual int8_t showWebinterface(WebServer* server,
-                                    WebServer::ConnectionType type,
-                                    char* url);
+                                    WebServer::ConnectionType type, char* url);
 
 };
 
