@@ -39,7 +39,7 @@ public:
                                         char* url);
 
 private:
-    unsigned char myPin;
+    unsigned char m_Pin;
 };
 
 #endif /* DIGITALINPUT_H_ */

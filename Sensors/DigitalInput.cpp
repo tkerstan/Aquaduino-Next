@@ -31,7 +31,7 @@
 DigitalInput::DigitalInput()
 {
     m_Type = SENSOR_DIGITALINPUT;
-    myPin = 0;
+    m_Pin = 0;
 }
 
 /**
@@ -41,19 +41,20 @@ DigitalInput::DigitalInput()
  */
 double DigitalInput::read()
 {
-    return digitalRead(myPin);
+    return digitalRead(m_Pin);
 }
 
 uint16_t DigitalInput::serialize(void* buffer, uint16_t size)
 {
-    memcpy(buffer, &myPin, sizeof(myPin));
-    return sizeof(myPin);
+    memcpy(buffer, &m_Pin, sizeof(m_Pin));
+    return sizeof(m_Pin);
 }
 
 uint16_t DigitalInput::deserialize(void* data, uint16_t size)
 {
-    memcpy(&myPin, data, sizeof(myPin));
-    return sizeof(myPin);
+    memcpy(&m_Pin, data, sizeof(m_Pin));
+    pinMode(m_Pin, INPUT);
+    return sizeof(m_Pin);
 }
 
 const static char progTemplateFileName[] PROGMEM = "di.htm";
@@ -99,7 +100,8 @@ int8_t DigitalInput::showWebinterface(WebServer* server, WebServer::ConnectionTy
             repeat = server->readPOSTparam(name, 16, value, 16);
             if (strcmp_P(name, (PGM_P) pgm_read_word(&(inputStrings[I_TYPE]))) == 0)
             {
-                myPin = atoi(value);
+                m_Pin = atoi(value);
+                pinMode(m_Pin, INPUT);
             }
         } while (repeat);
         server->httpSeeOther(this->m_URL);
@@ -125,7 +127,7 @@ int8_t DigitalInput::showWebinterface(WebServer* server, WebServer::ConnectionTy
                 server->print(getName());
                 break;
             case S_PIN:
-                server->print(myPin);
+                server->print(m_Pin);
                 break;
             }
         }
