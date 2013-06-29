@@ -34,6 +34,9 @@ enum CONFIG_TEMPLATE
     T_HOUR,
     T_MINUTE,
     T_SECOND,
+    T_XIVELY,
+    T_XIVELYAPIKEY,
+    T_XIVELYFEED,
     T_FREERAM
 };
 
@@ -72,6 +75,9 @@ enum CONFIG_INPUTS
     I_HOUR,
     I_MINUTE,
     I_SECOND,
+    I_XIVELY,
+    I_XIVELYAPIKEY,
+    I_XIVELYFEED
 
 };
 
@@ -97,6 +103,8 @@ enum SENSOR_TEMPLATE
     S_INAME,
     S_NAME,
     S_VALUE,
+    S_IXIVELYCHANNEL,
+    S_XIVELYCHANNEL,
     S_LINK
 };
 

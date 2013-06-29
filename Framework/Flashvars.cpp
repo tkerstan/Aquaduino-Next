@@ -11,6 +11,8 @@ extern const char pgm_link[] PROGMEM = "##LINK##";
 extern const char pgm_name[] PROGMEM = "##NAME##";
 extern const char pgm_value[] PROGMEM = "##VALUE##";
 extern const char pgm_color[] PROGMEM = "##COLOR##";
+extern const char pgm_ixivelychannel[] PROGMEM = "##IXIVELYCHANNEL##";
+extern const char pgm_xivelychannel[] PROGMEM = "##XIVELYCHANNEL##";
 
 /**
  * Main Webpage
@@ -41,7 +43,8 @@ extern const uint8_t nr_controllerTemplate = sizeof(controllerTemplate)
         / sizeof(char*);
 
 extern const char* const sensorTemplate[] PROGMEM =
-    { pgm_color, pgm_iname, pgm_name, pgm_value, pgm_link };
+    { pgm_color, pgm_iname, pgm_name, pgm_value, pgm_ixivelychannel,
+      pgm_xivelychannel, pgm_link };
 extern const uint8_t nr_sensorTemplate = sizeof(sensorTemplate) / sizeof(char*);
 
 extern const char pCSelect[] PROGMEM = "##CSELECT##";
@@ -97,6 +100,9 @@ extern const char progConfigTemplateNTP3[] PROGMEM = "##NTP3##";
 extern const char progConfigTemplateNTP4[] PROGMEM = "##NTP4##";
 extern const char progConfigTemplateNTPPeriod[] PROGMEM = "##NTPPERIOD##";
 extern const char progConfigTemplateTimezone[] PROGMEM = "##TIMEZONE##";
+extern const char progConfigXivelySelect[] PROGMEM = "##XIVELYSELECTOPTION##";
+extern const char progConfigXivelyAPIKey[] PROGMEM = "##XIVELYKEY##";
+extern const char progConfigXivelyFeed[] PROGMEM = "##XIVELYFEED##";
 extern const char progConfigTemplateFreeRAM[] PROGMEM = "##FREERAM##";
 
 extern const char* const configTemplateStrings[] PROGMEM =
@@ -112,6 +118,7 @@ extern const char* const configTemplateStrings[] PROGMEM =
       progConfigTemplateNTP1, progConfigTemplateNTP2, progConfigTemplateNTP3,
       progConfigTemplateNTP4, progConfigTemplateNTPPeriod,
       progConfigTemplateTimezone, pgm_hour, pgm_minute, pgm_second,
+      progConfigXivelySelect, progConfigXivelyAPIKey, progConfigXivelyFeed,
       progConfigTemplateFreeRAM };
 extern const uint16_t nr_configTemplateStrings = sizeof(configTemplateStrings)
         / sizeof(char*);
@@ -149,6 +156,9 @@ extern const char progConfigInputTimezone[] PROGMEM = "timezone";
 extern const char progConfigInputHour[] PROGMEM = "hour";
 extern const char progConfigInputMinute[] PROGMEM = "minute";
 extern const char progConfigInputSecond[] PROGMEM = "second";
+extern const char progConfigInputXively[] PROGMEM = "xively";
+extern const char progConfigInputXivelyAPIKey[] PROGMEM = "xivelykey";
+extern const char progConfigInputXivelyFeed[] PROGMEM = "xivelyfeed";
 
 extern const char* const configInputStrings[] PROGMEM =
     { progConfigInputMAC1, progConfigInputMAC2, progConfigInputMAC3,
@@ -161,6 +171,8 @@ extern const char* const configInputStrings[] PROGMEM =
       progConfigInputDNS3, progConfigInputDNS4, progConfigInputNTP,
       progConfigInputNTP1, progConfigInputNTP2, progConfigInputNTP3,
       progConfigInputNTP4, progConfigInputNTPPeriod, progConfigInputTimezone,
-      progConfigInputHour, progConfigInputMinute, progConfigInputSecond };
+      progConfigInputHour, progConfigInputMinute, progConfigInputSecond,
+      progConfigInputXively, progConfigInputXivelyAPIKey,
+      progConfigInputXivelyFeed };
 extern const uint16_t nr_configInputStrings = sizeof(configInputStrings)
         / sizeof(char*);

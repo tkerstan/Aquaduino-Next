@@ -132,15 +132,18 @@ Aquaduino::Aquaduino() :
         m_NTPSyncInterval(5),
         m_DHCP(0),
         m_NTP(0),
+        m_Xively(0),
         m_Controllers(MAX_CONTROLLERS),
         m_Actuators(MAX_ACTUATORS),
         m_Sensors(MAX_SENSORS),
         m_WebServer(NULL),
-        m_TemplateParser(NULL)
+        m_TemplateParser(NULL),
+        m_XivelyClient(ethClient)
 {
     aquaduino = this;
-
+    int i = 0;
     int8_t status = 0;
+
     m_Type = AQUADUINO;
     // Deselect all SPI devices!
     pinMode(4, OUTPUT);
@@ -166,7 +169,24 @@ Aquaduino::Aquaduino() :
     m_MAC[4] = 0xDE;
     m_MAC[5] = 0xAD;
 
+    memset(m_XivelyAPIKey, 0, sizeof(m_XivelyAPIKey));
+    memset(m_XivelyFeedName, 0, sizeof(m_XivelyFeedName));
+    memset(m_XiveleyDatastreams, 0, sizeof(m_XiveleyDatastreams));
+    memset(m_XivelyChannelNames, 0, sizeof(m_XivelyChannelNames));
+
     readConfig(this);
+
+    for (i = 0; i < MAX_SENSORS; i++)
+    {
+        m_XiveleyDatastreams[i] =
+                new XivelyDatastream(m_XivelyChannelNames[i],
+                                     strlen(m_XivelyChannelNames[i]),
+                                     DATASTREAM_FLOAT);
+    }
+
+    m_XivelyFeed = new XivelyFeed(atol(m_XivelyFeedName),
+                                  m_XiveleyDatastreams,
+                                  MAX_SENSORS);
 
     if (m_DHCP)
     {
@@ -208,14 +228,12 @@ Aquaduino::Aquaduino() :
     setWebserver(new WebServer("", 80));
 
     Serial.println(F("Initializing actuators..."));
-    for (int i = 0; i < MAX_ACTUATORS; i++)
+    for (i = 0; i < MAX_ACTUATORS; i++)
     {
         switch (actuatorConfig[i])
         {
         case ACTUATOR_DIGITALOUTPUT:
-            addActuator(new DigitalOutput(NULL,
-                                          HIGH,
-                                          LOW));
+            addActuator(new DigitalOutput(NULL, HIGH, LOW));
             break;
         case ACTUATOR_PWMOUTPUT:
             break;
@@ -522,6 +540,56 @@ void Aquaduino::setTime(int8_t hour, int8_t minute, int8_t second, int8_t day,
 }
 
 /**
+ * \brief Enables Xively.
+ *
+ * Enables the Xively flag. When this flag is set sensor data with valid
+ * Xively channels will be send to Xively.
+ */
+
+void Aquaduino::enableXively()
+{
+    m_Xively = 1;
+}
+
+/**
+ * \brief Disables Xively flag.
+ *
+ */
+void Aquaduino::disableXively()
+{
+    m_Xively = 0;
+}
+
+/**
+ * \brief Checks whether Xively is enabled or not.
+ *
+ * \returns Value of the Xively flag.
+ */
+int8_t Aquaduino::isXivelyEnabled()
+{
+    return m_Xively;
+}
+
+void Aquaduino::setXivelyApiKey(const char* key)
+{
+    strcpy(m_XivelyAPIKey, key);
+}
+const char* Aquaduino::getXivelyApiKey()
+{
+    return m_XivelyAPIKey;
+}
+
+void Aquaduino::setXivelyFeed(const char* feed)
+{
+    strcpy(m_XivelyFeedName, feed);
+}
+
+const char* Aquaduino::getXivelyFeed()
+{
+    return m_XivelyFeedName;
+}
+
+/**
  * \brief Adds a controller to Aquaduino.
  * \param[in] newController The controller to be added.
  *
@@ -817,7 +885,10 @@ const uint16_t Aquaduino::m_Size = sizeof(m_MAC) + sizeof(uint32_t)
                                    + sizeof(uint32_t) + sizeof(uint32_t)
                                    + sizeof(uint32_t) + sizeof(uint32_t)
                                    + sizeof(m_NTPSyncInterval) + sizeof(m_DHCP)
-                                   + sizeof(m_NTP) + sizeof(m_Timezone);
+                                   + sizeof(m_NTP) + sizeof(m_Timezone)
+                                   + sizeof(m_Xively) + sizeof(m_XivelyAPIKey)
+                                   + sizeof(m_XivelyFeed)
+                                   + sizeof(m_XivelyChannelNames);
 
 /**
  * \brief Serializes the Aquaduino configuration
@@ -834,7 +905,7 @@ uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
 {
     uint8_t* bPtr = (uint8_t*) buffer;
 
-    if (size > m_Size || buffer == NULL)
+    if (m_Size > size || buffer == NULL)
         return 0;
 
     memcpy(bPtr, m_MAC, sizeof(m_MAC));
@@ -857,6 +928,15 @@ uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
     bPtr += sizeof(m_NTP);
     memcpy(bPtr, &m_Timezone, sizeof(m_Timezone));
     bPtr += sizeof(m_Timezone);
+    memcpy(bPtr, &m_Xively, sizeof(m_Xively));
+    bPtr += sizeof(m_Xively);
+    memcpy(bPtr, &m_XivelyAPIKey, sizeof(m_XivelyAPIKey));
+    bPtr += sizeof(m_XivelyAPIKey);
+    memcpy(bPtr, &m_XivelyFeedName, sizeof(m_XivelyFeedName));
+    bPtr += sizeof(m_XivelyFeedName);
+    memcpy(bPtr, &m_XivelyChannelNames, sizeof(m_XivelyChannelNames));
+    Serial.write((const uint8_t*) m_XivelyChannelNames, sizeof(m_XivelyChannelNames));
+    bPtr += sizeof(m_XivelyChannelNames);
 
     return m_Size;
 }
@@ -898,7 +978,14 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
     bPtr += sizeof(m_NTP);
     memcpy(&m_Timezone, bPtr, sizeof(m_Timezone));
     bPtr += sizeof(m_Timezone);
-
+    memcpy(&m_Xively, bPtr, sizeof(m_Xively));
+    bPtr += sizeof(m_Xively);
+    memcpy(m_XivelyAPIKey, bPtr, sizeof(m_XivelyAPIKey));
+    bPtr += sizeof(m_XivelyAPIKey);
+    memcpy(&m_XivelyFeedName, bPtr, sizeof(m_XivelyFeedName));
+    bPtr += sizeof(m_XivelyFeedName);
+    memcpy(&m_XivelyChannelNames, bPtr, sizeof(m_XivelyChannelNames));
+    bPtr += sizeof(m_XivelyChannelNames);
     return m_Size;
 }
 
@@ -1185,15 +1272,15 @@ void Aquaduino::printConfigWebpage(WebServer* server)
     char templateFileName[sizeof(size_progConfigTemplateFileName)];
     strcpy_P(templateFileName, progConfigTemplateFileName);
 
-    parser = aquaduino->getTemplateParser();
+    parser = getTemplateParser();
     templateFile = SD.open(templateFileName, FILE_READ);
 
-    aquaduino->getMAC(mac);
-    ip = aquaduino->getIP();
-    netmask = aquaduino->getNetmask();
-    gw = aquaduino->getGateway();
-    dns = aquaduino->getDNS();
-    ntp = aquaduino->getNTP();
+    getMAC(mac);
+    ip = getIP();
+    netmask = getNetmask();
+    gw = getGateway();
+    dns = getDNS();
+    ntp = getNTP();
 
     while ((matchIdx =
             parser->processTemplateUntilNextMatch(&templateFile,
@@ -1310,10 +1397,10 @@ void Aquaduino::printConfigWebpage(WebServer* server)
             server->print((*ntp)[3]);
             break;
         case T_NTPPERIOD:
-            server->print(aquaduino->getNtpSyncInterval());
+            server->print(m_NTPSyncInterval);
             break;
         case T_TIMEZONE:
-            server->print(aquaduino->getTimezone());
+            server->print(m_Timezone);
             break;
         case T_HOUR:
             server->print(hour());
@@ -1323,6 +1410,24 @@ void Aquaduino::printConfigWebpage(WebServer* server)
             break;
         case T_SECOND:
             server->print(second());
+            break;
+        case T_XIVELY:
+            if (isXivelyEnabled())
+            {
+                parser->selectListOption("Yes", "1", 1, server);
+                parser->selectListOption("No", "0", 0, server);
+            }
+            else
+            {
+                parser->selectListOption("Yes", "1", 0, server);
+                parser->selectListOption("No", "0", 1, server);
+            }
+            break;
+        case T_XIVELYAPIKEY:
+            server->print(getXivelyApiKey());
+            break;
+        case T_XIVELYFEED:
+            server->print(getXivelyFeed());
             break;
         case T_FREERAM:
             server->print(freeRam());
@@ -1345,7 +1450,7 @@ int8_t Aquaduino::configWebpageProcessPost(WebServer* server,
 {
     int8_t repeat;
     uint8_t mac[6];
-    char name[30], value[30];
+    char name[20], value[50];
     IPAddress ip, netmask, gw, dns, ntp;
     int8_t doNTP = 0, doDHCP = 0;
     uint16_t ntpperiod = 5;
@@ -1360,7 +1465,7 @@ int8_t Aquaduino::configWebpageProcessPost(WebServer* server,
      */
     if (type == WebServer::POST)
     {
-        while ((repeat = server->readPOSTparam(name, 30, value, 30)) > 0)
+        while ((repeat = server->readPOSTparam(name, 20, value, 50)) > 0)
         {
             if (strcmp_P(name,
                          (PGM_P) pgm_read_word(&(configInputStrings[I_MAC1])))
@@ -1494,7 +1599,18 @@ int8_t Aquaduino::configWebpageProcessPost(WebServer* server,
                               (PGM_P) pgm_read_word(&(configInputStrings[I_SECOND])))
                      == 0)
                 second = atoi(value);
-
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_XIVELY])))
+                     == 0)
+                m_Xively = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_XIVELYAPIKEY])))
+                     == 0)
+                setXivelyApiKey(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_XIVELYFEED])))
+                     == 0)
+                setXivelyFeed(value);
         }
 
         aquaduino->setMAC(mac);
@@ -1569,9 +1685,7 @@ int8_t Aquaduino::mainWebpageProcessPost(WebServer* server,
 {
     int8_t repeat = 0;
     char name[30], value[30];
-    int8_t actuatorIdx;
-    int8_t controllerIdx;
-    int8_t sensorIdx;
+    int8_t idx;
     Actuator* actuator;
     Controller* controller;
     Sensor* sensor;
@@ -1581,40 +1695,45 @@ int8_t Aquaduino::mainWebpageProcessPost(WebServer* server,
 
         if (name[0] == 'A' && name[1] >= '0' && name[1] <= '9')
         {
-            actuatorIdx = atoi(&name[1]);
-            getActuator(actuatorIdx)->setName(value);
+            idx = atoi(&name[1]);
+            getActuator(idx)->setName(value);
         }
         else if (name[0] == 'C' && name[1] >= '0' && name[1] <= '9')
         {
-            actuatorIdx = atoi(&name[1]);
-            controllerIdx = atoi(value);
-            getActuator(actuatorIdx)->setController(controllerIdx);
+            idx = atoi(&name[1]);
+            idx = atoi(value);
+            getActuator(idx)->setController(idx);
         }
         else if (name[0] == 'L' && name[1] >= '0' && name[1] <= '9')
         {
-            actuatorIdx = atoi(&name[1]);
+            idx = atoi(&name[1]);
             if (atoi(value) == 1)
-                getActuator(actuatorIdx)->lock();
+                getActuator(idx)->lock();
             else
-                getActuator(actuatorIdx)->unlock();
+                getActuator(idx)->unlock();
         }
         else if (name[0] == 'E' && name[1] >= '0' && name[1] <= '9')
         {
-            actuatorIdx = atoi(&name[1]);
+            idx = atoi(&name[1]);
             if (atoi(value) == 1)
-                getActuator(actuatorIdx)->forceOn();
+                getActuator(idx)->forceOn();
             else
-                getActuator(actuatorIdx)->forceOff();
+                getActuator(idx)->forceOff();
         }
         else if (name[0] == 'S' && name[1] >= '0' && name[1] <= '9')
         {
-            sensorIdx = atoi(&name[1]);
-            getSensor(sensorIdx)->setName(value);
+            idx = atoi(&name[1]);
+            getSensor(idx)->setName(value);
         }
         else if (name[0] == 'N' && name[1] >= '0' && name[1] <= '9')
         {
-            controllerIdx = atoi(&name[1]);
-            getController(controllerIdx)->setName(value);
+            idx = atoi(&name[1]);
+            getController(idx)->setName(value);
+        }
+        else if (name[0] == 'X' && name[1] >= '0' && name[1] <= '9')
+        {
+            idx = atoi(&name[1]);
+            strcpy(m_XivelyChannelNames[idx], value);
         }
     }
 
@@ -1629,6 +1748,8 @@ int8_t Aquaduino::mainWebpageProcessPost(WebServer* server,
     resetSensorIterator();
     while (getNextSensor(&sensor) != -1)
         writeConfig(sensor);
+
+    writeConfig(this);
 
     server->httpSeeOther("/");
 
@@ -1814,6 +1935,7 @@ int8_t Aquaduino::printMainSensorTable(WebServer* server)
     File templateSRow;
     char sRowFileName[size_pSRowFileName];
     char sensorID[5];
+    char xivelyID[5];
     int8_t i;
 
     strcpy_P(sRowFileName, pSRowFileName);
@@ -1850,7 +1972,14 @@ int8_t Aquaduino::printMainSensorTable(WebServer* server)
             case S_VALUE:
                 server->print(m_SensorReadings[i]);
                 break;
-
+            case S_IXIVELYCHANNEL:
+                xivelyID[0] = 'X';
+                itoa(i, &xivelyID[1], 10);
+                server->print(xivelyID);
+                break;
+            case S_XIVELYCHANNEL:
+                server->print(m_XivelyChannelNames[i]);
+                break;
             case S_LINK:
                 server->print(sensor->getURL());
                 break;
@@ -1967,11 +2096,20 @@ void Aquaduino::run()
     int8_t sensorIdx = -1;
     Controller* currentController;
     Sensor* currentSensor;
+    static int8_t curMin = minute();
 
     m_Sensors.resetIterator();
     while ((sensorIdx = m_Sensors.getNext(&currentSensor)) != -1)
     {
         m_SensorReadings[sensorIdx] = currentSensor->read();
+        m_XiveleyDatastreams[sensorIdx]->setFloat(m_SensorReadings[sensorIdx]);
+    }
+
+    if (isXivelyEnabled() && minute() != curMin)
+    {
+        curMin = minute();
+        Serial.print(F("Sending data to Xively... "));
+        Serial.println(m_XivelyClient.put(*m_XivelyFeed, m_XivelyAPIKey));
     }
 
     m_Controllers.resetIterator();

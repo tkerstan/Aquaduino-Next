@@ -34,6 +34,10 @@
 #include "Framework/Serializable.h"
 #include "Framework/WebInterface.h"
 
+#include <HttpClient.h>
+#include <Xively.h>
+#include <XivelyFeed.h>
+
 class WebServer;
 class Controller;
 class Actuator;
@@ -92,6 +96,17 @@ public:
 
     void setTime(int8_t hour, int8_t minute, int8_t second, int8_t day,
                  int8_t month, int16_t year);
+
+
+    void enableXively();
+    void disableXively();
+    int8_t isXivelyEnabled();
+
+    void setXivelyApiKey(const char* key);
+    const char* getXivelyApiKey();
+
+    void setXivelyFeed(const char* feed);
+    const char* getXivelyFeed();
 
     int8_t addController(Controller* newController);
     Controller* getController(unsigned int controller);
@@ -164,14 +179,22 @@ private:
     uint16_t m_NTPSyncInterval;
     int8_t m_DHCP;
     int8_t m_NTP;
+    int8_t m_Xively;
+    char m_XivelyAPIKey[50];
+    char m_XivelyFeedName[20];
+    char m_XivelyChannelNames[MAX_SENSORS][10];
 
     ArrayMap<Controller*> m_Controllers;
     ArrayMap<Actuator*> m_Actuators;
     ArrayMap<Sensor*> m_Sensors;
     WebServer* m_WebServer;
     TemplateParser* m_TemplateParser;
-
     ConfigManager* m_ConfigManager;
+
+    XivelyDatastream* m_XiveleyDatastreams[MAX_SENSORS];
+    XivelyFeed* m_XivelyFeed;
+    EthernetClient ethClient;
+    XivelyClient m_XivelyClient;
 
     static const uint16_t m_Size;
 
