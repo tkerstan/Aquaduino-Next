@@ -241,7 +241,8 @@ int8_t DS18S20::showWebinterface(WebServer* server,
     uint8_t address[4][8];
     char addressNames[4][17];
     char* names[4];
-    int8_t i = 0;
+    int8_t i = 0 ,j = 0;
+    int8_t selected = 0;
 
     if (type == WebServer::POST)
     {
@@ -255,7 +256,11 @@ int8_t DS18S20::showWebinterface(WebServer* server,
             if (strcmp_P(name,
                          (PGM_P) pgm_read_word(&(inputStrings[I_ADDRESS])))
                 == 0)
+            {
                 sth(value, m_Address, 8);
+                for (i=0; i < 8; i++)
+                    Serial.print(m_Address[i], HEX);
+            }
         } while (repeat);
         server->httpSeeOther(this->m_URL);
     }
@@ -269,6 +274,8 @@ int8_t DS18S20::showWebinterface(WebServer* server,
                 break;
             hts(address[i], 8, addressNames[i], 17);
             names[i] = addressNames[i];
+            if (memcmp(address[i], m_Address,8) == 0)
+                selected = i;
         }
 
         parser = aquaduino->getTemplateParser();
@@ -293,7 +300,7 @@ int8_t DS18S20::showWebinterface(WebServer* server,
                 server->print(m_Pin);
                 break;
             case S_ADDRESSELECT:
-                parser->selectList("address", names, names, 0, i, server);
+                parser->selectList("address", names, names, selected, i, server);
                 break;
             }
         }
