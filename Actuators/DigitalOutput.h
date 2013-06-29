@@ -34,6 +34,7 @@ private:
     int8_t m_Pin;
     uint8_t m_OnValue;
     uint8_t m_OffValue;
+    uint8_t m_On;
     float m_DutyCycle;
 public:
     DigitalOutput(const char* name, uint8_t onValue, uint8_t offValue);

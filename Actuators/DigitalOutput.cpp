@@ -26,26 +26,29 @@
 const static char progTemplateFileName[] PROGMEM = "do.htm";
 const static char progTemplateString1[] PROGMEM = "##INAME##";
 const static char progTemplateString2[] PROGMEM = "##PIN##";
-const static char progTemplateString3[] PROGMEM = "##ACTUATORNAME##";
-const static char progTemplateString4[] PROGMEM = "##TYPEOPTIONS##";
+const static char progTemplateString3[] PROGMEM = "##IPWM##";
+const static char progTemplateString4[] PROGMEM = "##PWM##";
+const static char progTemplateString5[] PROGMEM = "##ACTUATORNAME##";
+const static char progTemplateString6[] PROGMEM = "##TYPEOPTIONS##";
 
 enum
 {
-    DO_IPIN, DO_PIN, DO_NAME, DO_ONVALUE
+    DO_IPIN, DO_PIN, DO_IPWM, DO_PWM, DO_NAME, DO_ONVALUE
 };
 
 const static char* const templateStrings[] PROGMEM =
     { progTemplateString1, progTemplateString2, progTemplateString3,
-      progTemplateString4 };
+      progTemplateString4, progTemplateString5, progTemplateString6 };
 
 static const char progInputType[] PROGMEM = "type";
 const static char progInputPin[] PROGMEM = "ipin";
+const static char progInputPWM[] PROGMEM = "ipwm";
 static const char* const inputStrings[] PROGMEM =
-    { progInputType, progInputPin };
+    { progInputType, progInputPin, progInputPWM };
 
 enum
 {
-    I_TYPE, I_PIN
+    I_TYPE, I_PIN, I_PWM
 };
 
 /**
@@ -67,8 +70,8 @@ DigitalOutput::DigitalOutput(const char* name, uint8_t onValue,
     this->m_OnValue = onValue;
     this->m_OffValue = offValue;
     this->m_locked = false;
-    this->m_DutyCycle = 0;
-    this->on();
+    this->m_DutyCycle = 0.0;
+    this->m_On = 0;
 }
 
 uint16_t DigitalOutput::serialize(void* buffer, uint16_t size)
@@ -79,10 +82,15 @@ uint16_t DigitalOutput::serialize(void* buffer, uint16_t size)
     if (mySize <= size)
     {
         memcpy(bPtr, &m_OnValue, sizeof(m_OnValue));
-        memcpy(bPtr + sizeof(m_OnValue), &m_OffValue, sizeof(m_OffValue));
-        memcpy(bPtr + sizeof(m_OnValue) + sizeof(m_OffValue),
-               &m_Pin,
-               sizeof(m_Pin));
+        bPtr += sizeof(m_OnValue);
+        memcpy(bPtr, &m_OffValue, sizeof(m_OffValue));
+        bPtr += sizeof(m_OffValue);
+        memcpy(bPtr, &m_Pin, sizeof(m_Pin));
+        bPtr += sizeof(m_Pin);
+        memcpy(bPtr, &m_On, sizeof(m_On));
+        bPtr += sizeof(m_On);
+        memcpy(bPtr, &m_DutyCycle, sizeof(m_DutyCycle));
+
     }
     else
         return 0;
@@ -99,11 +107,22 @@ uint16_t DigitalOutput::deserialize(void* data, uint16_t size)
         return 0;
 
     memcpy(&m_OnValue, bPtr, sizeof(m_OnValue));
-    memcpy(&m_OffValue, bPtr + sizeof(m_OnValue), sizeof(m_OffValue));
-    memcpy(&m_Pin,
-           bPtr + sizeof(m_OnValue) + sizeof(m_OffValue),
-           sizeof(m_Pin));
+    bPtr += sizeof(m_OnValue);
+    memcpy(&m_OffValue, bPtr, sizeof(m_OffValue));
+    bPtr += sizeof(m_OffValue);
+    memcpy(&m_Pin, bPtr, sizeof(m_Pin));
+    bPtr += sizeof(m_Pin);
+    memcpy(&m_On, bPtr, sizeof(m_On));
+    bPtr += sizeof(m_On);
+    memcpy(&m_DutyCycle, bPtr, sizeof(m_DutyCycle));
     pinMode(m_Pin, OUTPUT);
+
+    if(supportsPWM())
+        setPWM(m_DutyCycle);
+    else if(m_On)
+        forceOn();
+    else
+        forceOff();
 
     return mySize;
 }
@@ -117,9 +136,12 @@ void DigitalOutput::on()
 {
     if (!m_locked)
     {
-        digitalWrite(m_Pin, m_OnValue);
         if (supportsPWM())
-            m_DutyCycle = 1.0;
+            analogWrite(m_Pin, (uint8_t) (m_OnValue * 255));
+        else
+            digitalWrite(m_Pin, m_OnValue);
+        m_DutyCycle = 1.0;
+        m_On = 1;
     }
 }
 
@@ -132,9 +154,12 @@ void DigitalOutput::off()
 {
     if (!m_locked)
     {
-        digitalWrite(m_Pin, m_OffValue);
         if (supportsPWM())
-            m_DutyCycle = 0.0;
+            analogWrite(m_Pin, (uint8_t) (m_OffValue * 255));
+        else
+            digitalWrite(m_Pin, m_OffValue);
+        m_On = 0;
+        m_DutyCycle = 0.0;
     }
 
 }
@@ -146,9 +171,12 @@ void DigitalOutput::off()
  */
 void DigitalOutput::forceOn()
 {
-    digitalWrite(m_Pin, m_OnValue);
     if (supportsPWM())
-        m_DutyCycle = 1.0;
+        analogWrite(m_Pin, (uint8_t) (m_OnValue * 255));
+    else
+        digitalWrite(m_Pin, m_OnValue);
+    m_DutyCycle = 1.0;
+    m_On = 1;
 }
 
 /**
@@ -158,9 +186,12 @@ void DigitalOutput::forceOn()
  */
 void DigitalOutput::forceOff()
 {
-    digitalWrite(m_Pin, m_OffValue);
     if (supportsPWM())
-        m_DutyCycle = 0.0;
+        analogWrite(m_Pin, (uint8_t) (m_OffValue * 255));
+    else
+        digitalWrite(m_Pin, m_OffValue);
+    m_DutyCycle = 0.0;
+    m_On = 0;
 }
 
 /**
@@ -170,7 +201,7 @@ void DigitalOutput::forceOff()
  */
 int8_t DigitalOutput::isOn()
 {
-    return digitalRead(m_Pin) == m_OnValue;
+    return m_On;
 }
 
 /**
@@ -194,8 +225,15 @@ void DigitalOutput::setPWM(float dutyCycle)
 {
     if (supportsPWM() && dutyCycle <= 1.0)
     {
-        this->m_DutyCycle = (uint8_t) (dutyCycle * 255);
-        analogWrite(m_Pin, dutyCycle);
+        m_DutyCycle = dutyCycle;
+        if (m_OnValue == 0)
+            analogWrite(m_Pin, (uint8_t) ((1.0 - dutyCycle) * 255));
+        else
+            analogWrite(m_Pin, (uint8_t) (dutyCycle * 255));
+        if( m_DutyCycle > 0)
+            m_On = 1;
+        else
+            m_On = 0;
     }
 }
 
@@ -218,6 +256,7 @@ int8_t DigitalOutput::showWebinterface(WebServer* server,
     int16_t matchIdx;
     char templateFileName[sizeof(progTemplateFileName)];
     strcpy_P(templateFileName, progTemplateFileName);
+    float dC = -1.0;
 
     if (type == WebServer::POST)
     {
@@ -236,9 +275,23 @@ int8_t DigitalOutput::showWebinterface(WebServer* server,
                      == 0)
             {
                 m_Pin = atoi(value);
-                pinMode(m_Pin,OUTPUT);
+                pinMode(m_Pin, OUTPUT);
             }
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(inputStrings[I_PWM])))
+                     == 0)
+            {
+                dC = atof(value);
+                if (dC < 0.0)
+                    dC = 0;
+                else if (dC > 100.0)
+                    dC = 100.0;
+                dC /= 100;
+            }
+
         } while (repeat);
+        if (dC >= 0)
+            setPWM(dC);
         server->httpSeeOther(this->m_URL);
     }
     else
@@ -261,15 +314,24 @@ int8_t DigitalOutput::showWebinterface(WebServer* server,
             case DO_PIN:
                 server->print(m_Pin);
                 break;
-            case DO_NAME:
-                server->print(getName());
+            case DO_IPWM:
+                server->print((const __FlashStringHelper *) (progInputPWM));
                 break;
-            case DO_ONVALUE:
-                parser->selectListOption("LOW", "0", m_OnValue == 0, server);
-                parser->selectListOption("HIGH", "1", m_OnValue == 1, server);
-                break;
+            case DO_PWM:
+                if (supportsPWM())
+                    server->print(getPWM() * 100);
+                else
+                    server->print(F("No PWM"));
+                    break;
+                    case DO_NAME:
+                    server->print(getName());
+                    break;
+                    case DO_ONVALUE:
+                    parser->selectListOption("LOW", "0", m_OnValue == 0, server);
+                    parser->selectListOption("HIGH", "1", m_OnValue == 1, server);
+                    break;
+                }
             }
-        }
 
         templateFile.close();
     }
