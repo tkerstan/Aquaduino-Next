@@ -1701,8 +1701,7 @@ int8_t Aquaduino::mainWebpageProcessPost(WebServer* server,
         else if (name[0] == 'C' && name[1] >= '0' && name[1] <= '9')
         {
             idx = atoi(&name[1]);
-            idx = atoi(value);
-            getActuator(idx)->setController(idx);
+            getActuator(idx)->setController(atoi(value));
         }
         else if (name[0] == 'L' && name[1] >= '0' && name[1] <= '9')
         {
