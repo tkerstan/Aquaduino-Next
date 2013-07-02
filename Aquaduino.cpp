@@ -266,11 +266,9 @@ Aquaduino::Aquaduino() :
         {
         case SENSOR_DIGITALINPUT:
             addSensor(new DigitalInput());
-            m_Sensors[i]->setName("Level");
             break;
         case SENSOR_DS18S20:
             addSensor(new DS18S20());
-            m_Sensors[i]->setName("DS18S20");
             break;
         }
     }
@@ -942,7 +940,6 @@ uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
     memcpy(bPtr, &m_XivelyFeedName, sizeof(m_XivelyFeedName));
     bPtr += sizeof(m_XivelyFeedName);
     memcpy(bPtr, &m_XivelyChannelNames, sizeof(m_XivelyChannelNames));
-    Serial.write((const uint8_t*) m_XivelyChannelNames, sizeof(m_XivelyChannelNames));
     bPtr += sizeof(m_XivelyChannelNames);
 
     return m_Size;
@@ -1729,6 +1726,7 @@ int8_t Aquaduino::mainWebpageProcessPost(WebServer* server,
         else if (name[0] == 'S' && name[1] >= '0' && name[1] <= '9')
         {
             idx = atoi(&name[1]);
+            Serial.println(idx);
             getSensor(idx)->setName(value);
         }
         else if (name[0] == 'N' && name[1] >= '0' && name[1] <= '9')
