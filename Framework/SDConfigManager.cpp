@@ -316,7 +316,7 @@ uint16_t SDConfigManager::writeStructToFile(const char* fileName,
     strcat(path, "/");
     strcat(path, fileName);
 
-    Serial.print("Writing configuration to ");
+    Serial.print(F("Writing configuration to "));
     Serial.print(path);
 
     configFile = SD.open(path, FILE_WRITE);
@@ -326,9 +326,9 @@ uint16_t SDConfigManager::writeStructToFile(const char* fileName,
     configFile.close();
 
     if (writtenBytes == sizeof(struct configuration))
-        Serial.println(" : successful");
+        Serial.println(F(" : successful"));
     else
-        Serial.println(" : failed");
+        Serial.println(F(" : failed"));
 
     return writtenBytes;
 }
@@ -348,7 +348,7 @@ uint16_t SDConfigManager::readStructFromFile(const char* fileName,
 
     if (SD.exists(path))
     {
-        Serial.print("Reading configuration from ");
+        Serial.print(F("Reading configuration from "));
         Serial.print(path);
 
         configFile = SD.open(path, FILE_READ);
@@ -356,14 +356,16 @@ uint16_t SDConfigManager::readStructFromFile(const char* fileName,
         configFile.close();
 
         if (readBytes == sizeof(struct configuration))
+        {
             Serial.println(" : successful");
+        }
         else
             Serial.println(" : failed");
     }
     else
     {
         Serial.print(path);
-        Serial.println(" does not exist");
+        Serial.println(F(" does not exist"));
     }
 
     return readBytes;
