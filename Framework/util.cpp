@@ -55,5 +55,4 @@ void sth(const char* hexString, uint8_t* bytes, uint8_t byte_size)
         bytes[j] = low >= 'A' ? low + 10 - 'A' : low - '0';
         bytes[j] |= (high >= 'A' ? high + 10 - 'A' : high - '0') << 4;
     }
-    Serial.println();
 }
