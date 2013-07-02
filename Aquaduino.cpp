@@ -257,6 +257,8 @@ Aquaduino::Aquaduino() :
         }
     }
 
+    m_OneWireHandler = new OneWireHandler();
+
     Serial.println(F("Initializing sensors..."));
     for (int i = 0; i < MAX_SENSORS; i++)
     {
@@ -875,6 +877,11 @@ double Aquaduino::getSensorValue(int8_t idx)
     if (idx >= 0 && idx < MAX_SENSORS)
         return m_SensorReadings[idx];
     return 0;
+}
+
+OneWireHandler* Aquaduino::getOneWireHandler()
+{
+    return m_OneWireHandler;
 }
 
 /*

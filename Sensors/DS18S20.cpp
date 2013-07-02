@@ -25,12 +25,7 @@
 #include <SD.h>
 #include <TemplateParser.h>
 #include <Framework/util.h>
-
-#define TEMP_HISTORY	10
-
-static float temp_hist[TEMP_HISTORY];
-
-static byte runs = 0;
+#include <Framework/OneWireHandler.h>
 
 /**
  * \brief Constructor
@@ -45,7 +40,9 @@ DS18S20::DS18S20()
         temp_hist[i] = 0.0;
     }
     m_Pin = 0;
-    m_OneWire = NULL;
+    m_Idx = 0;
+    m_ReadPending = 0;
+    m_LastReadIssue = 0;
 }
 
 /**
@@ -62,20 +59,19 @@ DS18S20::DS18S20()
 double DS18S20::read()
 {
     uint8_t data[12];
-    static unsigned long lastIssue = 0;
-    static uint8_t readPending = 0;
     int8_t i = 0;
+    OneWireHandler* handler = aquaduino->getOneWireHandler();
 
-    if (!readPending)
+    if (!m_ReadPending)
     {
-        issueReadCommand(m_Address);
-        lastIssue = millis();
-        readPending = 1;
+        handler->issueReadCommand(m_Idx, m_Address);
+        m_LastReadIssue = millis();
+        m_ReadPending = 1;
     }
-    else if (millis() - lastIssue > 750)
+    else if (millis() - m_LastReadIssue > 750)
     {
-        read(m_Address, data, 12);
-        temp_hist[runs++] = ((double) convertToRaw(data,
+        handler->read(m_Idx, m_Address, data, 12);
+        temp_hist[m_Runs++] = ((double) convertToRaw(data,
                                                    12,
                                                    m_Address[0] == 0x10))
                             / 16;
@@ -85,76 +81,12 @@ double DS18S20::read()
         for (i = 0; i < TEMP_HISTORY; i++)
             m_Celsius += temp_hist[i];
         m_Celsius /= TEMP_HISTORY;
-        if (runs == TEMP_HISTORY)
-            runs = 0;
-        readPending = 0;
+        if (m_Runs == TEMP_HISTORY)
+            m_Runs = 0;
+        m_ReadPending = 0;
     }
 
     return m_Celsius;
-}
-
-/**
- * \brief Scans for OneWire devices
- * \param[out] address Buffer where this method stores the address of the
- * device found
- * \param[in] size Size of the buffer. Needs to be at least 8 bytes.
- *
- * \returns 1 when device found. 0 otherwise
- */
-int8_t DS18S20::findDevice(uint8_t *address, uint8_t size)
-{
-    if (size < 8)
-        return 0;
-    if (!m_OneWire->search(address))
-    {
-        m_OneWire->reset_search();
-        return 0;
-    }
-
-    if (OneWire::crc8(address, 7) != address[7])
-    {
-        return 0;
-    }
-    return 1;
-}
-
-/**
- * \brief Issue OneWire read command to given address
- * \param[in] addr The address of the OneWire device to read from
- */
-void DS18S20::issueReadCommand(uint8_t* addr)
-{
-    if (m_OneWire == NULL)
-        return;
-
-    m_OneWire->reset();
-    m_OneWire->select(addr);
-    m_OneWire->write(0x44, 1); // start conversion, with parasite power on at the end
-}
-
-/**
- * \brief Reads the scratchpad of the OneWire device.
- * \param[in] addr Address of the OneWire device
- * \param[out] data Buffer for the data
- * \param[in] size Size of the buffer. Needs to be at least 12 Bytes.
- */
-int8_t DS18S20::read(uint8_t* addr, uint8_t* data, uint8_t size)
-{
-    int8_t i = 0;
-
-    if (size < 12)
-        return 0;
-
-    m_OneWire->reset();
-    m_OneWire->select(addr);
-    m_OneWire->write(0xBE);         // Read Scratchpad
-
-    for (i = 0; i < 9; i++)
-    {           // we need 9 bytes
-        data[i] = m_OneWire->read();
-    }
-
-    return 1;
 }
 
 /**
@@ -198,11 +130,13 @@ uint16_t DS18S20::serialize(void* buffer, uint16_t size)
 
 uint16_t DS18S20::deserialize(void* data, uint16_t size)
 {
+    OneWireHandler* handler = aquaduino->getOneWireHandler();
+
     memcpy(&m_Pin, data, sizeof(m_Pin));
     memcpy(&m_Address, ((char*) data) + sizeof(m_Pin), sizeof(m_Address));
-    if (m_OneWire == NULL)
-        m_OneWire = new OneWire(m_Pin);
-    return sizeof(m_Pin);
+    if (handler != NULL)
+        m_Idx = handler->addPin(m_Pin);
+    return sizeof(m_Pin) + sizeof(m_Address);
 }
 
 const static char progTemplateFileName[] PROGMEM = "DS18S20.htm";
@@ -243,6 +177,7 @@ int8_t DS18S20::showWebinterface(WebServer* server,
     char* names[4];
     int8_t i = 0 ,j = 0;
     int8_t selected = 0;
+    OneWireHandler* handler = aquaduino->getOneWireHandler();
 
     if (type == WebServer::POST)
     {
@@ -258,8 +193,6 @@ int8_t DS18S20::showWebinterface(WebServer* server,
                 == 0)
             {
                 sth(value, m_Address, 8);
-                for (i=0; i < 8; i++)
-                    Serial.print(m_Address[i], HEX);
             }
         } while (repeat);
         server->httpSeeOther(this->m_URL);
@@ -270,7 +203,7 @@ int8_t DS18S20::showWebinterface(WebServer* server,
 
         for (i = 0; i < 4; i++)
         {
-            if (!findDevice(address[i], 8))
+            if (!handler->findDevice(m_Idx, address[i], 8))
                 break;
             hts(address[i], 8, addressNames[i], 17);
             names[i] = addressNames[i];

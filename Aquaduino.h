@@ -20,9 +20,12 @@
 
 #ifndef Aquaduino_H_
 #define Aquaduino_H_
+
 #include <Arduino.h>
 #include <Ethernet.h>
 #include <TemplateParser.h>
+#include <HttpClient.h>
+#include <Xively.h>
 
 #include "Framework/Config.h"
 #include "Framework/Controller.h"
@@ -33,10 +36,7 @@
 #include "Framework/Object.h"
 #include "Framework/Serializable.h"
 #include "Framework/WebInterface.h"
-
-#include <HttpClient.h>
-#include <Xively.h>
-#include <XivelyFeed.h>
+#include "Framework/OneWireHandler.h"
 
 class WebServer;
 class Controller;
@@ -135,6 +135,8 @@ public:
 
     double getSensorValue(int8_t idx);
 
+    OneWireHandler* getOneWireHandler();
+
     uint16_t serialize(void* buffer, uint16_t size);
     uint16_t deserialize(void* data, uint16_t size);
 
@@ -190,6 +192,7 @@ private:
     WebServer* m_WebServer;
     TemplateParser* m_TemplateParser;
     ConfigManager* m_ConfigManager;
+    OneWireHandler* m_OneWireHandler;
 
     XivelyDatastream* m_XiveleyDatastreams[MAX_SENSORS];
     XivelyFeed* m_XivelyFeed;

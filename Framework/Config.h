@@ -37,7 +37,7 @@
 /**
  * \brief Defines the maximum number of sensors the system can manage
  */
-#define MAX_SENSORS                 2
+#define MAX_SENSORS                 3
 
 /**
  * \brief Defines the actuators being used
@@ -62,7 +62,8 @@
  * \brief Defines the sensors being used
  */
 #define SENSOR_CONFIG               { SENSOR_DIGITALINPUT, \
-                                      SENSOR_DS18S20 }
+                                      SENSOR_DS18S20,      \
+                                      SENSOR_DS18S20}
 
 /**
  * \brief Defines the maximum number of Clocktimers the system can manage
@@ -94,5 +95,16 @@
  * \brief Defines the delimiter in URLs to mark the beginning of a subURL
  */
 #define URL_DELIMITER               "."
+
+/**
+ * \brief Defines the maximum number of OneWire devices
+ */
+#define MAX_ONEWIRE_DEVICES         8
+
+/**
+ * \brief Defines the number of temperature values kept in a history to
+ * smoothen temperature sensor readings.
+ */
+#define TEMP_HISTORY                10
 
 #endif /*CONFIG_H_*/

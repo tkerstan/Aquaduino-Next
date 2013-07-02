@@ -23,6 +23,7 @@
 #include <Framework/Sensor.h>
 #include <Arduino.h>
 #include <OneWire.h>
+#include <Framework/Config.h>
 
 /**
  * \brief Basic implementation for DS18S20 Temperature Sensors
@@ -44,15 +45,16 @@ public:
                             char* url);
 
 private:
-    int8_t findDevice(uint8_t *address, uint8_t size);
-    void issueReadCommand(uint8_t* addr);
-    int8_t read(uint8_t* addr, uint8_t* data, uint8_t size);
     uint16_t convertToRaw(uint8_t* data, uint8_t size, int8_t type);
     uint8_t m_Pin;
+    uint8_t m_Idx;
     double m_Celsius;
     double m_Fahrenheit;
-    OneWire *m_OneWire;
+    float temp_hist[TEMP_HISTORY];
     uint8_t m_Address[8];
+    unsigned long m_LastReadIssue;
+    uint8_t m_ReadPending;
+    uint8_t m_Runs;
 };
 
 #endif /* DS18S20_H_ */
