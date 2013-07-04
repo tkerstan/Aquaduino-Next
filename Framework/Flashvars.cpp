@@ -6,6 +6,11 @@
 extern const char pgm_hour[] PROGMEM = "##HOUR##";
 extern const char pgm_minute[] PROGMEM = "##MINUTE##";
 extern const char pgm_second[] PROGMEM = "##SECOND##";
+extern const char pgm_dow[] PROGMEM = "##DOW##";
+extern const char pgm_month[] PROGMEM = "##MONTH##";
+extern const char pgm_day[] PROGMEM = "##DAY##";
+extern const char pgm_year[] PROGMEM = "##YEAR##";
+
 extern const char pgm_iname[] PROGMEM = "##INAME##";
 extern const char pgm_link[] PROGMEM = "##LINK##";
 extern const char pgm_name[] PROGMEM = "##NAME##";
@@ -34,7 +39,8 @@ extern const char pActuator[] PROGMEM = "##ACTUATORROW##";
 extern const char pSensor[] PROGMEM = "##SENSORROW##";
 
 extern const char* const mainTemplate[] PROGMEM =
-    { pgm_hour, pgm_minute, pgm_second, pController, pSensor, pActuator };
+    { pgm_hour, pgm_minute, pgm_second, pgm_dow, pgm_month, pgm_day, pgm_year,
+      pController, pSensor, pActuator };
 extern const uint8_t nr_mainTemplate = sizeof(mainTemplate) / sizeof(char*);
 
 extern const char* const controllerTemplate[] PROGMEM =
@@ -117,9 +123,9 @@ extern const char* const configTemplateStrings[] PROGMEM =
       progConfigTemplateDNS4, progConfigTemplateNTPSelectOption,
       progConfigTemplateNTP1, progConfigTemplateNTP2, progConfigTemplateNTP3,
       progConfigTemplateNTP4, progConfigTemplateNTPPeriod,
-      progConfigTemplateTimezone, pgm_hour, pgm_minute, pgm_second,
-      progConfigXivelySelect, progConfigXivelyAPIKey, progConfigXivelyFeed,
-      progConfigTemplateFreeRAM };
+      progConfigTemplateTimezone, pgm_hour, pgm_minute, pgm_second, pgm_month,
+      pgm_day, pgm_year, progConfigXivelySelect, progConfigXivelyAPIKey,
+      progConfigXivelyFeed, progConfigTemplateFreeRAM };
 extern const uint16_t nr_configTemplateStrings = sizeof(configTemplateStrings)
         / sizeof(char*);
 
@@ -156,6 +162,9 @@ extern const char progConfigInputTimezone[] PROGMEM = "timezone";
 extern const char progConfigInputHour[] PROGMEM = "hour";
 extern const char progConfigInputMinute[] PROGMEM = "minute";
 extern const char progConfigInputSecond[] PROGMEM = "second";
+extern const char progConfigInputMonth[] PROGMEM = "month";
+extern const char progConfigInputDay[] PROGMEM = "day";
+extern const char progConfigInputYear[] PROGMEM = "year";
 extern const char progConfigInputXively[] PROGMEM = "xively";
 extern const char progConfigInputXivelyAPIKey[] PROGMEM = "xivelykey";
 extern const char progConfigInputXivelyFeed[] PROGMEM = "xivelyfeed";
@@ -172,6 +181,7 @@ extern const char* const configInputStrings[] PROGMEM =
       progConfigInputNTP1, progConfigInputNTP2, progConfigInputNTP3,
       progConfigInputNTP4, progConfigInputNTPPeriod, progConfigInputTimezone,
       progConfigInputHour, progConfigInputMinute, progConfigInputSecond,
+      progConfigInputMonth, progConfigInputDay, progConfigInputYear,
       progConfigInputXively, progConfigInputXivelyAPIKey,
       progConfigInputXivelyFeed };
 extern const uint16_t nr_configInputStrings = sizeof(configInputStrings)

@@ -69,8 +69,8 @@ private:
     int8_t isMapped(int8_t actuatorNr);
     ClockTimer m_Timers[MAX_CLOCKTIMERS];
     int8_t m_ActuatorMapping[MAX_CLOCKTIMERS];
-    int8_t selectedTimer;
-    int8_t selectedActuator;
+    int8_t m_SelectedTimer;
+    int8_t m_SelectedActuator;
 };
 
 #endif /* CLOCKTIMERCONTROLLER_H_ */

@@ -10,7 +10,7 @@
 <h2>Aquaduino Clock Timer</h2>
 
 <table width="400px" border="0" cellpadding="0" cellspacing="2">
- <tr>
+ <tr bgcolor='#99CCFF'>
   <td colspan=2>
   		<form id="form2" name="form2" method="post" action="##URL##">
         ClockTimer: ##CLOCKTIMERSELECT## <input type="submit" value="Select">
@@ -18,12 +18,23 @@
   </td>
  </tr>
  <form id="form1" name="form1" method="post" action="">
- <tr>
+ <tr tr bgcolor='#FFFFFF'>
   <td colspan=2>
         Actuator: ##ACTUATORSELECT##
   </td>
  </tr> 
  ##CLOCKTIMERROW##
+ <tr bgcolor='#99CCFF'>
+   <td colspan=2>
+    Mo: <input type="checkbox" name="dow" value="0" ##CHECKEDMO##> 
+    Tu: <input type="checkbox" name="dow" value="1" ##CHECKEDTU##>
+    We: <input type="checkbox" name="dow" value="2" ##CHECKEDWE##>
+    Th: <input type="checkbox" name="dow" value="3" ##CHECKEDTH##>
+    Fr: <input type="checkbox" name="dow" value="4" ##CHECKEDFR##>
+    Sa: <input type="checkbox" name="dow" value="5" ##CHECKEDSA##>
+    Su: <input type="checkbox" name="dow" value="6" ##CHECKEDSU##>
+   </td>
+ </tr>
 </table>
 <br>
 <input type="submit" value="Apply">

@@ -31,6 +31,14 @@ static const char progMainURL[] PROGMEM = "##URL##";
 static const char progMainSelect[] PROGMEM = "##CLOCKTIMERSELECT##";
 static const char progActuatorSelect[] PROGMEM = "##ACTUATORSELECT##";
 static const char progMainRow[] PROGMEM = "##CLOCKTIMERROW##";
+static const char progMainCheckedMo[] PROGMEM = "##CHECKEDMO##";
+static const char progMainCheckedTu[] PROGMEM = "##CHECKEDTU##";
+static const char progMainCheckedWe[] PROGMEM = "##CHECKEDWE##";
+static const char progMainCheckedTh[] PROGMEM = "##CHECKEDTH##";
+static const char progMainCheckedFr[] PROGMEM = "##CHECKEDFR##";
+static const char progMainCheckedSa[] PROGMEM = "##CHECKEDSA##";
+static const char progMainCheckedSu[] PROGMEM = "##CHECKEDSU##";
+static const char progRowColor[] PROGMEM = "##COLOR##";
 static const char progRowIHON[] PROGMEM = "##I_HON##";
 static const char progRowIMON[] PROGMEM = "##I_MON##";
 static const char progRowIHOFF[] PROGMEM = "##I_HOFF##";
@@ -43,14 +51,26 @@ static const char progRowMOFF[] PROGMEM = "##MOFF##";
 static const char progStringTimer[] PROGMEM = "timer";
 static const char progStringSelect[] PROGMEM = "select";
 static const char progStringActuator[] PROGMEM = "actuator";
+static const char progStringDOW[] PROGMEM = "dow";
 
 enum
 {
-    MAIN_URL, MAIN_SELECT, MAIN_ACTUATORSELECT, MAIN_ROW
+    MAIN_URL,
+    MAIN_SELECT,
+    MAIN_ACTUATORSELECT,
+    MAIN_ROW,
+    MAIN_CHECKED_MO,
+    MAIN_CHECKED_TU,
+    MAIN_CHECKED_WE,
+    MAIN_CHECKED_TH,
+    MAIN_CHECKED_FR,
+    MAIN_CHECKED_SA,
+    MAIN_CHECKED_SU
 };
 
 enum
 {
+    CTR_COLOR,
     CTR_IHON,
     CTR_IMON,
     CTR_IHOFF,
@@ -61,12 +81,15 @@ enum
     CTR_MOFF,
 };
 
-static const char* const mainStrings[] PROGMEM =
-    { progMainURL, progMainSelect, progActuatorSelect, progMainRow };
+static const char* const mainStrings[] PROGMEM
+=
+    { progMainURL, progMainSelect, progActuatorSelect, progMainRow,
+      progMainCheckedMo, progMainCheckedTu, progMainCheckedWe,
+      progMainCheckedTh, progMainCheckedFr, progMainCheckedSa, progMainCheckedSu };
 
 static const char* const rowStrings[] PROGMEM =
-    { progRowIHON, progRowIMON, progRowIHOFF, progRowIMOFF, progRowHON,
-      progRowMON, progRowHOFF, progRowMOFF };
+    { progRowColor, progRowIHON, progRowIMON, progRowIHOFF, progRowIMOFF,
+      progRowHON, progRowMON, progRowHOFF, progRowMOFF };
 
 /**
  * \brief Constructor
@@ -75,7 +98,7 @@ static const char* const rowStrings[] PROGMEM =
  * Initializes the mapping of actuators to clocktimers.
  */
 ClockTimerController::ClockTimerController(const char* name) :
-        Controller(name), selectedTimer(0), selectedActuator(0)
+        Controller(name), m_SelectedTimer(0), m_SelectedActuator(0)
 {
     int8_t i = 0;
     m_Type = CONTROLLER_CLOCKTIMER;
@@ -224,15 +247,15 @@ int8_t ClockTimerController::prepareActuatorSelect(
     actuatorNames[0] = "None";
     actuatorValuePointers[0] = "-1";
 
-    selectedActuator = 0;
+    m_SelectedActuator = 0;
 
     for (i = 1, j = 0; i <= actuators; i++)
     {
-        if (m_ActuatorMapping[selectedTimer] == myActuators[i - 1])
+        if (m_ActuatorMapping[m_SelectedTimer] == myActuators[i - 1])
         {
-            selectedActuator = j + 1;
+            m_SelectedActuator = j + 1;
         }
-        if (selectedActuator == j + 1 || !isMapped(myActuators[i - 1]))
+        if (m_SelectedActuator == j + 1 || !isMapped(myActuators[i - 1]))
         {
             actuatorNames[++j] =
                     aquaduino->getActuator(myActuators[i - 1])->getName();
@@ -298,13 +321,13 @@ int8_t ClockTimerController::printMain(WebServer* server,
         case MAIN_URL:
             server->print(getURL());
             server->print(".");
-            server->print((__FlashStringHelper*) &progStringSelect[0]);
+            server->print((__FlashStringHelper *) &progStringSelect[0]);
             break;
         case MAIN_SELECT:
             parser->selectList("timer",
                                timerNameValPointers,
                                timerNameValPointers,
-                               selectedTimer,
+                               m_SelectedTimer,
                                sizeof(timerNameValPointers) / sizeof(char*),
                                server);
             break;
@@ -313,13 +336,49 @@ int8_t ClockTimerController::printMain(WebServer* server,
             parser->selectList("actuator",
                                actuatorNames,
                                actuatorValuePointers,
-                               selectedActuator,
+                               m_SelectedActuator,
                                actuators + 1,
                                server);
             break;
         case MAIN_ROW:
             printRow(server, type, url);
             break;
+
+        case MAIN_CHECKED_MO:
+            if (m_Timers[m_SelectedTimer].isMondayEnabled())
+                server->print(F("checked"));
+            break;
+        case MAIN_CHECKED_TU:
+            if (m_Timers[m_SelectedTimer].isTuesdayEnabled())
+                server->print(F("checked"));
+
+            break;
+        case MAIN_CHECKED_WE:
+            if (m_Timers[m_SelectedTimer].isWednesdayEnabled())
+                server->print(F("checked"));
+
+            break;
+        case MAIN_CHECKED_TH:
+            if (m_Timers[m_SelectedTimer].isThursdayEnabled())
+                server->print(F("checked"));
+
+            break;
+        case MAIN_CHECKED_FR:
+            if (m_Timers[m_SelectedTimer].isFridayEnabled())
+                server->print(F("checked"));
+
+            break;
+        case MAIN_CHECKED_SA:
+            if (m_Timers[m_SelectedTimer].isSaturdayEnabled())
+                server->print(F("checked"));
+
+            break;
+        case MAIN_CHECKED_SU:
+            if (m_Timers[m_SelectedTimer].isSundayEnabled())
+                server->print(F("checked"));
+
+            break;
+
         }
     }
 
@@ -360,6 +419,12 @@ int8_t ClockTimerController::printRow(WebServer* server,
         {
             switch (matchIdx)
             {
+            case CTR_COLOR:
+                if (i % 2 == 0)
+                    server->print("#99CCFF");
+                else
+                    server->print("#FFFFFF");
+                break;
             case CTR_IHON:
                 server->print(i * 4 + 1);
                 break;
@@ -373,16 +438,16 @@ int8_t ClockTimerController::printRow(WebServer* server,
                 server->print(i * 4 + 4);
                 break;
             case CTR_HON:
-                server->print(m_Timers[selectedTimer].getHourOn(i));
+                server->print(m_Timers[m_SelectedTimer].getHourOn(i));
                 break;
             case CTR_MON:
-                server->print(m_Timers[selectedTimer].getMinuteOn(i));
+                server->print(m_Timers[m_SelectedTimer].getMinuteOn(i));
                 break;
             case CTR_HOFF:
-                server->print(m_Timers[selectedTimer].getHourOff(i));
+                server->print(m_Timers[m_SelectedTimer].getHourOff(i));
                 break;
             case CTR_MOFF:
-                server->print(m_Timers[selectedTimer].getMinuteOff(i));
+                server->print(m_Timers[m_SelectedTimer].getMinuteOff(i));
                 break;
             }
         }
@@ -406,6 +471,13 @@ int8_t ClockTimerController::processPost(WebServer* server,
     int8_t input;
     int16_t val;
     char name[16], value[16];
+
+    //No SubURL given. The post target is the clocktimer form and
+    //not the timer select form. Thus the selected DOW are cleared before and
+    //the selected DOW will be extracted in the do while loop.
+    if (url == NULL)
+        m_Timers[m_SelectedTimer].disableAllDays();
+
     do
     {
         repeat = server->readPOSTparam(name, 16, value, 16);
@@ -413,10 +485,9 @@ int8_t ClockTimerController::processPost(WebServer* server,
         {
             if (strcmp_P(name, progStringTimer) == 0)
             {
-                selectedTimer = atoi(value);
+                m_SelectedTimer = atoi(value);
             }
         }
-        else
         {
 
             if (strcmp_P(name, progStringActuator) == 0)
@@ -425,11 +496,39 @@ int8_t ClockTimerController::processPost(WebServer* server,
                 if (val != -1)
                 {
                     if (!isMapped(atoi(value)))
-                        m_ActuatorMapping[selectedTimer] = atoi(value);
+                        m_ActuatorMapping[m_SelectedTimer] = atoi(value);
                 }
                 else
                 {
-                    m_ActuatorMapping[selectedTimer] = -1;
+                    m_ActuatorMapping[m_SelectedTimer] = -1;
+                }
+            } else if (strcmp_P(name, progStringDOW) == 0)
+            {
+                val = atoi(value);
+                switch (val)
+                {
+                case 0:
+                    m_Timers[m_SelectedTimer].enableMonday();
+                    break;
+                case 1:
+                    m_Timers[m_SelectedTimer].enableTuesday();
+                    break;
+                case 2:
+                    m_Timers[m_SelectedTimer].enableWednesday();
+                    break;
+                case 3:
+                    m_Timers[m_SelectedTimer].enableThursday();
+                    break;
+                case 4:
+                    m_Timers[m_SelectedTimer].enableFriday();
+                    break;
+                case 5:
+                    m_Timers[m_SelectedTimer].enableSaturday();
+                    break;
+                case 6:
+                    m_Timers[m_SelectedTimer].enableSunday();
+                    break;
+
                 }
             }
             else
@@ -444,19 +543,19 @@ int8_t ClockTimerController::processPost(WebServer* server,
                     switch (y)
                     {
                     case 0:
-                        m_Timers[selectedTimer].setMinuteOff(x, atoi(value));
+                        m_Timers[m_SelectedTimer].setMinuteOff(x, atoi(value));
 
                         break;
                     case 1:
-                        m_Timers[selectedTimer].setHourOn(x, atoi(value));
+                        m_Timers[m_SelectedTimer].setHourOn(x, atoi(value));
 
                         break;
                     case 2:
-                        m_Timers[selectedTimer].setMinuteOn(x, atoi(value));
+                        m_Timers[m_SelectedTimer].setMinuteOn(x, atoi(value));
 
                         break;
                     case 3:
-                        m_Timers[selectedTimer].setHourOff(x, atoi(value));
+                        m_Timers[m_SelectedTimer].setHourOff(x, atoi(value));
                         break;
                     }
                 }
@@ -464,6 +563,7 @@ int8_t ClockTimerController::processPost(WebServer* server,
         }
 
     } while (repeat);
+
     return 0;
 }
 

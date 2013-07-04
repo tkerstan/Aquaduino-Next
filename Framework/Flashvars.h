@@ -34,6 +34,9 @@ enum CONFIG_TEMPLATE
     T_HOUR,
     T_MINUTE,
     T_SECOND,
+    T_MONTH,
+    T_DAY,
+    T_YEAR,
     T_XIVELY,
     T_XIVELYAPIKEY,
     T_XIVELYFEED,
@@ -75,6 +78,9 @@ enum CONFIG_INPUTS
     I_HOUR,
     I_MINUTE,
     I_SECOND,
+    I_MONTH,
+    I_DAY,
+    I_YEAR,
     I_XIVELY,
     I_XIVELYAPIKEY,
     I_XIVELYFEED
@@ -87,10 +93,7 @@ enum CONFIG_INPUTS
 
 enum CONTROLLER_TEMPLATE
 {
-    C_COLOR,
-    C_INAME,
-    C_NAME,
-    C_LINK
+    C_COLOR, C_INAME, C_NAME, C_LINK
 };
 
 /*
@@ -99,13 +102,7 @@ enum CONTROLLER_TEMPLATE
 
 enum SENSOR_TEMPLATE
 {
-    S_COLOR,
-    S_INAME,
-    S_NAME,
-    S_VALUE,
-    S_IXIVELYCHANNEL,
-    S_XIVELYCHANNEL,
-    S_LINK
+    S_COLOR, S_INAME, S_NAME, S_VALUE, S_IXIVELYCHANNEL, S_XIVELYCHANNEL, S_LINK
 };
 
 /*
@@ -132,7 +129,16 @@ enum ACTUATOR_TEMPLATE
 
 enum MAIN_TEMPLATE
 {
-    M_HOUR, M_MINUTE, M_SECOND, M_CONTROLLER, M_SENSOR, M_ACTUATOR
+    M_HOUR,
+    M_MINUTE,
+    M_SECOND,
+    M_DOW,
+    M_MONTH,
+    M_DAY,
+    M_YEAR,
+    M_CONTROLLER,
+    M_SENSOR,
+    M_ACTUATOR
 };
 
 #include <avr/pgmspace.h>
@@ -143,6 +149,10 @@ enum MAIN_TEMPLATE
 extern const char pgm_hour[];
 extern const char pgm_minute[];
 extern const char pgm_second[];
+extern const char pgm_dow[];
+extern const char pgm_month[];
+extern const char pgm_day[];
+extern const char pgm_year[];
 extern const char pgm_link[];
 extern const char pgm_name[];
 extern const char pgm_iname[];

@@ -1415,6 +1415,16 @@ void Aquaduino::printConfigWebpage(WebServer* server)
         case T_SECOND:
             server->print(second());
             break;
+        case T_MONTH:
+            server->print(month());
+            break;
+        case T_DAY:
+            server->print(day());
+            break;
+        case T_YEAR:
+            server->print(year());
+            break;
+
         case T_XIVELY:
             if (isXivelyEnabled())
             {
@@ -1462,6 +1472,9 @@ int8_t Aquaduino::configWebpageProcessPost(WebServer* server,
     int8_t hour = 0;
     int8_t minute = 0;
     int8_t second = 0;
+    int8_t day = 0;
+    int8_t month = 0;
+    uint16_t year = 0;
     Actuator* actuator;
 
     /*
@@ -1604,6 +1617,18 @@ int8_t Aquaduino::configWebpageProcessPost(WebServer* server,
                      == 0)
                 second = atoi(value);
             else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_MONTH])))
+                     == 0)
+                month = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_DAY])))
+                     == 0)
+                day = atoi(value);
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(configInputStrings[I_YEAR])))
+                     == 0)
+                year = atoi(value);
+            else if (strcmp_P(name,
                               (PGM_P) pgm_read_word(&(configInputStrings[I_XIVELY])))
                      == 0)
                 m_Xively = atoi(value);
@@ -1634,7 +1659,7 @@ int8_t Aquaduino::configWebpageProcessPost(WebServer* server,
         else
         {
             aquaduino->disableNTP();
-            aquaduino->setTime(hour, minute, second, 0, 0, 0);
+            aquaduino->setTime(hour, minute, second, day, month, year);
         }
 
         aquaduino->setNtpSyncInterval(ntpperiod);
@@ -2035,6 +2060,42 @@ int8_t Aquaduino::printMainWebpage(WebServer* server)
             break;
         case M_SECOND:
             server->print(second());
+            break;
+        case M_DOW:
+            switch (day()+1)
+            {
+            case dowMonday:
+                server->print(F("Monday"));
+                break;
+            case dowTuesday:
+                server->print(F("Tuesday"));
+                break;
+            case dowWednesday:
+                server->print(F("Wednesday"));
+                break;
+            case dowThursday:
+                server->print(F("Thursday"));
+                break;
+            case dowFriday:
+                server->print(F("Friday"));
+                break;
+            case dowSaturday:
+                server->print(F("Saturday"));
+                break;
+            case dowSunday:
+                server->print(F("Sunday"));
+                break;
+            }
+            break;
+
+        case M_MONTH:
+            server->print(month());
+            break;
+        case M_DAY:
+            server->print(day());
+            break;
+        case M_YEAR:
+            server->print(year());
             break;
         case M_CONTROLLER:
             printMainControllerTable(server);

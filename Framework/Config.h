@@ -27,7 +27,7 @@
 /**
  * \brief Defines the maximum number of controllers the system can manage
  */
-#define MAX_CONTROLLERS             3
+#define MAX_CONTROLLERS             4
 
 /**
  * \brief Defines the maximum number of actuators the system can manage
@@ -55,6 +55,7 @@
  * \brief Defines the controllers being used
  */
 #define CONTROLLER_CONFIG           { CONTROLLER_LEVEL, \
+                                      CONTROLLER_TEMPERATURE, \
                                       CONTROLLER_TEMPERATURE, \
                                       CONTROLLER_CLOCKTIMER } \
 

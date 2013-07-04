@@ -43,38 +43,162 @@ public:
                   uint8_t mOff);
     void getTimer(uint8_t, uint8_t* hOn, uint8_t* mOn, uint8_t* hOff,
                   uint8_t* mOff);
+
     uint8_t getHourOn(uint8_t index)
     {
-        return hOn[index % max_timers];
+        return m_HOn[index % max_timers];
     }
+
     uint8_t getMinuteOn(uint8_t index)
     {
-        return mOn[index % max_timers];
+        return m_MOn[index % max_timers];
     }
+
     uint8_t getHourOff(uint8_t index)
     {
-        return hOff[index % max_timers];
+        return m_HOff[index % max_timers];
     }
+
     uint8_t getMinuteOff(uint8_t index)
     {
-        return mOff[index % max_timers];
+        return m_MOff[index % max_timers];
     }
+
     void setHourOn(uint8_t index, uint8_t value)
     {
-        hOn[index % max_timers] = value % 24;
+        m_HOn[index % max_timers] = value % 24;
     }
+
     void setMinuteOn(uint8_t index, uint8_t value)
     {
-        mOn[index % max_timers] = value % 60;
+        m_MOn[index % max_timers] = value % 60;
     }
+
     void setHourOff(uint8_t index, uint8_t value)
     {
-        hOff[index % max_timers] = value % 24;
+        m_HOff[index % max_timers] = value % 24;
     }
+
     void setMinuteOff(uint8_t index, uint8_t value)
     {
-        mOff[index % max_timers] = value % 60;
+        m_MOff[index % max_timers] = value % 60;
     }
+
+    void enableMonday()
+    {
+        m_DOW |= 0x1;
+    }
+
+    void enableTuesday()
+    {
+        m_DOW |= 0x2;
+    }
+
+    void enableWednesday()
+    {
+        m_DOW |= 0x4;
+    }
+
+    void enableThursday()
+    {
+        m_DOW |= 0x8;
+    }
+
+    void enableFriday()
+    {
+        m_DOW |= 0x10;
+    }
+
+    void enableSaturday()
+    {
+        m_DOW |= 0x20;
+    }
+
+    void enableSunday()
+    {
+        m_DOW |= 0x4;
+    }
+
+    void enableAllDays()
+    {
+        m_DOW = 0x7F;
+    }
+
+    void disableMonday()
+    {
+        m_DOW &= ~0x1;
+    }
+
+    void disableTuesday()
+    {
+        m_DOW &= ~0x2;
+    }
+
+    void disableWednesday()
+    {
+        m_DOW &= ~0x4;
+    }
+
+    void disableThursday()
+    {
+        m_DOW &= ~0x8;
+    }
+
+    void disableFriday()
+    {
+        m_DOW &= ~0x10;
+    }
+
+    void disableSaturday()
+    {
+        m_DOW &= ~0x20;
+    }
+
+    void disableSunday()
+    {
+        m_DOW &= ~0x4;
+    }
+
+    void disableAllDays()
+    {
+        m_DOW = 0;
+    }
+
+    int8_t isMondayEnabled()
+    {
+        return m_DOW & 0x1;
+    }
+
+    int8_t isTuesdayEnabled()
+    {
+        return m_DOW & 0x2;
+    }
+
+    int8_t isWednesdayEnabled()
+    {
+        return m_DOW & 0x4;
+    }
+
+    int8_t isThursdayEnabled()
+    {
+        return m_DOW & 0x8;
+    }
+
+    int8_t isFridayEnabled()
+    {
+        return m_DOW & 0x10;
+    }
+
+    int8_t isSaturdayEnabled()
+    {
+        return m_DOW & 0x20;
+    }
+
+    int8_t isSundayEnabled()
+    {
+        return m_DOW & 0x40;
+    }
+
     void clearAll();
 
     int8_t check();
@@ -86,10 +210,11 @@ private:
     ClockTimer(const ClockTimer&);
     ClockTimer(ClockTimer&);
 
-    uint8_t hOn[max_timers];
-    uint8_t hOff[max_timers];
-    uint8_t mOn[max_timers];
-    uint8_t mOff[max_timers];
+    uint8_t m_HOn[max_timers];
+    uint8_t m_HOff[max_timers];
+    uint8_t m_MOn[max_timers];
+    uint8_t m_MOff[max_timers];
+    uint8_t m_DOW;
 };
 
 #endif /* CLOCKTIMER_H_ */

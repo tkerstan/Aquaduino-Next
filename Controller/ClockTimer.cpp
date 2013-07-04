@@ -26,7 +26,8 @@
  *
  * Clears all timers.
  */
-ClockTimer::ClockTimer()
+ClockTimer::ClockTimer() :
+        m_DOW(0)
 {
     clearAll();
 }
@@ -52,10 +53,10 @@ ClockTimer::~ClockTimer()
 void ClockTimer::setTimer(uint8_t index, uint8_t hOn, uint8_t mOn, uint8_t hOff,
                           uint8_t mOff)
 {
-    this->hOn[index % max_timers] = hOn;
-    this->mOn[index % max_timers] = mOn;
-    this->hOff[index % max_timers] = hOff;
-    this->mOff[index % max_timers] = mOff;
+    this->m_HOn[index % max_timers] = hOn;
+    this->m_MOn[index % max_timers] = mOn;
+    this->m_HOff[index % max_timers] = hOff;
+    this->m_MOff[index % max_timers] = mOff;
 }
 
 /**
@@ -74,13 +75,13 @@ void ClockTimer::getTimer(uint8_t index, uint8_t* hOn, uint8_t* mOn,
                           uint8_t* hOff, uint8_t* mOff)
 {
     if (hOn != NULL)
-        *hOn = this->hOn[index % max_timers];
+        *hOn = this->m_HOn[index % max_timers];
     if (mOn != NULL)
-        *mOn = this->mOn[index % max_timers];
+        *mOn = this->m_MOn[index % max_timers];
     if (hOff != NULL)
-        *hOff = this->hOff[index % max_timers];
+        *hOff = this->m_HOff[index % max_timers];
     if (mOff != NULL)
-        *mOff = this->mOff[index % max_timers];
+        *mOff = this->m_MOff[index % max_timers];
 }
 
 /**
@@ -93,15 +94,53 @@ void ClockTimer::getTimer(uint8_t index, uint8_t* hOn, uint8_t* mOn,
 int8_t ClockTimer::check()
 {
     uint8_t on = 0;
-    unsigned long nowInSecs = hour() * SECS_PER_HOUR + minute() * SECS_PER_MIN
-                              + second();
+    unsigned long nowInSecs;
+    unsigned long clockTimerOnInSecs;
+    unsigned long clockTimerOffInSecs;
+
+    switch (day()+1)
+    {
+    case dowMonday:
+        if (!isMondayEnabled())
+            return 0;
+        break;
+    case dowTuesday:
+        if (!isTuesdayEnabled())
+            return 0;
+        break;
+    case dowWednesday:
+        if (!isWednesdayEnabled())
+            return 0;
+        break;
+    case dowThursday:
+        if (!isThursdayEnabled())
+            return 0;
+        break;
+    case dowFriday:
+        if (!isFridayEnabled())
+            return 0;
+        break;
+    case dowSaturday:
+        if (!isSaturdayEnabled())
+            return 0;
+        break;
+    case dowSunday:
+        if (!isSundayEnabled())
+            return 0;
+        break;
+    default:
+        return 0;
+        break;
+    }
+
+    nowInSecs = hour() * SECS_PER_HOUR + minute() * SECS_PER_MIN + second();
 
     for (int i = 0; i < max_timers; i++)
     {
-        unsigned long clockTimerOnInSecs = this->hOn[i] * SECS_PER_HOUR
-                + this->mOn[i] * SECS_PER_MIN;
-        unsigned long clockTimerOffInSecs = this->hOff[i] * SECS_PER_HOUR
-                + this->mOff[i] * SECS_PER_MIN;
+        clockTimerOnInSecs = this->m_HOn[i] * SECS_PER_HOUR
+                + this->m_MOn[i] * SECS_PER_MIN;
+        clockTimerOffInSecs = this->m_HOff[i] * SECS_PER_HOUR
+                + this->m_MOff[i] * SECS_PER_MIN;
 
         // Check whether entry is not hh:mm - hh:mm
         if (clockTimerOnInSecs - clockTimerOffInSecs != 0)
@@ -132,49 +171,55 @@ void ClockTimer::clearAll()
 {
     for (int i = 0; i < max_timers; i++)
     {
-        this->hOn[i] = 0;
-        this->hOff[i] = 0;
-        this->mOn[i] = 0;
-        this->mOff[i] = 0;
+        this->m_HOn[i] = 0;
+        this->m_HOff[i] = 0;
+        this->m_MOn[i] = 0;
+        this->m_MOff[i] = 0;
     }
 }
 
 uint16_t ClockTimer::serialize(void* buffer, uint16_t size)
 {
-    uint16_t mySize = sizeof(hOn) + sizeof(mOn) + sizeof(hOff) + sizeof(mOff);
+    uint16_t mySize = sizeof(m_HOn) + sizeof(m_MOn) + sizeof(m_HOff)
+                      + sizeof(m_MOff) + sizeof(m_DOW);
     uint16_t pos = 0;
     uint8_t* charBuffer = (uint8_t*) buffer;
 
     if (mySize > size)
         return 0;
 
-    memcpy(charBuffer, hOn, sizeof(hOn));
-    pos += sizeof(hOn);
-    memcpy(charBuffer + pos, mOn, sizeof(mOn));
-    pos += sizeof(mOn);
-    memcpy(charBuffer + pos, hOff, sizeof(hOff));
-    pos += sizeof(hOff);
-    memcpy(charBuffer + pos, mOff, sizeof(mOff));
+    memcpy(charBuffer, m_HOn, sizeof(m_HOn));
+    pos += sizeof(m_HOn);
+    memcpy(charBuffer + pos, m_MOn, sizeof(m_MOn));
+    pos += sizeof(m_MOn);
+    memcpy(charBuffer + pos, m_HOff, sizeof(m_HOff));
+    pos += sizeof(m_HOff);
+    memcpy(charBuffer + pos, m_MOff, sizeof(m_MOff));
+    pos += sizeof(m_DOW);
+    memcpy(charBuffer + pos, &m_DOW, sizeof(m_DOW));
 
     return mySize;
 }
 
 uint16_t ClockTimer::deserialize(void* data, uint16_t size)
 {
-    uint16_t mySize = sizeof(hOn) + sizeof(mOn) + sizeof(hOff) + sizeof(mOff);
+    uint16_t mySize = sizeof(m_HOn) + sizeof(m_MOn) + sizeof(m_HOff)
+                      + sizeof(m_MOff) + sizeof(m_DOW);
     uint16_t pos = 0;
     uint8_t* charBuffer = (uint8_t*) data;
 
     if (size != mySize)
         return 0;
 
-    memcpy(hOn, charBuffer, sizeof(hOn));
-    pos += sizeof(hOn);
-    memcpy(mOn, charBuffer + pos, sizeof(mOn));
-    pos += sizeof(mOn);
-    memcpy(hOff, charBuffer + pos, sizeof(hOff));
-    pos += sizeof(hOff);
-    memcpy(mOff, charBuffer + pos, sizeof(mOff));
+    memcpy(m_HOn, charBuffer, sizeof(m_HOn));
+    pos += sizeof(m_HOn);
+    memcpy(m_MOn, charBuffer + pos, sizeof(m_MOn));
+    pos += sizeof(m_MOn);
+    memcpy(m_HOff, charBuffer + pos, sizeof(m_HOff));
+    pos += sizeof(m_HOff);
+    memcpy(m_MOff, charBuffer + pos, sizeof(m_MOff));
+    pos += sizeof(m_DOW);
+    memcpy(&m_DOW, charBuffer + pos, sizeof(m_DOW));
 
     return mySize;
 }
