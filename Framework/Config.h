@@ -32,7 +32,7 @@
 /**
  * \brief Defines the maximum number of actuators the system can manage
  */
-#define MAX_ACTUATORS               8
+#define MAX_ACTUATORS               12
 
 /**
  * \brief Defines the maximum number of sensors the system can manage
@@ -43,6 +43,10 @@
  * \brief Defines the actuators being used
  */
 #define ACTUATOR_CONFIG             { ACTUATOR_DIGITALOUTPUT, \
+                                      ACTUATOR_DIGITALOUTPUT, \
+                                      ACTUATOR_DIGITALOUTPUT, \
+                                      ACTUATOR_DIGITALOUTPUT, \
+                                      ACTUATOR_DIGITALOUTPUT, \
                                       ACTUATOR_DIGITALOUTPUT, \
                                       ACTUATOR_DIGITALOUTPUT, \
                                       ACTUATOR_DIGITALOUTPUT, \
