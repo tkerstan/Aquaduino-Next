@@ -1,0 +1,57 @@
+Before flashing the Aquaduino binary to your Arduino you need to setup a
+SD card containing the HTML Templates for the Webinterface and allowing
+for storing the configuration of the system. This packages comes shipped
+with a pre configuration. Format your SD card using FAT32 and copy
+the .htm files and the folder CONFIG to it and put into the SD slot of
+the Arduino Ethernet Shield.
+
+To flash the Aquaduino binary to your Arduino MEGA 2560 you need to invoke
+avrdude on the command line in this directoy. Make sure avrdude for Arduino
+(or avrdude.exe is in your PATH). Use the avrdude.conf file shipped with
+this package and choose your serial port. Under windows you may need to
+type \\.\COMx where x is your serial port number. Under linux your
+Arduino is probably attached /dev/ttyACMx where x is your serial port
+number.
+
+avrdude -Cavrdude.conf -patmega2560 -cwiring -PSERIALPORT -b115200 -D \
+-Uflash:w:Aquaduino.hex:i
+
+The Aquaduino Webinterface should now be accessible using the IP address
+192.168.1.222 in your favorite browser.
+
+To verify the installation you can attach a terminal program with a
+speed of 115200 baud to the serial line of your Arduino.
+
+The output should look like this:
+Starting Aquaduino...
+Reading configuration from config/aqua.cfg : successful
+Using static network configuration...
+IP: 192.168.1.222
+Netmask: 255.255.255.0
+Gateway: 192.168.1.1
+DNS Server: 192.168.1.1
+NTP Server: 192.53.103.108
+Starting Webserver...
+Initializing actuators...
+Reading configuration from config/A0.cfg : successful
+Reading configuration from config/A1.cfg : successful
+Reading configuration from config/A2.cfg : successful
+Reading configuration from config/A3.cfg : successful
+Reading configuration from config/A4.cfg : successful
+Reading configuration from config/A5.cfg : successful
+Reading configuration from config/A6.cfg : successful
+Reading configuration from config/A7.cfg : successful
+Reading configuration from config/A8.cfg : successful
+Reading configuration from config/A9.cfg : successful
+Reading configuration from config/A10.cfg : successful
+Reading configuration from config/A11.cfg : successful
+Initializing controllers...
+Reading configuration from config/C0.cfg : successful
+Reading configuration from config/C1.cfg : successful
+Reading configuration from config/C2.cfg : successful
+Reading configuration from config/C3.cfg : successful
+Initializing sensors...
+Reading configuration from config/S0.cfg : successful
+Reading configuration from config/S1.cfg : successful
+Reading configuration from config/S2.cfg : successful
+Starting main loop...
