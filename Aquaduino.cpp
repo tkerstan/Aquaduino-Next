@@ -39,7 +39,7 @@
  *
  * The framework provided by Aquaduino uses Webduino. To provide a seamless
  * integration of actuators like relays into controlling elements the Aquaduino
- * WebInterface automatically generates a configuration WebInterface to assign
+ * webinterface automatically generates a configuration webinterface to assign
  * the available actuators to the controlling elements of Aquaduino. Thus the
  * actuators can easily be enabled, disabled or assigned at runtime to the
  * different control elements.
@@ -47,38 +47,38 @@
  * Features
  * --------
  *
- * * Network and WebInterface
+ * * Network and Webinterface
  *     * Static or DHCP IP configuration
  *     * NTP synchronization
  *     * Configuration of actuators and controllers
  *
- * * Actuator / Controller / Sensor Framework
+ * * Actuator/Controller/Sensor Framework
  *     * Controllers are software components that control assigned actuators
- *       like power outlets,...
  *     * Actuators can dynamically be assigned to controllers
- *     * Sensor readings are triggered by the framework and globally available
- *       in the whole framework
- *     * Controllers and actuators provide their own WebInterface
- *     * Easily extensible to support different controllers and actuators
+ *     * Sensor readings are periodically triggered by the framework
+ *     * Controllers can select the sensor providing the sensor values
+ *     * Controllers, actuators and sensors provide their own Webinterface
+ *     * Easily extensible to support different controllers, actuators and sensors
  *     * Currently supported Controllers:
- *         * Temperature controller (TemperatureController)
+ *         * Temperature controller
  *             * Threshold based
  *             * Definition of temperature where PWM based actor shall reach
  *               its maximum (linear scaling)
- *             * Hysteresis
- *         * Level controller (LevelController)
- *             * Time based debounce mechanism to ignore waves
- *             * Time out mechanism to turn off actuator when level not reached
  *             * Hysteresis (Configurable by webinterface)
- *         * Clocktimer controller (ClockTimerController)
+ *         * Level controller
+ *             * Time based debounce mechanism to ignore waves
+ *             * Time out mechanism to prevent refill pump from running dry
+ *             * Hysteresis (Configurable by webinterface)
+ *         * Clocktimer controller
  *             * Configurable amount of clocktimers
  *             * Configurable amount of time intervals per clocktimer
  *     * Currently supported Actuators
- *         * Digital outputs (including PWM support)
+ *         * Digital outputs (including PWM)
  *     * Currently supported Sensors
- *         * Level sensor (DigitalInput)
+ *         * Level sensor (Digital Input)
  *         * Temperature sensor (DS18x20)
  *         * pH/ORP/EC in progress
+ *         * Support for monitoring using Xively
  *
  * * Template Parser Framework
  *     * Easy integration of HTML templates in controller webinterface code
@@ -86,7 +86,7 @@
  *     * Templates stored on SD Card (No static memory consumption)
  *
  * * Configuration Management
- *     * Support for SD Card storage
+ *     * Support for SD Card storage to store system configuration
  *
  * Hardware Setup
  * --------------
