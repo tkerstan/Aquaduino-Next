@@ -65,3 +65,29 @@ void Controller::allMyActuators(int8_t on)
         else
             assignedActuators[i]->off();
 }
+
+/**
+ * \brief Performs action on all assigned actuators.
+ * \param[in] on Flag for turning all actuators on or off
+ *
+ * On = 0 --> all actuators are turned off.
+ * On = 1 --> all actuators are turned on.
+ */
+void Controller::allMyActuators(float dutyCycle)
+{
+    int8_t i = 0;
+    int8_t actuators = 0;
+    Actuator* assignedActuators[MAX_ACTUATORS] =
+        { 0 };
+    actuators = aquaduino->getAssignedActuators(this,
+                                                assignedActuators,
+                                                MAX_ACTUATORS);
+
+    for (; i < actuators; i++)
+        if (assignedActuators[i]->supportsPWM())
+            assignedActuators[i]->setPWM(dutyCycle);
+        else if (dutyCycle > 0.0)
+            assignedActuators[i]->on();
+        else
+            assignedActuators[i]->off();
+}

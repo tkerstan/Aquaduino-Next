@@ -159,7 +159,7 @@ int8_t LevelController::run()
 {
     static unsigned long lastTime = 0;
 
-    if(m_Sensor < 0 || m_Sensor >= MAX_SENSORS)
+    if (m_Sensor < 0 || m_Sensor >= MAX_SENSORS)
         return -1;
 
     long reading = aquaduino->getSensorValue(m_Sensor);
@@ -176,7 +176,7 @@ int8_t LevelController::run()
     switch (m_State)
     {
     case LEVELCONTROLLER_STATE_OK:
-        allMyActuators(0);
+        allMyActuators((int8_t) 0);
         if (reading == HIGH)
         {
             m_State = LEVELCONTROLLER_STATE_DEBOUNCE;
@@ -186,7 +186,7 @@ int8_t LevelController::run()
     case LEVELCONTROLLER_STATE_DEBOUNCE:
         if (reading == HIGH && deltaTSwitch > 1000 * m_DebounceDelay)
         {
-            allMyActuators(1);
+            allMyActuators((int8_t) 1);
             lastTime = millisNow;
             m_State = LEVELCONTROLLER_STATE_REFILL;
         }
@@ -204,14 +204,14 @@ int8_t LevelController::run()
         else if (reading == HIGH && deltaTSwitch > 1000 * m_RefillTimeout)
         {
             m_State = LEVELCONTROLLER_STATE_REFILL_TIMEOUT;
-            allMyActuators(0);
+            allMyActuators((int8_t) 0);
         }
         break;
     case LEVELCONTROLLER_STATE_OVERRUN:
         if (reading == LOW && deltaTSwitch > m_Hysteresis * 1000)
         {
             m_State = LEVELCONTROLLER_STATE_OK;
-            allMyActuators(0);
+            allMyActuators((int8_t) 0);
         }
         else if (reading == HIGH)
         {
@@ -305,7 +305,7 @@ int8_t LevelController::showWebinterface(WebServer* server,
                 parser->selectList("sensor",
                                    sensorNames,
                                    sensorValuePointers,
-                                   m_Sensor+1,
+                                   m_Sensor + 1,
                                    i,
                                    server);
                 break;

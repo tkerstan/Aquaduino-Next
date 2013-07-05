@@ -116,14 +116,23 @@ uint16_t TemperatureController::deserialize(void* data, uint16_t size)
 int8_t TemperatureController::run()
 {
     float temp;
+    float dutyCycle;
+
     if (m_Sensor == -1)
         return -1;
 
     temp = aquaduino->getSensorValue(m_Sensor);
+
+    dutyCycle = (temp - m_Threshold) / (m_MaxPWM - m_Threshold);
+
     if (temp >= m_Threshold)
-        allMyActuators(1);
+    {
+        allMyActuators(dutyCycle);
+    }
     else if (m_Threshold - temp > m_Hysteresis)
-        allMyActuators(0);
+    {
+        allMyActuators((int8_t) 0);
+    }
     return true;
 }
 
@@ -193,7 +202,7 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
                 parser->selectList("sensor",
                                    sensorNames,
                                    sensorValuePointers,
-                                   this->m_Sensor+1,
+                                   this->m_Sensor + 1,
                                    i,
                                    server);
                 break;

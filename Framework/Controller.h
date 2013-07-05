@@ -59,6 +59,7 @@ public:
 protected:
     virtual ~Controller();
     void allMyActuators(int8_t on);
+    void allMyActuators(float dutyCycle);
 
 private:
     /**
