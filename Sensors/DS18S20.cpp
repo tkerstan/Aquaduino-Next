@@ -173,8 +173,8 @@ int8_t DS18S20::showWebinterface(WebServer* server,
     char templateFileName[sizeof(progTemplateFileName)];
     strcpy_P(templateFileName, progTemplateFileName);
     uint8_t address[4][8];
-    char addressNames[4][17];
-    char* names[4];
+    char addressNames[5][17];
+    char* names[5];
     int8_t i = 0 ,j = 0;
     int8_t selected = 0;
     OneWireHandler* handler = aquaduino->getOneWireHandler();
@@ -201,7 +201,10 @@ int8_t DS18S20::showWebinterface(WebServer* server,
     {
         server->httpSuccess();
 
-        for (i = 0; i < 4; i++)
+        memset(addressNames[0], 0, 17);
+        names[0] = addressNames[0];
+
+        for (i = 1; i < 5; i++)
         {
             if (!handler->findDevice(m_Idx, address[i], 8))
                 break;

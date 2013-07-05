@@ -65,19 +65,19 @@
  *             * Threshold based
  *             * Definition of temperature where PWM based actor shall reach
  *               its maximum (linear scaling)
- *             * Hysteresis (fixed to 0.3 degree celsius)
+ *             * Hysteresis
  *         * Level controller (LevelController)
  *             * Time based debounce mechanism to ignore waves
- *             * Time out mechanism to prevent refill pump from running dry
+ *             * Time out mechanism to turn off actuator when level not reached
  *             * Hysteresis (Configurable by webinterface)
  *         * Clocktimer controller (ClockTimerController)
  *             * Configurable amount of clocktimers
  *             * Configurable amount of time intervals per clocktimer
  *     * Currently supported Actuators
- *         * Digital outputs
+ *         * Digital outputs (including PWM support)
  *     * Currently supported Sensors
  *         * Level sensor (DigitalInput)
- *         * Temperature sensor (DS18S20)
+ *         * Temperature sensor (DS18x20)
  *         * pH/ORP/EC in progress
  *
  * * Template Parser Framework
@@ -216,7 +216,7 @@ Aquaduino::Aquaduino() :
     Serial.println(m_NTPServer);
 
     //Init Time. If NTP Sync fails this will be used.
-    setTime(0, 0, 0, 1, 1, 42);
+    setTime(0, 0, 0, 1, 1, 2013);
 
     if (isNTPEnabled())
     {
@@ -228,14 +228,25 @@ Aquaduino::Aquaduino() :
     setWebserver(new WebServer("", 80));
 
     Serial.println(F("Initializing actuators..."));
+
+    //TODO: Setting the PWM frequencies to 31.25kHz should be done somewhere else
+    TCCR1A = _BV(WGM11) | _BV(WGM10);
+    TCCR1B = _BV(CS10);
+    TCCR2A = _BV(WGM21) | _BV(WGM20);
+    TCCR2B = _BV(CS20);
+    TCCR3A = _BV(WGM31) | _BV(WGM30);
+    TCCR3B = _BV(CS30);
+    TCCR4A = _BV(WGM41) | _BV(WGM40);
+    TCCR4B = _BV(CS40);
+    TCCR5A = _BV(WGM51) | _BV(WGM50);
+    TCCR5B = _BV(CS50);
+
     for (i = 0; i < MAX_ACTUATORS; i++)
     {
         switch (actuatorConfig[i])
         {
         case ACTUATOR_DIGITALOUTPUT:
             addActuator(new DigitalOutput(NULL, HIGH, LOW));
-            break;
-        case ACTUATOR_PWMOUTPUT:
             break;
         }
     }
@@ -2062,48 +2073,48 @@ int8_t Aquaduino::printMainWebpage(WebServer* server)
             server->print(second());
             break;
         case M_DOW:
-            switch (day()+1)
+            switch (day() + 1)
             {
             case dowMonday:
                 server->print(F("Monday"));
                 break;
-            case dowTuesday:
+                case dowTuesday:
                 server->print(F("Tuesday"));
                 break;
-            case dowWednesday:
+                case dowWednesday:
                 server->print(F("Wednesday"));
                 break;
-            case dowThursday:
+                case dowThursday:
                 server->print(F("Thursday"));
                 break;
-            case dowFriday:
+                case dowFriday:
                 server->print(F("Friday"));
                 break;
-            case dowSaturday:
+                case dowSaturday:
                 server->print(F("Saturday"));
                 break;
-            case dowSunday:
+                case dowSunday:
                 server->print(F("Sunday"));
                 break;
             }
             break;
 
-        case M_MONTH:
+            case M_MONTH:
             server->print(month());
             break;
-        case M_DAY:
+            case M_DAY:
             server->print(day());
             break;
-        case M_YEAR:
+            case M_YEAR:
             server->print(year());
             break;
-        case M_CONTROLLER:
+            case M_CONTROLLER:
             printMainControllerTable(server);
             break;
-        case M_SENSOR:
+            case M_SENSOR:
             printMainSensorTable(server);
             break;
-        case M_ACTUATOR:
+            case M_ACTUATOR:
             printMainActuatorTable(server);
             break;
         }
