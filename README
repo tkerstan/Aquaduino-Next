@@ -31,18 +31,17 @@ Features
 
 * Actuator/Controller/Sensor Framework
     * Controllers are software components that control assigned actuators
-      like power outlets,...
     * Actuators can dynamically be assigned to controllers
-    * Sensor readings are triggered by the framework and globally available
-      in the whole framework
-    * Controllers and actuators provide their own Webinterface
-    * Easily extensible to support different controllers and actuators
+    * Sensor readings are periodically triggered by the framework
+    * Controllers can select the sensor providing the sensor values
+    * Controllers, actuators and sensors provide their own Webinterface
+    * Easily extensible to support different controllers, actuators and sensors
     * Currently supported Controllers:
         * Temperature controller
             * Threshold based
             * Definition of temperature where PWM based actor shall reach
               its maximum (linear scaling)
-            * Hysteresis (fixed to 0.3°C)
+            * Hysteresis (Configurable by webinterface)
         * Level controller
             * Time based debounce mechanism to ignore waves
             * Time out mechanism to prevent refill pump from running dry
@@ -51,11 +50,12 @@ Features
             * Configurable amount of clocktimers
             * Configurable amount of time intervals per clocktimer
     * Currently supported Actuators
-        * Digital outputs
+        * Digital outputs (including PWM)
     * Currently supported Sensors
         * Level sensor (Digital Input)
-        * Temperature sensor (DS18S20)
+        * Temperature sensor (DS18x20)
         * pH/ORP/EC in progress
+        * Support for monitoring using Xively
 
 * Template Parser Framework
     * Easy integration of HTML templates in controller webinterface code
@@ -63,7 +63,7 @@ Features
     * Templates stored on SD Card (No static memory consumption)
 
 * Configuration Management
-    * Support for SD Card storage
+    * Support for SD Card storage to store system configuration
 
 Hardware Setup
 --------------
