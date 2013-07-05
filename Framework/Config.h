@@ -54,9 +54,9 @@
 /**
  * \brief Defines the controllers being used
  */
-#define CONTROLLER_CONFIG           { CONTROLLER_LEVEL, \
+#define CONTROLLER_CONFIG           { CONTROLLER_TEMPERATURE, \
                                       CONTROLLER_TEMPERATURE, \
-                                      CONTROLLER_TEMPERATURE, \
+                                      CONTROLLER_LEVEL, \
                                       CONTROLLER_CLOCKTIMER } \
 
 /**
@@ -74,7 +74,7 @@
 /**
  * \brief Defines the maximum number of timers per clocktimer
  */
-#define CLOCKTIMER_MAX_TIMERS       4
+#define CLOCKTIMER_MAX_TIMERS       8
 
 /**
  * \brief Defines the default timezone
