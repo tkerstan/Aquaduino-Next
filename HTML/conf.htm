@@ -1,6 +1,68 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
+<style type="text/css" media="screen">
+    .xbtooltip {
+	display: none;
+	position: absolute;
+	background-color: #3FF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: small;
+	border: 1px solid black
+    }
+</style>
+
+<div id="tt1" class="xbtooltip">
+    Change takes effect after reset.
+</div>
+
+<script type="text/javascript">
+  (function(window, document, undefined){
+    var XBTooltip = function( element, userConf, tooltip) {
+      var config = {
+        id: userConf.id|| undefined,
+        className: userConf.className || undefined,
+        x: userConf.x || 20,
+        y: userConf.y || 20,
+        text: userConf.text || undefined,
+      };
+      var over = function(event) {
+        tooltip.style.display = "block";
+      },
+      out = function(event) {
+        tooltip.style.display = "none";
+      },
+      move = function(event) {
+        event = event ? event : window.event;
+        if ( event.pageX == null && event.clientX != null ) {
+          var doc = document.documentElement, body = document.body;
+          event.pageX = event.clientX + (doc && doc.scrollLeft || body && body.scrollLeft || 0) - (doc && doc.clientLeft || body && body.clientLeft || 0);
+          event.pageY = event.clientY + (doc && doc.scrollTop  || body && body.scrollTop  || 0) - (doc && doc.clientTop  || body && body.clientTop  || 0);
+        }
+        tooltip.style.top = (event.pageY+config.y) + "px";
+        tooltip.style.left = (event.pageX+config.x) + "px";
+      }
+      if (tooltip === undefined && config.id) {
+        tooltip = document.getElementById(config.id);
+        if (tooltip) tooltip = tooltip.parentNode.removeChild(tooltip)
+      }
+      if (tooltip === undefined && config.text) {
+        tooltip = document.createElement("div");
+        if (config.id) tooltip.id= config.id;
+        tooltip.innerHTML = config.text;
+      }
+      if (config.className) tooltip.className = config.className;
+      tooltip = document.body.appendChild(tooltip);
+      tooltip.style.position = "absolute";
+      element.onmouseover = over;
+      element.onmouseout = out;
+      element.onmousemove = move;
+      over();
+    };
+    window.XBTooltip = window.XBT = XBTooltip;
+  })(this, this.document);
+  </script>
+
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Aquaduino</title>
@@ -13,71 +75,71 @@
 <table border="0">
 <tr>
 <td bgcolor="#99CCFF">
-MAC
+<label onmouseover="XBT(this, {id:'tt1'})" for="1">MAC</label>
 </td>
 <td bgcolor="#99CCFF">
-<input name="mac1" value="##MAC1##" size="2" maxlength="2" />:
-<input name="mac2" value="##MAC2##" size="2" maxlength="2" />:
-<input name="mac3" value="##MAC3##" size="2" maxlength="2" />:
-<input name="mac4" value="##MAC4##" size="2" maxlength="2" />:
-<input name="mac5" value="##MAC5##" size="2" maxlength="2" />:
-<input name="mac6" value="##MAC6##" size="2" maxlength="2" />
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="mac1" value="##MAC1##" size="2" maxlength="2" />:
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="mac2" value="##MAC2##" size="2" maxlength="2" />:
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="mac3" value="##MAC3##" size="2" maxlength="2" />:
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="mac4" value="##MAC4##" size="2" maxlength="2" />:
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="mac5" value="##MAC5##" size="2" maxlength="2" />:
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="mac6" value="##MAC6##" size="2" maxlength="2" />
 </tr>
 <tr>
 
 <tr>
 <td bgcolor="#FFFFFF">
-DHCP
+<label onmouseover="XBT(this, {id:'tt1'})" for="1">DHCP</label>
 </td>
 <td bgcolor="#FFFFFF">
-<select name="dhcp">
+<select onmouseover="XBT(this, {id:'tt1'})" for="1"  name="dhcp">
   ##DHCPSELECTOPTION##
 <select>
 </td>
 </tr>
 <tr>
 <td bgcolor="#99CCFF">
-IP
+<label onmouseover="XBT(this, {id:'tt1'})" for="1">IP</label>
 </td>
 <td bgcolor="#99CCFF">
-<input name="ip1" value="##IP1##" size="3" maxlength="3" />.
-<input name="ip2" value="##IP2##" size="3" maxlength="3" />.
-<input name="ip3" value="##IP3##" size="3" maxlength="3" />.
-<input name="ip4" value="##IP4##" size="3" maxlength="3" />
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="ip1" value="##IP1##" size="3" maxlength="3" />.
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="ip2" value="##IP2##" size="3" maxlength="3" />.
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="ip3" value="##IP3##" size="3" maxlength="3" />.
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="ip4" value="##IP4##" size="3" maxlength="3" />
 </td>
 </tr>
 <tr>
 <td bgcolor="#FFFFFF">
-Netmask
+<label onmouseover="XBT(this, {id:'tt1'})" for="1">Netmask</label>
 </td>
 <td bgcolor="#FFFFFF">
-<input name="netmask1" value="##NETMASK1##" size="3" maxlength="3" />.
-<input name="netmask2" value="##NETMASK2##" size="3" maxlength="3" />.
-<input name="netmask3" value="##NETMASK3##" size="3" maxlength="3" />.
-<input name="netmask4" value="##NETMASK4##" size="3" maxlength="3" />
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="netmask1" value="##NETMASK1##" size="3" maxlength="3" />.
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="netmask2" value="##NETMASK2##" size="3" maxlength="3" />.
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="netmask3" value="##NETMASK3##" size="3" maxlength="3" />.
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="netmask4" value="##NETMASK4##" size="3" maxlength="3" />
 </td>
 </tr>
 <tr>
 <td bgcolor="#99CCFF">
-Gateway
+<label onmouseover="XBT(this, {id:'tt1'})" for="1">Gateway</label>
 </td>
 <td bgcolor="#99CCFF">
-<input name="gateway1" value="##GATEWAY1##" size="3" maxlength="3" />.
-<input name="gateway2" value="##GATEWAY2##" size="3" maxlength="3" />.
-<input name="gateway3" value="##GATEWAY3##" size="3" maxlength="3" />.
-<input name="gateway4" value="##GATEWAY4##" size="3" maxlength="3" />
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="gateway1" value="##GATEWAY1##" size="3" maxlength="3" />.
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="gateway2" value="##GATEWAY2##" size="3" maxlength="3" />.
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="gateway3" value="##GATEWAY3##" size="3" maxlength="3" />.
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="gateway4" value="##GATEWAY4##" size="3" maxlength="3" />
 </td>
 </tr>
 <tr>
 <tr>
 <td bgcolor="#FFFFFF">
-DNS Server
+<label onmouseover="XBT(this, {id:'tt1'})" for="1">DNS Server</label>
 </td>
 <td bgcolor="#FFFFFF">
-<input name="dns1" value="##DNS1##" size="3" maxlength="3" />.
-<input name="dns2" value="##DNS2##" size="3" maxlength="3" />.
-<input name="dns3" value="##DNS3##" size="3" maxlength="3" />.
-<input name="dns4" value="##DNS4##" size="3" maxlength="3" />
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="dns1" value="##DNS1##" size="3" maxlength="3" />.
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="dns2" value="##DNS2##" size="3" maxlength="3" />.
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="dns3" value="##DNS3##" size="3" maxlength="3" />.
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="dns4" value="##DNS4##" size="3" maxlength="3" />
 </td>
 </tr>
 <td bgcolor="#99CCFF">
@@ -138,27 +200,31 @@ Date:
 <tr>
 
 <td bgcolor="#99CCFF">
-Xively
+<label onmouseover="XBT(this, {id:'tt1'})" for="1">Xively</label>
 </td>
 <td bgcolor="#99CCFF">
-<select name="xively">
+<select onmouseover="XBT(this, {id:'tt1'})" for="1" name="xively">
   ##XIVELYSELECTOPTION##
 <select>
 </td>
 </tr>
 <tr>
 <td bgcolor="#FFFFFF">
+<label onmouseover="XBT(this, {id:'tt1'})" for="1">
 Xively API Key:
+</label>
 </td>
 <td bgcolor="#FFFFFF">
-<input name="xivelykey" value="##XIVELYKEY##" size="51" maxlength="50" />
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="xivelykey" value="##XIVELYKEY##" size="51" maxlength="50" />
 </td>
 <tr>
 <td bgcolor="#99CCFF">
+<label onmouseover="XBT(this, {id:'tt1'})" for="1">
 Xively Feed:
+</label>
 </td>
 <td bgcolor="#99CCFF">
-<input name="xivelyfeed" value="##XIVELYFEED##" size="21" maxlength="20" />
+<input onmouseover="XBT(this, {id:'tt1'})" for="1" name="xivelyfeed" value="##XIVELYFEED##" size="21" maxlength="20" />
 </td>
 </tr>
 </table>
