@@ -116,7 +116,7 @@ public:
 
     void enableSunday()
     {
-        m_DOW |= 0x4;
+        m_DOW |= 0x40;
     }
 
     void enableAllDays()
@@ -156,7 +156,7 @@ public:
 
     void disableSunday()
     {
-        m_DOW &= ~0x4;
+        m_DOW &= ~0x40;
     }
 
     void disableAllDays()
