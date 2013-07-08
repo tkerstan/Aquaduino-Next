@@ -98,7 +98,7 @@ int8_t ClockTimer::check()
     unsigned long clockTimerOnInSecs;
     unsigned long clockTimerOffInSecs;
 
-    switch (day()+1)
+    switch (weekday())
     {
     case dowMonday:
         if (!isMondayEnabled())
@@ -157,6 +157,8 @@ int8_t ClockTimer::check()
                 on |= (nowInSecs >= clockTimerOnInSecs || nowInSecs
                         < clockTimerOffInSecs) ? 1 : 0;
             }
+
+
         }
     }
 
@@ -195,9 +197,9 @@ uint16_t ClockTimer::serialize(void* buffer, uint16_t size)
     memcpy(charBuffer + pos, m_HOff, sizeof(m_HOff));
     pos += sizeof(m_HOff);
     memcpy(charBuffer + pos, m_MOff, sizeof(m_MOff));
-    pos += sizeof(m_DOW);
+    pos += sizeof(m_MOff);
     memcpy(charBuffer + pos, &m_DOW, sizeof(m_DOW));
-
+    pos += sizeof(m_DOW);
     return mySize;
 }
 
@@ -218,8 +220,8 @@ uint16_t ClockTimer::deserialize(void* data, uint16_t size)
     memcpy(m_HOff, charBuffer + pos, sizeof(m_HOff));
     pos += sizeof(m_HOff);
     memcpy(m_MOff, charBuffer + pos, sizeof(m_MOff));
-    pos += sizeof(m_DOW);
+    pos += sizeof(m_MOff);
     memcpy(&m_DOW, charBuffer + pos, sizeof(m_DOW));
-
+    pos += sizeof(m_DOW);
     return mySize;
 }
