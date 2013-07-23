@@ -45,6 +45,7 @@ if ((EXISTS ${ARDUINO_SDK_PATH}) AND (EXISTS ${AVR_COMPILER_PATH}))
 	SET(CMAKE_CXX_FLAGS "${CMCU} ${CTUNING}")
 	add_definitions(-DF_CPU=16000000 -D__AVR__ -D__AVR_LIBC_DEPRECATED_ENABLE__=1 -DUSB_VID=NULL -DUSB_PID=NULL -DARDUINO=103 -D__AVR_ATmega2560__)
 
+
 	if (NOT EXISTS ${ARDUINO_LIBS}/OneWire)
 		message("OneWire not available")
 		file(DOWNLOAD "http://www.pjrc.com/teensy/arduino_libraries/OneWire.zip" "./OneWire.zip")
@@ -55,21 +56,36 @@ if ((EXISTS ${ARDUINO_SDK_PATH}) AND (EXISTS ${AVR_COMPILER_PATH}))
 		message("Time not available")
 		file(DOWNLOAD "http://www.pjrc.com/teensy/arduino_libraries/Time.zip" "./Time.zip")
 		execute_process(COMMAND unzip Time.zip -d ${ARDUINO_LIBS})
-		execute_process(COMMAND patch -p1 -d ${ARDUINO_LIBS}/Time -i ${CMAKE_CURRENT_SOURCE_DIR}/patches/Time.patch)
+		execute_process(COMMAND patch -p1 -d ${ARDUINO_LIBS}/Time -i ${CMAKE_CURRENT_SOURCE_DIR}/patches/time.patch)
 	endif()
 
 	if (NOT EXISTS ${ARDUINO_LIBS}/TemplateParser)
 		message("TemplateParser not available")
 		file(DOWNLOAD "https://github.com/tkerstan/ArduinoTemplateParser/archive/master.zip" "./TemplateParser.zip")
 		execute_process(COMMAND unzip TemplateParser.zip -d ${ARDUINO_LIBS})
-		file(RENAME ${ARDUINO_LIBS}/ArduinoTemplateParser-Master ${ARDUINO_LIBS}/TemplateParser)
+		file(RENAME ${ARDUINO_LIBS}/ArduinoTemplateParser-master ${ARDUINO_LIBS}/TemplateParser)
 	endif()
 
 	if (NOT EXISTS ${ARDUINO_LIBS}/Webduino)
 		message("Webduino not available")
 		file(DOWNLOAD "https://github.com/sirleech/Webduino/archive/master.zip" "./Webduino.zip")
 		execute_process(COMMAND unzip Webduino.zip -d ${ARDUINO_LIBS})
-		file(RENAME ${ARDUINO_LIBS}/Webduino-Master ${ARDUINO_LIBS}/Webduino)
+		file(RENAME ${ARDUINO_LIBS}/Webduino-master ${ARDUINO_LIBS}/Webduino)
+	endif()
+
+	if (NOT EXISTS ${ARDUINO_LIBS}/Xively)
+		message("Xively not available")
+		file(DOWNLOAD "https://github.com/xively/xively_arduino/archive/master.zip" "./Xively.zip")
+		execute_process(COMMAND unzip Xively.zip -d ${ARDUINO_LIBS})
+		file(RENAME ${ARDUINO_LIBS}/xively_arduino-master ${ARDUINO_LIBS}/Xively)
+		execute_process(COMMAND patch -p1 -d ${ARDUINO_LIBS}/Xively -i ${CMAKE_CURRENT_SOURCE_DIR}/patches/Xively-Aquaduino.patch)
+	endif()
+
+	if (NOT EXISTS ${ARDUINO_LIBS}/HttpClient)
+		message("HttpClient not available")
+		file(DOWNLOAD "https://github.com/amcewen/HttpClient/archive/master.zip" "./HttpClient.zip")
+		execute_process(COMMAND unzip HttpClient.zip -d ${ARDUINO_LIBS})
+		file(RENAME ${ARDUINO_LIBS}/HttpClient-master ${ARDUINO_LIBS}/HttpClient)
 	endif()
 
 	include_directories(${ARDUINO_CORE})
@@ -83,6 +99,8 @@ if ((EXISTS ${ARDUINO_SDK_PATH}) AND (EXISTS ${AVR_COMPILER_PATH}))
 	include_directories(${ARDUINO_LIBS}/Time)
 	include_directories(${ARDUINO_LIBS}/TemplateParser)
 	include_directories(${ARDUINO_LIBS}/Webduino)
+	include_directories(${ARDUINO_LIBS}/Xively)
+	include_directories(${ARDUINO_LIBS}/HttpClient)
 	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Actuators)
 	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Controller)
 	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Framework)
@@ -117,6 +135,11 @@ if ((EXISTS ${ARDUINO_SDK_PATH}) AND (EXISTS ${AVR_COMPILER_PATH}))
 	file(GLOB ARDUINO_LIB_TMPL_PARS_SRC ${ARDUINO_LIBS}/TemplateParser/*.cpp ${ARDUINO_LIBS}/TemplateParser/*.c)
 	add_library(arduino_template_parser STATIC ${ARDUINO_LIB_TMPL_PARS_SRC})
 
+	file(GLOB ARDUINO_LIB_XIVELY_SRC ${ARDUINO_LIBS}/Xively/*.cpp ${ARDUINO_LIBS}/Xively/*.c)
+	add_library(arduino_xively STATIC ${ARDUINO_LIB_XIVELY_SRC})
+
+	file(GLOB ARDUINO_LIB_HTTPCLIENT_SRC ${ARDUINO_LIBS}/HttpClient/*.cpp ${ARDUINO_LIBS}/HttpClient/*.c)
+	add_library(arduino_httpclient STATIC ${ARDUINO_LIB_HTTPCLIENT_SRC})
 
 	file(GLOB AQADUINO_SRC
 			  ${CMAKE_CURRENT_SOURCE_DIR}/Actuators/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/Actuators/*.c
@@ -132,7 +155,9 @@ if ((EXISTS ${ARDUINO_SDK_PATH}) AND (EXISTS ${AVR_COMPILER_PATH}))
 						  arduino_sd
 						  arduino_onewire
 						  arduino_time
-						  arduino_template_parser)
+						  arduino_template_parser
+						  arduino_xively
+						  arduino_httpclient)
 
 	add_custom_target(aquaduino.hex
 					  ${CMAKE_OBJCOPY} -O ihex -R .eeprom aquaduino aquaduino.hex
