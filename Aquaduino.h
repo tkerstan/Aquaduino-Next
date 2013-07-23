@@ -182,8 +182,8 @@ private:
     int8_t m_DHCP;
     int8_t m_NTP;
     int8_t m_Xively;
-    char m_XivelyAPIKey[50];
-    char m_XivelyFeedName[20];
+    char m_XivelyAPIKey[51];
+    char m_XivelyFeedName[21];
     char m_XivelyChannelNames[MAX_SENSORS][10];
 
     ArrayMap<Controller*> m_Controllers;
