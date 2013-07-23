@@ -26,6 +26,7 @@
 #include <TemplateParser.h>
 #include <Framework/util.h>
 #include <Framework/OneWireHandler.h>
+#include <Framework/Flashvars.h>
 
 /**
  * \brief Constructor
@@ -139,30 +140,7 @@ uint16_t DS18S20::deserialize(void* data, uint16_t size)
     return sizeof(m_Pin) + sizeof(m_Address);
 }
 
-const static char progTemplateFileName[] PROGMEM = "DS18S20.htm";
-const static char progTemplateString1[] PROGMEM = "##INAME##";
-const static char progTemplateString2[] PROGMEM = "##NAME##";
-const static char progTemplateString3[] PROGMEM = "##PIN##";
-const static char progTemplateString4[] PROGMEM = "##ADDRESSSELECT##";
 
-const static char* const templateStrings[] PROGMEM =
-    { progTemplateString1, progTemplateString2, progTemplateString3,
-      progTemplateString4 };
-
-static const char progInputPin[] PROGMEM = "ipin";
-static const char progInputAddress[] PROGMEM = "address";
-static const char* const inputStrings[] PROGMEM =
-    { progInputPin, progInputAddress };
-
-enum
-{
-    S_INAME, S_NAME, S_PIN, S_ADDRESSELECT
-};
-
-enum
-{
-    I_PIN, I_ADDRESS
-};
 
 int8_t DS18S20::showWebinterface(WebServer* server,
                                  WebServer::ConnectionType type, char* url)
@@ -170,8 +148,8 @@ int8_t DS18S20::showWebinterface(WebServer* server,
     File templateFile;
     TemplateParser* parser;
     int16_t matchIdx;
-    char templateFileName[sizeof(progTemplateFileName)];
-    strcpy_P(templateFileName, progTemplateFileName);
+    char templateFileName[template_ds18s20_fnsize];
+    strcpy_P(templateFileName, template_ds18s20_fname);
     uint8_t address[4][8];
     char addressNames[5][17];
     char* names[5];
@@ -186,10 +164,11 @@ int8_t DS18S20::showWebinterface(WebServer* server,
         do
         {
             repeat = server->readPOSTparam(name, 20, value, 20);
-            if (strcmp_P(name, (PGM_P) pgm_read_word(&(inputStrings[I_PIN]))) == 0)
+            if (strcmp_P(name,
+                         (PGM_P) pgm_read_word(&(template_ds18s20_inputs[DS18S20_I_PIN]))) == 0)
                 m_Pin = atoi(value);
             if (strcmp_P(name,
-                         (PGM_P) pgm_read_word(&(inputStrings[I_ADDRESS])))
+                         (PGM_P) pgm_read_word(&(template_ds18s20_inputs[DS18S20_I_ADDRESS])))
                 == 0)
             {
                 sth(value, m_Address, 8);
@@ -219,23 +198,23 @@ int8_t DS18S20::showWebinterface(WebServer* server,
         templateFile = SD.open(templateFileName, FILE_READ);
         while ((matchIdx =
                 parser->processTemplateUntilNextMatch(&templateFile,
-                                                      templateStrings,
-                                                      sizeof(templateStrings) / sizeof(char*),
+                                                      template_ds18s20,
+                                                      template_ds18s20_elements,
                                                       server))
                >= 0)
         {
             switch (matchIdx)
             {
-            case S_INAME:
-                server->print((__FlashStringHelper *) &inputStrings[0][0]);
+            case DS18S20_INAME:
+                server->print((__FlashStringHelper *) pgm_read_word(template_ds18s20_inputs));
                 break;
-            case S_NAME:
+            case DS18S20_NAME:
                 server->print(getName());
                 break;
-            case S_PIN:
+            case DS18S20_PIN:
                 server->print(m_Pin);
                 break;
-            case S_ADDRESSELECT:
+            case DS18S20_ADDRESSSELECT:
                 parser->selectList("address", names, names, selected, i, server);
                 break;
             }

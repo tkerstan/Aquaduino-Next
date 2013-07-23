@@ -22,42 +22,7 @@
 #include <Aquaduino.h>
 #include <TemplateParser.h>
 #include <SD.h>
-
-const static uint8_t LEVELCONTROLLER_STATE_OK = 0;
-const static uint8_t LEVELCONTROLLER_STATE_DEBOUNCE = 1;
-const static uint8_t LEVELCONTROLLER_STATE_REFILL = 2;
-const static uint8_t LEVELCONTROLLER_STATE_OVERRUN = 3;
-const static uint8_t LEVELCONTROLLER_STATE_REFILL_TIMEOUT = 4;
-
-const static char progTemplateFileName[] PROGMEM = "level.htm";
-const static char progTemplateString1[] PROGMEM = "##SSELECT##";
-const static char progTemplateString2[] PROGMEM = "##STATE##";
-const static char progTemplateString3[] PROGMEM = "##DELAYLOW##";
-const static char progTemplateString4[] PROGMEM = "##DELAYHIGH##";
-const static char progTemplateString5[] PROGMEM = "##REFILLTIMEOUT##";
-
-enum
-{
-    LC_SSELECT, LC_STATE, LC_DELAYLOW, LC_DELAYHIGH, LC_REFILLTIMEOUT
-};
-
-const static char* const templateStrings[] PROGMEM =
-    { progTemplateString1, progTemplateString2, progTemplateString3,
-      progTemplateString4, progTemplateString5 };
-
-const static char progStateString1[] PROGMEM = "OK";
-const static char progStateString2[] PROGMEM = "DEBOUNCE";
-const static char progStateString3[] PROGMEM = "REFILL";
-const static char progStateString4[] PROGMEM = "OVERRUN";
-const static char progStateString5[] PROGMEM = "TIMEOUT";
-const static char* const stateStrings[] PROGMEM =
-    { progStateString1, progStateString2, progStateString3, progStateString4,
-      progStateString5 };
-
-const static char progInputDelayLow[] PROGMEM = "delayLow";
-const static char progInputDelayHigh[] PROGMEM = "delayHigh";
-const static char progInputRefillTimeout[] PROGMEM = "refillTimeout";
-const static char progInputSensor[] PROGMEM = "sensor";
+#include <Framework/Flashvars.h>
 
 /**
  * \brief Constructor
@@ -69,7 +34,7 @@ LevelController::LevelController(const char* name) :
     m_Type = CONTROLLER_LEVEL;
     m_DebounceDelay = 3;
     m_Hysteresis = 10;
-    m_State = LEVELCONTROLLER_STATE_OK;
+    m_State = TEMPLATE_LEVELCONTROLLER_STATE_OK;
     m_RefillTimeout = 30;
     m_Sensor = -1;
 }
@@ -168,57 +133,57 @@ int8_t LevelController::run()
 
     //Check for overflow while processing refill
     //May double the debounce delays in case of overflow
-    if (m_State != LEVELCONTROLLER_STATE_OK && lastTime > millisNow)
+    if (m_State != TEMPLATE_LEVELCONTROLLER_STATE_OK && lastTime > millisNow)
     {
         lastTime = 0;
     }
 
     switch (m_State)
     {
-    case LEVELCONTROLLER_STATE_OK:
+    case TEMPLATE_LEVELCONTROLLER_STATE_OK:
         allMyActuators((int8_t) 0);
         if (reading == HIGH)
         {
-            m_State = LEVELCONTROLLER_STATE_DEBOUNCE;
+            m_State = TEMPLATE_LEVELCONTROLLER_STATE_DEBOUNCE;
             lastTime = millisNow;
         }
         break;
-    case LEVELCONTROLLER_STATE_DEBOUNCE:
+    case TEMPLATE_LEVELCONTROLLER_STATE_DEBOUNCE:
         if (reading == HIGH && deltaTSwitch > 1000 * m_DebounceDelay)
         {
             allMyActuators((int8_t) 1);
             lastTime = millisNow;
-            m_State = LEVELCONTROLLER_STATE_REFILL;
+            m_State = TEMPLATE_LEVELCONTROLLER_STATE_REFILL;
         }
         else if (reading == LOW)
         {
-            m_State = LEVELCONTROLLER_STATE_OK;
+            m_State = TEMPLATE_LEVELCONTROLLER_STATE_OK;
         }
         break;
-    case LEVELCONTROLLER_STATE_REFILL:
+    case TEMPLATE_LEVELCONTROLLER_STATE_REFILL:
         if (reading == LOW)
         {
-            m_State = LEVELCONTROLLER_STATE_OVERRUN;
+            m_State = TEMPLATE_LEVELCONTROLLER_STATE_OVERRUN;
             lastTime = millisNow;
         }
         else if (reading == HIGH && deltaTSwitch > 1000 * m_RefillTimeout)
         {
-            m_State = LEVELCONTROLLER_STATE_REFILL_TIMEOUT;
+            m_State = TEMPLATE_LEVELCONTROLLER_STATE_REFILL_TIMEOUT;
             allMyActuators((int8_t) 0);
         }
         break;
-    case LEVELCONTROLLER_STATE_OVERRUN:
+    case TEMPLATE_LEVELCONTROLLER_STATE_OVERRUN:
         if (reading == LOW && deltaTSwitch > m_Hysteresis * 1000)
         {
-            m_State = LEVELCONTROLLER_STATE_OK;
+            m_State = TEMPLATE_LEVELCONTROLLER_STATE_OK;
             allMyActuators((int8_t) 0);
         }
         else if (reading == HIGH)
         {
-            m_State = LEVELCONTROLLER_STATE_REFILL;
+            m_State = TEMPLATE_LEVELCONTROLLER_STATE_REFILL;
         }
         break;
-    case LEVELCONTROLLER_STATE_REFILL_TIMEOUT:
+    case TEMPLATE_LEVELCONTROLLER_STATE_REFILL_TIMEOUT:
         return 0;
     default:
         return 0;
@@ -234,8 +199,8 @@ int8_t LevelController::showWebinterface(WebServer* server,
     TemplateParser* parser;
     int8_t matchIdx;
 
-    char templateFileName[sizeof(progTemplateFileName)];
-    strcpy_P(templateFileName, progTemplateFileName);
+    char templateFileName[template_levelcontroller_fnsize];
+    strcpy_P(templateFileName, template_levelcontroller_fname);
 
     const char* sensorNames[MAX_SENSORS + 1];
     char sensorValArray[MAX_SENSORS + 1][3];
@@ -252,27 +217,35 @@ int8_t LevelController::showWebinterface(WebServer* server,
         do
         {
             repeat = server->readPOSTparam(name, 16, value, 16);
-            if (strcmp_P(name, progInputDelayLow) == 0)
+            if (strcmp_P(name,
+                         (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_DELAYLOW])))
+                == 0)
             {
                 uint8_t d = atoi(value);
                 m_Hysteresis = d;
             }
-            else if (strcmp_P(name, progInputDelayHigh) == 0)
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_DELAYHIGH])))
+                     == 0)
             {
                 uint8_t d = atoi(value);
                 m_DebounceDelay = d;
             }
-            else if (strcmp_P(name, progInputRefillTimeout) == 0)
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_REFILLTIMEOUT])))
+                     == 0)
             {
                 uint8_t d = atoi(value);
                 m_RefillTimeout = d;
             }
-            else if (strcmp_P(name, progInputSensor) == 0)
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_SENSOR])))
+                     == 0)
             {
                 m_Sensor = atoi(value);
             }
         } while (repeat);
-        m_State = LEVELCONTROLLER_STATE_OK;
+        m_State = TEMPLATE_LEVELCONTROLLER_STATE_OK;
         server->httpSeeOther(this->m_URL);
     }
     else
@@ -294,14 +267,14 @@ int8_t LevelController::showWebinterface(WebServer* server,
         }
         while ((matchIdx =
                 parser->processTemplateUntilNextMatch(&templateFile,
-                                                      templateStrings,
-                                                      sizeof(templateStrings) / sizeof(char*),
+                                                      template_levelcontroller,
+                                                      template_levelcontroller_elements,
                                                       server))
                != -1)
         {
             switch (matchIdx)
             {
-            case LC_SSELECT:
+            case TEMPLATE_LEVELCONTROLLER_SSELECT:
                 parser->selectList("sensor",
                                    sensorNames,
                                    sensorValuePointers,
@@ -309,16 +282,16 @@ int8_t LevelController::showWebinterface(WebServer* server,
                                    i,
                                    server);
                 break;
-            case LC_STATE:
-                server->print((__FlashStringHelper *) pgm_read_word(&(stateStrings[m_State])));
+            case TEMPLATE_LEVELCONTROLLER_STATE:
+                server->print((__FlashStringHelper *) pgm_read_word(&(template_levelcontroller_states[m_State])));
                 break;
-            case LC_DELAYLOW:
+            case TEMPLATE_LEVELCONTROLLER_DELAYLOW:
                 server->print(m_Hysteresis);
                 break;
-            case LC_DELAYHIGH:
+            case TEMPLATE_LEVELCONTROLLER_DELAYHIGH:
                 server->print(m_DebounceDelay);
                 break;
-            case LC_REFILLTIMEOUT:
+            case TEMPLATE_LEVELCONTROLLER_REFILLTIMEOUT:
                 server->print(m_RefillTimeout);
                 break;
             }

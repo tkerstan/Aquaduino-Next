@@ -22,34 +22,7 @@
 #include "DigitalOutput.h"
 #include <Arduino.h>
 #include <TemplateParser.h>
-
-const static char progTemplateFileName[] PROGMEM = "do.htm";
-const static char progTemplateString1[] PROGMEM = "##INAME##";
-const static char progTemplateString2[] PROGMEM = "##PIN##";
-const static char progTemplateString3[] PROGMEM = "##IPWM##";
-const static char progTemplateString4[] PROGMEM = "##PWM##";
-const static char progTemplateString5[] PROGMEM = "##ACTUATORNAME##";
-const static char progTemplateString6[] PROGMEM = "##TYPEOPTIONS##";
-
-enum
-{
-    DO_IPIN, DO_PIN, DO_IPWM, DO_PWM, DO_NAME, DO_ONVALUE
-};
-
-const static char* const templateStrings[] PROGMEM =
-    { progTemplateString1, progTemplateString2, progTemplateString3,
-      progTemplateString4, progTemplateString5, progTemplateString6 };
-
-static const char progInputType[] PROGMEM = "type";
-const static char progInputPin[] PROGMEM = "ipin";
-const static char progInputPWM[] PROGMEM = "ipwm";
-static const char* const inputStrings[] PROGMEM =
-    { progInputType, progInputPin, progInputPWM };
-
-enum
-{
-    I_TYPE, I_PIN, I_PWM
-};
+#include <Framework/Flashvars.h>
 
 /**
  * \brief Constructor
@@ -254,8 +227,8 @@ int8_t DigitalOutput::showWebinterface(WebServer* server,
     File templateFile;
     TemplateParser* parser;
     int16_t matchIdx;
-    char templateFileName[sizeof(progTemplateFileName)];
-    strcpy_P(templateFileName, progTemplateFileName);
+    char templateFileName[template_digitaloutput_fnsize];
+    strcpy_P(templateFileName, template_digitaloutput_fname);
     float dC = -1.0;
 
     if (type == WebServer::POST)
@@ -265,20 +238,20 @@ int8_t DigitalOutput::showWebinterface(WebServer* server,
         do
         {
             repeat = server->readPOSTparam(name, 16, value, 16);
-            if (strcmp_P(name, (PGM_P) pgm_read_word(&(inputStrings[I_TYPE]))) == 0)
+            if (strcmp_P(name, (PGM_P) pgm_read_word(&(template_digitaloutput_inputs[DO_I_TYPE]))) == 0)
             {
                 m_OnValue = atoi(value);
                 m_OffValue = 1 - m_OnValue;
             }
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(inputStrings[I_PIN])))
+                              (PGM_P) pgm_read_word(&(template_digitaloutput_inputs[DO_I_PIN])))
                      == 0)
             {
                 m_Pin = atoi(value);
                 pinMode(m_Pin, OUTPUT);
             }
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(inputStrings[I_PWM])))
+                              (PGM_P) pgm_read_word(&(template_digitaloutput_inputs[DO_I_PWM])))
                      == 0)
             {
                 dC = atof(value);
@@ -301,21 +274,21 @@ int8_t DigitalOutput::showWebinterface(WebServer* server,
         templateFile = SD.open(templateFileName, FILE_READ);
         while ((matchIdx =
                 parser->processTemplateUntilNextMatch(&templateFile,
-                                                      templateStrings,
-                                                      sizeof(templateStrings) / sizeof(char*),
+                                                      template_digitaloutput,
+                                                     template_digitaloutput_elements,
                                                       server))
                >= 0)
         {
             switch (matchIdx)
             {
             case DO_IPIN:
-                server->print((const __FlashStringHelper *) (progInputPin));
+                server->print((const __FlashStringHelper *) (pgm_input_ipin));
                 break;
             case DO_PIN:
                 server->print(m_Pin);
                 break;
             case DO_IPWM:
-                server->print((const __FlashStringHelper *) (progInputPWM));
+                server->print((const __FlashStringHelper *) (pgm_input_ipwm));
                 break;
             case DO_PWM:
                 if (supportsPWM())

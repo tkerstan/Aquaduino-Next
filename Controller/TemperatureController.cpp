@@ -22,28 +22,7 @@
 #include <Aquaduino.h>
 #include <SD.h>
 #include <TemplateParser.h>
-
-const static char progTemplateString1[] PROGMEM = "##SSELECT##";
-const static char progTemplateString2[] PROGMEM = "##TEMPERATURE##";
-const static char progTemplateString3[] PROGMEM = "##THRESHOLD##";
-const static char progTemplateString4[] PROGMEM = "##PWMMAX##";
-const static char progTemplateString5[] PROGMEM = "##HYSTERESIS##";
-
-const static char* const templateStrings[] PROGMEM =
-    { progTemplateString1, progTemplateString2, progTemplateString3,
-      progTemplateString4, progTemplateString5 };
-
-enum
-{
-    TC_SSELECT, TC_TEMPERATURE, TC_THRESHOLD, TC_PWMMAX, TC_HYSTERESIS
-};
-
-const static char progInputThreshold[] PROGMEM = "Threshold";
-const static char progInputPWMMax[] PROGMEM = "PWMMax";
-const static char progInputHysteresis[] PROGMEM = "Hysteresis";
-const static char progInputSensor[] PROGMEM = "sensor";
-
-const static char progTemplateFileName[] PROGMEM = "temp.htm";
+#include <Framework/Flashvars.h>
 
 /**
  * Constructor
@@ -149,9 +128,9 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
     int8_t i = 0, sensorIdx;
     Sensor* sensor;
 
-    char templateFileName[sizeof(progTemplateFileName)];
+    char templateFileName[template_temperaturecontroller_fnsize];
 
-    strcpy_P(templateFileName, progTemplateFileName);
+    strcpy_P(templateFileName, template_temperaturecontroller_fname);
 
     if (type == WebServer::POST)
     {
@@ -160,13 +139,21 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
         do
         {
             repeat = server->readPOSTparam(name, 16, value, 16);
-            if (strcmp_P(name, progInputThreshold) == 0)
+            if (strcmp_P(name,
+                         (PGM_P) pgm_read_word(&(template_temperaturecontroller_inputs[TEMPERATURECONTROLLER_I_THRESHOLD])))
+                == 0)
                 m_Threshold = atof(value);
-            else if (strcmp_P(name, progInputPWMMax) == 0)
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(template_temperaturecontroller_inputs[TEMPERATURECONTROLLER_I_PWMMAX])))
+                     == 0)
                 m_MaxPWM = atof(value);
-            else if (strcmp_P(name, progInputHysteresis) == 0)
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(template_temperaturecontroller_inputs[TEMPERATURECONTROLLER_I_HYSTERESIS])))
+                     == 0)
                 m_Hysteresis = atof(value);
-            else if (strcmp_P(name, progInputSensor) == 0)
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(template_temperaturecontroller_inputs[TEMPERATURECONTROLLER_I_SENSOR])))
+                     == 0)
                 m_Sensor = atoi(value);
 
         } while (repeat);
@@ -191,14 +178,14 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
         }
         while ((matchIdx =
                 parser->processTemplateUntilNextMatch(&templateFile,
-                                                      templateStrings,
-                                                      sizeof(templateStrings) / sizeof(char*),
+                                                      template_temperaturecontroller,
+                                                      template_temperaturecontroller_elements,
                                                       server))
                != -1)
         {
             switch (matchIdx)
             {
-            case TC_SSELECT:
+            case TEMPERATURECONTROLLER_SSELECT:
                 parser->selectList("sensor",
                                    sensorNames,
                                    sensorValuePointers,
@@ -206,16 +193,16 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
                                    i,
                                    server);
                 break;
-            case TC_TEMPERATURE:
+            case TEMPERATURECONTROLLER_TEMPERATURE:
                 server->print(aquaduino->getSensorValue(m_Sensor));
                 break;
-            case TC_THRESHOLD:
+            case TEMPERATURECONTROLLER_THRESHOLD:
                 server->print(m_Threshold);
                 break;
-            case TC_PWMMAX:
+            case TEMPERATURECONTROLLER_PWMMAX:
                 server->print(m_MaxPWM);
                 break;
-            case TC_HYSTERESIS:
+            case TEMPERATURECONTROLLER_HYSTERESIS:
                 server->print(m_Hysteresis);
                 break;
             }

@@ -1284,8 +1284,8 @@ void Aquaduino::printConfigWebpage(WebServer* server)
     uint8_t mac[6];
     IPAddress* ip, *netmask, *dns, *gw, *ntp;
 
-    char templateFileName[sizeof(size_progConfigTemplateFileName)];
-    strcpy_P(templateFileName, progConfigTemplateFileName);
+    char templateFileName[sizeof(template_config_fnsize)];
+    strcpy_P(templateFileName, template_config_fname);
 
     parser = getTemplateParser();
     templateFile = SD.open(templateFileName, FILE_READ);
@@ -1299,35 +1299,32 @@ void Aquaduino::printConfigWebpage(WebServer* server)
 
     while ((matchIdx =
             parser->processTemplateUntilNextMatch(&templateFile,
-                                                  configTemplateStrings,
-                                                  nr_configTemplateStrings,
+                                                  template_config,
+                                                  template_config_elements,
                                                   server))
            >= 0)
     {
         switch (matchIdx)
         {
-        case T_ACTORROW:
-            //printActuatorTable(server);
-            break;
-        case T_MAC1:
+        case CONFIG_T_MAC1:
             server->print(mac[0], HEX);
             break;
-        case T_MAC2:
+        case CONFIG_T_MAC2:
             server->print(mac[1], HEX);
             break;
-        case T_MAC3:
+        case CONFIG_T_MAC3:
             server->print(mac[2], HEX);
             break;
-        case T_MAC4:
+        case CONFIG_T_MAC4:
             server->print(mac[3], HEX);
             break;
-        case T_MAC5:
+        case CONFIG_T_MAC5:
             server->print(mac[4], HEX);
             break;
-        case T_MAC6:
+        case CONFIG_T_MAC6:
             server->print(mac[5], HEX);
             break;
-        case T_DHCPSELECTOPTION:
+        case CONFIG_T_DHCPSELECTOPTION:
             if (aquaduino->isDHCPEnabled())
             {
                 parser->selectListOption("Yes", "1", 1, server);
@@ -1339,55 +1336,55 @@ void Aquaduino::printConfigWebpage(WebServer* server)
                 parser->selectListOption("No", "0", 1, server);
             }
             break;
-        case T_IP1:
+        case CONFIG_T_IP1:
             server->print((*ip)[0]);
             break;
-        case T_IP2:
+        case CONFIG_T_IP2:
             server->print((*ip)[1]);
             break;
-        case T_IP3:
+        case CONFIG_T_IP3:
             server->print((*ip)[2]);
             break;
-        case T_IP4:
+        case CONFIG_T_IP4:
             server->print((*ip)[3]);
             break;
-        case T_NETMASK1:
+        case CONFIG_T_NETMASK1:
             server->print((*netmask)[0]);
             break;
-        case T_NETMASK2:
+        case CONFIG_T_NETMASK2:
             server->print((*netmask)[1]);
             break;
-        case T_NETMASK3:
+        case CONFIG_T_NETMASK3:
             server->print((*netmask)[2]);
             break;
-        case T_NETMASK4:
+        case CONFIG_T_NETMASK4:
             server->print((*netmask)[3]);
             break;
-        case T_GATEWAY1:
+        case CONFIG_T_GATEWAY1:
             server->print((*gw)[0]);
             break;
-        case T_GATEWAY2:
+        case CONFIG_T_GATEWAY2:
             server->print((*gw)[1]);
             break;
-        case T_GATEWAY3:
+        case CONFIG_T_GATEWAY3:
             server->print((*gw)[2]);
             break;
-        case T_GATEWAY4:
+        case CONFIG_T_GATEWAY4:
             server->print((*gw)[3]);
             break;
-        case T_DNS1:
+        case CONFIG_T_DNS1:
             server->print((*dns)[0]);
             break;
-        case T_DNS2:
+        case CONFIG_T_DNS2:
             server->print((*dns)[1]);
             break;
-        case T_DNS3:
+        case CONFIG_T_DNS3:
             server->print((*dns)[2]);
             break;
-        case T_DNS4:
+        case CONFIG_T_DNS4:
             server->print((*dns)[3]);
             break;
-        case T_NTPSELECTOPTION:
+        case CONFIG_T_NTPSELECTOPTION:
             if (aquaduino->isNTPEnabled())
             {
                 parser->selectListOption("Yes", "1", 1, server);
@@ -1399,44 +1396,44 @@ void Aquaduino::printConfigWebpage(WebServer* server)
                 parser->selectListOption("No", "0", 1, server);
             }
             break;
-        case T_NTP1:
+        case CONFIG_T_NTP1:
             server->print((*ntp)[0]);
             break;
-        case T_NTP2:
+        case CONFIG_T_NTP2:
             server->print((*ntp)[1]);
             break;
-        case T_NTP3:
+        case CONFIG_T_NTP3:
             server->print((*ntp)[2]);
             break;
-        case T_NTP4:
+        case CONFIG_T_NTP4:
             server->print((*ntp)[3]);
             break;
-        case T_NTPPERIOD:
+        case CONFIG_T_NTPPERIOD:
             server->print(m_NTPSyncInterval);
             break;
-        case T_TIMEZONE:
+        case CONFIG_T_TIMEZONE:
             server->print(m_Timezone);
             break;
-        case T_HOUR:
+        case CONFIG_T_HOUR:
             server->print(hour());
             break;
-        case T_MINUTE:
+        case CONFIG_T_MINUTE:
             server->print(minute());
             break;
-        case T_SECOND:
+        case CONFIG_T_SECOND:
             server->print(second());
             break;
-        case T_MONTH:
+        case CONFIG_T_MONTH:
             server->print(month());
             break;
-        case T_DAY:
+        case CONFIG_T_DAY:
             server->print(day());
             break;
-        case T_YEAR:
+        case CONFIG_T_YEAR:
             server->print(year());
             break;
 
-        case T_XIVELY:
+        case CONFIG_T_XIVELY:
             if (isXivelyEnabled())
             {
                 parser->selectListOption("Yes", "1", 1, server);
@@ -1448,13 +1445,13 @@ void Aquaduino::printConfigWebpage(WebServer* server)
                 parser->selectListOption("No", "0", 1, server);
             }
             break;
-        case T_XIVELYAPIKEY:
+        case CONFIG_T_XIVELYAPIKEY:
             server->print(getXivelyApiKey());
             break;
-        case T_XIVELYFEED:
+        case CONFIG_T_XIVELYFEED:
             server->print(getXivelyFeed());
             break;
-        case T_FREERAM:
+        case CONFIG_T_FREERAM:
             server->print(freeRam());
             server->print(F(" Bytes"));
             break;
@@ -1496,159 +1493,159 @@ int8_t Aquaduino::configWebpageProcessPost(WebServer* server,
         while ((repeat = server->readPOSTparam(name, 20, value, 50)) > 0)
         {
             if (strcmp_P(name,
-                         (PGM_P) pgm_read_word(&(configInputStrings[I_MAC1])))
+                         (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_MAC1])))
                 == 0)
                 mac[0] = strtol(value, NULL, 16);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_MAC2])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_MAC2])))
                      == 0)
                 mac[1] = strtol(value, NULL, 16);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_MAC3])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_MAC3])))
                      == 0)
                 mac[2] = strtol(value, NULL, 16);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_MAC4])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_MAC4])))
                      == 0)
                 mac[3] = strtol(value, NULL, 16);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_MAC5])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_MAC5])))
                      == 0)
                 mac[4] = strtol(value, NULL, 16);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_MAC6])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_MAC6])))
                      == 0)
                 mac[5] = strtol(value, NULL, 16);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_IP1])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_IP1])))
                      == 0)
                 ip[0] = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_IP2])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_IP2])))
                      == 0)
                 ip[1] = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_IP3])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_IP3])))
                      == 0)
                 ip[2] = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_IP4])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_IP4])))
                      == 0)
                 ip[3] = atoi(value);
             if (strcmp_P(name,
-                         (PGM_P) pgm_read_word(&(configInputStrings[I_NETMASK1])))
+                         (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_NETMASK1])))
                 == 0)
                 netmask[0] = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_NETMASK2])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_NETMASK2])))
                      == 0)
                 netmask[1] = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_NETMASK3])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_NETMASK3])))
                      == 0)
                 netmask[2] = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_NETMASK4])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_NETMASK4])))
                      == 0)
                 netmask[3] = atoi(value);
             if (strcmp_P(name,
-                         (PGM_P) pgm_read_word(&(configInputStrings[I_GATEWAY1])))
+                         (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_GATEWAY1])))
                 == 0)
                 gw[0] = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_GATEWAY2])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_GATEWAY2])))
                      == 0)
                 gw[1] = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_GATEWAY3])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_GATEWAY3])))
                      == 0)
                 gw[2] = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_GATEWAY4])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_GATEWAY4])))
                      == 0)
                 gw[3] = atoi(value);
             if (strcmp_P(name,
-                         (PGM_P) pgm_read_word(&(configInputStrings[I_DNS1])))
+                         (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_DNS1])))
                 == 0)
                 dns[0] = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_DNS2])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_DNS2])))
                      == 0)
                 dns[1] = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_DNS3])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_DNS3])))
                      == 0)
                 dns[2] = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_DNS4])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_DNS4])))
                      == 0)
                 dns[3] = atoi(value);
             if (strcmp_P(name,
-                         (PGM_P) pgm_read_word(&(configInputStrings[I_NTP1])))
+                         (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_NTP1])))
                 == 0)
                 ntp[0] = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_NTP2])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_NTP2])))
                      == 0)
                 ntp[1] = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_NTP3])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_NTP3])))
                      == 0)
                 ntp[2] = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_NTP4])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_NTP4])))
                      == 0)
                 ntp[3] = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_NTP])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_NTP])))
                      == 0)
                 doNTP = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_DHCP])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_DHCP])))
                      == 0)
                 doDHCP = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_NTPPERIOD])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_NTPPERIOD])))
                      == 0)
                 ntpperiod = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_TIMEZONE])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_TIMEZONE])))
                      == 0)
                 timezone = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_HOUR])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_HOUR])))
                      == 0)
                 hour = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_MINUTE])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_MINUTE])))
                      == 0)
                 minute = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_SECOND])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_SECOND])))
                      == 0)
                 second = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_MONTH])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_MONTH])))
                      == 0)
                 month = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_DAY])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_DAY])))
                      == 0)
                 day = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_YEAR])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_YEAR])))
                      == 0)
                 year = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_XIVELY])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_XIVELY])))
                      == 0)
                 m_Xively = atoi(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_XIVELYAPIKEY])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_XIVELYAPIKEY])))
                      == 0)
                 setXivelyApiKey(value);
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(configInputStrings[I_XIVELYFEED])))
+                              (PGM_P) pgm_read_word(&(template_config_inputs[CONFIG_I_XIVELYFEED])))
                      == 0)
                 setXivelyFeed(value);
         }
@@ -1808,13 +1805,13 @@ int8_t Aquaduino::printMainActuatorTable(WebServer* server)
     int16_t matchIdx = 0;
     TemplateParser* parser;
     char actuatorID[5], controllerID[5], lockedID[5], stateID[5];
-    char aRowFileName[size_pARowFileName];
+    char aRowFileName[template_main_actuatorrow_fnsize];
     File templateARow;
     Actuator* currentActuator;
     Controller* currentController;
 
     parser = aquaduino->getTemplateParser();
-    strcpy_P(aRowFileName, pARowFileName);
+    strcpy_P(aRowFileName, template_main_actuatorrow_fname);
 
     aquaduino->resetActuatorIterator();
 
@@ -1823,15 +1820,15 @@ int8_t Aquaduino::printMainActuatorTable(WebServer* server)
         templateARow = SD.open(aRowFileName, FILE_READ);
         while ((matchIdx =
                 parser->processTemplateUntilNextMatch(&templateARow,
-                                                      actuatorTemplate,
-                                                      nr_actuatorTemplate,
+                                                      template_main_actuatorrow,
+                                                      template_main_actuatorrow_elements,
                                                       server))
                != -1)
         {
 
             switch (matchIdx)
             {
-            case A_COLOR:
+            case ACTUATORROW_COLOR:
                 if (i % 2 == 0)
                 {
                     server->print("#FFFFFF");
@@ -1841,20 +1838,20 @@ int8_t Aquaduino::printMainActuatorTable(WebServer* server)
                     server->print("#99CCFF");
                 }
                 break;
-            case A_IACTUATOR:
+            case ACTUATORROW_IACTUATOR:
                 actuatorID[0] = 'A';
                 itoa(i, &actuatorID[1], 10);
                 server->print(actuatorID);
                 break;
-            case A_ACTUATORNAME:
+            case ACTUATORROW_ACTUATORNAME:
                 server->print(currentActuator->getName());
                 break;
-            case A_CSELECT:
+            case ACTUATORROW_CSELECT:
                 controllerID[0] = 'C';
                 itoa(i, &controllerID[1], 10);
                 server->print(controllerID);
                 break;
-            case A_COPTIONS:
+            case ACTUATORROW_COPTIONS:
                 aquaduino->resetControllerIterator();
                 while ((j = aquaduino->getNextController(&currentController)) != -1)
                 {
@@ -1865,31 +1862,31 @@ int8_t Aquaduino::printMainActuatorTable(WebServer* server)
                                              server);
                 }
                 break;
-            case A_LSELECT:
+            case ACTUATORROW_LSELECT:
                 lockedID[0] = 'L';
                 itoa(i, &lockedID[1], 10);
                 server->print(lockedID);
                 break;
-            case A_LOPTIONS:
+            case ACTUATORROW_LOPTIONS:
                 parser->selectListOption("Unlocked", "0", 0, server);
                 parser->selectListOption("Locked",
                                          "1",
                                          currentActuator->isLocked(),
                                          server);
                 break;
-            case A_SSELECT:
+            case ACTUATORROW_SSELECT:
                 stateID[0] = 'E';
                 itoa(i, &stateID[1], 10);
                 server->print(stateID);
                 break;
-            case A_SOPTIONS:
+            case ACTUATORROW_SOPTIONS:
                 parser->selectListOption("Off", "0", 0, server);
                 parser->selectListOption("On",
                                          "1",
                                          currentActuator->isOn(),
                                          server);
                 break;
-            case A_LINK:
+            case ACTUATORROW_LINK:
                 actuatorID[0] = 'A';
                 itoa(i, &actuatorID[1], 10);
                 server->print(actuatorID);
@@ -1914,11 +1911,11 @@ int8_t Aquaduino::printMainControllerTable(WebServer* server)
     Controller* controller;
     int16_t matchIdx;
     File templateCRow;
-    char cRowFileName[size_pCRowFileName];
+    char cRowFileName[template_main_controllerrow_fnsize];
     char controllerID[5];
     int8_t i;
 
-    strcpy_P(cRowFileName, pCRowFileName);
+    strcpy_P(cRowFileName, template_main_controllerrow_fname);
     templateCRow = SD.open(cRowFileName, FILE_READ);
 
     parser = aquaduino->getTemplateParser();
@@ -1928,28 +1925,28 @@ int8_t Aquaduino::printMainControllerTable(WebServer* server)
     {
         while ((matchIdx =
                 parser->processTemplateUntilNextMatch(&templateCRow,
-                                                      controllerTemplate,
-                                                      nr_controllerTemplate,
+                                                      template_main_controllerrow,
+                                                      template_main_controllerrow_elements,
                                                       server))
                != -1)
         {
             switch (matchIdx)
             {
-            case C_COLOR:
+            case CONTROLLERROW_COLOR:
                 if (i % 2 == 0)
                     server->print("#FFFFFF");
                 else
                     server->print("#99CCFF");
                 break;
-            case C_INAME:
+            case CONTROLLERROW_INAME:
                 controllerID[0] = 'N';
                 itoa(i, &controllerID[1], 10);
                 server->print(controllerID);
                 break;
-            case C_NAME:
+            case CONTROLLERROW_NAME:
                 server->print(controller->getName());
                 break;
-            case C_LINK:
+            case CONTROLLERROW_LINK:
                 server->print(controller->getURL());
                 break;
             }
@@ -1973,12 +1970,12 @@ int8_t Aquaduino::printMainSensorTable(WebServer* server)
     Sensor* sensor;
     int16_t matchIdx;
     File templateSRow;
-    char sRowFileName[size_pSRowFileName];
+    char sRowFileName[template_main_sensorrow_fnsize];
     char sensorID[5];
     char xivelyID[5];
     int8_t i;
 
-    strcpy_P(sRowFileName, pSRowFileName);
+    strcpy_P(sRowFileName, template_main_sensorrow_fname);
     templateSRow = SD.open(sRowFileName, FILE_READ);
 
     parser = aquaduino->getTemplateParser();
@@ -1988,39 +1985,39 @@ int8_t Aquaduino::printMainSensorTable(WebServer* server)
     {
         while ((matchIdx =
                 parser->processTemplateUntilNextMatch(&templateSRow,
-                                                      sensorTemplate,
-                                                      nr_sensorTemplate,
+                                                      template_main_sensorrow,
+                                                      template_main_sensorrow_elements,
                                                       server))
                != -1)
         {
             switch (matchIdx)
             {
-            case S_COLOR:
+            case SENSORROW_COLOR:
                 if (i % 2 == 0)
                     server->print("#FFFFFF");
                 else
                     server->print("#99CCFF");
                 break;
-            case S_INAME:
+            case SENSORROW_INAME:
                 sensorID[0] = 'S';
                 itoa(i, &sensorID[1], 10);
                 server->print(sensorID);
                 break;
-            case S_NAME:
+            case SENSORROW_NAME:
                 server->print(sensor->getName());
                 break;
-            case S_VALUE:
+            case SENSORROW_VALUE:
                 server->print(m_SensorReadings[i]);
                 break;
-            case S_IXIVELYCHANNEL:
+            case SENSORROW_IXIVELYCHANNEL:
                 xivelyID[0] = 'X';
                 itoa(i, &xivelyID[1], 10);
                 server->print(xivelyID);
                 break;
-            case S_XIVELYCHANNEL:
+            case SENSORROW_XIVELYCHANNEL:
                 server->print(m_XivelyChannelNames[i]);
                 break;
-            case S_LINK:
+            case SENSORROW_LINK:
                 server->print(sensor->getURL());
                 break;
             }
@@ -2042,13 +2039,13 @@ int8_t Aquaduino::printMainSensorTable(WebServer* server)
 int8_t Aquaduino::printMainWebpage(WebServer* server)
 {
     TemplateParser* parser;
-    char fileName[size_pMFileName];
+    char fileName[template_main_fnsize];
     File templateFile;
     int16_t matchIdx;
 
     parser = aquaduino->getTemplateParser();
 
-    strcpy_P(fileName, pMFileName);
+    strcpy_P(fileName, template_main_fname);
     templateFile = SD.open(fileName, FILE_READ);
 
     server->httpSuccess();
@@ -2056,23 +2053,23 @@ int8_t Aquaduino::printMainWebpage(WebServer* server)
     matchIdx = 0;
 
     while ((matchIdx = parser->processTemplateUntilNextMatch(&templateFile,
-                                                             mainTemplate,
-                                                             nr_mainTemplate,
+                                                             template_main,
+                                                             template_main_elements,
                                                              server))
            >= 0)
     {
         switch (matchIdx)
         {
-        case M_HOUR:
+        case MAIN_HOUR:
             server->print(hour());
             break;
-        case M_MINUTE:
+        case MAIN_MINUTE:
             server->print(minute());
             break;
-        case M_SECOND:
+        case MAIN_SECOND:
             server->print(second());
             break;
-        case M_DOW:
+        case MAIN_DOW:
             switch (day() + 1)
             {
             case dowMonday:
@@ -2099,22 +2096,22 @@ int8_t Aquaduino::printMainWebpage(WebServer* server)
             }
             break;
 
-            case M_MONTH:
+            case MAIN_MONTH:
             server->print(month());
             break;
-            case M_DAY:
+            case MAIN_DAY:
             server->print(day());
             break;
-            case M_YEAR:
+            case MAIN_YEAR:
             server->print(year());
             break;
-            case M_CONTROLLER:
+            case MAIN_CONTROLLER:
             printMainControllerTable(server);
             break;
-            case M_SENSOR:
+            case MAIN_SENSOR:
             printMainSensorTable(server);
             break;
-            case M_ACTUATOR:
+            case MAIN_ACTUATOR:
             printMainActuatorTable(server);
             break;
         }

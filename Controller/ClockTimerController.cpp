@@ -23,73 +23,7 @@
 #include <Time.h>
 #include <SD.h>
 #include <TemplateParser.h>
-
-static const char progMainTemplate[] PROGMEM = "clock.htm";
-static const char progRowTemplate[] PROGMEM = "clockrow.htm";
-
-static const char progMainURL[] PROGMEM = "##URL##";
-static const char progMainSelect[] PROGMEM = "##CLOCKTIMERSELECT##";
-static const char progActuatorSelect[] PROGMEM = "##ACTUATORSELECT##";
-static const char progMainRow[] PROGMEM = "##CLOCKTIMERROW##";
-static const char progMainCheckedMo[] PROGMEM = "##CHECKEDMO##";
-static const char progMainCheckedTu[] PROGMEM = "##CHECKEDTU##";
-static const char progMainCheckedWe[] PROGMEM = "##CHECKEDWE##";
-static const char progMainCheckedTh[] PROGMEM = "##CHECKEDTH##";
-static const char progMainCheckedFr[] PROGMEM = "##CHECKEDFR##";
-static const char progMainCheckedSa[] PROGMEM = "##CHECKEDSA##";
-static const char progMainCheckedSu[] PROGMEM = "##CHECKEDSU##";
-static const char progRowColor[] PROGMEM = "##COLOR##";
-static const char progRowIHON[] PROGMEM = "##I_HON##";
-static const char progRowIMON[] PROGMEM = "##I_MON##";
-static const char progRowIHOFF[] PROGMEM = "##I_HOFF##";
-static const char progRowIMOFF[] PROGMEM = "##I_MOFF##";
-static const char progRowHON[] PROGMEM = "##HON##";
-static const char progRowMON[] PROGMEM = "##MON##";
-static const char progRowHOFF[] PROGMEM = "##HOFF##";
-static const char progRowMOFF[] PROGMEM = "##MOFF##";
-
-static const char progStringTimer[] PROGMEM = "timer";
-static const char progStringSelect[] PROGMEM = "select";
-static const char progStringActuator[] PROGMEM = "actuator";
-static const char progStringDOW[] PROGMEM = "dow";
-
-enum
-{
-    MAIN_URL,
-    MAIN_SELECT,
-    MAIN_ACTUATORSELECT,
-    MAIN_ROW,
-    MAIN_CHECKED_MO,
-    MAIN_CHECKED_TU,
-    MAIN_CHECKED_WE,
-    MAIN_CHECKED_TH,
-    MAIN_CHECKED_FR,
-    MAIN_CHECKED_SA,
-    MAIN_CHECKED_SU
-};
-
-enum
-{
-    CTR_COLOR,
-    CTR_IHON,
-    CTR_IMON,
-    CTR_IHOFF,
-    CTR_IMOFF,
-    CTR_HON,
-    CTR_MON,
-    CTR_HOFF,
-    CTR_MOFF,
-};
-
-static const char* const mainStrings[] PROGMEM
-=
-    { progMainURL, progMainSelect, progActuatorSelect, progMainRow,
-      progMainCheckedMo, progMainCheckedTu, progMainCheckedWe,
-      progMainCheckedTh, progMainCheckedFr, progMainCheckedSa, progMainCheckedSu };
-
-static const char* const rowStrings[] PROGMEM =
-    { progRowColor, progRowIHON, progRowIMON, progRowIHOFF, progRowIMOFF,
-      progRowHON, progRowMON, progRowHOFF, progRowMOFF };
+#include <Framework/Flashvars.h>
 
 /**
  * \brief Constructor
@@ -255,13 +189,12 @@ int8_t ClockTimerController::prepareActuatorSelect(
         {
             m_SelectedActuator = j + 1;
         }
-        if (m_SelectedActuator == j + 1 || !isMapped(myActuators[i - 1]))
-        {
-            actuatorNames[++j] =
-                    aquaduino->getActuator(myActuators[i - 1])->getName();
-            itoa(myActuators[i - 1], actuatorValArray[j], 10);
-            actuatorValuePointers[j] = actuatorValArray[j];
-        }
+        //if (m_SelectedActuator == j + 1 || !isMapped(myActuators[i - 1]))
+        actuatorNames[++j] =
+                aquaduino->getActuator(myActuators[i - 1])->getName();
+        itoa(myActuators[i - 1], actuatorValArray[j], 10);
+        actuatorValuePointers[j] = actuatorValArray[j];
+//        }
     }
 
     return j;
@@ -278,7 +211,7 @@ int8_t ClockTimerController::printMain(WebServer* server,
                                        char* url)
 {
     TemplateParser* parser;
-    char templateFileName[sizeof(progMainTemplate)];
+    char templateFileName[template_clocktimercontroller_fnsize];
 
     File mainTemplateFile;
     int16_t matchIdx = 0;
@@ -293,7 +226,7 @@ int8_t ClockTimerController::printMain(WebServer* server,
     int8_t actuators = 0;
     int8_t i = 0;
 
-    strcpy_P(templateFileName, progMainTemplate);
+    strcpy_P(templateFileName, template_clocktimercontroller_fname);
 
     server->httpSuccess();
     parser = aquaduino->getTemplateParser();
@@ -311,19 +244,19 @@ int8_t ClockTimerController::printMain(WebServer* server,
 
     while ((matchIdx =
             parser->processTemplateUntilNextMatch(&mainTemplateFile,
-                                                  mainStrings,
-                                                  sizeof(mainStrings) / sizeof(char*),
+                                                  template_clocktimercontroller,
+                                                  template_clocktimercontroller_elements,
                                                   server))
            != -1)
     {
         switch (matchIdx)
         {
-        case MAIN_URL:
+        case CLOCKTIMERCONTROLLER_URL:
             server->print(getURL());
             server->print(".");
-            server->print((__FlashStringHelper *) &progStringSelect[0]);
+            server->print((__FlashStringHelper *) pgm_url_select);
             break;
-        case MAIN_SELECT:
+        case CLOCKTIMERCONTROLLER_SELECT:
             parser->selectList("timer",
                                timerNameValPointers,
                                timerNameValPointers,
@@ -332,7 +265,7 @@ int8_t ClockTimerController::printMain(WebServer* server,
                                server);
             break;
 
-        case MAIN_ACTUATORSELECT:
+        case CLOCKTIMERCONTROLLER_ACTUATORSELECT:
             parser->selectList("actuator",
                                actuatorNames,
                                actuatorValuePointers,
@@ -340,47 +273,47 @@ int8_t ClockTimerController::printMain(WebServer* server,
                                actuators + 1,
                                server);
             break;
-        case MAIN_ROW:
+        case CLOCKTIMERCONTROLLER_ROW:
             printRow(server, type, url);
             break;
 
-        case MAIN_CHECKED_MO:
+        case CLOCKTIMERCONTROLLER_CHECKED_MO:
             if (m_Timers[m_SelectedTimer].isMondayEnabled())
                 server->print(F("checked"));
-            break;
-        case MAIN_CHECKED_TU:
-            if (m_Timers[m_SelectedTimer].isTuesdayEnabled())
+                break;
+                case CLOCKTIMERCONTROLLER_CHECKED_TU:
+                if (m_Timers[m_SelectedTimer].isTuesdayEnabled())
                 server->print(F("checked"));
 
-            break;
-        case MAIN_CHECKED_WE:
-            if (m_Timers[m_SelectedTimer].isWednesdayEnabled())
+                break;
+                case CLOCKTIMERCONTROLLER_CHECKED_WE:
+                if (m_Timers[m_SelectedTimer].isWednesdayEnabled())
                 server->print(F("checked"));
 
-            break;
-        case MAIN_CHECKED_TH:
-            if (m_Timers[m_SelectedTimer].isThursdayEnabled())
+                break;
+                case CLOCKTIMERCONTROLLER_CHECKED_TH:
+                if (m_Timers[m_SelectedTimer].isThursdayEnabled())
                 server->print(F("checked"));
 
-            break;
-        case MAIN_CHECKED_FR:
-            if (m_Timers[m_SelectedTimer].isFridayEnabled())
+                break;
+                case CLOCKTIMERCONTROLLER_CHECKED_FR:
+                if (m_Timers[m_SelectedTimer].isFridayEnabled())
                 server->print(F("checked"));
 
-            break;
-        case MAIN_CHECKED_SA:
-            if (m_Timers[m_SelectedTimer].isSaturdayEnabled())
+                break;
+                case CLOCKTIMERCONTROLLER_CHECKED_SA:
+                if (m_Timers[m_SelectedTimer].isSaturdayEnabled())
                 server->print(F("checked"));
 
-            break;
-        case MAIN_CHECKED_SU:
-            if (m_Timers[m_SelectedTimer].isSundayEnabled())
+                break;
+                case CLOCKTIMERCONTROLLER_CHECKED_SU:
+                if (m_Timers[m_SelectedTimer].isSundayEnabled())
                 server->print(F("checked"));
 
-            break;
+                break;
 
+            }
         }
-    }
 
     mainTemplateFile.close();
 
@@ -400,9 +333,9 @@ int8_t ClockTimerController::printRow(WebServer* server,
     int8_t i;
     File rowTemplateFile;
     int16_t matchIdx = 0;
-    char templateRowFileName[sizeof(progRowTemplate)];
+    char templateRowFileName[template_clocktimercontroller_row_fnsize];
 
-    strcpy_P(templateRowFileName, progRowTemplate);
+    strcpy_P(templateRowFileName, template_clocktimercontroller_row_fname);
 
     parser = aquaduino->getTemplateParser();
 
@@ -412,41 +345,41 @@ int8_t ClockTimerController::printRow(WebServer* server,
         rowTemplateFile = SD.open(templateRowFileName, FILE_READ);
         while ((matchIdx =
                 parser->processTemplateUntilNextMatch(&rowTemplateFile,
-                                                      rowStrings,
-                                                      sizeof(rowStrings) / sizeof(char*),
+                                                      template_clocktimercontroller_row,
+                                                      template_clocktimercontroller_row_elements,
                                                       server))
                != -1)
         {
             switch (matchIdx)
             {
-            case CTR_COLOR:
+            case CLOCKTIMERCONTROLLER_I_COLOR:
                 if (i % 2 == 0)
                     server->print("#99CCFF");
                 else
                     server->print("#FFFFFF");
                 break;
-            case CTR_IHON:
+            case CLOCKTIMERCONTROLLER_I_HON:
                 server->print(i * 4 + 1);
                 break;
-            case CTR_IMON:
+            case CLOCKTIMERCONTROLLER_I_MON:
                 server->print(i * 4 + 2);
                 break;
-            case CTR_IHOFF:
+            case CLOCKTIMERCONTROLLER_I_HOFF:
                 server->print(i * 4 + 3);
                 break;
-            case CTR_IMOFF:
+            case CLOCKTIMERCONTROLLER_I_MOFF:
                 server->print(i * 4 + 4);
                 break;
-            case CTR_HON:
+            case CLOCKTIMERCONTROLLER_HON:
                 server->print(m_Timers[m_SelectedTimer].getHourOn(i));
                 break;
-            case CTR_MON:
+            case CLOCKTIMERCONTROLLER_MON:
                 server->print(m_Timers[m_SelectedTimer].getMinuteOn(i));
                 break;
-            case CTR_HOFF:
+            case CLOCKTIMERCONTROLLER_HOFF:
                 server->print(m_Timers[m_SelectedTimer].getHourOff(i));
                 break;
-            case CTR_MOFF:
+            case CLOCKTIMERCONTROLLER_MOFF:
                 server->print(m_Timers[m_SelectedTimer].getMinuteOff(i));
                 break;
             }
@@ -481,16 +414,20 @@ int8_t ClockTimerController::processPost(WebServer* server,
     do
     {
         repeat = server->readPOSTparam(name, 16, value, 16);
-        if (url != NULL && strcmp_P(url, progStringSelect) == 0)
+        if (url != NULL && strcmp_P(url, pgm_url_select) == 0)
         {
-            if (strcmp_P(name, progStringTimer) == 0)
+            if (strcmp_P(name,
+                         (PGM_P) pgm_read_word(&(template_clocktimercontroller_inputs[CLOCKTIMERCONTROLLER_I_TIMER])))
+                == 0)
             {
                 m_SelectedTimer = atoi(value);
             }
         }
         {
 
-            if (strcmp_P(name, progStringActuator) == 0)
+            if (strcmp_P(name,
+                         (PGM_P) pgm_read_word(&(template_clocktimercontroller_inputs[CLOCKTIMERCONTROLLER_I_ACTUATOR])))
+                == 0)
             {
                 val = atoi(value);
                 if (val != -1)
@@ -502,7 +439,10 @@ int8_t ClockTimerController::processPost(WebServer* server,
                 {
                     m_ActuatorMapping[m_SelectedTimer] = -1;
                 }
-            } else if (strcmp_P(name, progStringDOW) == 0)
+            }
+            else if (strcmp_P(name,
+                              (PGM_P) pgm_read_word(&(template_clocktimercontroller_inputs[CLOCKTIMERCONTROLLER_I_DOW])))
+                     == 0)
             {
                 val = atoi(value);
                 switch (val)

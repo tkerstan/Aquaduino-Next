@@ -23,6 +23,7 @@
 #include <Arduino.h>
 #include <SD.h>
 #include <TemplateParser.h>
+#include <Framework/Flashvars.h>
 
 /**
  * \brief Constructor
@@ -57,39 +58,14 @@ uint16_t DigitalInput::deserialize(void* data, uint16_t size)
     return sizeof(m_Pin);
 }
 
-const static char progTemplateFileName[] PROGMEM = "di.htm";
-const static char progTemplateString1[] PROGMEM = "##INAME##";
-const static char progTemplateString2[] PROGMEM = "##NAME##";
-const static char progTemplateString3[] PROGMEM = "##PIN##";
-
-const static char* const templateStrings[] PROGMEM =
-    { progTemplateString1, progTemplateString2, progTemplateString3};
-
-static const char progInput[] PROGMEM = "ipin";
-static const char* const inputStrings[] PROGMEM =
-    { progInput };
-
-
-enum
-{
-    S_INAME,
-    S_NAME,
-    S_PIN
-};
-
-enum
-{
-    I_TYPE
-};
-
-int8_t DigitalInput::showWebinterface(WebServer* server, WebServer::ConnectionType type,
-                        char* url)
+int8_t DigitalInput::showWebinterface(WebServer* server,
+                                      WebServer::ConnectionType type, char* url)
 {
     File templateFile;
     TemplateParser* parser;
     int16_t matchIdx;
-    char templateFileName[sizeof(progTemplateFileName)];
-    strcpy_P(templateFileName, progTemplateFileName);
+    char templateFileName[template_digitalinput_fnsize];
+    strcpy_P(templateFileName, template_digitalinput_fname);
 
     if (type == WebServer::POST)
     {
@@ -98,7 +74,9 @@ int8_t DigitalInput::showWebinterface(WebServer* server, WebServer::ConnectionTy
         do
         {
             repeat = server->readPOSTparam(name, 16, value, 16);
-            if (strcmp_P(name, (PGM_P) pgm_read_word(&(inputStrings[I_TYPE]))) == 0)
+            if (strcmp_P(name,
+                         (PGM_P) pgm_read_word(&(template_digitalinput_inputs[DI_I_PIN])))
+                == 0)
             {
                 m_Pin = atoi(value);
                 pinMode(m_Pin, INPUT);
@@ -113,20 +91,20 @@ int8_t DigitalInput::showWebinterface(WebServer* server, WebServer::ConnectionTy
         templateFile = SD.open(templateFileName, FILE_READ);
         while ((matchIdx =
                 parser->processTemplateUntilNextMatch(&templateFile,
-                                                      templateStrings,
-                                                      sizeof(templateStrings) / sizeof(char*),
+                                                      template_digitalinput,
+                                                      template_digitalinput_elements,
                                                       server))
                >= 0)
         {
             switch (matchIdx)
             {
-            case S_INAME:
-                server->print((__FlashStringHelper*) &inputStrings[0][0]);
+            case DI_INAME:
+                server->print((__FlashStringHelper *) pgm_read_word(template_digitalinput_inputs));
                 break;
-            case S_NAME:
+            case DI_NAME:
                 server->print(getName());
                 break;
-            case S_PIN:
+            case DI_PIN:
                 server->print(m_Pin);
                 break;
             }
