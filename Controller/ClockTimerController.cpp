@@ -432,7 +432,7 @@ int8_t ClockTimerController::processPost(WebServer* server,
                 val = atoi(value);
                 if (val != -1)
                 {
-                    if (!isMapped(atoi(value)))
+                    //if (!isMapped(atoi(value)))
                         m_ActuatorMapping[m_SelectedTimer] = atoi(value);
                 }
                 else
