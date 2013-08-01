@@ -1,0 +1,33 @@
+<map id="Framework/Config.h" name="Framework/Config.h">
+<area shape="rect" id="node2" href="$_aquaduino_8h.html" title="Aquaduino.h" alt="" coords="1335,304,1429,331"/>
+<area shape="rect" id="node16" href="$_object_8h.html" title="Framework/Object.h" alt="" coords="1629,80,1768,107"/>
+<area shape="rect" id="node17" href="$_controller_8h.html" title="Framework/Controller.h" alt="" coords="1782,155,1937,181"/>
+<area shape="rect" id="node18" href="$_actuator_8h.html" title="Framework/Actuator.h" alt="" coords="2253,229,2403,256"/>
+<area shape="rect" id="node3" href="$_digital_output_8cpp.html" title="Actuators/DigitalOutput.cpp" alt="" coords="2133,379,2315,405"/>
+<area shape="rect" id="node4" href="$_config_manager_8h.html" title="Framework/ConfigManager.h" alt="" coords="2340,379,2527,405"/>
+<area shape="rect" id="node7" href="$_aquaduino_8cpp.html" title="Aquaduino.cpp" alt="" coords="1743,379,1851,405"/>
+<area shape="rect" id="node8" href="$_clock_timer_controller_8cpp.html" title="Controller/ClockTimerController.cpp" alt="" coords="1277,379,1504,405"/>
+<area shape="rect" id="node9" href="$_level_controller_8cpp.html" title="Controller/LevelController.cpp" alt="" coords="1529,379,1719,405"/>
+<area shape="rect" id="node10" href="$_temperature_controller_8cpp.html" title="Controller/TemperatureController.cpp" alt="" coords="1875,379,2108,405"/>
+<area shape="rect" id="node11" href="$_controller_8cpp.html" title="Framework/Controller.cpp" alt="" coords="2551,379,2721,405"/>
+<area shape="rect" id="node12" href="$_n_t_p_sync_8cpp.html" title="Framework/NTPSync.cpp" alt="" coords="981,379,1152,405"/>
+<area shape="rect" id="node6" href="$_s_d_config_manager_8cpp.html" title="Framework/SDConfigManager.cpp" alt="" coords="1149,528,1368,555"/>
+<area shape="rect" id="node13" href="$configweb_8cpp.html" title="Webinterface/configweb.cpp" alt="" coords="371,379,555,405"/>
+<area shape="rect" id="node14" href="$dispatch_8cpp.html" title="Webinterface/dispatch.cpp" alt="" coords="579,379,755,405"/>
+<area shape="rect" id="node15" href="$mainweb_8cpp.html" title="Webinterface/mainweb.cpp" alt="" coords="779,379,957,405"/>
+<area shape="rect" id="node5" href="$_s_d_config_manager_8h.html" title="Framework/SDConfigManager.h" alt="" coords="1227,453,1432,480"/>
+<area shape="rect" id="node26" href="$_sensor_8h.html" title="Framework/Sensor.h" alt="" coords="1227,229,1369,256"/>
+<area shape="rect" id="node32" href="$_object_8cpp.html" title="Framework/Object.cpp" alt="" coords="1605,155,1757,181"/>
+<area shape="rect" id="node22" href="$_temperature_controller_8h.html" title="Controller/TemperatureController.h" alt="" coords="1891,304,2109,331"/>
+<area shape="rect" id="node23" href="$_level_controller_8h.html" title="Controller/LevelController.h" alt="" coords="1691,304,1867,331"/>
+<area shape="rect" id="node25" href="$_clock_timer_controller_8h.html" title="Controller/ClockTimerController.h" alt="" coords="1454,304,1665,331"/>
+<area shape="rect" id="node19" href="$_digital_output_8h.html" title="Actuators/DigitalOutput.h" alt="" coords="2133,304,2301,331"/>
+<area shape="rect" id="node20" href="$_p_w_m_output_8h.html" title="Actuators/PWMOutput.h" alt="" coords="2768,304,2933,331"/>
+<area shape="rect" id="node24" href="$_actuator_8cpp.html" title="Framework/Actuator.cpp" alt="" coords="2529,304,2692,331"/>
+<area shape="rect" id="node21" href="$_p_w_m_output_8cpp.html" title="Actuators/PWMOutput.cpp" alt="" coords="2761,379,2940,405"/>
+<area shape="rect" id="node27" href="$_d_s18_s20_8h.html" title="Sensors/DS18S20.h" alt="" coords="817,304,956,331"/>
+<area shape="rect" id="node29" href="$_digital_input_8h.html" title="Sensors/DigitalInput.h" alt="" coords="981,304,1131,331"/>
+<area shape="rect" id="node31" href="$_sensor_8cpp.html" title="Framework/Sensor.cpp" alt="" coords="1155,304,1311,331"/>
+<area shape="rect" id="node28" href="$_d_s18_s20_8cpp.html" title="Sensors/DS18S20.cpp" alt="" coords="5,379,160,405"/>
+<area shape="rect" id="node30" href="$_digital_input_8cpp.html" title="Sensors/DigitalInput.cpp" alt="" coords="184,379,347,405"/>
+</map>

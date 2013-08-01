@@ -1,0 +1,6 @@
+<map id="Aquaduino::run" name="Aquaduino::run">
+<area shape="rect" id="node2" href="$class_sensor.html#a1e61b97c3b45e2d1a9d97ad45e6cc33a" title="Sensor::read" alt="" coords="192,5,288,32"/>
+<area shape="rect" id="node3" href="$class_array_map.html#ab6e5013ead1e679749095ed6faa0d718" title="Resets the internal iterator. " alt="" coords="163,56,317,83"/>
+<area shape="rect" id="node4" href="$class_array_map.html#af7ab43f509d5d5b52a298571588f5600" title="Gets the next element using the internal iterator. " alt="" coords="175,107,305,133"/>
+<area shape="rect" id="node5" href="$class_controller.html#a571614716a0e7dd79674988a0f5780d8" title="Interface method for triggering the controller. " alt="" coords="189,157,291,184"/>
+</map>

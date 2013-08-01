@@ -1,0 +1,8 @@
+<map id="ClockTimerController::run" name="ClockTimerController::run">
+<area shape="rect" id="node2" href="$class_aquaduino.html#abf0068cda6e8dfbf3bab8c7cc6514f84" title="Getter for actuators assigned to Aquaduino. " alt="" coords="225,5,383,32"/>
+<area shape="rect" id="node4" href="$class_aquaduino.html#a22f89de6e7212c48dfab2b605e3ec875" title="Getter for controllers assigned to Aquaduino. " alt="" coords="222,56,386,83"/>
+<area shape="rect" id="node5" href="$class_actuator.html#aa12e6c3347af475a8b6ea1c8b38bd9e6" title="Gets the index of the controller this actuator is assigned to. " alt="" coords="228,107,380,133"/>
+<area shape="rect" id="node6" href="$class_actuator.html#a40700c01e3123133fd11157f9707ac8a" title="Activates the actuator. " alt="" coords="257,157,351,184"/>
+<area shape="rect" id="node7" href="$class_actuator.html#a767243ef9f90e7a99175ad466cc02916" title="Disables the actuator. " alt="" coords="258,208,350,235"/>
+<area shape="rect" id="node3" href="$class_array_map.html#a9a246cb68edb9d89be766862775bba8f" title="Gets an element from the map. " alt="" coords="435,31,539,57"/>
+</map>

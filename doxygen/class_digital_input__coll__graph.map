@@ -1,0 +1,4 @@
+<map id="DigitalInput" name="DigitalInput">
+<area shape="rect" id="node2" href="$class_sensor.html" title="Base class for Sensors. " alt="" coords="17,80,79,107"/>
+<area shape="rect" id="node3" href="$class_object.html" title="Base class for all Controller, Actuators, Sensors and the Aquaduino. " alt="" coords="18,5,77,32"/>
+</map>

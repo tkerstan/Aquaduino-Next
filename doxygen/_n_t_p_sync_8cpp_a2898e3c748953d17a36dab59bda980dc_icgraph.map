@@ -1,0 +1,7 @@
+<map id="NTPSync" name="NTPSync">
+<area shape="rect" id="node2" href="$class_aquaduino.html#a2636dfe3b0c322dbbf46b70ab3929930" title="Enables NTP synchronization. " alt="" coords="131,5,285,32"/>
+<area shape="rect" id="node3" href="$_aquaduino_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="setup" alt="" coords="918,5,973,32"/>
+<area shape="rect" id="node4" href="$dispatch_8cpp.html#a57a05a1aa70f5b076936a72ec80f9db3" title="configCmd" alt="" coords="333,31,416,57"/>
+<area shape="rect" id="node5" href="$dispatch_8cpp.html#a0c9bf0c5f9946202d30b8743843e361a" title="controllerDispatchCommand" alt="" coords="465,31,650,57"/>
+<area shape="rect" id="node6" href="$class_aquaduino.html#a6f21b3e1fe7fd8b1c13d1e78372abed6" title="Aquaduino::setWebserver" alt="" coords="699,31,869,57"/>
+</map>

@@ -1,0 +1,12 @@
+<map id="printTopLevelTemplate" name="printTopLevelTemplate">
+<area shape="rect" id="node2" href="$class_aquaduino.html#aed76e9fb8f6a3714bbd8de7781133f6e" title="Getter for the TemplateParser. " alt="" coords="205,5,405,32"/>
+<area shape="rect" id="node3" href="$class_aquaduino.html#a9f9eac411924c726db67affdeaa69c25" title="Getter for MAC address. " alt="" coords="236,56,375,83"/>
+<area shape="rect" id="node4" href="$class_aquaduino.html#a02a03dd2da29f1fa24fa3753bf0eea8f" title="Getter for IP address. " alt="" coords="245,107,366,133"/>
+<area shape="rect" id="node5" href="$class_aquaduino.html#a4ba7434469e812694335c954b4572e48" title="Getter for netmask. " alt="" coords="225,157,386,184"/>
+<area shape="rect" id="node6" href="$class_aquaduino.html#a01b685574cfa55a1f2b9f7fb4139daf7" title="Getter for gateway address. " alt="" coords="225,208,385,235"/>
+<area shape="rect" id="node7" href="$class_aquaduino.html#af20ad1ceaeedf6cf5ff5cfed695dbe41" title="Getter for DNS server address. " alt="" coords="237,259,373,285"/>
+<area shape="rect" id="node8" href="$class_aquaduino.html#a3e007b2b50b6542ce7e906aec2ffda09" title="Getter for NTP address. " alt="" coords="238,309,373,336"/>
+<area shape="rect" id="node9" href="$class_aquaduino.html#abca57c3879e6b9927fe3820e36a4a912" title="Checks whether DHCP is enabled or not. " alt="" coords="213,360,397,387"/>
+<area shape="rect" id="node10" href="$class_aquaduino.html#a2270ff8493d7fe8e0182655f312b9c5a" title="Checks whether NTP synchronization is enabled or not. " alt="" coords="219,411,392,437"/>
+<area shape="rect" id="node11" href="$class_aquaduino.html#a9694acc4701c2367aff948c7c85eb852" title="Getter for NTP synchronization interval. " alt="" coords="206,461,405,488"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="Aquaduino::getTemperature" name="Aquaduino::getTemperature">
+<area shape="rect" id="node2" href="$class_temperature_controller.html#a3609b19c2673e3ea33640e155d3949cc" title="TemperatureController::run" alt="" coords="235,5,410,32"/>
+<area shape="rect" id="node3" href="$class_temperature_controller.html#a99ce11713729731ec86877a129021779" title="TemperatureController\l::showWebinterface" alt="" coords="248,57,397,98"/>
+<area shape="rect" id="node4" href="$mainweb_8cpp.html#afd56fefe2a8598f61d016320f5250491" title="defaultCmd" alt="" coords="279,123,366,149"/>
+<area shape="rect" id="node5" href="$class_aquaduino.html#a6f21b3e1fe7fd8b1c13d1e78372abed6" title="Aquaduino::setWebserver" alt="" coords="459,123,629,149"/>
+<area shape="rect" id="node6" href="$_aquaduino_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="setup" alt="" coords="678,123,733,149"/>
+</map>

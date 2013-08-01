@@ -1,0 +1,4 @@
+<map id="Aquaduino::getAssignedActuators" name="Aquaduino::getAssignedActuators">
+<area shape="rect" id="node2" href="$class_controller.html#ab276a8fd2df621098a9a24f5dfcc6bb2" title="Controller::allMyActuators" alt="" coords="273,5,445,32"/>
+<area shape="rect" id="node3" href="$class_level_controller.html#acf5109c2a5b60a9923e4c7b6d4176f6c" title="LevelController::run" alt="" coords="494,5,626,32"/>
+</map>

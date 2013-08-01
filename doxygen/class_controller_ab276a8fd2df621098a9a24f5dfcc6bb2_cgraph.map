@@ -1,0 +1,9 @@
+<map id="Controller::allMyActuators" name="Controller::allMyActuators">
+<area shape="rect" id="node2" href="$class_aquaduino.html#a088ba3bf2e3429f341e09d0c8f62ded4" title="Identifies the actuators assigned to a specific controller. " alt="" coords="227,81,445,108"/>
+<area shape="rect" id="node7" href="$class_actuator.html#a40700c01e3123133fd11157f9707ac8a" title="Activates the actuator. " alt="" coords="289,132,383,159"/>
+<area shape="rect" id="node8" href="$class_actuator.html#a767243ef9f90e7a99175ad466cc02916" title="Disables the actuator. " alt="" coords="290,183,382,209"/>
+<area shape="rect" id="node3" href="$class_array_map.html#ab17f26d85a11472e46d255a02b40ce88" title="ArrayMap::findElement" alt="" coords="493,5,648,32"/>
+<area shape="rect" id="node4" href="$class_array_map.html#ab6e5013ead1e679749095ed6faa0d718" title="Resets the internal iterator. " alt="" coords="493,56,648,83"/>
+<area shape="rect" id="node5" href="$class_array_map.html#af7ab43f509d5d5b52a298571588f5600" title="Gets the next element using the internal iterator. " alt="" coords="505,107,636,133"/>
+<area shape="rect" id="node6" href="$class_actuator.html#aa12e6c3347af475a8b6ea1c8b38bd9e6" title="Gets the index of the controller this actuator is assigned to. " alt="" coords="495,157,647,184"/>
+</map>

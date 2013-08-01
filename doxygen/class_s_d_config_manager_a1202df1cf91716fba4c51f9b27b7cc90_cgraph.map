@@ -1,0 +1,5 @@
+<map id="SDConfigManager::readConfig" name="SDConfigManager::readConfig">
+<area shape="rect" id="node2" href="$class_s_d_config_manager.html#af82e2c7188e996b42f9158b108dd6abc" title="SDConfigManager::readStruct\lFromFile" alt="" coords="248,5,443,46"/>
+<area shape="rect" id="node3" href="$class_object.html#aa06e8c00bea02f598f7a68c5a1775de6" title="Getter for the type of the object. " alt="" coords="288,71,403,97"/>
+<area shape="rect" id="node4" href="$class_aquaduino.html#af0dc485b4dd7a95d7ec727c647f49bd3" title="Deserializes the Aquaduino configuration. " alt="" coords="269,121,422,148"/>
+</map>

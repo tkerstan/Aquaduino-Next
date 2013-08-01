@@ -1,0 +1,10 @@
+<map id="Object::getName" name="Object::getName">
+<area shape="rect" id="node2" href="$class_digital_output.html#abc5037f1990bb4b383771a77b13664e3" title="DigitalOutput::showWebinterface" alt="" coords="173,5,384,32"/>
+<area shape="rect" id="node3" href="$class_aquaduino.html#aa6fc15ac00f3216cbb31654b2e457e7e" title="Adds a controller to Aquaduino. " alt="" coords="433,56,599,83"/>
+<area shape="rect" id="node5" href="$class_aquaduino.html#a25e61694a18574fc00fdc14a8ef0d7ac" title="Adds an actuators to Aquaduino. " alt="" coords="653,107,814,133"/>
+<area shape="rect" id="node6" href="$class_s_d_config_manager.html#ac7a5874b228c4659eda6ea80e307578f" title="SDConfigManager::writeConfig" alt="" coords="180,157,377,184"/>
+<area shape="rect" id="node7" href="$mainweb_8cpp.html#adc3a282df65858d7820a8c90f7191472" title="printActuatorTable" alt="" coords="215,208,342,235"/>
+<area shape="rect" id="node8" href="$mainweb_8cpp.html#afd56fefe2a8598f61d016320f5250491" title="defaultCmd" alt="" coords="473,208,559,235"/>
+<area shape="rect" id="node4" href="$_aquaduino_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="setup" alt="" coords="867,107,922,133"/>
+<area shape="rect" id="node9" href="$class_aquaduino.html#a6f21b3e1fe7fd8b1c13d1e78372abed6" title="Aquaduino::setWebserver" alt="" coords="648,183,819,209"/>
+</map>
