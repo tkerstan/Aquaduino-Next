@@ -1306,25 +1306,43 @@ void Aquaduino::printConfigWebpage(WebServer* server)
     {
         switch (matchIdx)
         {
-        case CONFIG_T_MAC1:
+        case CONFIG_MAC1_VAL:
             server->print(mac[0], HEX);
             break;
-        case CONFIG_T_MAC2:
+        case CONFIG_MAC2_VAL:
             server->print(mac[1], HEX);
             break;
-        case CONFIG_T_MAC3:
+        case CONFIG_MAC3_VAL:
             server->print(mac[2], HEX);
             break;
-        case CONFIG_T_MAC4:
+        case CONFIG_MAC4_VAL:
             server->print(mac[3], HEX);
             break;
-        case CONFIG_T_MAC5:
+        case CONFIG_MAC5_VAL:
             server->print(mac[4], HEX);
             break;
-        case CONFIG_T_MAC6:
+        case CONFIG_MAC6_VAL:
             server->print(mac[5], HEX);
             break;
-        case CONFIG_T_DHCPSELECTOPTION:
+        case CONFIG_MAC1_NAME:
+            server->print((__FlashStringHelper*) pgm_input_mac1);
+            break;
+        case CONFIG_MAC2_NAME:
+            server->print((__FlashStringHelper*) pgm_input_mac2);
+            break;
+        case CONFIG_MAC3_NAME:
+            server->print((__FlashStringHelper*) pgm_input_mac3);
+            break;
+        case CONFIG_MAC4_NAME:
+            server->print((__FlashStringHelper*) pgm_input_mac4);
+            break;
+        case CONFIG_MAC5_NAME:
+            server->print((__FlashStringHelper*) pgm_input_mac5);
+            break;
+        case CONFIG_MAC6_NAME:
+            server->print((__FlashStringHelper*) pgm_input_mac6);
+            break;
+        case CONFIG_DHCPSELECTOPTION:
             if (aquaduino->isDHCPEnabled())
             {
                 parser->selectListOption("Yes", "1", 1, server);
@@ -1336,55 +1354,103 @@ void Aquaduino::printConfigWebpage(WebServer* server)
                 parser->selectListOption("No", "0", 1, server);
             }
             break;
-        case CONFIG_T_IP1:
+        case CONFIG_IP1_VAL:
             server->print((*ip)[0]);
             break;
-        case CONFIG_T_IP2:
+        case CONFIG_IP2_VAL:
             server->print((*ip)[1]);
             break;
-        case CONFIG_T_IP3:
+        case CONFIG_IP3_VAL:
             server->print((*ip)[2]);
             break;
-        case CONFIG_T_IP4:
+        case CONFIG_IP4_VAL:
             server->print((*ip)[3]);
             break;
-        case CONFIG_T_NETMASK1:
+        case CONFIG_IP1_NAME:
+            server->print((__FlashStringHelper*) pgm_input_ip1);
+            break;
+        case CONFIG_IP2_NAME:
+            server->print((__FlashStringHelper*) pgm_input_ip2);
+            break;
+        case CONFIG_IP3_NAME:
+            server->print((__FlashStringHelper*) pgm_input_ip3);
+            break;
+        case CONFIG_IP4_NAME:
+            server->print((__FlashStringHelper*) pgm_input_ip4);
+            break;
+        case CONFIG_NETMASK1_VAL:
             server->print((*netmask)[0]);
             break;
-        case CONFIG_T_NETMASK2:
+        case CONFIG_NETMASK2_VAL:
             server->print((*netmask)[1]);
             break;
-        case CONFIG_T_NETMASK3:
+        case CONFIG_NETMASK3_VAL:
             server->print((*netmask)[2]);
             break;
-        case CONFIG_T_NETMASK4:
+        case CONFIG_NETMASK4_VAL:
             server->print((*netmask)[3]);
             break;
-        case CONFIG_T_GATEWAY1:
+        case CONFIG_NETMASK1_NAME:
+            server->print((__FlashStringHelper*) pgm_input_netmask1);
+            break;
+        case CONFIG_NETMASK2_NAME:
+            server->print((__FlashStringHelper*) pgm_input_netmask2);
+            break;
+        case CONFIG_NETMASK3_NAME:
+            server->print((__FlashStringHelper*) pgm_input_netmask3);
+            break;
+        case CONFIG_NETMASK4_NAME:
+            server->print((__FlashStringHelper*) pgm_input_netmask4);
+            break;
+        case CONFIG_GATEWAY1_VAL:
             server->print((*gw)[0]);
             break;
-        case CONFIG_T_GATEWAY2:
+        case CONFIG_GATEWAY2_VAL:
             server->print((*gw)[1]);
             break;
-        case CONFIG_T_GATEWAY3:
+        case CONFIG_GATEWAY3_VAL:
             server->print((*gw)[2]);
             break;
-        case CONFIG_T_GATEWAY4:
+        case CONFIG_GATEWAY4_VAL:
             server->print((*gw)[3]);
             break;
-        case CONFIG_T_DNS1:
+        case CONFIG_GATEWAY1_NAME:
+            server->print((__FlashStringHelper*) pgm_input_gateway1);
+            break;
+        case CONFIG_GATEWAY2_NAME:
+            server->print((__FlashStringHelper*) pgm_input_gateway2);
+            break;
+        case CONFIG_GATEWAY3_NAME:
+            server->print((__FlashStringHelper*) pgm_input_gateway3);
+            break;
+        case CONFIG_GATEWAY4_NAME:
+            server->print((__FlashStringHelper*) pgm_input_gateway4);
+            break;
+        case CONFIG_DNS1_VAL:
             server->print((*dns)[0]);
             break;
-        case CONFIG_T_DNS2:
+        case CONFIG_DNS2_VAL:
             server->print((*dns)[1]);
             break;
-        case CONFIG_T_DNS3:
+        case CONFIG_DNS3_VAL:
             server->print((*dns)[2]);
             break;
-        case CONFIG_T_DNS4:
+        case CONFIG_DNS4_VAL:
             server->print((*dns)[3]);
             break;
-        case CONFIG_T_NTPSELECTOPTION:
+        case CONFIG_DNS1_NAME:
+            server->print((__FlashStringHelper*) pgm_input_dns1);
+            break;
+        case CONFIG_DNS2_NAME:
+            server->print((__FlashStringHelper*) pgm_input_dns2);
+            break;
+        case CONFIG_DNS3_NAME:
+            server->print((__FlashStringHelper*) pgm_input_dns3);
+            break;
+        case CONFIG_DNS4_NAME:
+            server->print((__FlashStringHelper*) pgm_input_dns4);
+            break;
+        case CONFIG_NTPSELECTOPTION:
             if (aquaduino->isNTPEnabled())
             {
                 parser->selectListOption("Yes", "1", 1, server);
@@ -1396,44 +1462,55 @@ void Aquaduino::printConfigWebpage(WebServer* server)
                 parser->selectListOption("No", "0", 1, server);
             }
             break;
-        case CONFIG_T_NTP1:
+        case CONFIG_NTP1_VAL:
             server->print((*ntp)[0]);
             break;
-        case CONFIG_T_NTP2:
+        case CONFIG_NTP2_VAL:
             server->print((*ntp)[1]);
             break;
-        case CONFIG_T_NTP3:
+        case CONFIG_NTP3_VAL:
             server->print((*ntp)[2]);
             break;
-        case CONFIG_T_NTP4:
+        case CONFIG_NTP4_VAL:
             server->print((*ntp)[3]);
             break;
-        case CONFIG_T_NTPPERIOD:
+        case CONFIG_NTP1_NAME:
+            server->print((__FlashStringHelper*) pgm_input_ntp1);
+            break;
+        case CONFIG_NTP2_NAME:
+            server->print((__FlashStringHelper*) pgm_input_ntp2);
+            break;
+        case CONFIG_NTP3_NAME:
+            server->print((__FlashStringHelper*) pgm_input_ntp3);
+            break;
+        case CONFIG_NTP4_NAME:
+            server->print((__FlashStringHelper*) pgm_input_ntp4);
+            break;
+        case CONFIG_NTPPERIODVAL:
             server->print(m_NTPSyncInterval);
             break;
-        case CONFIG_T_TIMEZONE:
+        case CONFIG_TIMEZONE:
             server->print(m_Timezone);
             break;
-        case CONFIG_T_HOUR:
+        case CONFIG_HOUR:
             server->print(hour());
             break;
-        case CONFIG_T_MINUTE:
+        case CONFIG_MINUTE:
             server->print(minute());
             break;
-        case CONFIG_T_SECOND:
+        case CONFIG_SECOND:
             server->print(second());
             break;
-        case CONFIG_T_MONTH:
+        case CONFIG_MONTH:
             server->print(month());
             break;
-        case CONFIG_T_DAY:
+        case CONFIG_DAY:
             server->print(day());
             break;
-        case CONFIG_T_YEAR:
+        case CONFIG_YEAR:
             server->print(year());
             break;
-
-        case CONFIG_T_XIVELY:
+        case CONFIG_XIVELYSELECT:
             if (isXivelyEnabled())
             {
                 parser->selectListOption("Yes", "1", 1, server);
@@ -1445,13 +1522,34 @@ void Aquaduino::printConfigWebpage(WebServer* server)
                 parser->selectListOption("No", "0", 1, server);
             }
             break;
-        case CONFIG_T_XIVELYAPIKEY:
+        case CONFIG_XIVELYSELECTNAME:
+            server->print((__FlashStringHelper*) pgm_input_xively);
+            break;
+        case CONFIG_XIVELYAPIKEYVAL:
             server->print(getXivelyApiKey());
             break;
-        case CONFIG_T_XIVELYFEED:
+        case CONFIG_XIVELYAPIKEYNAME:
+            server->print((__FlashStringHelper*) pgm_input_xively_api_key);
+            break;
+        case CONFIG_XIVELYAPIKEYSIZE:
+            server->print(XIVELY_API_KEY_LENGTH+1);
+            break;
+        case CONFIG_XIVELYAPIKEYMAXLENGTH:
+            server->print(XIVELY_API_KEY_LENGTH);
+            break;
+        case CONFIG_XIVELYFEEDVAL:
             server->print(getXivelyFeed());
             break;
-        case CONFIG_T_FREERAM:
+        case CONFIG_XIVELYFEEDNAME:
+            server->print((__FlashStringHelper*) pgm_input_xively_feed);
+            break;
+        case CONFIG_XIVELYFEEDSIZE:
+            server->print(XIVELY_FEED_NAME_LENGTH+1);
+            break;
+        case CONFIG_XIVELYFEEDMAXLENGTH:
+            server->print(XIVELY_FEED_NAME_LENGTH);
+            break;
+        case CONFIG_FREERAM:
             server->print(freeRam());
             server->print(F(" Bytes"));
             break;
@@ -1838,14 +1936,21 @@ int8_t Aquaduino::printMainActuatorTable(WebServer* server)
                     server->print("#99CCFF");
                 }
                 break;
-            case ACTUATORROW_IACTUATOR:
+            case ACTUATORROW_ACTUATOR_NAME:
                 actuatorID[0] = 'A';
                 itoa(i, &actuatorID[1], 10);
                 server->print(actuatorID);
                 break;
-            case ACTUATORROW_ACTUATORNAME:
+            case ACTUATORROW_ACTUATOR_VAL:
                 server->print(currentActuator->getName());
                 break;
+            case ACTUATORROW_ACTUATOR_SIZE:
+                server->print(AQUADUINO_STRING_LENGTH+1);
+                break;
+            case ACTUATORROW_ACTUATOR_MAXLENGTH:
+                server->print(AQUADUINO_STRING_LENGTH);
+                break;
+
             case ACTUATORROW_CSELECT:
                 controllerID[0] = 'C';
                 itoa(i, &controllerID[1], 10);
@@ -1934,19 +2039,25 @@ int8_t Aquaduino::printMainControllerTable(WebServer* server)
             {
             case CONTROLLERROW_COLOR:
                 if (i % 2 == 0)
-                    server->print("#FFFFFF");
+                    server->print(COLOR_CONTROLLER_ROW1);
                 else
-                    server->print("#99CCFF");
+                    server->print(COLOR_CONTROLLER_ROW2);
                 break;
-            case CONTROLLERROW_INAME:
+            case CONTROLLERROW_I_CNAME_NAME:
                 controllerID[0] = 'N';
                 itoa(i, &controllerID[1], 10);
                 server->print(controllerID);
                 break;
-            case CONTROLLERROW_NAME:
+            case CONTROLLERROW_I_CNAME_VAL:
                 server->print(controller->getName());
                 break;
-            case CONTROLLERROW_LINK:
+            case CONTROLLERROW_I_CNAME_SIZE:
+                server->print(AQUADUINO_STRING_LENGTH+1);
+                break;
+            case CONTROLLERROW_I_CNAME_MAXLENGTH:
+                server->print(AQUADUINO_STRING_LENGTH);
+                break;
+            case CONTROLLERROW_CLINK:
                 server->print(controller->getURL());
                 break;
             }
@@ -1994,30 +2105,43 @@ int8_t Aquaduino::printMainSensorTable(WebServer* server)
             {
             case SENSORROW_COLOR:
                 if (i % 2 == 0)
-                    server->print("#FFFFFF");
+                    server->print(COLOR_SENSOR_ROW1);
                 else
-                    server->print("#99CCFF");
+                    server->print(COLOR_SENSOR_ROW2);
                 break;
-            case SENSORROW_INAME:
+            case SENSORROW_I_SNAME_NAME:
                 sensorID[0] = 'S';
                 itoa(i, &sensorID[1], 10);
                 server->print(sensorID);
                 break;
-            case SENSORROW_NAME:
+            case SENSORROW_I_SNAME_VAL:
                 server->print(sensor->getName());
                 break;
-            case SENSORROW_VALUE:
+            case SENSORROW_I_SNAME_SIZE:
+                server->print(AQUADUINO_STRING_LENGTH+1);
+                break;
+            case SENSORROW_I_SNAME_MAXLENGTH:
+                server->print(AQUADUINO_STRING_LENGTH);
+                break;
+            case SENSORROW_SVALUE:
                 server->print(m_SensorReadings[i]);
                 break;
-            case SENSORROW_IXIVELYCHANNEL:
+            case SENSORROW_I_XCHANNEL_VAL:
+                server->print(m_XivelyChannelNames[i]);
+                break;
+            case SENSORROW_I_XCHANNEL_NAME:
                 xivelyID[0] = 'X';
                 itoa(i, &xivelyID[1], 10);
                 server->print(xivelyID);
                 break;
-            case SENSORROW_XIVELYCHANNEL:
-                server->print(m_XivelyChannelNames[i]);
                 break;
-            case SENSORROW_LINK:
+            case SENSORROW_I_XCHANNEL_SIZE:
+                server->print(XIVELY_CHANNEL_NAME_LENGTH+1);
+                break;
+            case SENSORROW_I_XCHANNEL_MAXLENGTH:
+                server->print(XIVELY_CHANNEL_NAME_LENGTH);
+                break;
+            case SENSORROW_SLINK:
                 server->print(sensor->getURL());
                 break;
             }

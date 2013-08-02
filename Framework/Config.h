@@ -23,6 +23,7 @@
 
 #include <stdint.h>
 #include <Framework/ObjectTypes.h>
+#include <Framework/Colors.h>
 
 /**
  * \brief Defines the maximum number of controllers the system can manage
@@ -95,6 +96,21 @@
  * like Controller, Actuator, Sensor, ...
  */
 #define AQUADUINO_STRING_LENGTH     20
+
+/**
+ * \brief Defines the maximum length for the name of a Xively channel.
+ */
+#define XIVELY_CHANNEL_NAME_LENGTH  20
+
+/**
+ * \brief Defines the maximum length for the API Key of Xively.
+ */
+#define XIVELY_API_KEY_LENGTH       51
+
+/**
+ * \brief Defines the maximum length for the feed name of Xively.
+ */
+#define XIVELY_FEED_NAME_LENGTH     21
 
 /**
  * \brief Defines the delimiter in URLs to mark the beginning of a subURL

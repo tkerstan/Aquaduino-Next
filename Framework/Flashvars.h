@@ -73,10 +73,57 @@ extern const uint16_t template_temperaturecontroller_elements;
 extern const char* const template_temperaturecontroller_inputs[];
 extern const uint16_t template_temperaturecontroller_inputs_elements;
 
-/**
- * Todo: remove the following exports
- */
-
+extern const char pgm_input_mac1[] PROGMEM;
+extern const char pgm_input_mac2[] PROGMEM;
+extern const char pgm_input_mac3[] PROGMEM;
+extern const char pgm_input_mac4[] PROGMEM;
+extern const char pgm_input_mac5[] PROGMEM;
+extern const char pgm_input_mac6[] PROGMEM;
+extern const char pgm_input_dhcp[] PROGMEM;
+extern const char pgm_input_ip1[] PROGMEM;
+extern const char pgm_input_ip2[] PROGMEM;
+extern const char pgm_input_ip3[] PROGMEM;
+extern const char pgm_input_ip4[] PROGMEM;
+extern const char pgm_input_netmask1[] PROGMEM;
+extern const char pgm_input_netmask2[] PROGMEM;
+extern const char pgm_input_netmask3[] PROGMEM;
+extern const char pgm_input_netmask4[] PROGMEM;
+extern const char pgm_input_gateway1[] PROGMEM;
+extern const char pgm_input_gateway2[] PROGMEM;
+extern const char pgm_input_gateway3[] PROGMEM;
+extern const char pgm_input_gateway4[] PROGMEM;
+extern const char pgm_input_dns1[] PROGMEM;
+extern const char pgm_input_dns2[] PROGMEM;
+extern const char pgm_input_dns3[] PROGMEM;
+extern const char pgm_input_dns4[] PROGMEM;
+extern const char pgm_input_ntp[] PROGMEM;
+extern const char pgm_input_ntp1[] PROGMEM;
+extern const char pgm_input_ntp2[] PROGMEM;
+extern const char pgm_input_ntp3[] PROGMEM;
+extern const char pgm_input_ntp4[] PROGMEM;
+extern const char pgm_input_ntp_period[] PROGMEM;
+extern const char pgm_input_timezone[] PROGMEM;
+extern const char pgm_input_hour[] PROGMEM;
+extern const char pgm_input_minute[] PROGMEM;
+extern const char pgm_input_second[] PROGMEM;
+extern const char pgm_input_month[] PROGMEM;
+extern const char pgm_input_day[] PROGMEM;
+extern const char pgm_input_year[] PROGMEM;
+extern const char pgm_input_xively[] PROGMEM;
+extern const char pgm_input_xively_api_key[] PROGMEM;
+extern const char pgm_input_xively_feed[] PROGMEM;
+extern const char pgm_input_type[] PROGMEM;
+extern const char pgm_input_address[] PROGMEM;
+extern const char pgm_input_timer[] PROGMEM;
+extern const char pgm_input_actuator[] PROGMEM;
+extern const char pgm_input_dow[] PROGMEM;
+extern const char pgm_input_delaylow[] PROGMEM;
+extern const char pgm_input_delayhigh[] PROGMEM;
+extern const char pgm_input_refilltimeout[] PROGMEM;
+extern const char pgm_input_sensor[] PROGMEM;
+extern const char pgm_input_threshold[] PROGMEM;
+extern const char pgm_inputpwmmax[] PROGMEM;
+extern const char pgm_input_hysteresis[] PROGMEM;
 extern const char pgm_input_ipin[];
 extern const char pgm_input_ipwm[];
 extern const char pgm_url_select[];
@@ -90,23 +137,13 @@ extern const char pgm_url_select[];
 /**
  * Template Replacement Strings
  */
-static const char pgm_hour[] PROGMEM = "##HOUR##";
-static const char pgm_minute[] PROGMEM = "##MINUTE##";
-static const char pgm_second[] PROGMEM = "##SECOND##";
-static const char pgm_dow[] PROGMEM = "##DOW##";
-static const char pgm_month[] PROGMEM = "##MONTH##";
-static const char pgm_day[] PROGMEM = "##DAY##";
-static const char pgm_year[] PROGMEM = "##YEAR##";
-static const char pgm_iname[] PROGMEM = "##INAME##";
-static const char pgm_link[] PROGMEM = "##LINK##";
 static const char pgm_name[] PROGMEM = "##NAME##";
 static const char pgm_value[] PROGMEM = "##VALUE##";
 static const char pgm_color[] PROGMEM = "##COLOR##";
+static const char pgm_iname[] PROGMEM = "##INAME##";
+static const char pgm_link[] PROGMEM = "##LINK##";
 static const char pgm_controllerrow[] PROGMEM = "##CONTROLLERROW##";
 static const char pgm_actuatorrow[] PROGMEM = "##ACTUATORROW##";
-
-static const char pgm_ixivelychannel[] PROGMEM = "##IXIVELYCHANNEL##";
-static const char pgm_xivelychannel[] PROGMEM = "##XIVELYCHANNEL##";
 static const char pgm_sensor[] PROGMEM = "##SENSORROW##";
 static const char pgm_cselect[] PROGMEM = "##CSELECT##";
 static const char pgm_coptions[] PROGMEM = "##COPTIONS##";
@@ -114,44 +151,132 @@ static const char pgm_lselect[] PROGMEM = "##LSELECT##";
 static const char pgm_loptions[] PROGMEM = "##LOPTIONS##";
 static const char pgm_sselect[] PROGMEM = "##SSELECT##";
 static const char pgm_soptions[] PROGMEM = "##SOPTIONS##";
-static const char pgm_mac1[] PROGMEM = "##MAC1##";
-static const char pgm_mac2[] PROGMEM = "##MAC2##";
-static const char pgm_mac3[] PROGMEM = "##MAC3##";
-static const char pgm_mac4[] PROGMEM = "##MAC4##";
-static const char pgm_mac5[] PROGMEM = "##MAC5##";
-static const char pgm_mac6[] PROGMEM = "##MAC6##";
+
+/*
+ * Main
+ */
+static const char pgm_hour[] PROGMEM = "##HOUR##";
+static const char pgm_minute[] PROGMEM = "##MINUTE##";
+static const char pgm_second[] PROGMEM = "##SECOND##";
+static const char pgm_dow[] PROGMEM = "##DOW##";
+static const char pgm_month[] PROGMEM = "##MONTH##";
+static const char pgm_day[] PROGMEM = "##DAY##";
+static const char pgm_year[] PROGMEM = "##YEAR##";
+
+/**
+ * Main Controller Row
+ */
+static const char pgm_crowcolor[] PROGMEM = "##CROWCOLOR##";
+static const char pgm_cval[] PROGMEM = "##ICVAL##";
+static const char pgm_cname[] PROGMEM = "##ICNAME##";
+static const char pgm_csize[] PROGMEM = "##ICSIZE##";
+static const char pgm_cmaxlength[] PROGMEM = "##ICMAXLENGTH##";
+static const char pgm_clink[] PROGMEM = "##CLINK##";
+
+/**
+ * Main Sensor Row
+ */
+static const char pgm_srowcolor[] PROGMEM = "##SROWCOLOR##";
+static const char pgm_sname[] PROGMEM = "##ISNAME##";
+static const char pgm_sval[] PROGMEM = "##ISVAL##";
+static const char pgm_ssize[] PROGMEM = "##ISSIZE##";
+static const char pgm_smaxlength[] PROGMEM = "##ISMAXLENGTH##";
+static const char pgm_svalue[] PROGMEM = "##SVALUE##";
+static const char pgm_xchannelval[] PROGMEM = "##IXCHANNELVAL##";
+static const char pgm_xchannelname[] PROGMEM = "##IXCHANNELNAME##";
+static const char pgm_xchannelsize[] PROGMEM = "##IXCHANNELSIZE##";
+static const char pgm_xchannelmaxlength[]PROGMEM = "##IXCHANNELMAXLENGTH##";
+static const char pgm_slink[] PROGMEM = "##SLINK##";
+
+/**
+ * Main Actuator Row
+ */
+static const char pgm_arowcolor[] PROGMEM = "##AROWCOLOR##";
+static const char pgm_aname[] PROGMEM = "##ANAME##";
+static const char pgm_aval[] PROGMEM = "##AVAL##";
+static const char pgm_asize[] PROGMEM = "##ASIZE##";
+static const char pgm_amaxlength[] PROGMEM = "##AMAXLENGTH##";
+static const char pgm_alink[] PROGMEM = "##ALINK##";
+
+/**
+ * Config
+ */
+static const char pgm_mac1_name[] PROGMEM = "##MAC1NAME##";
+static const char pgm_mac2_name[] PROGMEM = "##MAC2NAME##";
+static const char pgm_mac3_name[] PROGMEM = "##MAC3NAME##";
+static const char pgm_mac4_name[] PROGMEM = "##MAC4NAME##";
+static const char pgm_mac5_name[] PROGMEM = "##MAC5NAME##";
+static const char pgm_mac6_name[] PROGMEM = "##MAC6NAME##";
+static const char pgm_mac1_val[] PROGMEM = "##MAC1VAL##";
+static const char pgm_mac2_val[] PROGMEM = "##MAC2VAL##";
+static const char pgm_mac3_val[] PROGMEM = "##MAC3VAL##";
+static const char pgm_mac4_val[] PROGMEM = "##MAC4VAL##";
+static const char pgm_mac5_val[] PROGMEM = "##MAC5VAL##";
+static const char pgm_mac6_val[] PROGMEM = "##MAC6VAL##";
 static const char pgm_dhcp_select[] PROGMEM = "##DHCPSELECTOPTION##";
-static const char pgm_ip1[] PROGMEM = "##IP1##";
-static const char pgm_ip2[] PROGMEM = "##IP2##";
-static const char pgm_ip3[] PROGMEM = "##IP3##";
-static const char pgm_ip4[] PROGMEM = "##IP4##";
-static const char pgm_nm1[] PROGMEM = "##NETMASK1##";
-static const char pgm_nm2[] PROGMEM = "##NETMASK2##";
-static const char pgm_nm3[] PROGMEM = "##NETMASK3##";
-static const char pgm_nm4[] PROGMEM = "##NETMASK4##";
-static const char pgm_gw1[] PROGMEM = "##GATEWAY1##";
-static const char pgm_gw2[] PROGMEM = "##GATEWAY2##";
-static const char pgm_gw3[] PROGMEM = "##GATEWAY3##";
-static const char pgm_gw4[] PROGMEM = "##GATEWAY4##";
-static const char pgm_dns1[] PROGMEM = "##DNS1##";
-static const char pgm_dns2[] PROGMEM = "##DNS2##";
-static const char pgm_dns3[] PROGMEM = "##DNS3##";
-static const char pgm_dns4[] PROGMEM = "##DNS4##";
+static const char pgm_ip1_name[] PROGMEM = "##IP1NAME##";
+static const char pgm_ip2_name[] PROGMEM = "##IP2NAME##";
+static const char pgm_ip3_name[] PROGMEM = "##IP3NAME##";
+static const char pgm_ip4_name[] PROGMEM = "##IP4NAME##";
+static const char pgm_ip1_val[] PROGMEM = "##IP1VAL##";
+static const char pgm_ip2_val[] PROGMEM = "##IP2VAL##";
+static const char pgm_ip3_val[] PROGMEM = "##IP3VAL##";
+static const char pgm_ip4_val[] PROGMEM = "##IP4VAL##";
+static const char pgm_nm1_name[] PROGMEM = "##NETMASK1NAME##";
+static const char pgm_nm2_name[] PROGMEM = "##NETMASK2NAME##";
+static const char pgm_nm3_name[] PROGMEM = "##NETMASK3NAME##";
+static const char pgm_nm4_name[] PROGMEM = "##NETMASK4NAME##";
+static const char pgm_nm1_val[] PROGMEM = "##NETMASK1VAL##";
+static const char pgm_nm2_val[] PROGMEM = "##NETMASK2VAL##";
+static const char pgm_nm3_val[] PROGMEM = "##NETMASK3VAL##";
+static const char pgm_nm4_val[] PROGMEM = "##NETMASK4VAL##";
+static const char pgm_gw1_name[] PROGMEM = "##GATEWAY1NAME##";
+static const char pgm_gw2_name[] PROGMEM = "##GATEWAY2NAME##";
+static const char pgm_gw3_name[] PROGMEM = "##GATEWAY3NAME##";
+static const char pgm_gw4_name[] PROGMEM = "##GATEWAY4NAME##";
+static const char pgm_gw1_val[] PROGMEM = "##GATEWAY1VAL##";
+static const char pgm_gw2_val[] PROGMEM = "##GATEWAY2VAL##";
+static const char pgm_gw3_val[] PROGMEM = "##GATEWAY3VAL##";
+static const char pgm_gw4_val[] PROGMEM = "##GATEWAY4VAL##";
+static const char pgm_dns1_name[] PROGMEM = "##DNS1NAME##";
+static const char pgm_dns2_name[] PROGMEM = "##DNS2NAME##";
+static const char pgm_dns3_name[] PROGMEM = "##DNS3NAME##";
+static const char pgm_dns4_name[] PROGMEM = "##DNS4NAME##";
+static const char pgm_dns1_val[] PROGMEM = "##DNS1VAL##";
+static const char pgm_dns2_val[] PROGMEM = "##DNS2VAL##";
+static const char pgm_dns3_val[] PROGMEM = "##DNS3VAL##";
+static const char pgm_dns4_val[] PROGMEM = "##DNS4VAL##";
 static const char pgm_ntp_select[] PROGMEM = "##NTPSELECTOPTION##";
-static const char pgm_ntp1[] PROGMEM = "##NTP1##";
-static const char pgm_ntp2[] PROGMEM = "##NTP2##";
-static const char pgm_ntp3[] PROGMEM = "##NTP3##";
-static const char pgm_ntp4[] PROGMEM = "##NTP4##";
-static const char pgm_ntp_period[] PROGMEM = "##NTPPERIOD##";
+static const char pgm_ntp1_name[] PROGMEM = "##NTP1NAME##";
+static const char pgm_ntp2_name[] PROGMEM = "##NTP2NAME##";
+static const char pgm_ntp3_name[] PROGMEM = "##NTP3NAME##";
+static const char pgm_ntp4_name[] PROGMEM = "##NTP4NAME##";
+static const char pgm_ntp1_val[] PROGMEM = "##NTP1VAL##";
+static const char pgm_ntp2_val[] PROGMEM = "##NTP2VAL##";
+static const char pgm_ntp3_val[] PROGMEM = "##NTP3VAL##";
+static const char pgm_ntp4_val[] PROGMEM = "##NTP4VAL##";
+static const char pgm_ntp_period_val[] PROGMEM = "##NTPPERIODVAL##";
+static const char pgm_ntp_period_size[] PROGMEM = "##NTPPERIODSIZE##";
+static const char pgm_ntp_period_maxlength[] PROGMEM = "##NTPPERIODMAXLENGTH##";
 static const char pgm_timezone[] PROGMEM = "##TIMEZONE##";
 static const char pgm_xively_select[] PROGMEM = "##XIVELYSELECTOPTION##";
-static const char pgm_xively_api[] PROGMEM = "##XIVELYKEY##";
-static const char pgm_xively_feed[] PROGMEM = "##XIVELYFEED##";
+static const char pgm_xively_select_name[] PROGMEM = "##XIVELYSELECTNAME##";
+static const char pgm_xively_api_name[] PROGMEM = "##XAPINAME##";
+static const char pgm_xively_api_val[] PROGMEM = "##XAPIVAL##";
+static const char pgm_xively_api_size[] PROGMEM = "##XAPISIZE##";
+static const char pgm_xively_api_maxlength[] PROGMEM = "##XAPIMAXLENGTH##";
+static const char pgm_xively_feed_name[] PROGMEM = "##XFEEDNAME##";
+static const char pgm_xively_feed_val[] PROGMEM = "##XFEEDVAL##";
+static const char pgm_xively_feed_size[] PROGMEM = "##XFEEDSIZE##";
+static const char pgm_xively_feed_maxlength[] PROGMEM = "##XFEEDMAXLENGTH##";
 static const char pgm_free_ram[] PROGMEM = "##FREERAM##";
+
+/**
+ *
+ */
 static const char pgm_pin[] PROGMEM = "##PIN##";
 static const char pgm_ipwm[] PROGMEM = "##IPWM##";
 static const char pgm_pwm[] PROGMEM = "##PWM##";
-static const char pgm_aname[] PROGMEM = "##ACTUATORNAME##";
 static const char pgm_typeoptions[] PROGMEM = "##TYPEOPTIONS##";
 static const char pgm_addressselect[] PROGMEM = "##ADDRESSSELECT##";
 static const char pgm_url[] PROGMEM = "##URL##";
@@ -177,71 +302,70 @@ static const char pgm_state[] PROGMEM = "##STATE##";
 static const char pgm_delaylow[] PROGMEM = "##DELAYLOW##";
 static const char pgm_delayhigh[] PROGMEM = "##DELAYHIGH##";
 static const char pgm_refilltimeout[] PROGMEM = "##REFILLTIMEOUT##";
+static const char pgm_temperature[] PROGMEM = "##TEMPERATURE##";
+static const char pgm_threshold[] PROGMEM = "##THRESHOLD##";
+static const char pgm_pwmmax[] PROGMEM = "##PWMMAX##";
+static const char pgm_hysteresis[] PROGMEM = "##HYSTERESIS##";
 static const char pgm_ok[] PROGMEM = "OK";
 static const char pgm_debounce[] PROGMEM = "DEBOUNCE";
 static const char pgm_refill[] PROGMEM = "REFILL";
 static const char pgm_overrun[] PROGMEM = "OVERRUN";
 static const char pgm_timeout[] PROGMEM = "TIMEOUT";
-static const char pgm_temperature[] PROGMEM = "##TEMPERATURE##";
-static const char pgm_threshold[] PROGMEM = "##THRESHOLD##";
-static const char pgm_pwmmax[] PROGMEM = "##PWMMAX##";
-static const char pgm_hysteresis[] PROGMEM = "##HYSTERESIS##";
 
 /**
  * Template POST Strings
  */
-static const char pgm_input_mac1[] PROGMEM = "mac1";
-static const char pgm_input_mac2[] PROGMEM = "mac2";
-static const char pgm_input_mac3[] PROGMEM = "mac3";
-static const char pgm_input_mac4[] PROGMEM = "mac4";
-static const char pgm_input_mac5[] PROGMEM = "mac5";
-static const char pgm_input_mac6[] PROGMEM = "mac6";
-static const char pgm_input_dhcp[] PROGMEM = "dhcp";
-static const char pgm_input_ip1[] PROGMEM = "ip1";
-static const char pgm_input_ip2[] PROGMEM = "ip2";
-static const char pgm_input_ip3[] PROGMEM = "ip3";
-static const char pgm_input_ip4[] PROGMEM = "ip4";
-static const char pgm_input_netmask1[] PROGMEM = "netmask1";
-static const char pgm_input_netmask2[] PROGMEM = "netmask2";
-static const char pgm_input_netmask3[] PROGMEM = "netmask3";
-static const char pgm_input_netmask4[] PROGMEM = "netmask4";
-static const char pgm_input_gateway1[] PROGMEM = "gateway1";
-static const char pgm_input_gateway2[] PROGMEM = "gateway2";
-static const char pgm_input_gateway3[] PROGMEM = "gateway3";
-static const char pgm_input_gateway4[] PROGMEM = "gateway4";
-static const char pgm_input_dns1[] PROGMEM = "dns1";
-static const char pgm_input_dns2[] PROGMEM = "dns2";
-static const char pgm_input_dns3[] PROGMEM = "dns3";
-static const char pgm_input_dns4[] PROGMEM = "dns4";
-static const char pgm_input_ntp[] PROGMEM = "ntp";
-static const char pgm_input_ntp1[] PROGMEM = "ntp1";
-static const char pgm_input_ntp2[] PROGMEM = "ntp2";
-static const char pgm_input_ntp3[] PROGMEM = "ntp3";
-static const char pgm_input_ntp4[] PROGMEM = "ntp4";
-static const char pgm_input_ntp_period[] PROGMEM = "ntpperiod";
-static const char pgm_input_timezone[] PROGMEM = "timezone";
-static const char pgm_input_hour[] PROGMEM = "hour";
-static const char pgm_input_minute[] PROGMEM = "minute";
-static const char pgm_input_second[] PROGMEM = "second";
-static const char pgm_input_month[] PROGMEM = "month";
-static const char pgm_input_day[] PROGMEM = "day";
-static const char pgm_input_year[] PROGMEM = "year";
-static const char pgm_input_xively[] PROGMEM = "xively";
-static const char pgm_input_xively_api_key[] PROGMEM = "xivelykey";
-static const char pgm_input_xively_feed[] PROGMEM = "xivelyfeed";
-static const char pgm_input_type[] PROGMEM = "type";
-static const char pgm_input_address[] PROGMEM = "address";
-static const char pgm_input_timer[] PROGMEM = "timer";
-static const char pgm_input_actuator[] PROGMEM = "actuator";
-static const char pgm_input_dow[] PROGMEM = "dow";
-static const char pgm_input_delaylow[] PROGMEM = "delayLow";
-static const char pgm_input_delayhigh[] PROGMEM = "delayHigh";
-static const char pgm_input_refilltimeout[] PROGMEM = "refillTimeout";
-static const char pgm_input_sensor[] PROGMEM = "sensor";
-static const char pgm_input_threshold[] PROGMEM = "Threshold";
-static const char pgm_inputpwmmax[] PROGMEM = "PWMMax";
-static const char pgm_input_hysteresis[] PROGMEM = "Hysteresis";
-
+extern const char pgm_input_mac1[] PROGMEM = "mac1";
+extern const char pgm_input_mac2[] PROGMEM = "mac2";
+extern const char pgm_input_mac3[] PROGMEM = "mac3";
+extern const char pgm_input_mac4[] PROGMEM = "mac4";
+extern const char pgm_input_mac5[] PROGMEM = "mac5";
+extern const char pgm_input_mac6[] PROGMEM = "mac6";
+extern const char pgm_input_dhcp[] PROGMEM = "dhcp";
+extern const char pgm_input_ip1[] PROGMEM = "ip1";
+extern const char pgm_input_ip2[] PROGMEM = "ip2";
+extern const char pgm_input_ip3[] PROGMEM = "ip3";
+extern const char pgm_input_ip4[] PROGMEM = "ip4";
+extern const char pgm_input_netmask1[] PROGMEM = "netmask1";
+extern const char pgm_input_netmask2[] PROGMEM = "netmask2";
+extern const char pgm_input_netmask3[] PROGMEM = "netmask3";
+extern const char pgm_input_netmask4[] PROGMEM = "netmask4";
+extern const char pgm_input_gateway1[] PROGMEM = "gateway1";
+extern const char pgm_input_gateway2[] PROGMEM = "gateway2";
+extern const char pgm_input_gateway3[] PROGMEM = "gateway3";
+extern const char pgm_input_gateway4[] PROGMEM = "gateway4";
+extern const char pgm_input_dns1[] PROGMEM = "dns1";
+extern const char pgm_input_dns2[] PROGMEM = "dns2";
+extern const char pgm_input_dns3[] PROGMEM = "dns3";
+extern const char pgm_input_dns4[] PROGMEM = "dns4";
+extern const char pgm_input_ntp[] PROGMEM = "ntp";
+extern const char pgm_input_ntp1[] PROGMEM = "ntp1";
+extern const char pgm_input_ntp2[] PROGMEM = "ntp2";
+extern const char pgm_input_ntp3[] PROGMEM = "ntp3";
+extern const char pgm_input_ntp4[] PROGMEM = "ntp4";
+extern const char pgm_input_ntp_period[] PROGMEM = "ntpperiod";
+extern const char pgm_input_timezone[] PROGMEM = "timezone";
+extern const char pgm_input_hour[] PROGMEM = "hour";
+extern const char pgm_input_minute[] PROGMEM = "minute";
+extern const char pgm_input_second[] PROGMEM = "second";
+extern const char pgm_input_month[] PROGMEM = "month";
+extern const char pgm_input_day[] PROGMEM = "day";
+extern const char pgm_input_year[] PROGMEM = "year";
+extern const char pgm_input_xively[] PROGMEM = "xively";
+extern const char pgm_input_xively_api_key[] PROGMEM = "xivelykey";
+extern const char pgm_input_xively_feed[] PROGMEM = "xivelyfeed";
+extern const char pgm_input_type[] PROGMEM = "type";
+extern const char pgm_input_address[] PROGMEM = "address";
+extern const char pgm_input_timer[] PROGMEM = "timer";
+extern const char pgm_input_actuator[] PROGMEM = "actuator";
+extern const char pgm_input_dow[] PROGMEM = "dow";
+extern const char pgm_input_delaylow[] PROGMEM = "delayLow";
+extern const char pgm_input_delayhigh[] PROGMEM = "delayHigh";
+extern const char pgm_input_refilltimeout[] PROGMEM = "refillTimeout";
+extern const char pgm_input_sensor[] PROGMEM = "sensor";
+extern const char pgm_input_threshold[] PROGMEM = "Threshold";
+extern const char pgm_inputpwmmax[] PROGMEM = "PWMMax";
+extern const char pgm_input_hysteresis[] PROGMEM = "Hysteresis";
 extern const char pgm_input_ipin[] PROGMEM = "ipin";
 extern const char pgm_input_ipwm[] PROGMEM = "ipwm";
 extern const char pgm_url_select[] PROGMEM = "select";
@@ -267,7 +391,8 @@ enum TEMPLATE_MAIN
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
 
-extern const char* const template_main[] PROGMEM = {
+extern const char* const template_main[] PROGMEM =
+{
     pgm_hour,
     pgm_minute,
     pgm_second,
@@ -277,10 +402,10 @@ extern const char* const template_main[] PROGMEM = {
     pgm_year,
     pgm_controllerrow,
     pgm_sensor,
-    pgm_actuatorrow };
+    pgm_actuatorrow};
 
 extern const uint8_t template_main_elements = sizeof(template_main)
-        / sizeof(char*);
+/ sizeof(char*);
 extern const char template_main_fname[] PROGMEM = "main.htm";
 extern const uint8_t template_main_fnsize = sizeof(template_main_fname);
 
@@ -295,23 +420,28 @@ extern const uint8_t template_main_fnsize = sizeof(template_main_fname);
 enum TEMPLATE_MAIN_CONTROLLERROW
 {
     CONTROLLERROW_COLOR,
-    CONTROLLERROW_INAME,
-    CONTROLLERROW_NAME,
-    CONTROLLERROW_LINK
+    CONTROLLERROW_I_CNAME_NAME,
+    CONTROLLERROW_I_CNAME_VAL,
+    CONTROLLERROW_I_CNAME_SIZE,
+    CONTROLLERROW_I_CNAME_MAXLENGTH,
+    CONTROLLERROW_CLINK
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
-extern const char* const template_main_controllerrow[] PROGMEM = {
-    pgm_color,
-    pgm_iname,
-    pgm_name,
-    pgm_link };
+extern const char* const template_main_controllerrow[] PROGMEM =
+{
+    pgm_crowcolor,
+    pgm_cname,
+    pgm_cval,
+    pgm_csize,
+    pgm_cmaxlength,
+    pgm_clink};
 
 extern const uint8_t template_main_controllerrow_elements =
-        sizeof(template_main_controllerrow) / sizeof(char*);
+sizeof(template_main_controllerrow) / sizeof(char*);
 extern const char template_main_controllerrow_fname[] PROGMEM = "maincrow.htm";
 extern const uint8_t template_main_controllerrow_fnsize =
-        sizeof(template_main_controllerrow_fname);
+sizeof(template_main_controllerrow_fname);
 
 #endif
 
@@ -323,32 +453,41 @@ extern const uint8_t template_main_controllerrow_fnsize =
 enum TEMPLATE_MAIN_SENSORROW
 {
     SENSORROW_COLOR,
-    SENSORROW_INAME,
-    SENSORROW_NAME,
-    SENSORROW_VALUE,
-    SENSORROW_IXIVELYCHANNEL,
-    SENSORROW_XIVELYCHANNEL,
-    SENSORROW_LINK
+    SENSORROW_I_SNAME_NAME,
+    SENSORROW_I_SNAME_VAL,
+    SENSORROW_I_SNAME_SIZE,
+    SENSORROW_I_SNAME_MAXLENGTH,
+    SENSORROW_SVALUE,
+    SENSORROW_I_XCHANNEL_NAME,
+    SENSORROW_I_XCHANNEL_VAL,
+    SENSORROW_I_XCHANNEL_SIZE,
+    SENSORROW_I_XCHANNEL_MAXLENGTH,
+    SENSORROW_SLINK
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
 
-extern const char* const template_main_sensorrow[] PROGMEM = {
-    pgm_color,
-    pgm_iname,
-    pgm_name,
-    pgm_value,
-    pgm_ixivelychannel,
-    pgm_xivelychannel,
-    pgm_link };
+extern const char* const template_main_sensorrow[] PROGMEM =
+{
+    pgm_srowcolor,
+    pgm_sname,
+    pgm_sval,
+    pgm_ssize,
+    pgm_smaxlength,
+    pgm_svalue,
+    pgm_xchannelname,
+    pgm_xchannelval,
+    pgm_xchannelsize,
+    pgm_xchannelmaxlength,
+    pgm_slink};
 
 extern const uint8_t template_main_sensorrow_elements =
-        sizeof(template_main_sensorrow) / sizeof(char*);
+sizeof(template_main_sensorrow) / sizeof(char*);
 
 extern const char template_main_sensorrow_fname[] PROGMEM = "mainsrow.htm";
 
 extern const uint8_t template_main_sensorrow_fnsize =
-        sizeof(template_main_sensorrow_fname);
+sizeof(template_main_sensorrow_fname);
 #endif
 
 /**
@@ -359,8 +498,10 @@ extern const uint8_t template_main_sensorrow_fnsize =
 enum TEMPLATE_MAIN_ACTUATORROW
 {
     ACTUATORROW_COLOR,
-    ACTUATORROW_IACTUATOR,
-    ACTUATORROW_ACTUATORNAME,
+    ACTUATORROW_ACTUATOR_NAME,
+    ACTUATORROW_ACTUATOR_VAL,
+    ACTUATORROW_ACTUATOR_SIZE,
+    ACTUATORROW_ACTUATOR_MAXLENGTH,
     ACTUATORROW_CSELECT,
     ACTUATORROW_COPTIONS,
     ACTUATORROW_LSELECT,
@@ -371,23 +512,26 @@ enum TEMPLATE_MAIN_ACTUATORROW
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
-extern const char* const template_main_actuatorrow[] PROGMEM = {
-    pgm_color,
-    pgm_iname,
-    pgm_name,
+extern const char* const template_main_actuatorrow[] PROGMEM =
+{
+    pgm_arowcolor,
+    pgm_aname,
+    pgm_aval,
+    pgm_asize,
+    pgm_amaxlength,
     pgm_cselect,
     pgm_coptions,
     pgm_lselect,
     pgm_loptions,
     pgm_sselect,
     pgm_soptions,
-    pgm_link };
+    pgm_alink};
 
 extern const uint8_t template_main_actuatorrow_elements =
-        sizeof(template_main_actuatorrow) / sizeof(char*);
+sizeof(template_main_actuatorrow) / sizeof(char*);
 extern const char template_main_actuatorrow_fname[] PROGMEM = "mainarow.htm";
 extern const uint8_t template_main_actuatorrow_fnsize =
-        sizeof(template_main_actuatorrow_fname);
+sizeof(template_main_actuatorrow_fname);
 
 #endif
 
@@ -397,81 +541,141 @@ extern const uint8_t template_main_actuatorrow_fnsize =
  */
 enum TEMPLATE_CONFIG
 {
-    CONFIG_T_MAC1,
-    CONFIG_T_MAC2,
-    CONFIG_T_MAC3,
-    CONFIG_T_MAC4,
-    CONFIG_T_MAC5,
-    CONFIG_T_MAC6,
-    CONFIG_T_DHCPSELECTOPTION,
-    CONFIG_T_IP1,
-    CONFIG_T_IP2,
-    CONFIG_T_IP3,
-    CONFIG_T_IP4,
-    CONFIG_T_NETMASK1,
-    CONFIG_T_NETMASK2,
-    CONFIG_T_NETMASK3,
-    CONFIG_T_NETMASK4,
-    CONFIG_T_GATEWAY1,
-    CONFIG_T_GATEWAY2,
-    CONFIG_T_GATEWAY3,
-    CONFIG_T_GATEWAY4,
-    CONFIG_T_DNS1,
-    CONFIG_T_DNS2,
-    CONFIG_T_DNS3,
-    CONFIG_T_DNS4,
-    CONFIG_T_NTPSELECTOPTION,
-    CONFIG_T_NTP1,
-    CONFIG_T_NTP2,
-    CONFIG_T_NTP3,
-    CONFIG_T_NTP4,
-    CONFIG_T_NTPPERIOD,
-    CONFIG_T_TIMEZONE,
-    CONFIG_T_HOUR,
-    CONFIG_T_MINUTE,
-    CONFIG_T_SECOND,
-    CONFIG_T_MONTH,
-    CONFIG_T_DAY,
-    CONFIG_T_YEAR,
-    CONFIG_T_XIVELY,
-    CONFIG_T_XIVELYAPIKEY,
-    CONFIG_T_XIVELYFEED,
-    CONFIG_T_FREERAM
+    CONFIG_MAC1_NAME,
+    CONFIG_MAC1_VAL,
+    CONFIG_MAC2_NAME,
+    CONFIG_MAC2_VAL,
+    CONFIG_MAC3_NAME,
+    CONFIG_MAC3_VAL,
+    CONFIG_MAC4_NAME,
+    CONFIG_MAC4_VAL,
+    CONFIG_MAC5_NAME,
+    CONFIG_MAC5_VAL,
+    CONFIG_MAC6_NAME,
+    CONFIG_MAC6_VAL,
+    CONFIG_DHCPSELECTOPTION,
+    CONFIG_IP1_NAME,
+    CONFIG_IP1_VAL,
+    CONFIG_IP2_NAME,
+    CONFIG_IP2_VAL,
+    CONFIG_IP3_NAME,
+    CONFIG_IP3_VAL,
+    CONFIG_IP4_NAME,
+    CONFIG_IP4_VAL,
+    CONFIG_NETMASK1_NAME,
+    CONFIG_NETMASK1_VAL,
+    CONFIG_NETMASK2_NAME,
+    CONFIG_NETMASK2_VAL,
+    CONFIG_NETMASK3_NAME,
+    CONFIG_NETMASK3_VAL,
+    CONFIG_NETMASK4_NAME,
+    CONFIG_NETMASK4_VAL,
+    CONFIG_GATEWAY1_NAME,
+    CONFIG_GATEWAY1_VAL,
+    CONFIG_GATEWAY2_NAME,
+    CONFIG_GATEWAY2_VAL,
+    CONFIG_GATEWAY3_NAME,
+    CONFIG_GATEWAY3_VAL,
+    CONFIG_GATEWAY4_NAME,
+    CONFIG_GATEWAY4_VAL,
+    CONFIG_DNS1_NAME,
+    CONFIG_DNS1_VAL,
+    CONFIG_DNS2_NAME,
+    CONFIG_DNS2_VAL,
+    CONFIG_DNS3_NAME,
+    CONFIG_DNS3_VAL,
+    CONFIG_DNS4_NAME,
+    CONFIG_DNS4_VAL,
+    CONFIG_NTPSELECTOPTION,
+    CONFIG_NTP1_NAME,
+    CONFIG_NTP1_VAL,
+    CONFIG_NTP2_NAME,
+    CONFIG_NTP2_VAL,
+    CONFIG_NTP3_NAME,
+    CONFIG_NTP3_VAL,
+    CONFIG_NTP4_NAME,
+    CONFIG_NTP4_VAL,
+    CONFIG_NTPPERIODVAL,
+    CONFIG_TIMEZONE,
+    CONFIG_HOUR,
+    CONFIG_MINUTE,
+    CONFIG_SECOND,
+    CONFIG_MONTH,
+    CONFIG_DAY,
+    CONFIG_YEAR,
+    CONFIG_XIVELYSELECTNAME,
+    CONFIG_XIVELYSELECT,
+    CONFIG_XIVELYAPIKEYNAME,
+    CONFIG_XIVELYAPIKEYVAL,
+    CONFIG_XIVELYAPIKEYSIZE,
+    CONFIG_XIVELYAPIKEYMAXLENGTH,
+    CONFIG_XIVELYFEEDNAME,
+    CONFIG_XIVELYFEEDVAL,
+    CONFIG_XIVELYFEEDSIZE,
+    CONFIG_XIVELYFEEDMAXLENGTH,
+    CONFIG_FREERAM
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
 
 extern const char* const template_config[] PROGMEM
-= {
-    pgm_mac1,
-    pgm_mac2,
-    pgm_mac3,
-    pgm_mac4,
-    pgm_mac5,
-    pgm_mac6,
+=
+{
+    pgm_mac1_name,
+    pgm_mac1_val,
+    pgm_mac2_name,
+    pgm_mac2_val,
+    pgm_mac3_name,
+    pgm_mac3_val,
+    pgm_mac4_name,
+    pgm_mac4_val,
+    pgm_mac5_name,
+    pgm_mac5_val,
+    pgm_mac6_name,
+    pgm_mac6_val,
     pgm_dhcp_select,
-    pgm_ip1,
-    pgm_ip2,
-    pgm_ip3,
-    pgm_ip4,
-    pgm_nm1,
-    pgm_nm2,
-    pgm_nm3,
-    pgm_nm4,
-    pgm_gw1,
-    pgm_gw2,
-    pgm_gw3,
-    pgm_gw4,
-    pgm_dns1,
-    pgm_dns2,
-    pgm_dns3,
-    pgm_dns4,
+    pgm_ip1_name,
+    pgm_ip1_val,
+    pgm_ip2_name,
+    pgm_ip2_val,
+    pgm_ip3_name,
+    pgm_ip3_val,
+    pgm_ip4_name,
+    pgm_ip4_val,
+    pgm_nm1_name,
+    pgm_nm1_val,
+    pgm_nm2_name,
+    pgm_nm2_val,
+    pgm_nm3_name,
+    pgm_nm3_val,
+    pgm_nm4_name,
+    pgm_nm4_val,
+    pgm_gw1_name,
+    pgm_gw1_val,
+    pgm_gw2_name,
+    pgm_gw2_val,
+    pgm_gw3_name,
+    pgm_gw3_val,
+    pgm_gw4_name,
+    pgm_gw4_val,
+    pgm_dns1_name,
+    pgm_dns1_val,
+    pgm_dns2_name,
+    pgm_dns2_val,
+    pgm_dns3_name,
+    pgm_dns3_val,
+    pgm_dns4_name,
+    pgm_dns4_val,
     pgm_ntp_select,
-    pgm_ntp1,
-    pgm_ntp2,
-    pgm_ntp3,
-    pgm_ntp4,
-    pgm_ntp_period,
+    pgm_ntp1_name,
+    pgm_ntp1_val,
+    pgm_ntp2_name,
+    pgm_ntp2_val,
+    pgm_ntp3_name,
+    pgm_ntp3_val,
+    pgm_ntp4_name,
+    pgm_ntp4_val,
+    pgm_ntp_period_val,
     pgm_timezone,
     pgm_hour,
     pgm_minute,
@@ -479,13 +683,20 @@ extern const char* const template_config[] PROGMEM
     pgm_month,
     pgm_day,
     pgm_year,
+    pgm_xively_select_name,
     pgm_xively_select,
-    pgm_xively_api,
-    pgm_xively_feed,
-    pgm_free_ram };
+    pgm_xively_api_name,
+    pgm_xively_api_val,
+    pgm_xively_api_size,
+    pgm_xively_api_maxlength,
+    pgm_xively_feed_name,
+    pgm_xively_feed_val,
+    pgm_xively_feed_size,
+    pgm_xively_feed_maxlength,
+    pgm_free_ram};
 
 extern const uint16_t template_config_elements = sizeof(template_config)
-        / sizeof(char*);
+/ sizeof(char*);
 extern const char template_config_fname[] PROGMEM = "conf.htm";
 extern const uint16_t template_config_fnsize = sizeof(template_config_fname);
 
@@ -536,7 +747,8 @@ enum TEMPLATE_CONFIG_INPUTS
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
-extern const char* const template_config_inputs[] PROGMEM = {
+extern const char* const template_config_inputs[] PROGMEM =
+{
     pgm_input_mac1,
     pgm_input_mac2,
     pgm_input_mac3,
@@ -575,10 +787,10 @@ extern const char* const template_config_inputs[] PROGMEM = {
     pgm_input_year,
     pgm_input_xively,
     pgm_input_xively_api_key,
-    pgm_input_xively_feed };
+    pgm_input_xively_feed};
 
 extern const uint16_t template_config_inputs_elements =
-        sizeof(template_config_inputs) / sizeof(char*);
+sizeof(template_config_inputs) / sizeof(char*);
 #endif
 
 /*
@@ -589,7 +801,7 @@ extern const uint16_t template_config_inputs_elements =
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char template_digitaloutput_fname[] PROGMEM = "do.htm";
 extern const uint16_t template_digitaloutput_fnsize =
-        sizeof(template_digitaloutput_fname);
+sizeof(template_digitaloutput_fname);
 #endif
 
 enum DIGITAL_OUTPUT
@@ -598,16 +810,17 @@ enum DIGITAL_OUTPUT
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
-extern const char* const template_digitaloutput[] PROGMEM = {
+extern const char* const template_digitaloutput[] PROGMEM =
+{
     pgm_iname,
     pgm_pin,
     pgm_ipwm,
     pgm_pwm,
     pgm_aname,
-    pgm_typeoptions };
+    pgm_typeoptions};
 
 extern const uint16_t template_digitaloutput_elements =
-        sizeof(template_digitaloutput) / sizeof(char*);
+sizeof(template_digitaloutput) / sizeof(char*);
 #endif
 
 enum DIGITAL_OUTPUT_INPUTS
@@ -616,13 +829,14 @@ enum DIGITAL_OUTPUT_INPUTS
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
-extern const char* const template_digitaloutput_inputs[] PROGMEM = {
+extern const char* const template_digitaloutput_inputs[] PROGMEM =
+{
     pgm_input_type,
     pgm_input_ipin,
-    pgm_input_ipwm };
+    pgm_input_ipwm};
 
 extern const uint16_t template_digitaloutput_inputs_elements =
-        sizeof(template_digitaloutput_inputs) / sizeof(char*);
+sizeof(template_digitaloutput_inputs) / sizeof(char*);
 #endif
 
 /*
@@ -633,7 +847,7 @@ extern const uint16_t template_digitaloutput_inputs_elements =
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char template_digitalinput_fname[] PROGMEM = "di.htm";
 extern const uint16_t template_digitalinput_fnsize =
-        sizeof(template_digitalinput_fname);
+sizeof(template_digitalinput_fname);
 #endif
 
 enum TEMPLATE_DIGITALINPUT
@@ -642,12 +856,13 @@ enum TEMPLATE_DIGITALINPUT
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
-extern const char* const template_digitalinput[] PROGMEM = {
+extern const char* const template_digitalinput[] PROGMEM =
+{
     pgm_iname,
     pgm_name,
-    pgm_pin };
+    pgm_pin};
 extern const uint16_t template_digitalinput_elements =
-        sizeof(template_digitalinput) / sizeof(char*);
+sizeof(template_digitalinput) / sizeof(char*);
 #endif
 
 enum TEMPLATE_DIGITALINPUT_INPUTS
@@ -656,10 +871,11 @@ enum TEMPLATE_DIGITALINPUT_INPUTS
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
-extern const char* const template_digitalinput_inputs[] PROGMEM = {
-    pgm_input_ipin };
+extern const char* const template_digitalinput_inputs[] PROGMEM =
+{
+    pgm_input_ipin};
 extern const uint16_t template_digitalinput_inputs_elements =
-        sizeof(template_digitalinput_inputs) / sizeof(char*);
+sizeof(template_digitalinput_inputs) / sizeof(char*);
 #endif
 
 /*
@@ -677,13 +893,14 @@ enum TEMPLATE_DS18S20
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
-extern const char* const template_ds18s20[] PROGMEM = {
+extern const char* const template_ds18s20[] PROGMEM =
+{
     pgm_iname,
     pgm_name,
     pgm_pin,
-    pgm_addressselect };
+    pgm_addressselect};
 extern const uint16_t template_ds18s20_elements = sizeof(template_ds18s20)
-        / sizeof(char*);
+/ sizeof(char*);
 #endif
 
 enum TEMPLATE_DS18S20_INPUTS
@@ -692,11 +909,12 @@ enum TEMPLATE_DS18S20_INPUTS
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
-extern const char* const template_ds18s20_inputs[] PROGMEM = {
+extern const char* const template_ds18s20_inputs[] PROGMEM =
+{
     pgm_input_ipin,
-    pgm_input_address };
+    pgm_input_address};
 extern const uint16_t template_ds18s20_inputs_elements =
-        sizeof(template_ds18s20_inputs) / sizeof(char*);
+sizeof(template_ds18s20_inputs) / sizeof(char*);
 #endif
 
 /*
@@ -707,11 +925,11 @@ extern const uint16_t template_ds18s20_inputs_elements =
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char template_clocktimercontroller_fname[] PROGMEM = "clock.htm";
 extern const uint16_t template_clocktimercontroller_fnsize =
-        sizeof(template_clocktimercontroller_fname);
+sizeof(template_clocktimercontroller_fname);
 extern const char template_clocktimercontroller_row_fname[] PROGMEM
 = "clockrow.htm";
 extern const uint16_t template_clocktimercontroller_row_fnsize =
-        sizeof(template_clocktimercontroller_row_fname);
+sizeof(template_clocktimercontroller_row_fname);
 #endif
 
 enum TEMPLATE_CLOCKTIMERCONTROLLER
@@ -730,7 +948,8 @@ enum TEMPLATE_CLOCKTIMERCONTROLLER
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
-extern const char* const template_clocktimercontroller[] PROGMEM = {
+extern const char* const template_clocktimercontroller[] PROGMEM =
+{
     pgm_url,
     pgm_clocktimerselect,
     pgm_actuatorselect,
@@ -741,9 +960,9 @@ extern const char* const template_clocktimercontroller[] PROGMEM = {
     pgm_checked_th,
     pgm_checked_fr,
     pgm_checked_sa,
-    pgm_checked_su };
+    pgm_checked_su};
 extern const uint16_t template_clocktimercontroller_elements =
-        sizeof(template_clocktimercontroller) / sizeof(char*);
+sizeof(template_clocktimercontroller) / sizeof(char*);
 #endif
 
 enum TEMPLATE_CLOCKTIMERCONTROLLER_ROW
@@ -760,7 +979,8 @@ enum TEMPLATE_CLOCKTIMERCONTROLLER_ROW
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
-extern const char* const template_clocktimercontroller_row[] PROGMEM = {
+extern const char* const template_clocktimercontroller_row[] PROGMEM =
+{
     pgm_color,
     pgm_ihon,
     pgm_imon,
@@ -769,9 +989,9 @@ extern const char* const template_clocktimercontroller_row[] PROGMEM = {
     pgm_hon,
     pgm_mon,
     pgm_hoff,
-    pgm_moff };
+    pgm_moff};
 extern const uint16_t template_clocktimercontroller_row_elements =
-        sizeof(template_clocktimercontroller_row) / sizeof(char*);
+sizeof(template_clocktimercontroller_row) / sizeof(char*);
 #endif
 
 enum TEMPLATE_CLOCKTIMERCONTROLLER_INPUTS
@@ -782,12 +1002,13 @@ enum TEMPLATE_CLOCKTIMERCONTROLLER_INPUTS
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
-extern const char* const template_clocktimercontroller_inputs[] PROGMEM = {
+extern const char* const template_clocktimercontroller_inputs[] PROGMEM =
+{
     pgm_input_timer,
     pgm_input_actuator,
-    pgm_input_dow };
+    pgm_input_dow};
 extern const uint16_t template_clocktimercontroller_inputs_elements =
-        sizeof(template_clocktimercontroller_inputs) / sizeof(char*);
+sizeof(template_clocktimercontroller_inputs) / sizeof(char*);
 #endif
 
 /*
@@ -798,7 +1019,7 @@ extern const uint16_t template_clocktimercontroller_inputs_elements =
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char template_levelcontroller_fname[] PROGMEM = "level.htm";
 extern const uint16_t template_levelcontroller_fnsize =
-        sizeof(template_levelcontroller_fname);
+sizeof(template_levelcontroller_fname);
 #endif
 
 enum TEMPLATE_LEVELCONTROLLER
@@ -811,14 +1032,15 @@ enum TEMPLATE_LEVELCONTROLLER
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
-extern const char* const template_levelcontroller[] PROGMEM = {
+extern const char* const template_levelcontroller[] PROGMEM =
+{
     pgm_sselect,
     pgm_state,
     pgm_delaylow,
     pgm_delayhigh,
-    pgm_refilltimeout };
+    pgm_refilltimeout};
 extern const uint16_t template_levelcontroller_elements =
-        sizeof(template_levelcontroller) / sizeof(char*);
+sizeof(template_levelcontroller) / sizeof(char*);
 #endif
 
 enum TEMPLATE_LEVELCONTROLLER_STATES
@@ -831,15 +1053,16 @@ enum TEMPLATE_LEVELCONTROLLER_STATES
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
-extern const char* const template_levelcontroller_states[] PROGMEM = {
+extern const char* const template_levelcontroller_states[] PROGMEM =
+{
     pgm_ok,
     pgm_debounce,
     pgm_refill,
     pgm_overrun,
-    pgm_timeout };
+    pgm_timeout};
 
 extern const uint16_t template_levelcontroller_states_elements =
-        sizeof(template_levelcontroller) / sizeof(char*);
+sizeof(template_levelcontroller) / sizeof(char*);
 #endif
 
 enum TEMPLATE_LEVELCONTROLLER_INPUTS
@@ -851,13 +1074,14 @@ enum TEMPLATE_LEVELCONTROLLER_INPUTS
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
-extern const char* const template_levelcontroller_inputs[] PROGMEM = {
+extern const char* const template_levelcontroller_inputs[] PROGMEM =
+{
     pgm_input_delaylow,
     pgm_input_delayhigh,
     pgm_input_refilltimeout,
-    pgm_input_sensor };
+    pgm_input_sensor};
 extern const uint16_t template_levelcontroller_inputs_elements =
-        sizeof(template_levelcontroller) / sizeof(char*);
+sizeof(template_levelcontroller) / sizeof(char*);
 #endif
 
 /*
@@ -868,7 +1092,7 @@ extern const uint16_t template_levelcontroller_inputs_elements =
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char template_temperaturecontroller_fname[] PROGMEM = "temp.htm";
 extern const uint16_t template_temperaturecontroller_fnsize =
-        sizeof(template_temperaturecontroller_fname);
+sizeof(template_temperaturecontroller_fname);
 #endif
 
 enum TEMPLATE_TEMPERATURECONTROLLER
@@ -881,14 +1105,15 @@ enum TEMPLATE_TEMPERATURECONTROLLER
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
-extern const char* const template_temperaturecontroller[] PROGMEM = {
+extern const char* const template_temperaturecontroller[] PROGMEM =
+{
     pgm_sselect,
     pgm_temperature,
     pgm_threshold,
     pgm_pwmmax,
-    pgm_hysteresis };
+    pgm_hysteresis};
 extern const uint16_t template_temperaturecontroller_elements =
-        sizeof(template_temperaturecontroller) / sizeof(char*);
+sizeof(template_temperaturecontroller) / sizeof(char*);
 #endif
 
 enum TEMPLATE_TEMPERATURECONTROLLER_INPUTS
@@ -900,11 +1125,12 @@ enum TEMPLATE_TEMPERATURECONTROLLER_INPUTS
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
-extern const char* const template_temperaturecontroller_inputs[] PROGMEM = {
+extern const char* const template_temperaturecontroller_inputs[] PROGMEM =
+{
     pgm_input_threshold,
     pgm_inputpwmmax,
     pgm_input_hysteresis,
-    pgm_input_sensor };
+    pgm_input_sensor};
 extern const uint16_t template_temperaturecontroller_inputs_elements =
-        sizeof(template_temperaturecontroller_inputs) / sizeof(char*);
+sizeof(template_temperaturecontroller_inputs) / sizeof(char*);
 #endif
