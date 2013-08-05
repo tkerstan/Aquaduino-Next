@@ -52,9 +52,9 @@ public:
                                     WebServer::ConnectionType type,
                                     char* url);
 private:
-    int16_t m_DebounceDelay;
-    int16_t m_Hysteresis;
-    int16_t m_RefillTimeout;
+    int16_t m_Delayh;
+    int16_t m_Delayl;
+    int16_t m_Timeout;
     int8_t m_State;
     int8_t m_Sensor;
 };

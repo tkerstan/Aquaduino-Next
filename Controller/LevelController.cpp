@@ -32,10 +32,10 @@ LevelController::LevelController(const char* name) :
         Controller(name)
 {
     m_Type = CONTROLLER_LEVEL;
-    m_DebounceDelay = 3;
-    m_Hysteresis = 10;
-    m_State = TEMPLATE_LEVELCONTROLLER_STATE_OK;
-    m_RefillTimeout = 30;
+    m_Delayh = 3;
+    m_Delayl = 10;
+    m_State = LEVELCONTROLLER_STATE_OK;
+    m_Timeout = 30;
     m_Sensor = -1;
 }
 
@@ -44,17 +44,18 @@ uint16_t LevelController::serialize(void* buffer, uint16_t size)
     uint8_t* bPtr = (uint8_t*) buffer;
     uint8_t offset = 0;
 
-    uint16_t mySize = sizeof(m_Hysteresis) + sizeof(m_DebounceDelay)
-                      + sizeof(m_RefillTimeout) + sizeof(m_Sensor);
+    uint16_t mySize = sizeof(m_Delayl) + sizeof(m_Delayh)
+                      + sizeof(m_Timeout) + sizeof(m_Sensor);
     if (mySize <= size)
     {
-        memcpy(bPtr, &m_Hysteresis, sizeof(m_Hysteresis));
-        offset += sizeof(m_Hysteresis);
-        memcpy(bPtr + offset, &m_DebounceDelay, sizeof(m_DebounceDelay));
-        offset += sizeof(m_DebounceDelay);
-        memcpy(bPtr + offset, &m_RefillTimeout, sizeof(m_RefillTimeout));
-        offset += sizeof(m_RefillTimeout);
-        memcpy(bPtr + offset, &m_Sensor, sizeof(m_Sensor));
+        memcpy(bPtr, &m_Sensor, sizeof(m_Sensor));
+        offset += sizeof(m_Sensor);
+        memcpy(bPtr + offset, &m_Delayl, sizeof(m_Delayl));
+        offset += sizeof(m_Delayl);
+        memcpy(bPtr + offset, &m_Delayh, sizeof(m_Delayh));
+        offset += sizeof(m_Delayh);
+        memcpy(bPtr + offset, &m_Timeout, sizeof(m_Timeout));
+        offset += sizeof(m_Timeout);
         return mySize;
     }
     return 0;
@@ -65,19 +66,20 @@ uint16_t LevelController::deserialize(void* data, uint16_t size)
     uint8_t* bPtr = (uint8_t*) data;
     uint8_t offset = 0;
 
-    uint16_t mySize = sizeof(m_Hysteresis) + sizeof(m_DebounceDelay)
-                      + sizeof(m_RefillTimeout);
+    uint16_t mySize = sizeof(m_Delayl) + sizeof(m_Delayh)
+                      + sizeof(m_Timeout);
     if (mySize <= size)
     {
-        memcpy(&m_Hysteresis, bPtr, sizeof(m_Hysteresis));
-        offset += sizeof(m_Hysteresis);
-        memcpy(&m_DebounceDelay, bPtr + offset, sizeof(m_DebounceDelay));
-        offset += sizeof(m_DebounceDelay);
-        memcpy(&m_RefillTimeout, bPtr + offset, sizeof(m_RefillTimeout));
-        offset += sizeof(m_RefillTimeout);
-        memcpy(&m_Sensor, bPtr + offset, sizeof(m_Sensor));
+        memcpy(&m_Sensor, bPtr, sizeof(m_Sensor));
+        offset += sizeof(m_Sensor);
         if (m_Sensor < 0 || m_Sensor >= MAX_SENSORS)
             m_Sensor = -1;
+        memcpy(&m_Delayl, bPtr + offset, sizeof(m_Delayl));
+        offset += sizeof(m_Delayl);
+        memcpy(&m_Delayh, bPtr + offset, sizeof(m_Delayh));
+        offset += sizeof(m_Delayh);
+        memcpy(&m_Timeout, bPtr + offset, sizeof(m_Timeout));
+        offset += sizeof(m_Timeout);
         return mySize;
     }
     return 0;
@@ -133,57 +135,57 @@ int8_t LevelController::run()
 
     //Check for overflow while processing refill
     //May double the debounce delays in case of overflow
-    if (m_State != TEMPLATE_LEVELCONTROLLER_STATE_OK && lastTime > millisNow)
+    if (m_State != LEVELCONTROLLER_STATE_OK && lastTime > millisNow)
     {
         lastTime = 0;
     }
 
     switch (m_State)
     {
-    case TEMPLATE_LEVELCONTROLLER_STATE_OK:
+    case LEVELCONTROLLER_STATE_OK:
         allMyActuators((int8_t) 0);
         if (reading == HIGH)
         {
-            m_State = TEMPLATE_LEVELCONTROLLER_STATE_DEBOUNCE;
+            m_State = LEVELCONTROLLER_STATE_DEBOUNCE;
             lastTime = millisNow;
         }
         break;
-    case TEMPLATE_LEVELCONTROLLER_STATE_DEBOUNCE:
-        if (reading == HIGH && deltaTSwitch > 1000 * m_DebounceDelay)
+    case LEVELCONTROLLER_STATE_DEBOUNCE:
+        if (reading == HIGH && deltaTSwitch > 1000 * m_Delayh)
         {
             allMyActuators((int8_t) 1);
             lastTime = millisNow;
-            m_State = TEMPLATE_LEVELCONTROLLER_STATE_REFILL;
+            m_State = LEVELCONTROLLER_STATE_REFILL;
         }
         else if (reading == LOW)
         {
-            m_State = TEMPLATE_LEVELCONTROLLER_STATE_OK;
+            m_State = LEVELCONTROLLER_STATE_OK;
         }
         break;
-    case TEMPLATE_LEVELCONTROLLER_STATE_REFILL:
+    case LEVELCONTROLLER_STATE_REFILL:
         if (reading == LOW)
         {
-            m_State = TEMPLATE_LEVELCONTROLLER_STATE_OVERRUN;
+            m_State = LEVELCONTROLLER_STATE_OVERRUN;
             lastTime = millisNow;
         }
-        else if (reading == HIGH && deltaTSwitch > 1000 * m_RefillTimeout)
+        else if (reading == HIGH && deltaTSwitch > 1000 * m_Timeout)
         {
-            m_State = TEMPLATE_LEVELCONTROLLER_STATE_REFILL_TIMEOUT;
+            m_State = LEVELCONTROLLER_STATE_REFILL_TIMEOUT;
             allMyActuators((int8_t) 0);
         }
         break;
-    case TEMPLATE_LEVELCONTROLLER_STATE_OVERRUN:
-        if (reading == LOW && deltaTSwitch > m_Hysteresis * 1000)
+    case LEVELCONTROLLER_STATE_OVERRUN:
+        if (reading == LOW && deltaTSwitch > m_Delayl * 1000)
         {
-            m_State = TEMPLATE_LEVELCONTROLLER_STATE_OK;
+            m_State = LEVELCONTROLLER_STATE_OK;
             allMyActuators((int8_t) 0);
         }
         else if (reading == HIGH)
         {
-            m_State = TEMPLATE_LEVELCONTROLLER_STATE_REFILL;
+            m_State = LEVELCONTROLLER_STATE_REFILL;
         }
         break;
-    case TEMPLATE_LEVELCONTROLLER_STATE_REFILL_TIMEOUT:
+    case LEVELCONTROLLER_STATE_REFILL_TIMEOUT:
         return 0;
     default:
         return 0;
@@ -198,6 +200,7 @@ int8_t LevelController::showWebinterface(WebServer* server,
     File templateFile;
     TemplateParser* parser;
     int8_t matchIdx;
+    char i_sensor_name[20];
 
     char templateFileName[template_levelcontroller_fnsize];
     strcpy_P(templateFileName, template_levelcontroller_fname);
@@ -214,29 +217,30 @@ int8_t LevelController::showWebinterface(WebServer* server,
     {
         int8_t repeat;
         char name[16], value[16];
+
         do
         {
             repeat = server->readPOSTparam(name, 16, value, 16);
             if (strcmp_P(name,
-                         (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_DELAYLOW])))
+                         (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_DELAYL])))
                 == 0)
             {
                 uint8_t d = atoi(value);
-                m_Hysteresis = d;
+                m_Delayl = d;
             }
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_DELAYHIGH])))
+                              (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_DELAYH])))
                      == 0)
             {
                 uint8_t d = atoi(value);
-                m_DebounceDelay = d;
+                m_Delayh = d;
             }
             else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_REFILLTIMEOUT])))
+                              (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_TIMEOUT])))
                      == 0)
             {
                 uint8_t d = atoi(value);
-                m_RefillTimeout = d;
+                m_Timeout = d;
             }
             else if (strcmp_P(name,
                               (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_SENSOR])))
@@ -245,7 +249,7 @@ int8_t LevelController::showWebinterface(WebServer* server,
                 m_Sensor = atoi(value);
             }
         } while (repeat);
-        m_State = TEMPLATE_LEVELCONTROLLER_STATE_OK;
+        m_State = LEVELCONTROLLER_STATE_OK;
         server->httpSeeOther(this->m_URL);
     }
     else
@@ -274,26 +278,58 @@ int8_t LevelController::showWebinterface(WebServer* server,
         {
             switch (matchIdx)
             {
-            case TEMPLATE_LEVELCONTROLLER_SSELECT:
-                parser->selectList("sensor",
+            case LEVELCONTROLLER_CNAME:
+                server->print(this->getName());
+                break;
+            case LEVELCONTROLLER_SSELECT:
+                strcpy_P(i_sensor_name, pgm_input_sensor);
+                parser->selectList(i_sensor_name,
                                    sensorNames,
                                    sensorValuePointers,
                                    m_Sensor + 1,
                                    i,
                                    server);
                 break;
-            case TEMPLATE_LEVELCONTROLLER_STATE:
+            case LEVELCONTROLLER_STATE:
                 server->print((__FlashStringHelper *) pgm_read_word(&(template_levelcontroller_states[m_State])));
                 break;
-            case TEMPLATE_LEVELCONTROLLER_DELAYLOW:
-                server->print(m_Hysteresis);
+            case LEVELCONTROLLER_DELAYHNAME:
+                server->print((__FlashStringHelper*) pgm_input_delayh);
                 break;
-            case TEMPLATE_LEVELCONTROLLER_DELAYHIGH:
-                server->print(m_DebounceDelay);
+            case LEVELCONTROLLER_DELAYHVAL:
+                server->print(m_Delayh);
                 break;
-            case TEMPLATE_LEVELCONTROLLER_REFILLTIMEOUT:
-                server->print(m_RefillTimeout);
+            case LEVELCONTROLLER_DELAYHSIZE:
+                server->print(4);
                 break;
+            case LEVELCONTROLLER_DELAYHMAXLENGTH:
+                server->print(3);
+                break;
+            case LEVELCONTROLLER_DELAYLNAME:
+                server->print((__FlashStringHelper*) pgm_input_delayl);
+                break;
+            case LEVELCONTROLLER_DELAYLVAL:
+                server->print(m_Delayl);
+                break;
+            case LEVELCONTROLLER_DELAYLSIZE:
+                server->print(4);
+                break;
+            case LEVELCONTROLLER_DELAYLMAXLENGTH:
+                server->print(3);
+                break;
+            case LEVELCONTROLLER_TIMEOUTNAME:
+                server->print((__FlashStringHelper*) pgm_input_timeout);
+                break;
+            case LEVELCONTROLLER_TIMEOUTVAL:
+                server->print(m_Timeout);
+                break;
+            case LEVELCONTROLLER_TIMEOUTSIZE:
+                server->print(4);
+                break;
+            case LEVELCONTROLLER_TIMEOUTMAXLENGTH:
+                server->print(3);
+                break;
+
             }
         }
         templateFile.close();

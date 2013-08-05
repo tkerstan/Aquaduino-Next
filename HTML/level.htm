@@ -84,12 +84,12 @@ REFILL_TIMEOUT<br />
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Aquaduino Level Controller</title>
+<title>##CNAME##: Aquaduino Level Controller</title>
 </head>
 
 <body>
 
-<h2>Level Controller:</h2>
+<h2>##CNAME##</h2>
 <p onmouseover="XBT(this, {id:'tt0'})">Current state: ##STATE##</p>
 <form id="form1" name="form1" method="post" action=""> 
   <table width="277" border="0">
@@ -102,18 +102,18 @@ REFILL_TIMEOUT<br />
 	</td>
   </tr>
   <tr>
-    <td bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt1'})" for="1">Start Delay</label></td>
-    <td bgcolor="#99CCFF"><input name="delayHigh" type="text" id="1" value="##DELAYHIGH##" size="3" maxlength="2"/>
+    <td bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt1'})" for="1">Refill start delay</label></td>
+    <td bgcolor="#99CCFF"><input name="##DELAYHNAME##" type="text" id="1" value="##DELAYHVAL##" size="##DELAYHSIZE##" maxlength="##DELAYHMAXLENGTH##"/>
     </td>
   </tr>
   <tr>
-    <td bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt2'})" for="1">Over-running of Refill</label></td>
-    <td bgcolor="#99CCFF"><input type="text" name="delayLow" value="##DELAYLOW##" id="2" size="3" maxlength="2"/>
+    <td bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt2'})" for="1">Refill stop delay</label></td>
+    <td bgcolor="#99CCFF"><input type="text" name="##DELAYLNAME##" value="##DELAYLVAL##" id="2" size="##DELAYLSIZE##" maxlength="##DELAYLMAXLENGTH##"/>
     </td>
   </tr>
   <tr>
-    <td bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt3'})" for="1">Refill Timeout</label></td>
-    <td bgcolor="#99CCFF"><input type="text" name="refillTimeout" value="##REFILLTIMEOUT##" id="3" size="3" maxlength="2"/>
+    <td bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt3'})" for="1">Refill timeout</label></td>
+    <td bgcolor="#99CCFF"><input type="text" name="##TIMEOUTNAME##" value="##TIMEOUTVAL##" id="3" size="##TIMEOUTSIZE##" maxlength="##TIMEOUTMAXLENGTH##"/>
     </td>
   </tr>  
 </table>

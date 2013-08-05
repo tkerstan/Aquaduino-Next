@@ -45,11 +45,16 @@ public:
                                     WebServer::ConnectionType type,
                                     char* url);
 private:
-    double m_Threshold;
-    double m_MaxPWM;
     int8_t m_Sensor;
-    double m_Hysteresis;
+    double m_RefTemp1;
+    double m_Hysteresis1;
+    int8_t m_Actuator1;
+    double m_RefTemp2;
+    double m_Hysteresis2;
+    int8_t m_Actuator2;
 
+    int8_t m_Cooling;
+    int8_t m_Heating;
 };
 
 #endif /* TEMPERATURECONTROLLER_H_ */

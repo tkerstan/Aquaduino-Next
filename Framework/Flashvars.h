@@ -116,14 +116,18 @@ extern const char pgm_input_type[] PROGMEM;
 extern const char pgm_input_address[] PROGMEM;
 extern const char pgm_input_timer[] PROGMEM;
 extern const char pgm_input_actuator[] PROGMEM;
+extern const char pgm_input_actuator1[] PROGMEM;
+extern const char pgm_input_actuator2[] PROGMEM;
 extern const char pgm_input_dow[] PROGMEM;
-extern const char pgm_input_delaylow[] PROGMEM;
-extern const char pgm_input_delayhigh[] PROGMEM;
-extern const char pgm_input_refilltimeout[] PROGMEM;
+extern const char pgm_input_delayl[] PROGMEM;
+extern const char pgm_input_delayh[] PROGMEM;
+extern const char pgm_input_timeout[] PROGMEM;
 extern const char pgm_input_sensor[] PROGMEM;
-extern const char pgm_input_threshold[] PROGMEM;
-extern const char pgm_inputpwmmax[] PROGMEM;
-extern const char pgm_input_hysteresis[] PROGMEM;
+extern const char pgm_input_reftemp1[] PROGMEM;
+extern const char pgm_input_hyst1[] PROGMEM;
+extern const char pgm_input_reftemp2[] PROGMEM;
+extern const char pgm_input_hyst2[] PROGMEM;
+
 extern const char pgm_input_ipin[];
 extern const char pgm_input_ipwm[];
 extern const char pgm_url_select[];
@@ -167,25 +171,25 @@ static const char pgm_year[] PROGMEM = "##YEAR##";
  * Main Controller Row
  */
 static const char pgm_crowcolor[] PROGMEM = "##CROWCOLOR##";
-static const char pgm_cval[] PROGMEM = "##ICVAL##";
-static const char pgm_cname[] PROGMEM = "##ICNAME##";
-static const char pgm_csize[] PROGMEM = "##ICSIZE##";
-static const char pgm_cmaxlength[] PROGMEM = "##ICMAXLENGTH##";
+static const char pgm_cval[] PROGMEM = "##CVAL##";
+static const char pgm_cname[] PROGMEM = "##CNAME##";
+static const char pgm_csize[] PROGMEM = "##CSIZE##";
+static const char pgm_cmaxlength[] PROGMEM = "##CMAXLENGTH##";
 static const char pgm_clink[] PROGMEM = "##CLINK##";
 
 /**
  * Main Sensor Row
  */
 static const char pgm_srowcolor[] PROGMEM = "##SROWCOLOR##";
-static const char pgm_sname[] PROGMEM = "##ISNAME##";
-static const char pgm_sval[] PROGMEM = "##ISVAL##";
-static const char pgm_ssize[] PROGMEM = "##ISSIZE##";
-static const char pgm_smaxlength[] PROGMEM = "##ISMAXLENGTH##";
+static const char pgm_sname[] PROGMEM = "##SNAME##";
+static const char pgm_sval[] PROGMEM = "##SVAL##";
+static const char pgm_ssize[] PROGMEM = "##SSIZE##";
+static const char pgm_smaxlength[] PROGMEM = "##SMAXLENGTH##";
 static const char pgm_svalue[] PROGMEM = "##SVALUE##";
-static const char pgm_xchannelval[] PROGMEM = "##IXCHANNELVAL##";
-static const char pgm_xchannelname[] PROGMEM = "##IXCHANNELNAME##";
-static const char pgm_xchannelsize[] PROGMEM = "##IXCHANNELSIZE##";
-static const char pgm_xchannelmaxlength[]PROGMEM = "##IXCHANNELMAXLENGTH##";
+static const char pgm_xchannelval[] PROGMEM = "##XCHANNELVAL##";
+static const char pgm_xchannelname[] PROGMEM = "##XCHANNELNAME##";
+static const char pgm_xchannelsize[] PROGMEM = "##XCHANNELSIZE##";
+static const char pgm_xchannelmaxlength[]PROGMEM = "##XCHANNELMAXLENGTH##";
 static const char pgm_slink[] PROGMEM = "##SLINK##";
 
 /**
@@ -272,8 +276,57 @@ static const char pgm_xively_feed_maxlength[] PROGMEM = "##XFEEDMAXLENGTH##";
 static const char pgm_free_ram[] PROGMEM = "##FREERAM##";
 
 /**
+ * Level Controller
+ */
+static const char pgm_state[] PROGMEM = "##STATE##";
+static const char pgm_delayhigh_name[] PROGMEM = "##DELAYHNAME##";
+static const char pgm_delayhigh_val[] PROGMEM = "##DELAYHVAL##";
+static const char pgm_delayhigh_size[] PROGMEM = "##DELAYHSIZE##";
+static const char pgm_delayhigh_maxlength[] PROGMEM = "##DELAYHMAXLENGTH##";
+static const char pgm_delaylow_name[] PROGMEM = "##DELAYLNAME##";
+static const char pgm_delaylow_val[] PROGMEM = "##DELAYLVAL##";
+static const char pgm_delaylow_size[] PROGMEM = "##DELAYLSIZE##";
+static const char pgm_delaylow_maxlength[] PROGMEM = "##DELAYLMAXLENGTH##";
+static const char pgm_timeout_name[] PROGMEM = "##TIMEOUTNAME##";
+static const char pgm_timeout_val[] PROGMEM = "##TIMEOUTVAL##";
+static const char pgm_timeout_size[] PROGMEM = "##TIMEOUTSIZE##";
+static const char pgm_timeout_maxlength[] PROGMEM = "##TIMEOUTMAXLENGTH##";
+
+static const char pgm_ok[] PROGMEM = "OK";
+static const char pgm_debounce[] PROGMEM = "DEBOUNCE";
+static const char pgm_refill[] PROGMEM = "REFILL";
+static const char pgm_overrun[] PROGMEM = "OVERRUN";
+static const char pgm_timeout[] PROGMEM = "TIMEOUT";
+
+/**
+ * Temperature Controller
+ */
+
+static const char pgm_temperature[] PROGMEM = "##TEMPERATURE##";
+static const char pgm_unit[] PROGMEM = "##UNIT##";
+static const char pgm_reftemp1_name[] PROGMEM = "##RTEMP1NAME##";
+static const char pgm_reftemp1_val[] PROGMEM = "##RTEMP1VAL##";
+static const char pgm_reftemp1_size[] PROGMEM = "##RTEMP1SIZE##";
+static const char pgm_reftemp1_maxlength[] PROGMEM = "##RTEMP1MAXLENGTH##";
+static const char pgm_hyst1_name[] PROGMEM = "##HYST1NAME##";
+static const char pgm_hyst1_val[] PROGMEM = "##HYST1VAL##";
+static const char pgm_hyst1_size[] PROGMEM = "##HYST1SIZE##";
+static const char pgm_hyst1_maxlength[] PROGMEM = "##HYST1MAXLENGTH##";
+static const char pgm_aselect1[] PROGMEM = "##ASELECT1##";
+static const char pgm_reftemp2_name[] PROGMEM = "##RTEMP2NAME##";
+static const char pgm_reftemp2_val[] PROGMEM = "##RTEMP2VAL##";
+static const char pgm_reftemp2_size[] PROGMEM = "##RTEMP2SIZE##";
+static const char pgm_reftemp2_maxlength[] PROGMEM = "##RTEMP2MAXLENGTH##";
+static const char pgm_hyst2_name[] PROGMEM = "##HYST2NAME##";
+static const char pgm_hyst2_val[] PROGMEM = "##HYST2VAL##";
+static const char pgm_hyst2_size[] PROGMEM = "##HYST2SIZE##";
+static const char pgm_hyst2_maxlength[] PROGMEM = "##HYST2MAXLENGTH##";
+static const char pgm_aselect2[] PROGMEM = "##ASELECT2##";
+
+/**
  *
  */
+
 static const char pgm_pin[] PROGMEM = "##PIN##";
 static const char pgm_ipwm[] PROGMEM = "##IPWM##";
 static const char pgm_pwm[] PROGMEM = "##PWM##";
@@ -298,19 +351,6 @@ static const char pgm_hon[] PROGMEM = "##HON##";
 static const char pgm_mon[] PROGMEM = "##MON##";
 static const char pgm_hoff[] PROGMEM = "##HOFF##";
 static const char pgm_moff[] PROGMEM = "##MOFF##";
-static const char pgm_state[] PROGMEM = "##STATE##";
-static const char pgm_delaylow[] PROGMEM = "##DELAYLOW##";
-static const char pgm_delayhigh[] PROGMEM = "##DELAYHIGH##";
-static const char pgm_refilltimeout[] PROGMEM = "##REFILLTIMEOUT##";
-static const char pgm_temperature[] PROGMEM = "##TEMPERATURE##";
-static const char pgm_threshold[] PROGMEM = "##THRESHOLD##";
-static const char pgm_pwmmax[] PROGMEM = "##PWMMAX##";
-static const char pgm_hysteresis[] PROGMEM = "##HYSTERESIS##";
-static const char pgm_ok[] PROGMEM = "OK";
-static const char pgm_debounce[] PROGMEM = "DEBOUNCE";
-static const char pgm_refill[] PROGMEM = "REFILL";
-static const char pgm_overrun[] PROGMEM = "OVERRUN";
-static const char pgm_timeout[] PROGMEM = "TIMEOUT";
 
 /**
  * Template POST Strings
@@ -358,14 +398,17 @@ extern const char pgm_input_type[] PROGMEM = "type";
 extern const char pgm_input_address[] PROGMEM = "address";
 extern const char pgm_input_timer[] PROGMEM = "timer";
 extern const char pgm_input_actuator[] PROGMEM = "actuator";
+extern const char pgm_input_actuator1[] PROGMEM = "actuator1";
+extern const char pgm_input_actuator2[] PROGMEM = "actuator2";
 extern const char pgm_input_dow[] PROGMEM = "dow";
-extern const char pgm_input_delaylow[] PROGMEM = "delayLow";
-extern const char pgm_input_delayhigh[] PROGMEM = "delayHigh";
-extern const char pgm_input_refilltimeout[] PROGMEM = "refillTimeout";
+extern const char pgm_input_delayl[] PROGMEM = "delayl";
+extern const char pgm_input_delayh[] PROGMEM = "delayh";
+extern const char pgm_input_timeout[] PROGMEM = "timeout";
 extern const char pgm_input_sensor[] PROGMEM = "sensor";
-extern const char pgm_input_threshold[] PROGMEM = "Threshold";
-extern const char pgm_inputpwmmax[] PROGMEM = "PWMMax";
-extern const char pgm_input_hysteresis[] PROGMEM = "Hysteresis";
+extern const char pgm_input_reftemp1[] PROGMEM = "reftemp1";
+extern const char pgm_input_hyst1[] PROGMEM = "hyst1";
+extern const char pgm_input_reftemp2[] PROGMEM = "reftemp2";
+extern const char pgm_input_hyst2[] PROGMEM = "hyst2";
 extern const char pgm_input_ipin[] PROGMEM = "ipin";
 extern const char pgm_input_ipwm[] PROGMEM = "ipwm";
 extern const char pgm_url_select[] PROGMEM = "select";
@@ -1024,32 +1067,54 @@ sizeof(template_levelcontroller_fname);
 
 enum TEMPLATE_LEVELCONTROLLER
 {
-    TEMPLATE_LEVELCONTROLLER_SSELECT,
-    TEMPLATE_LEVELCONTROLLER_STATE,
-    TEMPLATE_LEVELCONTROLLER_DELAYLOW,
-    TEMPLATE_LEVELCONTROLLER_DELAYHIGH,
-    TEMPLATE_LEVELCONTROLLER_REFILLTIMEOUT
+    LEVELCONTROLLER_CNAME,
+    LEVELCONTROLLER_STATE,
+    LEVELCONTROLLER_SSELECT,
+    LEVELCONTROLLER_DELAYHNAME,
+    LEVELCONTROLLER_DELAYHVAL,
+    LEVELCONTROLLER_DELAYHSIZE,
+    LEVELCONTROLLER_DELAYHMAXLENGTH,
+    LEVELCONTROLLER_DELAYLNAME,
+    LEVELCONTROLLER_DELAYLVAL,
+    LEVELCONTROLLER_DELAYLSIZE,
+    LEVELCONTROLLER_DELAYLMAXLENGTH,
+    LEVELCONTROLLER_TIMEOUTNAME,
+    LEVELCONTROLLER_TIMEOUTVAL,
+    LEVELCONTROLLER_TIMEOUTSIZE,
+    LEVELCONTROLLER_TIMEOUTMAXLENGTH,
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char* const template_levelcontroller[] PROGMEM =
 {
-    pgm_sselect,
+    pgm_cname,
     pgm_state,
-    pgm_delaylow,
-    pgm_delayhigh,
-    pgm_refilltimeout};
+    pgm_sselect,
+    pgm_delayhigh_name,
+    pgm_delayhigh_val,
+    pgm_delayhigh_size,
+    pgm_delayhigh_maxlength,
+    pgm_delaylow_name,
+    pgm_delaylow_val,
+    pgm_delaylow_size,
+    pgm_delaylow_maxlength,
+    pgm_timeout_name,
+    pgm_timeout_val,
+    pgm_timeout_size,
+    pgm_timeout_maxlength,
+};
+
 extern const uint16_t template_levelcontroller_elements =
 sizeof(template_levelcontroller) / sizeof(char*);
 #endif
 
 enum TEMPLATE_LEVELCONTROLLER_STATES
 {
-    TEMPLATE_LEVELCONTROLLER_STATE_OK,
-    TEMPLATE_LEVELCONTROLLER_STATE_DEBOUNCE,
-    TEMPLATE_LEVELCONTROLLER_STATE_REFILL,
-    TEMPLATE_LEVELCONTROLLER_STATE_OVERRUN,
-    TEMPLATE_LEVELCONTROLLER_STATE_REFILL_TIMEOUT
+    LEVELCONTROLLER_STATE_OK,
+    LEVELCONTROLLER_STATE_DEBOUNCE,
+    LEVELCONTROLLER_STATE_REFILL,
+    LEVELCONTROLLER_STATE_OVERRUN,
+    LEVELCONTROLLER_STATE_REFILL_TIMEOUT
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
@@ -1067,19 +1132,20 @@ sizeof(template_levelcontroller) / sizeof(char*);
 
 enum TEMPLATE_LEVELCONTROLLER_INPUTS
 {
-    LEVELCONTROLLER_I_DELAYLOW,
-    LEVELCONTROLLER_I_DELAYHIGH,
-    LEVELCONTROLLER_I_REFILLTIMEOUT,
+    LEVELCONTROLLER_I_DELAYL,
+    LEVELCONTROLLER_I_DELAYH,
+    LEVELCONTROLLER_I_TIMEOUT,
     LEVELCONTROLLER_I_SENSOR
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char* const template_levelcontroller_inputs[] PROGMEM =
 {
-    pgm_input_delaylow,
-    pgm_input_delayhigh,
-    pgm_input_refilltimeout,
+    pgm_input_delayl,
+    pgm_input_delayh,
+    pgm_input_timeout,
     pgm_input_sensor};
+
 extern const uint16_t template_levelcontroller_inputs_elements =
 sizeof(template_levelcontroller) / sizeof(char*);
 #endif
@@ -1097,40 +1163,83 @@ sizeof(template_temperaturecontroller_fname);
 
 enum TEMPLATE_TEMPERATURECONTROLLER
 {
+    TEMPERATURECONTROLLER_CNAME,
     TEMPERATURECONTROLLER_SSELECT,
     TEMPERATURECONTROLLER_TEMPERATURE,
-    TEMPERATURECONTROLLER_THRESHOLD,
-    TEMPERATURECONTROLLER_PWMMAX,
-    TEMPERATURECONTROLLER_HYSTERESIS
+    TEMPERATURECONTROLLER_UNIT,
+    TEMPERATURECONTROLLER_REFTEMP1_NAME,
+    TEMPERATURECONTROLLER_REFTEMP1_VAL,
+    TEMPERATURECONTROLLER_REFTEMP1_SIZE,
+    TEMPERATURECONTROLLER_REFTEMP1_MAXLENGTH,
+    TEMPERATURECONTROLLER_HYST1_NAME,
+    TEMPERATURECONTROLLER_HYST1_VAL,
+    TEMPERATURECONTROLLER_HYST1_SIZE,
+    TEMPERATURECONTROLLER_HYST1_MAXLENGTH,
+    TEMPERATURECONTROLLER_ASELECT1,
+    TEMPERATURECONTROLLER_REFTEMP2_NAME,
+    TEMPERATURECONTROLLER_REFTEMP2_VAL,
+    TEMPERATURECONTROLLER_REFTEMP2_SIZE,
+    TEMPERATURECONTROLLER_REFTEMP2_MAXLENGTH,
+    TEMPERATURECONTROLLER_HYST2_NAME,
+    TEMPERATURECONTROLLER_HYST2_VAL,
+    TEMPERATURECONTROLLER_HYST2_SIZE,
+    TEMPERATURECONTROLLER_HYST2_MAXLENGTH,
+    TEMPERATURECONTROLLER_ASELECT2,
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char* const template_temperaturecontroller[] PROGMEM =
 {
+    pgm_cname,
     pgm_sselect,
     pgm_temperature,
-    pgm_threshold,
-    pgm_pwmmax,
-    pgm_hysteresis};
+    pgm_unit,
+    pgm_reftemp1_name,
+    pgm_reftemp1_val,
+    pgm_reftemp1_size,
+    pgm_reftemp1_maxlength,
+    pgm_hyst1_name,
+    pgm_hyst1_val,
+    pgm_hyst1_size,
+    pgm_hyst1_maxlength,
+    pgm_aselect1,
+    pgm_reftemp2_name,
+    pgm_reftemp2_val,
+    pgm_reftemp2_size,
+    pgm_reftemp2_maxlength,
+    pgm_hyst2_name,
+    pgm_hyst2_val,
+    pgm_hyst2_size,
+    pgm_hyst2_maxlength,
+    pgm_aselect2,
+};
 extern const uint16_t template_temperaturecontroller_elements =
 sizeof(template_temperaturecontroller) / sizeof(char*);
 #endif
 
 enum TEMPLATE_TEMPERATURECONTROLLER_INPUTS
 {
-    TEMPERATURECONTROLLER_I_THRESHOLD,
-    TEMPERATURECONTROLLER_I_PWMMAX,
-    TEMPERATURECONTROLLER_I_HYSTERESIS,
-    TEMPERATURECONTROLLER_I_SENSOR
+    TEMPERATURECONTROLLER_I_SENSOR,
+    TEMPERATURECONTROLLER_I_REFTEMP1,
+    TEMPERATURECONTROLLER_I_HYST1,
+    TEMPERATURECONTROLLER_I_ACTUATOR1,
+    TEMPERATURECONTROLLER_I_REFTEMP2,
+    TEMPERATURECONTROLLER_I_HYST2,
+    TEMPERATURECONTROLLER_I_ACTUATOR2,
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char* const template_temperaturecontroller_inputs[] PROGMEM =
 {
-    pgm_input_threshold,
-    pgm_inputpwmmax,
-    pgm_input_hysteresis,
-    pgm_input_sensor};
+    pgm_input_sensor,
+    pgm_input_reftemp1,
+    pgm_input_hyst1,
+    pgm_input_actuator1,
+    pgm_input_reftemp2,
+    pgm_input_hyst2,
+    pgm_input_actuator2
+};
+
 extern const uint16_t template_temperaturecontroller_inputs_elements =
 sizeof(template_temperaturecontroller_inputs) / sizeof(char*);
 #endif

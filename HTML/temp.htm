@@ -13,17 +13,19 @@
 </style>
 
 <div id="tt1" class="xbtooltip">
-    Temperature turning on the associated actor of this controller
+    Specifies the reference temperature that activates a heating element when dropping below it.
 </div>
 
 <div id="tt2" class="xbtooltip" style="border:1px solid black">
-    When the actor supports PWM this is the temperature when the actuator reaches its maximum.<br/>
-    The PWM is increased linear inbetween the threshold and the the maximum.
+	Heating actuator turns off when temp > temp_low + hysteresis_low
 </div>
 
 <div id="tt3" class="xbtooltip" style="border:1px solid black">
-    The actuator is turned off when the temperature drops below threshold - hysteresis<br/>
-    This prevents the actuator from being turned on shortly after it has been turned out.
+	Specifies the reference temperature that activates a cooling element when exceeding it.
+</div>
+
+<div id="tt2" class="xbtooltip" style="border:1px solid black">
+	Cooling actuator turns off when temp < temp_high - hysteresis_low
 </div>
 
 <script type="text/javascript">
@@ -75,41 +77,40 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Aquaduino Temperature Controller</title>
+<title>##CNAME##: Aquaduino Temperature Controller</title>
 </head>
 
 <body>
 
-<h2>Temperature Controller:</h2>
-<p>Current temperature: ##TEMPERATURE##&deg;C</p>
+<h2>##CNAME##</h2>
+<p>Current temperature: ##TEMPERATURE####UNIT##</p>
 <form id="form1" name="form1" method="post" action=""> 
   <table width="277" border="0">
   <tr>
-  	<td width="193" bgcolor="#99CCFF">
-  		Sensor:
-  	</td>
-  	<td width="74" bgcolor="#99CCFF">
-  		##SSELECT##
-	</td>
+  	<td width="193" bgcolor="#99CCFF">Sensor:</td><td width="74" bgcolor="#99CCFF">##SSELECT##</td>
   </tr>  
   <tr>
-    <td bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt1'})" for="1">Temperature Threshold:</label></td>
-    <td bgcolor="#99CCFF"><input name="Threshold" type="text" id="1" value="##THRESHOLD##" size="3" maxlength="5"/>&deg;C</td>
+    <td bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt1'})" for="1">Temperature Low:</label></td>
+    <td bgcolor="#99CCFF"><input name="##RTEMP1NAME##" type="text" id="1" value="##RTEMP1VAL##" size="##RTEMP1SIZE##" maxlength="##RTEMP1MAXLENGTH##"/>##UNIT##</td>
+  </tr>  
+  <tr>
+  	<td bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt3'})" for="1">Hysteresis Low:</label></td>
+  	<td bgcolor="#99CCFF"><input type="text" name="##HYST1NAME##" value="##HYST1VAL##" id="2" size="##HYST1SIZE##" maxlength="##HYST1MAXLENGTH##"/>##UNIT##</td>
+  </tr>  
+  <tr>
+  	<td width="193" bgcolor="#99CCFF">Heating Actuator:</td><td width="74" bgcolor="#99CCFF">##ASELECT1##</td>
+  </tr>    
+  <tr>
+    <td bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt1'})" for="1">Temperature High:</label></td>
+    <td bgcolor="#99CCFF"><input name="##RTEMP2NAME##" type="text" id="3" value="##RTEMP2VAL##" size="##RTEMP2SIZE##" maxlength="##RTEMP2MAXLENGTH##"/>##UNIT##</td>
   </tr>
   <tr>
-    <td bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt2'})" for="1">Maximum PWM @:</label></td>
-    <td bgcolor="#99CCFF"><input type="text" name="PWMMax" value="##PWMMAX##" id="2" size="3" maxlength="6"/>&deg;C</td>
+  	<td bgcolor="#99CCFF"><label onmouseover="XBT(this, {id:'tt3'})" for="1">Hysteresis High:</label></td>
+  	<td bgcolor="#99CCFF"><input type="text" name="##HYST2NAME##" value="##HYST2VAL##" id="4" size="##HYST2SIZE##" maxlength="##HYST2MAXLENGTH##"/>##UNIT##</td>
   </tr>
   <tr>
-  	<td bgcolor="#99CCFF">
-  	    <label onmouseover="XBT(this, {id:'tt3'})" for="1">
-  		Hysteresis:
-  		</label>
-  	</td>
-  	<td bgcolor="#99CCFF">
-  		<input type="text" name="Hysteresis" value="##HYSTERESIS##" id="2" size="3" maxlength="5"/>&deg;C</td>
-	</td>
-  
+  	<td width="193" bgcolor="#99CCFF">Cooling Actuator:</td><td width="74" bgcolor="#99CCFF">##ASELECT2##</td>
+  </tr>      
 </table>
 <input type="submit" value="Apply">
 </form>
