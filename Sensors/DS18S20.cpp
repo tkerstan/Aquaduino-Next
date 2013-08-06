@@ -61,6 +61,7 @@ double DS18S20::read()
     uint8_t data[12];
     int8_t i = 0;
     OneWireHandler* handler = aquaduino->getOneWireHandler();
+    int8_t crc;
 
     if (!m_ReadPending)
     {
@@ -70,7 +71,9 @@ double DS18S20::read()
     }
     else if (millis() - m_LastReadIssue > 750)
     {
-        handler->read(m_Idx, m_Address, data, 12);
+        Serial.print(F("Reading Onewire scratchpad returned ="));
+        if (handler->read(m_Idx, m_Address, data, 12))
+            return 0.0;
         temp_hist[m_Runs++] = ((double) convertToRaw(data,
                                                    12,
                                                    m_Address[0] == 0x10))
@@ -232,4 +235,3 @@ int8_t DS18S20::showWebinterface(WebServer* server,
     }
     return true;
 }
-
