@@ -125,5 +125,8 @@ int8_t OneWireHandler::read(uint8_t idx, uint8_t* addr, uint8_t* data, uint8_t s
         data[i] = m_OneWires[idx]->read();
     }
 
-    return 1;
+    if (m_OneWires[idx]->crc8(data,8) == data[8])
+        return 0;
+    else
+        return -1;
 }

@@ -24,6 +24,9 @@
 #include <OneWire.h>
 #include <Framework/Config.h>
 
+/**
+ * \brief Muxing and Demuxing of multiple OneWire devices
+ */
 class OneWireHandler
 {
 public:
