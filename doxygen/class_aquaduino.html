@@ -404,7 +404,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Initializes <a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a> with default values and then tries to read the configuration using the <a class="el" href="class_s_d_config_manager.html" title="Configuration Manager using SD card to store and restore configurations. ">SDConfigManager</a>. When there are multiple implementations of <a class="el" href="class_config_manager.html" title="Interface for managing the configuration of the classes Aqaduino, Actuator, Controller an Sensor...">ConfigManager</a> available this is the place to exchange them. Finally the network is brought up. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00125">125</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00076">76</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -431,7 +431,7 @@ Protected Attributes</h2></td></tr>
 <p>Adds the actuator specified by newActuator. The actuators are stored in an ArrayList and can later be identified by their index in this ArrayList. If the store operation was successful the actuators URL is set to "A" followed by its index. Thus an actuator stored at index 1 will receive the URL "A1". After the URL was set the configuration manager is triggered to read the configuration of the actuator.</p>
 <dl class="section return"><dt>Returns</dt><dd>Index of the actuator in the ArrayList m_Actuators. When the operation fails -1 is returned. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00704">704</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00655">655</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -457,7 +457,7 @@ Protected Attributes</h2></td></tr>
 <p>Adds the controller specified by newController. The controllers are stored in an ArrayList and can later be identified by their index in this ArrayList. If the store operation was successful the controllers URL is set to "C" followed by its index. Thus a controller stored at index 1 will receive the URL "C1". After the URL was set the configuration manager is triggered to read the configuration of the controller.</p>
 <dl class="section return"><dt>Returns</dt><dd>Index of the controller in the ArrayList m_Controllers. When the operation fails -1 is returned. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00617">617</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00568">568</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -475,7 +475,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00843">843</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00794">794</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -519,7 +519,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <p>Request is redirected from <a class="el" href="_aquaduino_8cpp.html#aa4b56483b0a299af4fcfe0af34263a18" title="This command is triggered when the request is not the default page. ">dispatchCommand</a>. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01795">1795</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01746">1746</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -563,7 +563,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <p>Request is redirected from <a class="el" href="_aquaduino_8cpp.html#aa4b56483b0a299af4fcfe0af34263a18" title="This command is triggered when the request is not the default page. ">dispatchCommand</a>. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01568">1568</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01519">1519</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -609,7 +609,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_serializable.html#ad6a1d38f4e11eb3e1b1bacd0759dc778">Serializable</a>.</p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00969">969</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00920">920</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -627,7 +627,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Disables the DHCP flag. When this flag is not set during construction time no DHCP request is performed. Instead the IP configuration read by the configuration manager is used as static configuration. The configuration manager stores the values set by setIP, setNetmask, setGateway and setDNS when they are updated using the configuration <a class="el" href="class_web_interface.html" title="Interface to access the Webduino webserver. ">WebInterface</a>. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00483">483</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00434">434</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -645,7 +645,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Disables the NTP synchronization and leaves current time untouched. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00517">517</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00468">468</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -662,7 +662,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00569">569</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00520">520</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -680,7 +680,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Enables the DHCP flag. When this flag is set during construction time a DHCP request is performed. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00469">469</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00420">420</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -698,7 +698,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Enables the NTP flag and directly performs a NTP synchronization request. The NTP synchronization interval is set to the value set by setNtpSyncInterval. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00505">505</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00456">456</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -716,7 +716,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Enables the Xively flag. When this flag is set sensor data with valid Xively channels will be send to Xively. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00560">560</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00511">511</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -741,7 +741,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>actuator object stored at position idx. Can be NULL. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00726">726</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00677">677</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -766,7 +766,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the index in m_Actuators if the object is stored in there. If that is not the case -1 is returned. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00738">738</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00689">689</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -810,7 +810,7 @@ Protected Attributes</h2></td></tr>
 <p>This method iterates over all actuators and checks which actuators are assigned to the specified controller. The resulting indices are stored in the passed array of indices with size max.</p>
 <p>returns the number of assigned actuators. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00812">812</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00763">763</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -846,7 +846,7 @@ Protected Attributes</h2></td></tr>
 <p>This method iterates over all actuators and checks which actuators are assigned to the controller specified by controller. The resulting objects are stored in the passed array of actuator pointers with size max.</p>
 <p>returns the number of assigned actuators. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00778">778</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00729">729</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -871,7 +871,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>controller object stored at position idx. Can be NULL. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00639">639</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00590">590</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -896,7 +896,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the index in m_Controllers if the object is stored in there. If that is not the case -1 is returned. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00651">651</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00602">602</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -914,7 +914,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Configured DNS server address. May be different to active DNS server address! </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00390">390</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00341">341</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -932,7 +932,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Configured gateway address. May be different to active gateway address! </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00366">366</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00317">317</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -950,7 +950,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Configured IP address. May be different to active IP! </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00318">318</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00269">269</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -975,7 +975,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Configured MAC address. May be different to active MAC! </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00307">307</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00258">258</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1019,7 +1019,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Configured netmask. May be different to active netmask! </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00342">342</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00293">293</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1045,7 +1045,7 @@ Protected Attributes</h2></td></tr>
 <p>Since the ArrayList m_Actuators may get fragmented the ArrayList provides the functionality to iterate over all available elements in the ArrayList. This method delegates the call to the method of the ArrayList.</p>
 <dl class="section return"><dt>Returns</dt><dd>the index of the next actuator. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00764">764</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00715">715</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1070,7 +1070,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <p>Since the ArrayList m_Controllers may get fragmented the ArrayList provides the functionality to iterate over all available elements in the ArrayList. This method delegates the call to the method of the ArrayList. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00675">675</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00626">626</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1088,7 +1088,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00874">874</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00825">825</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1106,7 +1106,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>the number of assigned actuators. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00838">838</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00789">789</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1124,7 +1124,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>the number of assigned controllers. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00685">685</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00636">636</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1141,7 +1141,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00879">879</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00830">830</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1159,7 +1159,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Configured NTP server address. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00412">412</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00363">363</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1177,7 +1177,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>NTP synchronization interval in minutes. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00434">434</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00385">385</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1194,7 +1194,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00891">891</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00842">842</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1212,7 +1212,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00859">859</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00810">810</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1230,7 +1230,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00864">864</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00815">815</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1248,7 +1248,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00884">884</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00835">835</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1266,7 +1266,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The instance of the used TemplateParser </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01173">1173</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01124">1124</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1283,7 +1283,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00457">457</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00408">408</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1353,7 +1353,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The instance of the used WebServer </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01150">1150</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01101">1101</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1370,7 +1370,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00588">588</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00539">539</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1387,7 +1387,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00598">598</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00549">549</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1405,7 +1405,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Value of the DHCP flag. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00493">493</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00444">444</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1423,7 +1423,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Value of the NTP flag. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00529">529</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00480">480</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1441,7 +1441,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Value of the Xively flag. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00579">579</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00530">530</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1486,7 +1486,7 @@ Protected Attributes</h2></td></tr>
 <p>Dispatches the request to the appropriate submethod.</p>
 <dl class="section return"><dt>Returns</dt><dd>true if successful. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l02258">2258</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l02209">2209</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1530,7 +1530,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if successful. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01818">1818</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01769">1769</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1557,7 +1557,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Prints the configuation webpage using the template in progConfigTemplateFileName. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01279">1279</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01230">1230</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1590,7 +1590,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <p>Prints the actuator table using the template specified in pARowFileName. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01900">1900</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01851">1851</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1623,7 +1623,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <p>Prints the controller table using the template specified in pCRowFileName. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l02013">2013</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01964">1964</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1656,7 +1656,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <p>Prints the sensor table using the template specified in pCRowFileName. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l02078">2078</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l02029">2029</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1689,7 +1689,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if successful. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l02163">2163</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l02114">2114</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1714,7 +1714,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>amount of data read in bytes. -1 if reading failed. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01070">1070</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01021">1021</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1740,7 +1740,7 @@ Protected Attributes</h2></td></tr>
 <p>Delegates the call to the ConfigurationManager to read the configuration.</p>
 <dl class="section return"><dt>Returns</dt><dd>The number of read bytes. -1 if reading failed. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01084">1084</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01035">1035</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1766,7 +1766,7 @@ Protected Attributes</h2></td></tr>
 <p>Delegates the call to the ConfigurationManager to read the configuration.</p>
 <dl class="section return"><dt>Returns</dt><dd>The number of read bytes. -1 if reading failed. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01098">1098</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01049">1049</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1792,7 +1792,7 @@ Protected Attributes</h2></td></tr>
 <p>Delegates the call to the ConfigurationManager to read the configuration.</p>
 <dl class="section return"><dt>Returns</dt><dd>The number of read bytes. -1 if reading failed. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01112">1112</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01063">1063</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1810,7 +1810,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>The iterator is placed to the first slot in m_Actuators. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00748">748</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00699">699</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1828,7 +1828,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>The iterator is placed to the first slot in m_Controllers. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00661">661</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00612">612</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1845,7 +1845,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00869">869</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00820">820</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1863,7 +1863,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This is the top level run method. It triggers the sensor readings, controller run methods and the WebServer processing. Needs to be called periodically i.e. within the <a class="el" href="_aquaduino_8cpp.html#afe461d27b9c48d5921c00d521181f12f">loop()</a> function of the Arduino environment. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l02290">2290</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l02241">2241</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1909,7 +1909,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_serializable.html#a97b461d082ed7a40a0cf8b143ef2f05b">Serializable</a>.</p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00920">920</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00871">871</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1934,7 +1934,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <p>This method only stores the value in the object. It does not configure the network. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00402">402</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00353">353</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1959,7 +1959,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <p>This method only stores the value in the object. It does not configure the network. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00379">379</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00330">330</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -1984,7 +1984,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <p>This method only stores the value in the object. It does not configure the network. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00331">331</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00282">282</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -2009,7 +2009,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <p>This method only stores the value in the object. It does not configure the network. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00295">295</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00246">246</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -2067,7 +2067,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <p>This method only stores the value in the object. It does not configure the network. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00354">354</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00305">305</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -2092,7 +2092,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <p>This method only stores the value in the object. It does not trigger a NTP update. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00424">424</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00375">375</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -2117,7 +2117,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <p>This method only stores the value in the object. It does not trigger a NTP update. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00447">447</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00398">398</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -2143,7 +2143,7 @@ Protected Attributes</h2></td></tr>
 <p>Sets the instance of the used TemplateParser</p>
 <dl class="section return"><dt>Returns</dt><dd>The instance of the used WebServer </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01163">1163</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01114">1114</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -2206,7 +2206,7 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00546">546</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00497">497</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -2224,7 +2224,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00452">452</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00403">403</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -2283,7 +2283,7 @@ Protected Attributes</h2></td></tr>
 <p>Sets the WebServer instance to be used and attaches the prepared handler routines. Finally the WebServer is initialized.</p>
 <p>See <a class="el" href="_aquaduino_8cpp.html#a0e9931ba7cf22e8e169478c7c2246e8e" title="Prints the main web page. ">defaultCmd</a> for implementation of the main web page and <a class="el" href="_aquaduino_8cpp.html#aa4b56483b0a299af4fcfe0af34263a18" title="This command is triggered when the request is not the default page. ">dispatchCommand</a> for the implementation of the request dispatching to the registered controllers and actuators. </p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01134">1134</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01085">1085</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -2301,7 +2301,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00584">584</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00535">535</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -2319,7 +2319,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00593">593</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00544">544</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -2365,7 +2365,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_web_interface.html#a8762482803c6e98ac19d375995473196">WebInterface</a>.</p>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l02274">2274</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l02225">2225</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -2391,7 +2391,7 @@ Protected Attributes</h2></td></tr>
 <p>Delegates the call to the ConfigurationManager to write the configuration.</p>
 <dl class="section return"><dt>Returns</dt><dd>The number of written bytes. -1 if writing failed. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01016">1016</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00967">967</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -2417,7 +2417,7 @@ Protected Attributes</h2></td></tr>
 <p>Delegates the call to the ConfigurationManager to write the configuration.</p>
 <dl class="section return"><dt>Returns</dt><dd>The number of written bytes. -1 if writing failed. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01030">1030</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00981">981</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -2443,7 +2443,7 @@ Protected Attributes</h2></td></tr>
 <p>Delegates the call to the ConfigurationManager to write the configuration.</p>
 <dl class="section return"><dt>Returns</dt><dd>The number of written bytes. -1 if writing failed. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01044">1044</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00995">995</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -2469,7 +2469,7 @@ Protected Attributes</h2></td></tr>
 <p>Delegates the call to the ConfigurationManager to write the configuration.</p>
 <dl class="section return"><dt>Returns</dt><dd>The number of written bytes. -1 if writing failed. </dd></dl>
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01058">1058</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01009">1009</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -2550,7 +2550,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_aquaduino.html">Aquaduino</a></li>
-    <li class="footer">Generated on Tue Aug 6 2013 13:55:35 for Aquaduino by
+    <li class="footer">Generated on Tue Aug 6 2013 15:40:20 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

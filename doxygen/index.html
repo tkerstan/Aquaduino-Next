@@ -101,74 +101,13 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="textblock"><h1><a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a> </h1>
 <h2>What is <a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a>? </h2>
 <p><a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a> is an extensible open source control system framework for fish tanks or other related environments. <a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a> is published under the GPLv3 and is written in C++. It is currently developed on a DFRduino Mega 2560 with DFRduino Ethernet Shield. It currently supports the control of digital outputs to control my relay modules, temperature readings by using a Dallas <a class="el" href="class_d_s18_s20.html" title="Basic implementation for DS18S20 Temperature Sensors. ">DS18S20</a>, automatic refill by using a level sensor with closing contact and a simple webinterface to manage the control of the power outlets. The strength of <a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a> is its extensibility which allows developers to simply support further sensors, actors or controllers related to their special needs.</p>
-<p>The framework provided by <a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a> uses Webduino. To provide a seamless integration of actuators like relays into controlling elements the <a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a> webinterface automatically generates a configuration webinterface to assign the available actuators to the controlling elements of <a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a>. Thus the actuators can easily be enabled, disabled or assigned at runtime to the different control elements.</p>
-<h2>Features </h2>
-<ul>
-<li>Network and Webinterface<ul>
-<li>Static or DHCP IP configuration</li>
-<li>NTP synchronization</li>
-<li>Configuration of actuators and controllers</li>
-</ul>
-</li>
-<li>Actuator/Controller/Sensor Framework<ul>
-<li>Controllers are software components that control assigned actuators</li>
-<li>Actuators can dynamically be assigned to controllers</li>
-<li><a class="el" href="class_sensor.html" title="Base class for Sensors. ">Sensor</a> readings are periodically triggered by the framework</li>
-<li>Controllers can select the sensor providing the sensor values</li>
-<li>Controllers, actuators and sensors provide their own Webinterface</li>
-<li>Easily extensible to support different controllers, actuators and sensors</li>
-<li>Currently supported Controllers:<ul>
-<li>Temperature controller<ul>
-<li>Threshold based</li>
-<li>Definition of temperature where PWM based actor shall reach its maximum (linear scaling)</li>
-<li>Hysteresis (Configurable by webinterface)</li>
-</ul>
-</li>
-<li>Level controller<ul>
-<li>Time based debounce mechanism to ignore waves</li>
-<li>Time out mechanism to prevent refill pump from running dry</li>
-<li>Hysteresis (Configurable by webinterface)</li>
-</ul>
-</li>
-<li>Clocktimer controller<ul>
-<li>Configurable amount of clocktimers</li>
-<li>Configurable amount of time intervals per clocktimer</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Currently supported Actuators<ul>
-<li>Digital outputs (including PWM)</li>
-</ul>
-</li>
-<li>Currently supported Sensors<ul>
-<li>Level sensor (Digital Input)</li>
-<li>Temperature sensor (DS18x20)</li>
-<li>pH/ORP/EC in progress</li>
-<li>Support for monitoring using Xively</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Template Parser Framework<ul>
-<li>Easy integration of HTML templates in controller webinterface code</li>
-<li>Completely stack based (No dynamic memory consumption)</li>
-<li>Templates stored on SD Card (No static memory consumption)</li>
-</ul>
-</li>
-<li>Configuration Management<ul>
-<li>Support for SD Card storage to store system configuration</li>
-</ul>
-</li>
-</ul>
-<h2>Hardware Setup </h2>
-<p><a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a> runs on the Arduino Mega 2560 and requires an Ethernetshield. For more information see <a href="https://sourceforge.net/p/aquaduino/home/Home/">https://sourceforge.net/p/aquaduino/home/Home/</a> </p>
+<p>The <a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a> framework uses Webduino for its webinterface. To provide a seamless integration of actuators like relays into controlling elements the <a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a> webinterface automatically generates a configuration webinterface to assign the available actuators to the controlling elements of <a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a>. Thus the actuators can easily be enabled, disabled or assigned at runtime to the different control elements. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Aug 6 2013 13:55:35 for Aquaduino by
+    <li class="footer">Generated on Tue Aug 6 2013 15:40:21 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>
