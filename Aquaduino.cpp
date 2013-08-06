@@ -1127,7 +1127,7 @@ void dispatchCommand(WebServer &server, WebServer::ConnectionType type,
  * routines. Finally the WebServer is initialized.
  *
  * See ::defaultCmd for implementation of the main web page and
- * ::controllerDispatchCommand for the implementation of the request
+ * ::dispatchCommand for the implementation of the request
  * dispatching to the registered controllers and actuators.
  *
  */
@@ -1563,7 +1563,7 @@ void Aquaduino::printConfigWebpage(WebServer* server)
  * \param[in] server Webserver instance to use
  * \param[in] type Request type
  *
- * Request is redirected from ::controllerDispatchCommand.
+ * Request is redirected from ::dispatchCommand.
  */
 int8_t Aquaduino::configWebpageProcessPost(WebServer* server,
                                            WebServer::ConnectionType type)
@@ -1790,7 +1790,7 @@ int8_t Aquaduino::configWebpageProcessPost(WebServer* server,
  * \param[in] server Webserver instance to use
  * \param[in] type Request type
  *
- * Request is redirected from ::controllerDispatchCommand.
+ * Request is redirected from ::dispatchCommand.
  */
 int8_t Aquaduino::configWebpage(WebServer* server,
                                 WebServer::ConnectionType type)

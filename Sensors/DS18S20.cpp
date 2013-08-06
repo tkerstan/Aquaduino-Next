@@ -30,7 +30,6 @@
 
 /**
  * \brief Constructor
- * \param[in] pin Pin where the DS18S20 is attached.
  */
 DS18S20::DS18S20()
 {

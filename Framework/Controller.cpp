@@ -68,10 +68,7 @@ void Controller::allMyActuators(int8_t on)
 
 /**
  * \brief Performs action on all assigned actuators.
- * \param[in] on Flag for turning all actuators on or off
- *
- * On = 0 --> all actuators are turned off.
- * On = 1 --> all actuators are turned on.
+ * \param[in] dutyCycle value for all actuators
  */
 void Controller::allMyActuators(float dutyCycle)
 {

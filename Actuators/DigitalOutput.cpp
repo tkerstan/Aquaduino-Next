@@ -27,7 +27,6 @@
 /**
  * \brief Constructor
  * \param[in] name Initial name of the Actuator
- * \param[in] pin Pin number of the Actuator
  * \param[in] onValue Value that enables the Actuator
  * \param[in] offValue Value that disables the Actuator
  *

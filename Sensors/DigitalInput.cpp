@@ -27,7 +27,6 @@
 
 /**
  * \brief Constructor
- * \param[in] pin pin to be used as input
  */
 DigitalInput::DigitalInput()
 {

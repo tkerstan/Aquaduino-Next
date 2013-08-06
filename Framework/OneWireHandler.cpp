@@ -61,6 +61,7 @@ int8_t OneWireHandler::addPin(uint8_t pin)
 
 /**
  * \brief Scans for OneWire devices
+ * \param[in] idx Index of OneWire object to be used
  * \param[out] address Buffer where this method stores the address of the
  * device found
  * \param[in] size Size of the buffer. Needs to be at least 8 bytes.
@@ -87,6 +88,7 @@ int8_t OneWireHandler::findDevice(uint8_t idx, uint8_t *address, uint8_t size)
 
 /**
  * \brief Issue OneWire read command to given address
+ * \param[in] idx Index of OneWire object to be used
  * \param[in] addr The address of the OneWire device to read from
  */
 void OneWireHandler::issueReadCommand(uint8_t idx, uint8_t* addr)
@@ -102,6 +104,7 @@ void OneWireHandler::issueReadCommand(uint8_t idx, uint8_t* addr)
 
 /**
  * \brief Reads the scratchpad of the OneWire device.
+ * \param[in] idx Index of OneWire object to be used
  * \param[in] addr Address of the OneWire device
  * \param[out] data Buffer for the data
  * \param[in] size Size of the buffer. Needs to be at least 12 Bytes.
