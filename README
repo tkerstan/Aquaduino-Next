@@ -38,14 +38,11 @@ Features
     * Easily extensible to support different controllers, actuators and sensors
     * Currently supported Controllers:
         * Temperature controller
-            * Threshold based
-            * Definition of temperature where PWM based actor shall reach
-              its maximum (linear scaling)
-            * Hysteresis (Configurable by webinterface)
+            * Three step controller algorithm with hysteresis
         * Level controller
             * Time based debounce mechanism to ignore waves
             * Time out mechanism to prevent refill pump from running dry
-            * Hysteresis (Configurable by webinterface)
+            * On-Off Controller algorithm with configurably hysteresis.
         * Clocktimer controller
             * Configurable amount of clocktimers
             * Configurable amount of time intervals per clocktimer
