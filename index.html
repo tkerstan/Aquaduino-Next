@@ -23,45 +23,63 @@
         </header>
 
         <section id="downloads" class="clearfix">
-          <a href="https://github.com/tkerstan/Aquaduino-Next/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/tkerstan/Aquaduino-Next/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
           <a href="https://github.com/tkerstan/Aquaduino-Next" id="view-on-github" class="button"><span>View on GitHub</span></a>
         </section>
 
         <hr>
 
         <section id="main_content">
-          <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+          
+<h3> <a name="What is Aquaduino" class="anchor" href="#aquaduino-next"><span class="octicon octicon-link"></span></a>What is Aquaduino</h3>
+Aquaduino is an extensible open source control system framework for fish tanks
+or other related environments. Aquaduino is published under the GPLv3 and is
+written in C++. It is currently developed on a DFRduino Mega 2560 with DFRduino
+Ethernet Shield. It currently supports the control of digital outputs to
+control my relay modules, temperature readings by using a Dallas DS18S20,
+automatic refill by using a level sensor with closing contact and a simple
+webinterface to manage the control of the power outlets. The strength of
+Aquaduino is its extensibility which allows developers to simply support
+further sensors, actors or controllers related to their special needs.
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+The framework provided by Aquaduino uses Webduino. To provide a seamless
+integration of actuators like relays into controlling elements the Aquaduino
+webinterface automatically generates a configuration webinterface to assign
+the available actuators to the controlling elements of Aquaduino. Thus the
+actuators can easily be enabled, disabled or assigned at runtime to the
+different control elements.
+<br>
+<br>
+<h3><a name="Features" class="anchor" href="#Features"><span class="octicon octicon-link"></span></a>Features</h3>
+<ul>
+<li>Network and Webinterface
+	<ul>
+	<li>Static or DHCP IP configuration</li>
+	<li>NTP synchronization</li>
+	<li>Configuration of actuators, controllers and sensors</li>
+	</ul>	
+</li>
+<li>Controllers
+	<ul>
+	<li>On-Off Controller for water level controlling</li>
+	<li>Three step controller for temperature controlling</li>
+	<li>Clocktimer controller for time based controlling</li>
+	</ul>	
+</li>
+<li>Actuators
+	<ul>
+	<li>5V Digital Output with 31.25 kHZ PWM on pins where available</li>
+	</ul>	
+<li>Sensors
+	<ul>
+	<li>5V Digital Input</li>
+	<li>DS18S20 temperature sensor</li>
+	<li>DS18B20 temperature sensor</li>
+	</ul>
+</li>
+</ul>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<h3><a name="Doxygen documentation" class="anchor" href="#Doxygen"><span class="octicon octicon-link"></span></a>Doxygen documentation</h3>
+The source code is documented using Doxygen. You can find it <a href="doxygen/index.html">here</a>
         </section>
 
         <footer>
