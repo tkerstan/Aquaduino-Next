@@ -37,62 +37,13 @@
  * Aquaduino is its extensibility which allows developers to simply support
  * further sensors, actors or controllers related to their special needs.
  *
- * The framework provided by Aquaduino uses Webduino. To provide a seamless
+ * The Aquaduino framework uses Webduino for its webinterface. To provide a seamless
  * integration of actuators like relays into controlling elements the Aquaduino
  * webinterface automatically generates a configuration webinterface to assign
  * the available actuators to the controlling elements of Aquaduino. Thus the
  * actuators can easily be enabled, disabled or assigned at runtime to the
  * different control elements.
  *
- * Features
- * --------
- *
- * * Network and Webinterface
- *     * Static or DHCP IP configuration
- *     * NTP synchronization
- *     * Configuration of actuators and controllers
- *
- * * Actuator/Controller/Sensor Framework
- *     * Controllers are software components that control assigned actuators
- *     * Actuators can dynamically be assigned to controllers
- *     * Sensor readings are periodically triggered by the framework
- *     * Controllers can select the sensor providing the sensor values
- *     * Controllers, actuators and sensors provide their own Webinterface
- *     * Easily extensible to support different controllers, actuators and sensors
- *     * Currently supported Controllers:
- *         * Temperature controller
- *             * Threshold based
- *             * Definition of temperature where PWM based actor shall reach
- *               its maximum (linear scaling)
- *             * Hysteresis (Configurable by webinterface)
- *         * Level controller
- *             * Time based debounce mechanism to ignore waves
- *             * Time out mechanism to prevent refill pump from running dry
- *             * Hysteresis (Configurable by webinterface)
- *         * Clocktimer controller
- *             * Configurable amount of clocktimers
- *             * Configurable amount of time intervals per clocktimer
- *     * Currently supported Actuators
- *         * Digital outputs (including PWM)
- *     * Currently supported Sensors
- *         * Level sensor (Digital Input)
- *         * Temperature sensor (DS18x20)
- *         * pH/ORP/EC in progress
- *         * Support for monitoring using Xively
- *
- * * Template Parser Framework
- *     * Easy integration of HTML templates in controller webinterface code
- *     * Completely stack based (No dynamic memory consumption)
- *     * Templates stored on SD Card (No static memory consumption)
- *
- * * Configuration Management
- *     * Support for SD Card storage to store system configuration
- *
- * Hardware Setup
- * --------------
- *
- * Aquaduino runs on the Arduino Mega 2560 and requires an Ethernetshield.
- * For more information see https://sourceforge.net/p/aquaduino/home/Home/
  */
 
 #include <Aquaduino.h>
