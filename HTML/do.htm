@@ -15,7 +15,7 @@
 	Pin:
 	</td>
 	<td>
-		<input type="text" name="##INAME##" value="##PIN##" size="3" maxlength="2"/>
+		<input type="text" name="##PINNAME##" value="##PINVAL##" size="##PINSIZE##" maxlength="##PINMAXLENGTH##"/>
 	</td>
 </tr>
 <tr bgcolor="#99CCFF">
@@ -23,7 +23,7 @@
 	PWM:
 	</td>
 	<td>
-		<input type="text" name="##IPWM##" value="##PWM##" size="10" maxlength="9"/>
+		<input type="text" name="##PWMNAME##" value="##PWMVAL##" size="##PWMSIZE##" maxlength="##PWMMAXLENGTH##"/>
 	</td>
 </tr>
 <tr bgcolor="#99CCFF">
@@ -32,8 +32,8 @@
 	</td>
 	<td>
 	<label>
-		<select name="type">
-          ##TYPEOPTIONS##
+		<select name="##ONNAME##">
+          ##ONOPTIONS##
         </select>
 	</td>
 </tr>

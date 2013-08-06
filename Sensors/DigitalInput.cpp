@@ -98,15 +98,22 @@ int8_t DigitalInput::showWebinterface(WebServer* server,
         {
             switch (matchIdx)
             {
-            case DI_INAME:
-                server->print((__FlashStringHelper *) pgm_read_word(template_digitalinput_inputs));
-                break;
-            case DI_NAME:
+            case DI_SNAME:
                 server->print(getName());
                 break;
-            case DI_PIN:
+            case DI_PIN_NAME:
+                server->print((__FlashStringHelper *) pgm_read_word(template_digitalinput_inputs));
+                break;
+            case DI_PIN_VAL:
                 server->print(m_Pin);
                 break;
+            case DI_PIN_SIZE:
+                server->print(3);
+                break;
+            case DI_PIN_MAXLENGTH:
+                server->print(2);
+                break;
+
             }
         }
 

@@ -127,6 +127,9 @@ extern const char pgm_input_reftemp1[] PROGMEM;
 extern const char pgm_input_hyst1[] PROGMEM;
 extern const char pgm_input_reftemp2[] PROGMEM;
 extern const char pgm_input_hyst2[] PROGMEM;
+extern const char pgm_input_pin[] PROGMEM;
+extern const char pgm_input_pwm[] PROGMEM;
+extern const char pgm_input_on[] PROGMEM;
 
 extern const char pgm_input_ipin[];
 extern const char pgm_input_ipwm[];
@@ -155,6 +158,10 @@ static const char pgm_lselect[] PROGMEM = "##LSELECT##";
 static const char pgm_loptions[] PROGMEM = "##LOPTIONS##";
 static const char pgm_sselect[] PROGMEM = "##SSELECT##";
 static const char pgm_soptions[] PROGMEM = "##SOPTIONS##";
+static const char pgm_pin_name[] PROGMEM = "##PINNAME##";
+static const char pgm_pin_val[] PROGMEM = "##PINVAL##";
+static const char pgm_pin_size[] PROGMEM = "##PINSIZE##";
+static const char pgm_pin_maxlength[] PROGMEM = "##PINMAXLENGTH##";
 
 /*
  * Main
@@ -324,18 +331,28 @@ static const char pgm_hyst2_maxlength[] PROGMEM = "##HYST2MAXLENGTH##";
 static const char pgm_aselect2[] PROGMEM = "##ASELECT2##";
 
 /**
- *
+ * Digital Output
  */
+static const char pgm_pwm_name[] PROGMEM = "##PWMNAME##";
+static const char pgm_pwm_val[] PROGMEM = "##PWMVAL##";
+static const char pgm_pwm_size[] PROGMEM = "##PWMSIZE##";
+static const char pgm_pwm_maxlength[] PROGMEM = "##PWMMAXLENGTH##";
+static const char pgm_on_name[] PROGMEM = "##ONNAME##";
+static const char pgm_on_options[] PROGMEM = "##ONOPTIONS##";
 
-static const char pgm_pin[] PROGMEM = "##PIN##";
-static const char pgm_ipwm[] PROGMEM = "##IPWM##";
-static const char pgm_pwm[] PROGMEM = "##PWM##";
-static const char pgm_typeoptions[] PROGMEM = "##TYPEOPTIONS##";
+/**
+ * DS182S20
+ */
 static const char pgm_addressselect[] PROGMEM = "##ADDRESSSELECT##";
-static const char pgm_url[] PROGMEM = "##URL##";
+
+/**
+ * Clock Timer Controller
+ */
+static const char pgm_actionurl[] PROGMEM = "##ACTIONURL##";
 static const char pgm_clocktimerselect[] PROGMEM = "##CLOCKTIMERSELECT##";
 static const char pgm_actuatorselect[] PROGMEM = "##ACTUATORSELECT##";
 static const char pgm_clocktimerrow[] PROGMEM = "##CLOCKTIMERROW##";
+static const char pgm_dow_name[] PROGMEM = "##DOWNAME##";
 static const char pgm_checked_mo[] PROGMEM = "##CHECKEDMO##";
 static const char pgm_checked_tu[] PROGMEM = "##CHECKEDTU##";
 static const char pgm_checked_we[] PROGMEM = "##CHECKEDWE##";
@@ -343,14 +360,23 @@ static const char pgm_checked_th[] PROGMEM = "##CHECKEDTH##";
 static const char pgm_checked_fr[] PROGMEM = "##CHECKEDFR##";
 static const char pgm_checked_sa[] PROGMEM = "##CHECKEDSA##";
 static const char pgm_checked_su[] PROGMEM = "##CHECKEDSU##";
-static const char pgm_ihon[] PROGMEM = "##I_HON##";
-static const char pgm_imon[] PROGMEM = "##I_MON##";
-static const char pgm_ihoff[] PROGMEM = "##I_HOFF##";
-static const char pgm_imoff[] PROGMEM = "##I_MOFF##";
-static const char pgm_hon[] PROGMEM = "##HON##";
-static const char pgm_mon[] PROGMEM = "##MON##";
-static const char pgm_hoff[] PROGMEM = "##HOFF##";
-static const char pgm_moff[] PROGMEM = "##MOFF##";
+static const char pgm_hon_name[] PROGMEM = "##HONNAME##";
+static const char pgm_hon_val[] PROGMEM = "##HONVAL##";
+static const char pgm_hon_size[] PROGMEM = "##HONSIZE##";
+static const char pgm_hon_maxlength[] PROGMEM = "##HONMAXLENGTH##";
+static const char pgm_mon_name[] PROGMEM = "##MONNAME##";
+static const char pgm_mon_val[] PROGMEM = "##MONVAL##";
+static const char pgm_mon_size[] PROGMEM = "##MONSIZE##";
+static const char pgm_mon_maxlength[] PROGMEM = "##MONMAXLENGTH##";
+static const char pgm_hoff_name[] PROGMEM = "##HOFFNAME##";
+static const char pgm_hoff_val[] PROGMEM = "##HOFFVAL##";
+static const char pgm_hoff_size[] PROGMEM = "##HOFFSIZE##";
+static const char pgm_hoff_maxlength[] PROGMEM = "##HOFFMAXLENGTH##";
+static const char pgm_moff_name[] PROGMEM = "##MOFFNAME##";
+static const char pgm_moff_val[] PROGMEM = "##MOFFVAL##";
+static const char pgm_moff_size[] PROGMEM = "##MOFFSIZE##";
+static const char pgm_moff_maxlength[] PROGMEM = "##MOFFMAXLENGTH##";
+
 
 /**
  * Template POST Strings
@@ -394,9 +420,6 @@ extern const char pgm_input_year[] PROGMEM = "year";
 extern const char pgm_input_xively[] PROGMEM = "xively";
 extern const char pgm_input_xively_api_key[] PROGMEM = "xivelykey";
 extern const char pgm_input_xively_feed[] PROGMEM = "xivelyfeed";
-extern const char pgm_input_type[] PROGMEM = "type";
-extern const char pgm_input_address[] PROGMEM = "address";
-extern const char pgm_input_timer[] PROGMEM = "timer";
 extern const char pgm_input_actuator[] PROGMEM = "actuator";
 extern const char pgm_input_actuator1[] PROGMEM = "actuator1";
 extern const char pgm_input_actuator2[] PROGMEM = "actuator2";
@@ -409,9 +432,13 @@ extern const char pgm_input_reftemp1[] PROGMEM = "reftemp1";
 extern const char pgm_input_hyst1[] PROGMEM = "hyst1";
 extern const char pgm_input_reftemp2[] PROGMEM = "reftemp2";
 extern const char pgm_input_hyst2[] PROGMEM = "hyst2";
-extern const char pgm_input_ipin[] PROGMEM = "ipin";
-extern const char pgm_input_ipwm[] PROGMEM = "ipwm";
+extern const char pgm_input_pin[] PROGMEM = "pin";
+extern const char pgm_input_pwm[] PROGMEM = "pwm";
+extern const char pgm_input_on[] PROGMEM = "on";
 extern const char pgm_url_select[] PROGMEM = "select";
+extern const char pgm_input_address[] PROGMEM = "address";
+extern const char pgm_input_timer[] PROGMEM = "timer";
+
 #endif
 
 /**
@@ -849,18 +876,33 @@ sizeof(template_digitaloutput_fname);
 
 enum DIGITAL_OUTPUT
 {
-    DO_IPIN, DO_PIN, DO_IPWM, DO_PWM, DO_NAME, DO_ONVALUE
+    DO_ANAME,
+    DO_PIN_NAME,
+    DO_PIN_VAL,
+    DO_PIN_SIZE,
+    DO_PIN_MAXLENGTH,
+    DO_PWM_NAME,
+    DO_PWM_VAL,
+    DO_PWM_SIZE,
+    DO_PWM_MAXLENGTH,
+    DO_ON_NAME,
+    DO_ON_OPTIONS
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char* const template_digitaloutput[] PROGMEM =
 {
-    pgm_iname,
-    pgm_pin,
-    pgm_ipwm,
-    pgm_pwm,
     pgm_aname,
-    pgm_typeoptions};
+    pgm_pin_name,
+    pgm_pin_val,
+    pgm_pin_size,
+    pgm_pin_maxlength,
+    pgm_pwm_name,
+    pgm_pwm_val,
+    pgm_pwm_size,
+    pgm_pwm_maxlength,
+    pgm_on_name,
+    pgm_on_options};
 
 extern const uint16_t template_digitaloutput_elements =
 sizeof(template_digitaloutput) / sizeof(char*);
@@ -868,15 +910,16 @@ sizeof(template_digitaloutput) / sizeof(char*);
 
 enum DIGITAL_OUTPUT_INPUTS
 {
-    DO_I_TYPE, DO_I_PIN, DO_I_PWM
+    DO_I_PIN, DO_I_PWM, DO_I_ON
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char* const template_digitaloutput_inputs[] PROGMEM =
 {
-    pgm_input_type,
-    pgm_input_ipin,
-    pgm_input_ipwm};
+    pgm_input_pin,
+    pgm_input_pwm,
+    pgm_input_on
+};
 
 extern const uint16_t template_digitaloutput_inputs_elements =
 sizeof(template_digitaloutput_inputs) / sizeof(char*);
@@ -895,15 +938,18 @@ sizeof(template_digitalinput_fname);
 
 enum TEMPLATE_DIGITALINPUT
 {
-    DI_INAME, DI_NAME, DI_PIN
+    DI_SNAME, DI_PIN_NAME, DI_PIN_VAL, DI_PIN_SIZE, DI_PIN_MAXLENGTH
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char* const template_digitalinput[] PROGMEM =
 {
-    pgm_iname,
-    pgm_name,
-    pgm_pin};
+    pgm_sname,
+    pgm_pin_name,
+    pgm_pin_val,
+    pgm_pin_size,
+    pgm_pin_maxlength
+};
 extern const uint16_t template_digitalinput_elements =
 sizeof(template_digitalinput) / sizeof(char*);
 #endif
@@ -916,7 +962,8 @@ enum TEMPLATE_DIGITALINPUT_INPUTS
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char* const template_digitalinput_inputs[] PROGMEM =
 {
-    pgm_input_ipin};
+    pgm_input_pin
+};
 extern const uint16_t template_digitalinput_inputs_elements =
 sizeof(template_digitalinput_inputs) / sizeof(char*);
 #endif
@@ -932,16 +979,25 @@ extern const uint16_t template_ds18s20_fnsize = sizeof(template_ds18s20_fname);
 
 enum TEMPLATE_DS18S20
 {
-    DS18S20_INAME, DS18S20_NAME, DS18S20_PIN, DS18S20_ADDRESSSELECT
+    DS18S20_SNAME,
+    DS18S20_PIN_NAME,
+    DS18S20_PIN_VAL,
+    DS18S20_PIN_SIZE,
+    DS18S20_PIN_MAXLENGTH,
+    DS18S20_ADDRESSSELECT
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char* const template_ds18s20[] PROGMEM =
 {
-    pgm_iname,
-    pgm_name,
-    pgm_pin,
-    pgm_addressselect};
+    pgm_sname,
+    pgm_pin_name,
+    pgm_pin_val,
+    pgm_pin_size,
+    pgm_pin_maxlength,
+    pgm_addressselect
+};
+
 extern const uint16_t template_ds18s20_elements = sizeof(template_ds18s20)
 / sizeof(char*);
 #endif
@@ -954,8 +1010,9 @@ enum TEMPLATE_DS18S20_INPUTS
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char* const template_ds18s20_inputs[] PROGMEM =
 {
-    pgm_input_ipin,
-    pgm_input_address};
+    pgm_input_pin,
+    pgm_input_address
+};
 extern const uint16_t template_ds18s20_inputs_elements =
 sizeof(template_ds18s20_inputs) / sizeof(char*);
 #endif
@@ -977,10 +1034,12 @@ sizeof(template_clocktimercontroller_row_fname);
 
 enum TEMPLATE_CLOCKTIMERCONTROLLER
 {
-    CLOCKTIMERCONTROLLER_URL,
-    CLOCKTIMERCONTROLLER_SELECT,
+    CLOCKTIMERCONTROLLER_CNAME,
+    CLOCKTIMERCONTROLLER_ACTIONURL,
+    CLOCKTIMERCONTROLLER_CLOCKTIMERSELECT,
     CLOCKTIMERCONTROLLER_ACTUATORSELECT,
     CLOCKTIMERCONTROLLER_ROW,
+    CLOCKTIMERCONTROLLER_DOW_NAME,
     CLOCKTIMERCONTROLLER_CHECKED_MO,
     CLOCKTIMERCONTROLLER_CHECKED_TU,
     CLOCKTIMERCONTROLLER_CHECKED_WE,
@@ -993,10 +1052,12 @@ enum TEMPLATE_CLOCKTIMERCONTROLLER
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char* const template_clocktimercontroller[] PROGMEM =
 {
-    pgm_url,
+    pgm_cname,
+    pgm_actionurl,
     pgm_clocktimerselect,
     pgm_actuatorselect,
     pgm_clocktimerrow,
+    pgm_dow_name,
     pgm_checked_mo,
     pgm_checked_tu,
     pgm_checked_we,
@@ -1010,29 +1071,46 @@ sizeof(template_clocktimercontroller) / sizeof(char*);
 
 enum TEMPLATE_CLOCKTIMERCONTROLLER_ROW
 {
-    CLOCKTIMERCONTROLLER_I_COLOR,
-    CLOCKTIMERCONTROLLER_I_HON,
-    CLOCKTIMERCONTROLLER_I_MON,
-    CLOCKTIMERCONTROLLER_I_HOFF,
-    CLOCKTIMERCONTROLLER_I_MOFF,
-    CLOCKTIMERCONTROLLER_HON,
-    CLOCKTIMERCONTROLLER_MON,
-    CLOCKTIMERCONTROLLER_HOFF,
-    CLOCKTIMERCONTROLLER_MOFF,
+    CLOCKTIMERCONTROLLER_COLOR,
+    CLOCKTIMERCONTROLLER_HON_NAME,
+    CLOCKTIMERCONTROLLER_HON_VAL,
+    CLOCKTIMERCONTROLLER_HON_SIZE,
+    CLOCKTIMERCONTROLLER_HON_MAXLENGTH,
+    CLOCKTIMERCONTROLLER_MON_NAME,
+    CLOCKTIMERCONTROLLER_MON_VAL,
+    CLOCKTIMERCONTROLLER_MON_SIZE,
+    CLOCKTIMERCONTROLLER_MON_MAXLENGTH,
+    CLOCKTIMERCONTROLLER_HOFF_NAME,
+    CLOCKTIMERCONTROLLER_HOFF_VAL,
+    CLOCKTIMERCONTROLLER_HOFF_SIZE,
+    CLOCKTIMERCONTROLLER_HOFF_MAXLENGTH,
+    CLOCKTIMERCONTROLLER_MOFF_NAME,
+    CLOCKTIMERCONTROLLER_MOFF_VAL,
+    CLOCKTIMERCONTROLLER_MOFF_SIZE,
+    CLOCKTIMERCONTROLLER_MOFF_MAXLENGTH,
 };
 
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char* const template_clocktimercontroller_row[] PROGMEM =
 {
     pgm_color,
-    pgm_ihon,
-    pgm_imon,
-    pgm_ihoff,
-    pgm_imoff,
-    pgm_hon,
-    pgm_mon,
-    pgm_hoff,
-    pgm_moff};
+    pgm_hon_name,
+    pgm_hon_val,
+    pgm_hon_size,
+    pgm_hon_maxlength,
+    pgm_mon_name,
+    pgm_mon_val,
+    pgm_mon_size,
+    pgm_mon_maxlength,
+    pgm_hoff_name,
+    pgm_hoff_val,
+    pgm_hoff_size,
+    pgm_hoff_maxlength,
+    pgm_moff_name,
+    pgm_moff_val,
+    pgm_moff_size,
+    pgm_moff_maxlength
+};
 extern const uint16_t template_clocktimercontroller_row_elements =
 sizeof(template_clocktimercontroller_row) / sizeof(char*);
 #endif

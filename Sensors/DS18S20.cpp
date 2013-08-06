@@ -153,7 +153,9 @@ int8_t DS18S20::showWebinterface(WebServer* server,
     uint8_t address[4][8];
     char addressNames[5][17];
     char* names[5];
-    int8_t i = 0 ,j = 0;
+    char input_name[20];
+
+    int8_t i = 0;
     int8_t selected = 0;
     OneWireHandler* handler = aquaduino->getOneWireHandler();
 
@@ -205,17 +207,24 @@ int8_t DS18S20::showWebinterface(WebServer* server,
         {
             switch (matchIdx)
             {
-            case DS18S20_INAME:
-                server->print((__FlashStringHelper *) pgm_read_word(template_ds18s20_inputs));
-                break;
-            case DS18S20_NAME:
+            case DS18S20_SNAME:
                 server->print(getName());
                 break;
-            case DS18S20_PIN:
+            case DS18S20_PIN_NAME:
+                server->print((__FlashStringHelper *) pgm_input_pin);
+                break;
+            case DS18S20_PIN_VAL:
                 server->print(m_Pin);
                 break;
+            case DS18S20_PIN_SIZE:
+                server->print(3);
+                break;
+            case DS18S20_PIN_MAXLENGTH:
+                server->print(2);
+                break;
             case DS18S20_ADDRESSSELECT:
-                parser->selectList("address", names, names, selected, i, server);
+                strcpy_P(input_name, pgm_input_address);
+                parser->selectList(input_name, names, names, selected, i, server);
                 break;
             }
         }

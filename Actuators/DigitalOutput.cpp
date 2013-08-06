@@ -90,9 +90,9 @@ uint16_t DigitalOutput::deserialize(void* data, uint16_t size)
     memcpy(&m_DutyCycle, bPtr, sizeof(m_DutyCycle));
     pinMode(m_Pin, OUTPUT);
 
-    if(supportsPWM())
+    if (supportsPWM())
         setPWM(m_DutyCycle);
-    else if(m_On)
+    else if (m_On)
         forceOn();
     else
         forceOff();
@@ -203,7 +203,7 @@ void DigitalOutput::setPWM(float dutyCycle)
             analogWrite(m_Pin, (uint8_t) ((1.0 - dutyCycle) * 255));
         else
             analogWrite(m_Pin, (uint8_t) (dutyCycle * 255));
-        if( m_DutyCycle > 0)
+        if (m_DutyCycle > 0)
             m_On = 1;
         else
             m_On = 0;
@@ -238,7 +238,9 @@ int8_t DigitalOutput::showWebinterface(WebServer* server,
         do
         {
             repeat = server->readPOSTparam(name, 16, value, 16);
-            if (strcmp_P(name, (PGM_P) pgm_read_word(&(template_digitaloutput_inputs[DO_I_TYPE]))) == 0)
+            if (strcmp_P(name,
+                         (PGM_P) pgm_read_word(&(template_digitaloutput_inputs[DO_I_ON])))
+                == 0)
             {
                 m_OnValue = atoi(value);
                 m_OffValue = 1 - m_OnValue;
@@ -275,36 +277,55 @@ int8_t DigitalOutput::showWebinterface(WebServer* server,
         while ((matchIdx =
                 parser->processTemplateUntilNextMatch(&templateFile,
                                                       template_digitaloutput,
-                                                     template_digitaloutput_elements,
+                                                      template_digitaloutput_elements,
                                                       server))
                >= 0)
         {
             switch (matchIdx)
             {
-            case DO_IPIN:
-                server->print((const __FlashStringHelper *) (pgm_input_ipin));
+            case DO_ANAME:
+                server->print(getName());
                 break;
-            case DO_PIN:
+            case DO_PIN_NAME:
+                server->print((const __FlashStringHelper *) (pgm_input_pin));
+                break;
+            case DO_PIN_VAL:
                 server->print(m_Pin);
                 break;
-            case DO_IPWM:
-                server->print((const __FlashStringHelper *) (pgm_input_ipwm));
+            case DO_PIN_SIZE:
+                server->print(3);
                 break;
-            case DO_PWM:
+            case DO_PIN_MAXLENGTH:
+                server->print(2);
+                break;
+            case DO_PWM_NAME:
+                server->print((const __FlashStringHelper *) (pgm_input_pwm));
+                break;
+            case DO_PWM_VAL:
                 if (supportsPWM())
+                {
                     server->print(getPWM() * 100);
-                else
-                    server->print(F("No PWM"));
-                    break;
-                    case DO_NAME:
-                    server->print(getName());
-                    break;
-                    case DO_ONVALUE:
-                    parser->selectListOption("LOW", "0", m_OnValue == 0, server);
-                    parser->selectListOption("HIGH", "1", m_OnValue == 1, server);
-                    break;
                 }
+                else
+                {
+                    server->print(F("No PWM"));
+                }
+                break;
+            case DO_PWM_SIZE:
+                server->print(7);
+                break;
+            case DO_PWM_MAXLENGTH:
+                server->print(6);
+                break;
+            case DO_ON_NAME:
+                server->print((const __FlashStringHelper *) (pgm_input_on));
+                break;
+            case DO_ON_OPTIONS:
+                parser->selectListOption("LOW", "0", m_OnValue == 0, server);
+                parser->selectListOption("HIGH", "1", m_OnValue == 1, server);
+                break;
             }
+        }
 
         templateFile.close();
     }
