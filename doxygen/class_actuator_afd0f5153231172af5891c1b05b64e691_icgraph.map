@@ -1,4 +1,0 @@
-<map id="Actuator::Actuator" name="Actuator::Actuator">
-<area shape="rect" id="node2" href="$class_digital_output.html#a4849e592d6f75c56cfae2fe4aff87f97" title="DigitalOutput::DigitalOutput" alt="" coords="182,5,362,32"/>
-<area shape="rect" id="node3" href="$class_p_w_m_output.html#ae21b0256ed5cedc9b1a3e8250e45d0c6" title="PWMOutput::PWMOutput" alt="" coords="185,56,359,83"/>
-</map>

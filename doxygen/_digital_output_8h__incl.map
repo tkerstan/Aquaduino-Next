@@ -1,9 +1,0 @@
-<map id="Actuators/DigitalOutput.h" name="Actuators/DigitalOutput.h">
-<area shape="rect" id="node2" href="$_actuator_8h.html" title="Framework/Actuator.h" alt="" coords="274,80,424,107"/>
-<area shape="rect" id="node3" href="$_object_8h.html" title="Object.h" alt="" coords="159,229,229,256"/>
-<area shape="rect" id="node4" href="$_config_8h.html" title="Framework/Config.h" alt="" coords="203,304,340,331"/>
-<area shape="rect" id="node7" href="$_controller_8h.html" title="Controller.h" alt="" coords="305,155,393,181"/>
-<area shape="rect" id="node8" href="$_serializable_8h.html" title="Serializable.h" alt="" coords="357,229,456,256"/>
-<area shape="rect" id="node10" href="$_web_interface_8h.html" title="WebInterface.h" alt="" coords="481,229,591,256"/>
-<area shape="rect" id="node6" href="$_object_types_8h.html" title="Framework/ObjectTypes.h" alt="" coords="5,304,179,331"/>
-</map>

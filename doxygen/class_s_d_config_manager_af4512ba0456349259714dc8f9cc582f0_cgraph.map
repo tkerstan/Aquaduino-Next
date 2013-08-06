@@ -1,7 +1,0 @@
-<map id="SDConfigManager::readConfig" name="SDConfigManager::readConfig">
-<area shape="rect" id="node2" href="$class_aquaduino.html#a2edba497281c7520a016b62a7cec01f0" title="Gets the index of a controller object. " alt="" coords="257,5,433,32"/>
-<area shape="rect" id="node4" href="$class_s_d_config_manager.html#af82e2c7188e996b42f9158b108dd6abc" title="SDConfigManager::readStruct\lFromFile" alt="" coords="248,57,443,98"/>
-<area shape="rect" id="node5" href="$class_object.html#aa06e8c00bea02f598f7a68c5a1775de6" title="Getter for the type of the object. " alt="" coords="288,123,403,149"/>
-<area shape="rect" id="node6" href="$class_serializable.html#ad6a1d38f4e11eb3e1b1bacd0759dc778" title="Callback for deserialization of an object. " alt="" coords="266,173,425,200"/>
-<area shape="rect" id="node3" href="$class_array_map.html#ab17f26d85a11472e46d255a02b40ce88" title="ArrayMap::findElement" alt="" coords="491,5,645,32"/>
-</map>

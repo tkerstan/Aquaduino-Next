@@ -1,7 +1,0 @@
-<map id="loop" name="loop">
-<area shape="rect" id="node2" href="$class_aquaduino.html#a72ddeb7acd4e678dbbf7835f6876fc3c" title="Top level run method. " alt="" coords="101,81,211,108"/>
-<area shape="rect" id="node3" href="$class_sensor.html#a1e61b97c3b45e2d1a9d97ad45e6cc33a" title="Sensor::read" alt="" coords="288,5,384,32"/>
-<area shape="rect" id="node4" href="$class_array_map.html#ab6e5013ead1e679749095ed6faa0d718" title="Resets the internal iterator. " alt="" coords="259,56,413,83"/>
-<area shape="rect" id="node5" href="$class_array_map.html#af7ab43f509d5d5b52a298571588f5600" title="Gets the next element using the internal iterator. " alt="" coords="271,107,401,133"/>
-<area shape="rect" id="node6" href="$class_controller.html#a571614716a0e7dd79674988a0f5780d8" title="Interface method for triggering the controller. " alt="" coords="285,157,387,184"/>
-</map>

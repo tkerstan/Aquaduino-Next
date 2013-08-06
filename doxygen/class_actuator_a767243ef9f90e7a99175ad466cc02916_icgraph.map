@@ -1,9 +1,0 @@
-<map id="Actuator::off" name="Actuator::off">
-<area shape="rect" id="node2" href="$class_clock_timer_controller.html#a7a429effb602dd413ed83bf005071e22" title="ClockTimerController::run" alt="" coords="151,5,319,32"/>
-<area shape="rect" id="node3" href="$class_temperature_controller.html#a3609b19c2673e3ea33640e155d3949cc" title="TemperatureController::run" alt="" coords="147,56,322,83"/>
-<area shape="rect" id="node4" href="$class_controller.html#ab276a8fd2df621098a9a24f5dfcc6bb2" title="Controller::allMyActuators" alt="" coords="149,107,321,133"/>
-<area shape="rect" id="node6" href="$mainweb_8cpp.html#afd56fefe2a8598f61d016320f5250491" title="defaultCmd" alt="" coords="191,157,278,184"/>
-<area shape="rect" id="node5" href="$class_level_controller.html#acf5109c2a5b60a9923e4c7b6d4176f6c" title="LevelController::run" alt="" coords="390,107,522,133"/>
-<area shape="rect" id="node7" href="$class_aquaduino.html#a6f21b3e1fe7fd8b1c13d1e78372abed6" title="Aquaduino::setWebserver" alt="" coords="371,157,541,184"/>
-<area shape="rect" id="node8" href="$_aquaduino_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="setup" alt="" coords="590,157,645,184"/>
-</map>

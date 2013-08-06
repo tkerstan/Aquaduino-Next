@@ -156,60 +156,60 @@ $(document).ready(function(){initNavTree('_one_wire_handler_8cpp_source.html',''
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">return</span> -1;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno"><a class="code" href="class_one_wire_handler.html#a914088a8401413a8cfd64ab9d1f0ad4f">   70</a></span>&#160;int8_t <a class="code" href="class_one_wire_handler.html#a914088a8401413a8cfd64ab9d1f0ad4f" title="Scans for OneWire devices. ">OneWireHandler::findDevice</a>(uint8_t idx, uint8_t *address, uint8_t size)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;{</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">if</span> (m_OneWires[idx] == NULL || size &lt; 8)</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">if</span> (!m_OneWires[idx]-&gt;search(address))</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        m_OneWires[idx]-&gt;reset_search();</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    }</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">if</span> (OneWire::crc8(address, 7) != address[7])</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno"><a class="code" href="class_one_wire_handler.html#a494545d51e96b0887499916a1ea996a4">   92</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_one_wire_handler.html#a494545d51e96b0887499916a1ea996a4" title="Issue OneWire read command to given address. ">OneWireHandler::issueReadCommand</a>(uint8_t idx, uint8_t* addr)</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;{</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    int8_t i = 0;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordflow">if</span> (m_OneWires[idx] == NULL)</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    m_OneWires[idx]-&gt;reset();</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    m_OneWires[idx]-&gt;select(addr);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    m_OneWires[idx]-&gt;write(0x44, 1); <span class="comment">// start conversion, with parasite power on at the end</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno"><a class="code" href="class_one_wire_handler.html#a970e5ac7bee5fee415fbcf35a5c16a33">  109</a></span>&#160;int8_t <a class="code" href="class_one_wire_handler.html#a970e5ac7bee5fee415fbcf35a5c16a33" title="Reads the scratchpad of the OneWire device. ">OneWireHandler::read</a>(uint8_t idx, uint8_t* addr, uint8_t* data, uint8_t size)</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;{</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    int8_t i = 0;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">if</span> (m_OneWires[idx] == NULL || size &lt; 12)</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="code" href="class_one_wire_handler.html#a914088a8401413a8cfd64ab9d1f0ad4f">   71</a></span>&#160;int8_t <a class="code" href="class_one_wire_handler.html#a914088a8401413a8cfd64ab9d1f0ad4f" title="Scans for OneWire devices. ">OneWireHandler::findDevice</a>(uint8_t idx, uint8_t *address, uint8_t size)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;{</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">if</span> (m_OneWires[idx] == NULL || size &lt; 8)</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordflow">if</span> (!m_OneWires[idx]-&gt;search(address))</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        m_OneWires[idx]-&gt;reset_search();</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">if</span> (OneWire::crc8(address, 7) != address[7])</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    }</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="code" href="class_one_wire_handler.html#a494545d51e96b0887499916a1ea996a4">   94</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_one_wire_handler.html#a494545d51e96b0887499916a1ea996a4" title="Issue OneWire read command to given address. ">OneWireHandler::issueReadCommand</a>(uint8_t idx, uint8_t* addr)</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;{</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    int8_t i = 0;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordflow">if</span> (m_OneWires[idx] == NULL)</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    m_OneWires[idx]-&gt;reset();</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    m_OneWires[idx]-&gt;select(addr);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    m_OneWires[idx]-&gt;write(0x44, 1); <span class="comment">// start conversion, with parasite power on at the end</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00112"></a><span class="lineno"><a class="code" href="class_one_wire_handler.html#a970e5ac7bee5fee415fbcf35a5c16a33">  112</a></span>&#160;int8_t <a class="code" href="class_one_wire_handler.html#a970e5ac7bee5fee415fbcf35a5c16a33" title="Reads the scratchpad of the OneWire device. ">OneWireHandler::read</a>(uint8_t idx, uint8_t* addr, uint8_t* data, uint8_t size)</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;{</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    int8_t i = 0;</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    m_OneWires[idx]-&gt;reset();</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    m_OneWires[idx]-&gt;select(addr);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    m_OneWires[idx]-&gt;write(0xBE);         <span class="comment">// Read Scratchpad</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordflow">for</span> (i = 0; i &lt; 9; i++)</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    {           <span class="comment">// we need 9 bytes</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        data[i] = m_OneWires[idx]-&gt;read();</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    }</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;}</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keywordflow">if</span> (m_OneWires[idx] == NULL || size &lt; 12)</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    m_OneWires[idx]-&gt;reset();</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    m_OneWires[idx]-&gt;select(addr);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    m_OneWires[idx]-&gt;write(0xBE);         <span class="comment">// Read Scratchpad</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordflow">for</span> (i = 0; i &lt; 9; i++)</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    {           <span class="comment">// we need 9 bytes</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        data[i] = m_OneWires[idx]-&gt;read();</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    }</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_bcbb2cf9a3d3d83e5515c82071a07177.html">Framework</a></li><li class="navelem"><a class="el" href="_one_wire_handler_8cpp.html">OneWireHandler.cpp</a></li>
-    <li class="footer">Generated on Thu Aug 1 2013 16:21:02 for Aquaduino by
+    <li class="footer">Generated on Tue Aug 6 2013 13:55:34 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

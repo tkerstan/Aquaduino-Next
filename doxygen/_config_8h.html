@@ -108,6 +108,7 @@ $(document).ready(function(){initNavTree('_config_8h.html','');});
 <div class="contents">
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br/>
 <code>#include &lt;<a class="el" href="_object_types_8h_source.html">Framework/ObjectTypes.h</a>&gt;</code><br/>
+<code>#include &lt;<a class="el" href="_colors_8h_source.html">Framework/Colors.h</a>&gt;</code><br/>
 </div>
 <p><a href="_config_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -146,6 +147,15 @@ Macros</h2></td></tr>
 <tr class="memitem:a31c45d33edbcecf7c621bc72f678f10f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>&#160;&#160;&#160;20</td></tr>
 <tr class="memdesc:a31c45d33edbcecf7c621bc72f678f10f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the maximum length of Strings stored in <a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a> components like <a class="el" href="class_controller.html" title="A controller realizes a control task like water level monitoring, temperature monitoring,... ">Controller</a>, <a class="el" href="class_actuator.html" title="Abstract class for common actuator methods. ">Actuator</a>, <a class="el" href="class_sensor.html" title="Base class for Sensors. ">Sensor</a>, ...  <a href="#a31c45d33edbcecf7c621bc72f678f10f">More...</a><br/></td></tr>
 <tr class="separator:a31c45d33edbcecf7c621bc72f678f10f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c7cefa2e7d5bd3a5bcd2d7399f23f99"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_config_8h.html#a0c7cefa2e7d5bd3a5bcd2d7399f23f99">XIVELY_CHANNEL_NAME_LENGTH</a>&#160;&#160;&#160;20</td></tr>
+<tr class="memdesc:a0c7cefa2e7d5bd3a5bcd2d7399f23f99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the maximum length for the name of a Xively channel.  <a href="#a0c7cefa2e7d5bd3a5bcd2d7399f23f99">More...</a><br/></td></tr>
+<tr class="separator:a0c7cefa2e7d5bd3a5bcd2d7399f23f99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27bcd57ae8ac57dbe147feb27bea9ac0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_config_8h.html#a27bcd57ae8ac57dbe147feb27bea9ac0">XIVELY_API_KEY_LENGTH</a>&#160;&#160;&#160;51</td></tr>
+<tr class="memdesc:a27bcd57ae8ac57dbe147feb27bea9ac0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the maximum length for the API Key of Xively.  <a href="#a27bcd57ae8ac57dbe147feb27bea9ac0">More...</a><br/></td></tr>
+<tr class="separator:a27bcd57ae8ac57dbe147feb27bea9ac0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa175d480a2ca15f3f47f02713337f1db"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_config_8h.html#aa175d480a2ca15f3f47f02713337f1db">XIVELY_FEED_NAME_LENGTH</a>&#160;&#160;&#160;21</td></tr>
+<tr class="memdesc:aa175d480a2ca15f3f47f02713337f1db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the maximum length for the feed name of Xively.  <a href="#aa175d480a2ca15f3f47f02713337f1db">More...</a><br/></td></tr>
+<tr class="separator:aa175d480a2ca15f3f47f02713337f1db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c01df006860925e954353eaf15838a1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_config_8h.html#a7c01df006860925e954353eaf15838a1">URL_DELIMITER</a>&#160;&#160;&#160;&quot;.&quot;</td></tr>
 <tr class="memdesc:a7c01df006860925e954353eaf15838a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the delimiter in URLs to mark the beginning of a subURL.  <a href="#a7c01df006860925e954353eaf15838a1">More...</a><br/></td></tr>
 <tr class="separator:a7c01df006860925e954353eaf15838a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -179,7 +189,7 @@ Macros</h2></td></tr>
 <div class="line">                                      ACTUATOR_DIGITALOUTPUT, \</div>
 <div class="line">                                      ACTUATOR_DIGITALOUTPUT }</div>
 </div><!-- fragment -->
-<p>Definition at line <a class="el" href="_config_8h_source.html#l00045">45</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
+<p>Definition at line <a class="el" href="_config_8h_source.html#l00046">46</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
 
 </div>
 </div>
@@ -193,7 +203,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_config_8h_source.html#l00097">97</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
+<p>Definition at line <a class="el" href="_config_8h_source.html#l00098">98</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
 
 </div>
 </div>
@@ -207,7 +217,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_config_8h_source.html#l00081">81</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
+<p>Definition at line <a class="el" href="_config_8h_source.html#l00082">82</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
 
 </div>
 </div>
@@ -225,7 +235,7 @@ Macros</h2></td></tr>
 <div class="line">                                      CONTROLLER_LEVEL, \</div>
 <div class="line">                                      CONTROLLER_CLOCKTIMER } \</div>
 </div><!-- fragment -->
-<p>Definition at line <a class="el" href="_config_8h_source.html#l00061">61</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
+<p>Definition at line <a class="el" href="_config_8h_source.html#l00062">62</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
 
 </div>
 </div>
@@ -239,7 +249,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_config_8h_source.html#l00035">35</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
+<p>Definition at line <a class="el" href="_config_8h_source.html#l00036">36</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
 
 </div>
 </div>
@@ -253,7 +263,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_config_8h_source.html#l00076">76</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
+<p>Definition at line <a class="el" href="_config_8h_source.html#l00077">77</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
 
 </div>
 </div>
@@ -267,7 +277,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_config_8h_source.html#l00030">30</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
+<p>Definition at line <a class="el" href="_config_8h_source.html#l00031">31</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
 
 </div>
 </div>
@@ -281,7 +291,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_config_8h_source.html#l00107">107</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
+<p>Definition at line <a class="el" href="_config_8h_source.html#l00123">123</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
 
 </div>
 </div>
@@ -295,7 +305,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_config_8h_source.html#l00040">40</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
+<p>Definition at line <a class="el" href="_config_8h_source.html#l00041">41</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
 
 </div>
 </div>
@@ -312,7 +322,7 @@ Macros</h2></td></tr>
 <div class="line">                                      SENSOR_DS18S20,      \</div>
 <div class="line">                                      SENSOR_DS18S20}</div>
 </div><!-- fragment -->
-<p>Definition at line <a class="el" href="_config_8h_source.html#l00069">69</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
+<p>Definition at line <a class="el" href="_config_8h_source.html#l00070">70</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
 
 </div>
 </div>
@@ -326,7 +336,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_config_8h_source.html#l00091">91</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
+<p>Definition at line <a class="el" href="_config_8h_source.html#l00092">92</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
 
 </div>
 </div>
@@ -340,7 +350,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_config_8h_source.html#l00113">113</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
+<p>Definition at line <a class="el" href="_config_8h_source.html#l00129">129</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
 
 </div>
 </div>
@@ -354,7 +364,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_config_8h_source.html#l00086">86</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
+<p>Definition at line <a class="el" href="_config_8h_source.html#l00087">87</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
 
 </div>
 </div>
@@ -368,7 +378,49 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_config_8h_source.html#l00102">102</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
+<p>Definition at line <a class="el" href="_config_8h_source.html#l00118">118</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a27bcd57ae8ac57dbe147feb27bea9ac0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define XIVELY_API_KEY_LENGTH&#160;&#160;&#160;51</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_config_8h_source.html#l00108">108</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0c7cefa2e7d5bd3a5bcd2d7399f23f99"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define XIVELY_CHANNEL_NAME_LENGTH&#160;&#160;&#160;20</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_config_8h_source.html#l00103">103</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa175d480a2ca15f3f47f02713337f1db"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define XIVELY_FEED_NAME_LENGTH&#160;&#160;&#160;21</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_config_8h_source.html#l00113">113</a> of file <a class="el" href="_config_8h_source.html">Config.h</a>.</p>
 
 </div>
 </div>
@@ -378,7 +430,7 @@ Macros</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_bcbb2cf9a3d3d83e5515c82071a07177.html">Framework</a></li><li class="navelem"><a class="el" href="_config_8h.html">Config.h</a></li>
-    <li class="footer">Generated on Thu Aug 1 2013 16:21:02 for Aquaduino by
+    <li class="footer">Generated on Tue Aug 6 2013 13:55:35 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

@@ -7,6 +7,7 @@ var dir_bcbb2cf9a3d3d83e5515c82071a07177 =
     [ "ArrayMap.h", "_array_map_8h.html", [
       [ "ArrayMap", "class_array_map.html", "class_array_map" ]
     ] ],
+    [ "Colors.h", "_colors_8h.html", "_colors_8h" ],
     [ "Config.h", "_config_8h.html", "_config_8h" ],
     [ "ConfigManager.h", "_config_manager_8h.html", "_config_manager_8h" ],
     [ "Controller.cpp", "_controller_8cpp.html", null ],

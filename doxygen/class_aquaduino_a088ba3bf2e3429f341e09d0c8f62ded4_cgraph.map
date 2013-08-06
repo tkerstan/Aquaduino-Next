@@ -1,6 +1,0 @@
-<map id="Aquaduino::getAssignedActuators" name="Aquaduino::getAssignedActuators">
-<area shape="rect" id="node2" href="$class_array_map.html#ab17f26d85a11472e46d255a02b40ce88" title="ArrayMap::findElement" alt="" coords="272,5,427,32"/>
-<area shape="rect" id="node3" href="$class_array_map.html#ab6e5013ead1e679749095ed6faa0d718" title="Resets the internal iterator. " alt="" coords="272,56,427,83"/>
-<area shape="rect" id="node4" href="$class_array_map.html#af7ab43f509d5d5b52a298571588f5600" title="Gets the next element using the internal iterator. " alt="" coords="284,107,415,133"/>
-<area shape="rect" id="node5" href="$class_actuator.html#aa12e6c3347af475a8b6ea1c8b38bd9e6" title="Gets the index of the controller this actuator is assigned to. " alt="" coords="273,157,425,184"/>
-</map>

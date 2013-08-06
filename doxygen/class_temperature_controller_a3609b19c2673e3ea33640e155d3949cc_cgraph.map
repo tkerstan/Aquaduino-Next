@@ -1,7 +1,0 @@
-<map id="TemperatureController::run" name="TemperatureController::run">
-<area shape="rect" id="node2" href="$class_aquaduino.html#a417e6bdfac5f5c16ca24f46bbd4b4142" title="Getter for the temperature. " alt="" coords="229,5,411,32"/>
-<area shape="rect" id="node3" href="$class_actuator.html#a66f12d52b9d350c6c5a55c5691e13682" title="Checks for PWM support. " alt="" coords="239,56,401,83"/>
-<area shape="rect" id="node4" href="$class_actuator.html#a80dbe74fa140d0246452b4531ffbb86f" title="Sets PWM duty cycle. " alt="" coords="255,107,385,133"/>
-<area shape="rect" id="node5" href="$class_actuator.html#a40700c01e3123133fd11157f9707ac8a" title="Activates the actuator. " alt="" coords="273,157,367,184"/>
-<area shape="rect" id="node6" href="$class_actuator.html#a767243ef9f90e7a99175ad466cc02916" title="Disables the actuator. " alt="" coords="274,208,366,235"/>
-</map>

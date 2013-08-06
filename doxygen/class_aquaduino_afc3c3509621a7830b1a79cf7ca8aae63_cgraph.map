@@ -1,5 +1,0 @@
-<map id="Aquaduino::Aquaduino" name="Aquaduino::Aquaduino">
-<area shape="rect" id="node2" href="$class_aquaduino.html#a4c99a340831a418ad0956daf373e3797" title="Reads the Aquaduino configuration. " alt="" coords="205,5,357,32"/>
-<area shape="rect" id="node4" href="$class_aquaduino.html#ad910741d704dd02ea0f66b20cfab89a1" title="Sets the current time. " alt="" coords="213,56,350,83"/>
-<area shape="rect" id="node3" href="$class_config_manager.html#aab9cab3859b776fdc9e6eba02e53b9ee" title="Writes the configuration of an Aquaduino object. " alt="" coords="406,5,583,32"/>
-</map>

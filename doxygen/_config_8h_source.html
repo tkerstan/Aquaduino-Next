@@ -129,15 +129,15 @@ $(document).ready(function(){initNavTree('_config_8h_source.html','');});
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_object_types_8h.html">Framework/ObjectTypes.h</a>&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="code" href="_config_8h.html#af60680bd655106355ede3669ca378498">   30</a></span>&#160;<span class="preprocessor">#define MAX_CONTROLLERS             4</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="code" href="_config_8h.html#aea5dca8b379720b7e6d921c984db9aaa">   35</a></span>&#160;<span class="preprocessor">#define MAX_ACTUATORS               12</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="code" href="_config_8h.html#aa3d1fc2927eec213e6b5f9e854c392d2">   40</a></span>&#160;<span class="preprocessor">#define MAX_SENSORS                 3</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="code" href="_config_8h.html#a745657e1b723243c28f08e8208d2ef8f">   45</a></span>&#160;<span class="preprocessor">#define ACTUATOR_CONFIG             { ACTUATOR_DIGITALOUTPUT, \</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">                                      ACTUATOR_DIGITALOUTPUT, \</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_colors_8h.html">Framework/Colors.h</a>&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="code" href="_config_8h.html#af60680bd655106355ede3669ca378498">   31</a></span>&#160;<span class="preprocessor">#define MAX_CONTROLLERS             4</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="code" href="_config_8h.html#aea5dca8b379720b7e6d921c984db9aaa">   36</a></span>&#160;<span class="preprocessor">#define MAX_ACTUATORS               12</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="code" href="_config_8h.html#aa3d1fc2927eec213e6b5f9e854c392d2">   41</a></span>&#160;<span class="preprocessor">#define MAX_SENSORS                 3</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="code" href="_config_8h.html#a745657e1b723243c28f08e8208d2ef8f">   46</a></span>&#160;<span class="preprocessor">#define ACTUATOR_CONFIG             { ACTUATOR_DIGITALOUTPUT, \</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">                                      ACTUATOR_DIGITALOUTPUT, \</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">                                      ACTUATOR_DIGITALOUTPUT, \</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">                                      ACTUATOR_DIGITALOUTPUT, \</span></div>
@@ -147,42 +147,49 @@ $(document).ready(function(){initNavTree('_config_8h_source.html','');});
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">                                      ACTUATOR_DIGITALOUTPUT, \</span></div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">                                      ACTUATOR_DIGITALOUTPUT, \</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">                                      ACTUATOR_DIGITALOUTPUT, \</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">                                      ACTUATOR_DIGITALOUTPUT }</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="code" href="_config_8h.html#aa9768690cf93cd5c6f2474952b9994cc">   61</a></span>&#160;<span class="preprocessor">#define CONTROLLER_CONFIG           { CONTROLLER_TEMPERATURE, \</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">                                      CONTROLLER_TEMPERATURE, \</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">                                      CONTROLLER_LEVEL, \</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">                                      CONTROLLER_CLOCKTIMER } \</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">                                      ACTUATOR_DIGITALOUTPUT, \</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">                                      ACTUATOR_DIGITALOUTPUT }</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="code" href="_config_8h.html#aa9768690cf93cd5c6f2474952b9994cc">   62</a></span>&#160;<span class="preprocessor">#define CONTROLLER_CONFIG           { CONTROLLER_TEMPERATURE, \</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">                                      CONTROLLER_TEMPERATURE, \</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">                                      CONTROLLER_LEVEL, \</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">                                      CONTROLLER_CLOCKTIMER } \</span></div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="code" href="_config_8h.html#ab77ec61933c39fbc7b91473f5fb50752">   69</a></span>&#160;<span class="preprocessor">#define SENSOR_CONFIG               { SENSOR_DIGITALINPUT, \</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">                                      SENSOR_DS18S20,      \</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">                                      SENSOR_DS18S20}</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="code" href="_config_8h.html#a52c32be79a753499521faea9dc9abde2">   76</a></span>&#160;<span class="preprocessor">#define MAX_CLOCKTIMERS             8</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="code" href="_config_8h.html#a8a757474e3a77954aa95dbd6c87141fd">   81</a></span>&#160;<span class="preprocessor">#define CLOCKTIMER_MAX_TIMERS       8</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00086"></a><span class="lineno"><a class="code" href="_config_8h.html#a24bec38496f005eaabaccc935b1d9094">   86</a></span>&#160;<span class="preprocessor">#define TIME_ZONE                   +2</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00091"></a><span class="lineno"><a class="code" href="_config_8h.html#aeb48206830f6206238b10a51e604e06b">   91</a></span>&#160;<span class="preprocessor">#define SERIALIZATION_BUFFER        200</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00097"></a><span class="lineno"><a class="code" href="_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">   97</a></span>&#160;<span class="preprocessor">#define AQUADUINO_STRING_LENGTH     20</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00102"></a><span class="lineno"><a class="code" href="_config_8h.html#a7c01df006860925e954353eaf15838a1">  102</a></span>&#160;<span class="preprocessor">#define URL_DELIMITER               &quot;.&quot;</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00107"></a><span class="lineno"><a class="code" href="_config_8h.html#a2d32c958eeac49cb2aebab5c1d0b92c7">  107</a></span>&#160;<span class="preprocessor">#define MAX_ONEWIRE_DEVICES         8</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00113"></a><span class="lineno"><a class="code" href="_config_8h.html#a1cccc43416c3f01d4ea374e1ebc597bc">  113</a></span>&#160;<span class="preprocessor">#define TEMP_HISTORY                10</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="code" href="_config_8h.html#ab77ec61933c39fbc7b91473f5fb50752">   70</a></span>&#160;<span class="preprocessor">#define SENSOR_CONFIG               { SENSOR_DIGITALINPUT, \</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">                                      SENSOR_DS18S20,      \</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">                                      SENSOR_DS18S20}</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="code" href="_config_8h.html#a52c32be79a753499521faea9dc9abde2">   77</a></span>&#160;<span class="preprocessor">#define MAX_CLOCKTIMERS             8</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="code" href="_config_8h.html#a8a757474e3a77954aa95dbd6c87141fd">   82</a></span>&#160;<span class="preprocessor">#define CLOCKTIMER_MAX_TIMERS       8</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="code" href="_config_8h.html#a24bec38496f005eaabaccc935b1d9094">   87</a></span>&#160;<span class="preprocessor">#define TIME_ZONE                   +2</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="code" href="_config_8h.html#aeb48206830f6206238b10a51e604e06b">   92</a></span>&#160;<span class="preprocessor">#define SERIALIZATION_BUFFER        200</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00098"></a><span class="lineno"><a class="code" href="_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">   98</a></span>&#160;<span class="preprocessor">#define AQUADUINO_STRING_LENGTH     20</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="code" href="_config_8h.html#a0c7cefa2e7d5bd3a5bcd2d7399f23f99">  103</a></span>&#160;<span class="preprocessor">#define XIVELY_CHANNEL_NAME_LENGTH  20</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00108"></a><span class="lineno"><a class="code" href="_config_8h.html#a27bcd57ae8ac57dbe147feb27bea9ac0">  108</a></span>&#160;<span class="preprocessor">#define XIVELY_API_KEY_LENGTH       51</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="code" href="_config_8h.html#aa175d480a2ca15f3f47f02713337f1db">  113</a></span>&#160;<span class="preprocessor">#define XIVELY_FEED_NAME_LENGTH     21</span></div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/*CONFIG_H_*/</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00118"></a><span class="lineno"><a class="code" href="_config_8h.html#a7c01df006860925e954353eaf15838a1">  118</a></span>&#160;<span class="preprocessor">#define URL_DELIMITER               &quot;.&quot;</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00123"></a><span class="lineno"><a class="code" href="_config_8h.html#a2d32c958eeac49cb2aebab5c1d0b92c7">  123</a></span>&#160;<span class="preprocessor">#define MAX_ONEWIRE_DEVICES         8</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00129"></a><span class="lineno"><a class="code" href="_config_8h.html#a1cccc43416c3f01d4ea374e1ebc597bc">  129</a></span>&#160;<span class="preprocessor">#define TEMP_HISTORY                10</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/*CONFIG_H_*/</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_bcbb2cf9a3d3d83e5515c82071a07177.html">Framework</a></li><li class="navelem"><a class="el" href="_config_8h.html">Config.h</a></li>
-    <li class="footer">Generated on Thu Aug 1 2013 16:21:01 for Aquaduino by
+    <li class="footer">Generated on Tue Aug 6 2013 13:55:34 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

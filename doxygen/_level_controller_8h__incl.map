@@ -1,9 +1,0 @@
-<map id="Controller/LevelController.h" name="Controller/LevelController.h">
-<area shape="rect" id="node2" href="$_controller_8h.html" title="Framework/Controller.h" alt="" coords="142,155,297,181"/>
-<area shape="rect" id="node11" href="$_actuator_8h.html" title="Framework/Actuator.h" alt="" coords="259,80,409,107"/>
-<area shape="rect" id="node3" href="$_object_8h.html" title="Object.h" alt="" coords="198,229,268,256"/>
-<area shape="rect" id="node7" href="$_serializable_8h.html" title="Serializable.h" alt="" coords="317,229,416,256"/>
-<area shape="rect" id="node9" href="$_web_interface_8h.html" title="WebInterface.h" alt="" coords="441,229,551,256"/>
-<area shape="rect" id="node4" href="$_config_8h.html" title="Framework/Config.h" alt="" coords="5,304,141,331"/>
-<area shape="rect" id="node6" href="$_object_types_8h.html" title="Framework/ObjectTypes.h" alt="" coords="166,304,340,331"/>
-</map>

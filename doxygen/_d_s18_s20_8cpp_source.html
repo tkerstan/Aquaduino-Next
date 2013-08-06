@@ -134,189 +134,198 @@ $(document).ready(function(){initNavTree('_d_s18_s20_8cpp_source.html','');});
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_one_wire_handler_8h.html">Framework/OneWireHandler.h</a>&gt;</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_flashvars_8h.html">Framework/Flashvars.h</a>&gt;</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="code" href="class_d_s18_s20.html#a60b2df0f1da19b0cbd2eec00d62c0ee6">   35</a></span>&#160;<a class="code" href="class_d_s18_s20.html#a60b2df0f1da19b0cbd2eec00d62c0ee6" title="Constructor. ">DS18S20::DS18S20</a>()</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">int</span> i;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="class_object.html#a239c6870522baa669022c8ee7a2cd807">m_Type</a> = <a class="code" href="_object_types_8h.html#a06fc87d81c62e9abb8790b6e5713c55baca4143929ed850639491452198e614c1">SENSOR_DS18S20</a>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">for</span> (i = 0; i &lt; <a class="code" href="_config_8h.html#a1cccc43416c3f01d4ea374e1ebc597bc" title="Defines the number of temperature values kept in a history to smoothen temperature sensor readings...">TEMP_HISTORY</a>; i++)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        temp_hist[i] = 0.0;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    m_Pin = 0;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    m_Idx = 0;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    m_ReadPending = 0;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    m_LastReadIssue = 0;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="code" href="class_d_s18_s20.html#aea1e4640cc0c8ae6f244af78a9436ce3">   60</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="class_d_s18_s20.html#aea1e4640cc0c8ae6f244af78a9436ce3" title="Reads the sensor. ">DS18S20::read</a>()</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;{</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    uint8_t data[12];</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    int8_t i = 0;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <a class="code" href="class_one_wire_handler.html">OneWireHandler</a>* handler = <a class="code" href="_aquaduino_8cpp.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a>-&gt;<a class="code" href="class_aquaduino.html#a8f5ce304ae67a094b13cc46e63deac9a">getOneWireHandler</a>();</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">if</span> (!m_ReadPending)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        handler-&gt;<a class="code" href="class_one_wire_handler.html#a494545d51e96b0887499916a1ea996a4" title="Issue OneWire read command to given address. ">issueReadCommand</a>(m_Idx, m_Address);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        m_LastReadIssue = millis();</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        m_ReadPending = 1;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (millis() - m_LastReadIssue &gt; 750)</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        handler-&gt;<a class="code" href="class_one_wire_handler.html#a970e5ac7bee5fee415fbcf35a5c16a33" title="Reads the scratchpad of the OneWire device. ">read</a>(m_Idx, m_Address, data, 12);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        temp_hist[m_Runs++] = ((double) convertToRaw(data,</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                                                   12,</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                                                   m_Address[0] == 0x10))</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                            / 16;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="code" href="class_d_s18_s20.html#a60b2df0f1da19b0cbd2eec00d62c0ee6">   34</a></span>&#160;<a class="code" href="class_d_s18_s20.html#a60b2df0f1da19b0cbd2eec00d62c0ee6" title="Constructor. ">DS18S20::DS18S20</a>()</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">int</span> i;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="class_object.html#a239c6870522baa669022c8ee7a2cd807">m_Type</a> = <a class="code" href="_object_types_8h.html#a06fc87d81c62e9abb8790b6e5713c55baca4143929ed850639491452198e614c1">SENSOR_DS18S20</a>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">for</span> (i = 0; i &lt; <a class="code" href="_config_8h.html#a1cccc43416c3f01d4ea374e1ebc597bc" title="Defines the number of temperature values kept in a history to smoothen temperature sensor readings...">TEMP_HISTORY</a>; i++)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        temp_hist[i] = 0.0;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    }</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    m_Pin = 0;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    m_Idx = 0;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    m_ReadPending = 0;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    m_LastReadIssue = 0;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="code" href="class_d_s18_s20.html#aea1e4640cc0c8ae6f244af78a9436ce3">   59</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="class_d_s18_s20.html#aea1e4640cc0c8ae6f244af78a9436ce3" title="Reads the sensor. ">DS18S20::read</a>()</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;{</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    uint8_t data[12];</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    int8_t i = 0;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="class_one_wire_handler.html">OneWireHandler</a>* handler = <a class="code" href="_aquaduino_8cpp.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a>-&gt;<a class="code" href="class_aquaduino.html#a8f5ce304ae67a094b13cc46e63deac9a">getOneWireHandler</a>();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">if</span> (!m_ReadPending)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        handler-&gt;<a class="code" href="class_one_wire_handler.html#a494545d51e96b0887499916a1ea996a4" title="Issue OneWire read command to given address. ">issueReadCommand</a>(m_Idx, m_Address);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        m_LastReadIssue = millis();</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        m_ReadPending = 1;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (millis() - m_LastReadIssue &gt; 750)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    {</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        handler-&gt;<a class="code" href="class_one_wire_handler.html#a970e5ac7bee5fee415fbcf35a5c16a33" title="Reads the scratchpad of the OneWire device. ">read</a>(m_Idx, m_Address, data, 12);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        temp_hist[m_Runs++] = ((double) convertToRaw(data,</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                                   12,</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                                                   m_Address[0] == 0x10))</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                            / 16;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        m_Celsius = 0;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">for</span> (i = 0; i &lt; <a class="code" href="_config_8h.html#a1cccc43416c3f01d4ea374e1ebc597bc" title="Defines the number of temperature values kept in a history to smoothen temperature sensor readings...">TEMP_HISTORY</a>; i++)</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            m_Celsius += temp_hist[i];</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        m_Celsius /= <a class="code" href="_config_8h.html#a1cccc43416c3f01d4ea374e1ebc597bc" title="Defines the number of temperature values kept in a history to smoothen temperature sensor readings...">TEMP_HISTORY</a>;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordflow">if</span> (m_Runs == TEMP_HISTORY)</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            m_Runs = 0;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        m_ReadPending = 0;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    }</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">return</span> m_Celsius;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;uint16_t DS18S20::convertToRaw(uint8_t* data, uint8_t size, int8_t type)</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;{</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> raw = (data[1] &lt;&lt; 8) | data[0];</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">if</span> (type == 1)</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    {</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        raw = raw &lt;&lt; 3; <span class="comment">// 9 bit resolution default</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">if</span> (data[7] == 0x10)</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        {</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <span class="comment">// count remain gives full 12 bit resolution</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            raw = (raw &amp; 0xFFF0) + 12 - data[6];</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        }</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    }</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    {</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        byte cfg = (data[4] &amp; 0x60);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordflow">if</span> (cfg == 0x00)</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            raw = raw &lt;&lt; 3;  <span class="comment">// 9 bit resolution, 93.75 ms</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (cfg == 0x20)</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            raw = raw &lt;&lt; 2; <span class="comment">// 10 bit res, 187.5 ms</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (cfg == 0x40)</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            raw = raw &lt;&lt; 1; <span class="comment">// 11 bit res, 375 ms</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="comment">// default is 12 bit resolution, 750 ms conversion time</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    }</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordflow">return</span> raw;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;}</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno"><a class="code" href="class_d_s18_s20.html#aae603560148a0cc31a34eb1a7dab416c">  125</a></span>&#160;uint16_t <a class="code" href="class_d_s18_s20.html#aae603560148a0cc31a34eb1a7dab416c" title="Callback for serialization of an object. ">DS18S20::serialize</a>(<span class="keywordtype">void</span>* buffer, uint16_t size)</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;{</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    memcpy(buffer, &amp;m_Pin, <span class="keyword">sizeof</span>(m_Pin));</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    memcpy(((<span class="keywordtype">char</span>*) buffer) + <span class="keyword">sizeof</span>(m_Pin), &amp;m_Address, <span class="keyword">sizeof</span>(m_Address));</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(m_Pin) + <span class="keyword">sizeof</span>(m_Address);</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
-<div class="line"><a name="l00132"></a><span class="lineno"><a class="code" href="class_d_s18_s20.html#aac8a3a2ef0acb8722fcbf24418d6cae7">  132</a></span>&#160;uint16_t <a class="code" href="class_d_s18_s20.html#aac8a3a2ef0acb8722fcbf24418d6cae7" title="Callback for deserialization of an object. ">DS18S20::deserialize</a>(<span class="keywordtype">void</span>* data, uint16_t size)</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;{</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <a class="code" href="class_one_wire_handler.html">OneWireHandler</a>* handler = <a class="code" href="_aquaduino_8cpp.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a>-&gt;<a class="code" href="class_aquaduino.html#a8f5ce304ae67a094b13cc46e63deac9a">getOneWireHandler</a>();</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    memcpy(&amp;m_Pin, data, <span class="keyword">sizeof</span>(m_Pin));</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    memcpy(&amp;m_Address, ((<span class="keywordtype">char</span>*) data) + <span class="keyword">sizeof</span>(m_Pin), <span class="keyword">sizeof</span>(m_Address));</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keywordflow">if</span> (handler != NULL)</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        m_Idx = handler-&gt;<a class="code" href="class_one_wire_handler.html#ad1c29bc218912818537b58312c72f2a8">addPin</a>(m_Pin);</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(m_Pin) + <span class="keyword">sizeof</span>(m_Address);</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;}</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        m_Celsius = 0;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordflow">for</span> (i = 0; i &lt; <a class="code" href="_config_8h.html#a1cccc43416c3f01d4ea374e1ebc597bc" title="Defines the number of temperature values kept in a history to smoothen temperature sensor readings...">TEMP_HISTORY</a>; i++)</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            m_Celsius += temp_hist[i];</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        m_Celsius /= <a class="code" href="_config_8h.html#a1cccc43416c3f01d4ea374e1ebc597bc" title="Defines the number of temperature values kept in a history to smoothen temperature sensor readings...">TEMP_HISTORY</a>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">if</span> (m_Runs == TEMP_HISTORY)</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            m_Runs = 0;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        m_ReadPending = 0;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">return</span> m_Celsius;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;uint16_t DS18S20::convertToRaw(uint8_t* data, uint8_t size, int8_t type)</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;{</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> raw = (data[1] &lt;&lt; 8) | data[0];</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">if</span> (type == 1)</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        raw = raw &lt;&lt; 3; <span class="comment">// 9 bit resolution default</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordflow">if</span> (data[7] == 0x10)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="comment">// count remain gives full 12 bit resolution</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            raw = (raw &amp; 0xFFF0) + 12 - data[6];</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        }</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    {</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        byte cfg = (data[4] &amp; 0x60);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keywordflow">if</span> (cfg == 0x00)</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            raw = raw &lt;&lt; 3;  <span class="comment">// 9 bit resolution, 93.75 ms</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (cfg == 0x20)</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            raw = raw &lt;&lt; 2; <span class="comment">// 10 bit res, 187.5 ms</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (cfg == 0x40)</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            raw = raw &lt;&lt; 1; <span class="comment">// 11 bit res, 375 ms</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="comment">// default is 12 bit resolution, 750 ms conversion time</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    }</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">return</span> raw;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;}</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno"><a class="code" href="class_d_s18_s20.html#aae603560148a0cc31a34eb1a7dab416c">  124</a></span>&#160;uint16_t <a class="code" href="class_d_s18_s20.html#aae603560148a0cc31a34eb1a7dab416c" title="Callback for serialization of an object. ">DS18S20::serialize</a>(<span class="keywordtype">void</span>* buffer, uint16_t size)</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;{</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    memcpy(buffer, &amp;m_Pin, <span class="keyword">sizeof</span>(m_Pin));</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    memcpy(((<span class="keywordtype">char</span>*) buffer) + <span class="keyword">sizeof</span>(m_Pin), &amp;m_Address, <span class="keyword">sizeof</span>(m_Address));</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(m_Pin) + <span class="keyword">sizeof</span>(m_Address);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;}</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno"><a class="code" href="class_d_s18_s20.html#aac8a3a2ef0acb8722fcbf24418d6cae7">  131</a></span>&#160;uint16_t <a class="code" href="class_d_s18_s20.html#aac8a3a2ef0acb8722fcbf24418d6cae7" title="Callback for deserialization of an object. ">DS18S20::deserialize</a>(<span class="keywordtype">void</span>* data, uint16_t size)</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;{</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <a class="code" href="class_one_wire_handler.html">OneWireHandler</a>* handler = <a class="code" href="_aquaduino_8cpp.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a>-&gt;<a class="code" href="class_aquaduino.html#a8f5ce304ae67a094b13cc46e63deac9a">getOneWireHandler</a>();</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    memcpy(&amp;m_Pin, data, <span class="keyword">sizeof</span>(m_Pin));</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    memcpy(&amp;m_Address, ((<span class="keywordtype">char</span>*) data) + <span class="keyword">sizeof</span>(m_Pin), <span class="keyword">sizeof</span>(m_Address));</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keywordflow">if</span> (handler != NULL)</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        m_Idx = handler-&gt;<a class="code" href="class_one_wire_handler.html#ad1c29bc218912818537b58312c72f2a8">addPin</a>(m_Pin);</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(m_Pin) + <span class="keyword">sizeof</span>(m_Address);</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;}</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
-<div class="line"><a name="l00145"></a><span class="lineno"><a class="code" href="class_d_s18_s20.html#a145ac1f3d7f4901c9f60cedcf2e62985">  145</a></span>&#160;int8_t <a class="code" href="class_d_s18_s20.html#a145ac1f3d7f4901c9f60cedcf2e62985" title="Callback for webpage presentation. ">DS18S20::showWebinterface</a>(WebServer* server,</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                                 WebServer::ConnectionType type, <span class="keywordtype">char</span>* url)</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;{</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    File templateFile;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    TemplateParser* parser;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    int16_t matchIdx;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordtype">char</span> templateFileName[<a class="code" href="_flashvars_8h.html#a117afdcf85f21d28453b50897a4707bc">template_ds18s20_fnsize</a>];</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    strcpy_P(templateFileName, <a class="code" href="_flashvars_8h.html#a889d1da64437efc60ed70c18fce3a171">template_ds18s20_fname</a>);</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    uint8_t address[4][8];</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordtype">char</span> addressNames[5][17];</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordtype">char</span>* names[5];</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    int8_t i = 0 ,j = 0;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    int8_t selected = 0;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <a class="code" href="class_one_wire_handler.html">OneWireHandler</a>* handler = <a class="code" href="_aquaduino_8cpp.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a>-&gt;<a class="code" href="class_aquaduino.html#a8f5ce304ae67a094b13cc46e63deac9a">getOneWireHandler</a>();</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keywordflow">if</span> (type == WebServer::POST)</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    {</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        int8_t repeat;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        <span class="keywordtype">char</span> name[20], value[20];</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        <span class="keywordflow">do</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        {</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            repeat = server-&gt;readPOSTparam(name, 20, value, 20);</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            <span class="keywordflow">if</span> (strcmp_P(name,</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                         (PGM_P) pgm_read_word(&amp;(<a class="code" href="_flashvars_8h.html#a56f685a10f5a7feaf9df6de899f424cd">template_ds18s20_inputs</a>[<a class="code" href="_flashvars_8h.html#aa0c308c92a287479e8192eaa02dde9cbacb303332321032a9b518423b585144aa">DS18S20_I_PIN</a>]))) == 0)</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                m_Pin = atoi(value);</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            <span class="keywordflow">if</span> (strcmp_P(name,</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                         (PGM_P) pgm_read_word(&amp;(<a class="code" href="_flashvars_8h.html#a56f685a10f5a7feaf9df6de899f424cd">template_ds18s20_inputs</a>[<a class="code" href="_flashvars_8h.html#aa0c308c92a287479e8192eaa02dde9cba6a16c9c292353a3504032c8690802a94">DS18S20_I_ADDRESS</a>])))</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                == 0)</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            {</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                <a class="code" href="util_8cpp.html#a5ea654242f46b48a3472a0375554e153">sth</a>(value, m_Address, 8);</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            }</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        } <span class="keywordflow">while</span> (repeat);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        server-&gt;httpSeeOther(this-&gt;<a class="code" href="class_object.html#aa73d61fe9016c44220f3be29fe7e25d2">m_URL</a>);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    }</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    {</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        server-&gt;httpSuccess();</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        memset(addressNames[0], 0, 17);</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        names[0] = addressNames[0];</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <span class="keywordflow">for</span> (i = 1; i &lt; 5; i++)</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        {</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            <span class="keywordflow">if</span> (!handler-&gt;<a class="code" href="class_one_wire_handler.html#a914088a8401413a8cfd64ab9d1f0ad4f" title="Scans for OneWire devices. ">findDevice</a>(m_Idx, address[i], 8))</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            <a class="code" href="util_8cpp.html#ac5e95f909061d6913a69969305bcd462">hts</a>(address[i], 8, addressNames[i], 17);</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            names[i] = addressNames[i];</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            <span class="keywordflow">if</span> (memcmp(address[i], m_Address,8) == 0)</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                selected = i;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        }</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        parser = <a class="code" href="_aquaduino_8cpp.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a>-&gt;<a class="code" href="class_aquaduino.html#aed76e9fb8f6a3714bbd8de7781133f6e" title="Getter for the TemplateParser. ">getTemplateParser</a>();</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        templateFile = SD.open(templateFileName, FILE_READ);</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        <span class="keywordflow">while</span> ((matchIdx =</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                parser-&gt;processTemplateUntilNextMatch(&amp;templateFile,</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                                                      <a class="code" href="_flashvars_8h.html#a0bb7c81cb3b3277bf71b1c0e66631169">template_ds18s20</a>,</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                                                      <a class="code" href="_flashvars_8h.html#a8f760068c18efd2240048a54b450f546">template_ds18s20_elements</a>,</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                                                      server))</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;               &gt;= 0)</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        {</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            <span class="keywordflow">switch</span> (matchIdx)</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;            {</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a474afb9b88a5b14908288bce38a29bdda5245c0fdb1343b05eb040cf6d03a5f82">DS18S20_INAME</a>:</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                server-&gt;print((__FlashStringHelper *) pgm_read_word(<a class="code" href="_flashvars_8h.html#a56f685a10f5a7feaf9df6de899f424cd">template_ds18s20_inputs</a>));</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a474afb9b88a5b14908288bce38a29bdda82948c453f628f1787afeea084b5cc82">DS18S20_NAME</a>:</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                server-&gt;print(<a class="code" href="class_object.html#aff677ddb7fe429a58e22cd3cadbcee7b" title="Getter for the name of the object. ">getName</a>());</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a474afb9b88a5b14908288bce38a29bdda0569dc54085e5b1c3741e983d37cadc8">DS18S20_PIN</a>:</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                server-&gt;print(m_Pin);</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a474afb9b88a5b14908288bce38a29bdda79affaae6887b49a6a5b6eac1fcdf426">DS18S20_ADDRESSSELECT</a>:</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                parser-&gt;selectList(<span class="stringliteral">&quot;address&quot;</span>, names, names, selected, i, server);</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            }</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        }</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        templateFile.close();</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    }</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;}</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;</div>
+<div class="line"><a name="l00144"></a><span class="lineno"><a class="code" href="class_d_s18_s20.html#a145ac1f3d7f4901c9f60cedcf2e62985">  144</a></span>&#160;int8_t <a class="code" href="class_d_s18_s20.html#a145ac1f3d7f4901c9f60cedcf2e62985" title="Callback for webpage presentation. ">DS18S20::showWebinterface</a>(WebServer* server,</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                                 WebServer::ConnectionType type, <span class="keywordtype">char</span>* url)</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;{</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    File templateFile;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    TemplateParser* parser;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    int16_t matchIdx;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordtype">char</span> templateFileName[<a class="code" href="_flashvars_8h.html#a117afdcf85f21d28453b50897a4707bc">template_ds18s20_fnsize</a>];</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    strcpy_P(templateFileName, <a class="code" href="_flashvars_8h.html#a889d1da64437efc60ed70c18fce3a171">template_ds18s20_fname</a>);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    uint8_t address[4][8];</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordtype">char</span> addressNames[5][17];</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordtype">char</span>* names[5];</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordtype">char</span> input_name[20];</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    int8_t i = 0;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    int8_t selected = 0;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <a class="code" href="class_one_wire_handler.html">OneWireHandler</a>* handler = <a class="code" href="_aquaduino_8cpp.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a>-&gt;<a class="code" href="class_aquaduino.html#a8f5ce304ae67a094b13cc46e63deac9a">getOneWireHandler</a>();</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordflow">if</span> (type == WebServer::POST)</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    {</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        int8_t repeat;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        <span class="keywordtype">char</span> name[20], value[20];</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <span class="keywordflow">do</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        {</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            repeat = server-&gt;readPOSTparam(name, 20, value, 20);</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            <span class="keywordflow">if</span> (strcmp_P(name,</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                         (PGM_P) pgm_read_word(&amp;(<a class="code" href="_flashvars_8h.html#a56f685a10f5a7feaf9df6de899f424cd">template_ds18s20_inputs</a>[<a class="code" href="_flashvars_8h.html#aa0c308c92a287479e8192eaa02dde9cbacb303332321032a9b518423b585144aa">DS18S20_I_PIN</a>]))) == 0)</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                m_Pin = atoi(value);</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            <span class="keywordflow">if</span> (strcmp_P(name,</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                         (PGM_P) pgm_read_word(&amp;(<a class="code" href="_flashvars_8h.html#a56f685a10f5a7feaf9df6de899f424cd">template_ds18s20_inputs</a>[<a class="code" href="_flashvars_8h.html#aa0c308c92a287479e8192eaa02dde9cba6a16c9c292353a3504032c8690802a94">DS18S20_I_ADDRESS</a>])))</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                == 0)</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            {</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                <a class="code" href="util_8cpp.html#a5ea654242f46b48a3472a0375554e153">sth</a>(value, m_Address, 8);</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            }</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        } <span class="keywordflow">while</span> (repeat);</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        server-&gt;httpSeeOther(this-&gt;<a class="code" href="class_object.html#aa73d61fe9016c44220f3be29fe7e25d2">m_URL</a>);</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    }</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    {</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        server-&gt;httpSuccess();</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        memset(addressNames[0], 0, 17);</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        names[0] = addressNames[0];</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <span class="keywordflow">for</span> (i = 1; i &lt; 5; i++)</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        {</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            <span class="keywordflow">if</span> (!handler-&gt;<a class="code" href="class_one_wire_handler.html#a914088a8401413a8cfd64ab9d1f0ad4f" title="Scans for OneWire devices. ">findDevice</a>(m_Idx, address[i], 8))</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            <a class="code" href="util_8cpp.html#ac5e95f909061d6913a69969305bcd462">hts</a>(address[i], 8, addressNames[i], 17);</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            names[i] = addressNames[i];</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            <span class="keywordflow">if</span> (memcmp(address[i], m_Address,8) == 0)</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                selected = i;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        }</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        parser = <a class="code" href="_aquaduino_8cpp.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a>-&gt;<a class="code" href="class_aquaduino.html#aed76e9fb8f6a3714bbd8de7781133f6e" title="Getter for the TemplateParser. ">getTemplateParser</a>();</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        templateFile = SD.open(templateFileName, FILE_READ);</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        <span class="keywordflow">while</span> ((matchIdx =</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                parser-&gt;processTemplateUntilNextMatch(&amp;templateFile,</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                                                      <a class="code" href="_flashvars_8h.html#a0bb7c81cb3b3277bf71b1c0e66631169">template_ds18s20</a>,</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                                                      <a class="code" href="_flashvars_8h.html#a8f760068c18efd2240048a54b450f546">template_ds18s20_elements</a>,</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                                                      server))</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;               &gt;= 0)</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        {</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;            <span class="keywordflow">switch</span> (matchIdx)</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            {</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a474afb9b88a5b14908288bce38a29bddaba61c2d1f053f259827b40246b9de055">DS18S20_SNAME</a>:</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                server-&gt;print(<a class="code" href="class_object.html#aff677ddb7fe429a58e22cd3cadbcee7b" title="Getter for the name of the object. ">getName</a>());</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a474afb9b88a5b14908288bce38a29bdda515128ae1c3491a3e4d4bcf6fc7d407d">DS18S20_PIN_NAME</a>:</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                server-&gt;print((__FlashStringHelper *) pgm_input_pin);</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a474afb9b88a5b14908288bce38a29bdda01d503ba8cdff53ea001f300fa1963db">DS18S20_PIN_VAL</a>:</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                server-&gt;print(m_Pin);</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a474afb9b88a5b14908288bce38a29bddac58985a06859da2f5ae246b3fe6d8f5d">DS18S20_PIN_SIZE</a>:</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                server-&gt;print(3);</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a474afb9b88a5b14908288bce38a29bdda125f84ebfd3104b3bd0982e997cc45a6">DS18S20_PIN_MAXLENGTH</a>:</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                server-&gt;print(2);</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a474afb9b88a5b14908288bce38a29bdda79affaae6887b49a6a5b6eac1fcdf426">DS18S20_ADDRESSSELECT</a>:</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                strcpy_P(input_name, pgm_input_address);</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                parser-&gt;selectList(input_name, names, names, selected, i, server);</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            }</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        }</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        templateFile.close();</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    }</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;}</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_23013611a072febdb8d5691f6d36bd1a.html">Sensors</a></li><li class="navelem"><a class="el" href="_d_s18_s20_8cpp.html">DS18S20.cpp</a></li>
-    <li class="footer">Generated on Thu Aug 1 2013 16:21:02 for Aquaduino by
+    <li class="footer">Generated on Tue Aug 6 2013 13:55:35 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

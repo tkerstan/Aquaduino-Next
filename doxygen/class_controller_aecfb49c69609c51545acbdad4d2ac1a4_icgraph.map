@@ -1,6 +1,0 @@
-<map id="Controller::Controller" name="Controller::Controller">
-<area shape="rect" id="node2" href="$class_clock_timer_controller.html#a541899990b636577bbe76ca9fcc9807f" title="ClockTimerController\l::ClockTimerController" alt="" coords="219,5,370,46"/>
-<area shape="rect" id="node4" href="$class_level_controller.html#a30aa518d27e155c0df8a951fdec0e4ac" title="LevelController::LevelController" alt="" coords="195,71,394,97"/>
-<area shape="rect" id="node5" href="$class_temperature_controller.html#a7e8658a15f4d7fd72b0fd78d1dae36d5" title="TemperatureController\l::TemperatureController" alt="" coords="216,122,373,163"/>
-<area shape="rect" id="node3" href="$_aquaduino_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="setup" alt="" coords="443,71,498,97"/>
-</map>

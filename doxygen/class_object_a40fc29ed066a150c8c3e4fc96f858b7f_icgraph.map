@@ -1,9 +1,0 @@
-<map id="Object::setName" name="Object::setName">
-<area shape="rect" id="node2" href="$class_actuator.html#afd0f5153231172af5891c1b05b64e691" title="Actuator::Actuator" alt="" coords="207,5,335,32"/>
-<area shape="rect" id="node3" href="$class_controller.html#aecfb49c69609c51545acbdad4d2ac1a4" title="Controller::Controller" alt="" coords="201,56,341,83"/>
-<area shape="rect" id="node4" href="$class_object.html#ac194108499cccd2a5ed218b2da57993f" title="Object::Object" alt="" coords="217,107,324,133"/>
-<area shape="rect" id="node5" href="$class_s_d_config_manager.html#a10a368240d6e6c04ccf4920885fc8d93" title="SDConfigManager::readConfig" alt="" coords="173,157,368,184"/>
-<area shape="rect" id="node6" href="$mainweb_8cpp.html#afd56fefe2a8598f61d016320f5250491" title="defaultCmd" alt="" coords="227,208,314,235"/>
-<area shape="rect" id="node7" href="$class_aquaduino.html#a6f21b3e1fe7fd8b1c13d1e78372abed6" title="Aquaduino::setWebserver" alt="" coords="416,208,587,235"/>
-<area shape="rect" id="node8" href="$_aquaduino_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="setup" alt="" coords="635,208,690,235"/>
-</map>

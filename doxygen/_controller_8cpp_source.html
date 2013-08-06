@@ -154,31 +154,31 @@ $(document).ready(function(){initNavTree('_controller_8cpp_source.html','');});
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            assignedActuators[i]-&gt;<a class="code" href="class_actuator.html#a767243ef9f90e7a99175ad466cc02916" title="Disables the actuator. ">off</a>();</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="code" href="class_controller.html#a793239c2d5f866f102feb6dd7de64c3e">   76</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_controller.html#ab276a8fd2df621098a9a24f5dfcc6bb2" title="Performs action on all assigned actuators. ">Controller::allMyActuators</a>(<span class="keywordtype">float</span> dutyCycle)</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;{</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    int8_t i = 0;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    int8_t actuators = 0;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="class_actuator.html" title="Abstract class for common actuator methods. ">Actuator</a>* assignedActuators[<a class="code" href="_config_8h.html#aea5dca8b379720b7e6d921c984db9aaa" title="Defines the maximum number of actuators the system can manage. ">MAX_ACTUATORS</a>] =</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        { 0 };</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    actuators = <a class="code" href="_aquaduino_8cpp.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a>-&gt;<a class="code" href="class_aquaduino.html#a088ba3bf2e3429f341e09d0c8f62ded4" title="Identifies the actuators assigned to a specific controller. ">getAssignedActuators</a>(<span class="keyword">this</span>,</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                                                assignedActuators,</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                                                <a class="code" href="_config_8h.html#aea5dca8b379720b7e6d921c984db9aaa" title="Defines the maximum number of actuators the system can manage. ">MAX_ACTUATORS</a>);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">for</span> (; i &lt; actuators; i++)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">if</span> (assignedActuators[i]-&gt;supportsPWM())</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            assignedActuators[i]-&gt;<a class="code" href="class_actuator.html#a80dbe74fa140d0246452b4531ffbb86f" title="Sets PWM duty cycle. ">setPWM</a>(dutyCycle);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (dutyCycle &gt; 0.0)</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            assignedActuators[i]-&gt;<a class="code" href="class_actuator.html#a40700c01e3123133fd11157f9707ac8a" title="Activates the actuator. ">on</a>();</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            assignedActuators[i]-&gt;<a class="code" href="class_actuator.html#a767243ef9f90e7a99175ad466cc02916" title="Disables the actuator. ">off</a>();</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;}</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="code" href="class_controller.html#a793239c2d5f866f102feb6dd7de64c3e">   73</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_controller.html#ab276a8fd2df621098a9a24f5dfcc6bb2" title="Performs action on all assigned actuators. ">Controller::allMyActuators</a>(<span class="keywordtype">float</span> dutyCycle)</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;{</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    int8_t i = 0;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    int8_t actuators = 0;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="class_actuator.html" title="Abstract class for common actuator methods. ">Actuator</a>* assignedActuators[<a class="code" href="_config_8h.html#aea5dca8b379720b7e6d921c984db9aaa" title="Defines the maximum number of actuators the system can manage. ">MAX_ACTUATORS</a>] =</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        { 0 };</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    actuators = <a class="code" href="_aquaduino_8cpp.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a>-&gt;<a class="code" href="class_aquaduino.html#a088ba3bf2e3429f341e09d0c8f62ded4" title="Identifies the actuators assigned to a specific controller. ">getAssignedActuators</a>(<span class="keyword">this</span>,</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                                                assignedActuators,</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                                                <a class="code" href="_config_8h.html#aea5dca8b379720b7e6d921c984db9aaa" title="Defines the maximum number of actuators the system can manage. ">MAX_ACTUATORS</a>);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">for</span> (; i &lt; actuators; i++)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">if</span> (assignedActuators[i]-&gt;supportsPWM())</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            assignedActuators[i]-&gt;<a class="code" href="class_actuator.html#a80dbe74fa140d0246452b4531ffbb86f" title="Sets PWM duty cycle. ">setPWM</a>(dutyCycle);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (dutyCycle &gt; 0.0)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            assignedActuators[i]-&gt;<a class="code" href="class_actuator.html#a40700c01e3123133fd11157f9707ac8a" title="Activates the actuator. ">on</a>();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            assignedActuators[i]-&gt;<a class="code" href="class_actuator.html#a767243ef9f90e7a99175ad466cc02916" title="Disables the actuator. ">off</a>();</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_bcbb2cf9a3d3d83e5515c82071a07177.html">Framework</a></li><li class="navelem"><a class="el" href="_controller_8cpp.html">Controller.cpp</a></li>
-    <li class="footer">Generated on Thu Aug 1 2013 16:21:01 for Aquaduino by
+    <li class="footer">Generated on Tue Aug 6 2013 13:55:34 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

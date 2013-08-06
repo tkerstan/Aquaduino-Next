@@ -1,9 +1,0 @@
-<map id="SDConfigManager::readConfig" name="SDConfigManager::readConfig">
-<area shape="rect" id="node2" href="$class_aquaduino.html#a9370f6df101b782a36865c6f49b3bba1" title="Gets the index of an actuator object. " alt="" coords="260,5,431,32"/>
-<area shape="rect" id="node4" href="$class_s_d_config_manager.html#af82e2c7188e996b42f9158b108dd6abc" title="SDConfigManager::readStruct\lFromFile" alt="" coords="248,57,443,98"/>
-<area shape="rect" id="node5" href="$class_object.html#aa06e8c00bea02f598f7a68c5a1775de6" title="Getter for the type of the object. " alt="" coords="288,123,403,149"/>
-<area shape="rect" id="node6" href="$class_serializable.html#ad6a1d38f4e11eb3e1b1bacd0759dc778" title="Callback for deserialization of an object. " alt="" coords="266,173,425,200"/>
-<area shape="rect" id="node7" href="$class_object.html#a40fc29ed066a150c8c3e4fc96f858b7f" title="Setter for the object name. " alt="" coords="285,224,405,251"/>
-<area shape="rect" id="node8" href="$class_actuator.html#af5caa3a0b0cab70443433f073bcf34cc" title="Sets the controller this actuator is assigned to. " alt="" coords="269,275,421,301"/>
-<area shape="rect" id="node3" href="$class_array_map.html#ab17f26d85a11472e46d255a02b40ce88" title="ArrayMap::findElement" alt="" coords="491,5,645,32"/>
-</map>
