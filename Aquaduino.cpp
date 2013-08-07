@@ -61,7 +61,7 @@
 #include <stdlib.h>
 #include <Framework/Flashvars.h>
 
-Aquaduino* aquaduino;
+Aquaduino* __aquaduino;
 
 extern time_t NTPSync();
 
@@ -91,19 +91,19 @@ Aquaduino::Aquaduino() :
         m_TemplateParser(NULL),
         m_XivelyClient(ethClient)
 {
-    aquaduino = this;
     int i = 0;
     int8_t status = 0;
 
+    Serial.begin(115200);
+
+    __aquaduino = this;
     m_Type = AQUADUINO;
+
     // Deselect all SPI devices!
     pinMode(4, OUTPUT);
     digitalWrite(4, HIGH);
     pinMode(10, OUTPUT);
     digitalWrite(10, HIGH);
-    int8_t actuatorConfig[MAX_ACTUATORS] = ACTUATOR_CONFIG;
-    int8_t controllerConfig[MAX_CONTROLLERS] = CONTROLLER_CONFIG;
-    int8_t sensorConfig[MAX_SENSORS] = SENSOR_CONFIG;
 
     if (!SD.begin(4))
     {
@@ -178,7 +178,7 @@ Aquaduino::Aquaduino() :
     Serial.println(F("Starting Webserver..."));
     setWebserver(new WebServer("", 80));
 
-    Serial.println(F("Initializing actuators..."));
+    Serial.println(F("Initializing PWM..."));
 
     //TODO: Setting the PWM frequencies to 31.25kHz should be done somewhere else
     TCCR1A = _BV(WGM11) | _BV(WGM10);
@@ -192,48 +192,8 @@ Aquaduino::Aquaduino() :
     TCCR5A = _BV(WGM51) | _BV(WGM50);
     TCCR5B = _BV(CS50);
 
-    for (i = 0; i < MAX_ACTUATORS; i++)
-    {
-        switch (actuatorConfig[i])
-        {
-        case ACTUATOR_DIGITALOUTPUT:
-            addActuator(new DigitalOutput(NULL, HIGH, LOW));
-            break;
-        }
-    }
-
-    Serial.println(F("Initializing controllers..."));
-    for (int i = 0; i < MAX_CONTROLLERS; i++)
-    {
-        switch (controllerConfig[i])
-        {
-        case CONTROLLER_LEVEL:
-            addController(new LevelController("Level"));
-            break;
-        case CONTROLLER_TEMPERATURE:
-            addController(new TemperatureController("Temperature"));
-            break;
-        case CONTROLLER_CLOCKTIMER:
-            addController(new ClockTimerController("Clock Timer"));
-            break;
-        }
-    }
-
+    Serial.println(F("Initializing OneWire Handler..."));
     m_OneWireHandler = new OneWireHandler();
-
-    Serial.println(F("Initializing sensors..."));
-    for (int i = 0; i < MAX_SENSORS; i++)
-    {
-        switch (sensorConfig[i])
-        {
-        case SENSOR_DIGITALINPUT:
-            addSensor(new DigitalInput());
-            break;
-        case SENSOR_DS18S20:
-            addSensor(new DS18S20());
-            break;
-        }
-    }
 }
 
 /**
@@ -576,7 +536,7 @@ int8_t Aquaduino::addController(Controller* newController)
         buffer[0] = 'C';
         itoa(idx, &buffer[1], 10);
         m_Controllers[idx]->setURL(buffer);
-        aquaduino->readConfig(newController);
+        __aquaduino->readConfig(newController);
     }
     return idx;
 }
@@ -1139,7 +1099,7 @@ TemplateParser* Aquaduino::getTemplateParser()
 void defaultCmd(WebServer &server, WebServer::ConnectionType type, char * url,
                 bool)
 {
-    aquaduino->showWebinterface(&server, type, url);
+    __aquaduino->showWebinterface(&server, type, url);
 }
 
 /**
@@ -1179,43 +1139,43 @@ void dispatchCommand(WebServer &server, WebServer::ConnectionType type,
             subURL = &((*url_path)[pos + 1]);
         topLevelURL = strtok(*url_path, URL_DELIMITER);
 
-        aquaduino->resetControllerIterator();
-        while (aquaduino->getNextController(&controller) != -1)
+        __aquaduino->resetControllerIterator();
+        while (__aquaduino->getNextController(&controller) != -1)
         {
             if (strcmp(topLevelURL, controller->getURL()) == 0)
             {
                 controller->showWebinterface(&server, type, subURL);
                 if (type == WebServer::POST)
-                    aquaduino->writeConfig(controller);
+                    __aquaduino->writeConfig(controller);
                 return;
             }
         }
 
-        aquaduino->resetSensorIterator();
-        while (aquaduino->getNextSensor(&sensor) != -1)
+        __aquaduino->resetSensorIterator();
+        while (__aquaduino->getNextSensor(&sensor) != -1)
         {
             if (strcmp(topLevelURL, sensor->getURL()) == 0)
             {
                 sensor->showWebinterface(&server, type, subURL);
                 if (type == WebServer::POST)
-                    aquaduino->writeConfig(sensor);
+                    __aquaduino->writeConfig(sensor);
                 return;
             }
         }
 
-        aquaduino->resetActuatorIterator();
-        while (aquaduino->getNextActuator(&actuator) != -1)
+        __aquaduino->resetActuatorIterator();
+        while (__aquaduino->getNextActuator(&actuator) != -1)
         {
             if (strcmp(topLevelURL, actuator->getURL()) == 0)
             {
                 actuator->showWebinterface(&server, type, subURL);
                 if (type == WebServer::POST)
-                    aquaduino->writeConfig(actuator);
+                    __aquaduino->writeConfig(actuator);
                 return;
             }
         }
 
-        aquaduino->showWebinterface(&server, type, *url_path);
+        __aquaduino->showWebinterface(&server, type, *url_path);
     }
 }
 
@@ -1294,7 +1254,7 @@ void Aquaduino::printConfigWebpage(WebServer* server)
             server->print((__FlashStringHelper*) pgm_input_mac6);
             break;
         case CONFIG_DHCPSELECTOPTION:
-            if (aquaduino->isDHCPEnabled())
+            if (__aquaduino->isDHCPEnabled())
             {
                 parser->selectListOption("Yes", "1", 1, server);
                 parser->selectListOption("No", "0", 0, server);
@@ -1402,7 +1362,7 @@ void Aquaduino::printConfigWebpage(WebServer* server)
             server->print((__FlashStringHelper*) pgm_input_dns4);
             break;
         case CONFIG_NTPSELECTOPTION:
-            if (aquaduino->isNTPEnabled())
+            if (__aquaduino->isNTPEnabled())
             {
                 parser->selectListOption("Yes", "1", 1, server);
                 parser->selectListOption("No", "0", 0, server);
@@ -1699,36 +1659,36 @@ int8_t Aquaduino::configWebpageProcessPost(WebServer* server,
                 setXivelyFeed(value);
         }
 
-        aquaduino->setMAC(mac);
-        aquaduino->setIP(&ip);
-        aquaduino->setNetmask(&netmask);
-        aquaduino->setGateway(&gw);
-        aquaduino->setDNS(&dns);
-        aquaduino->setNTP(&ntp);
+        __aquaduino->setMAC(mac);
+        __aquaduino->setIP(&ip);
+        __aquaduino->setNetmask(&netmask);
+        __aquaduino->setGateway(&gw);
+        __aquaduino->setDNS(&dns);
+        __aquaduino->setNTP(&ntp);
 
         if (doDHCP)
-            aquaduino->enableDHCP();
+            __aquaduino->enableDHCP();
         else
-            aquaduino->disableDHCP();
+            __aquaduino->disableDHCP();
 
         if (doNTP)
-            aquaduino->enableNTP();
+            __aquaduino->enableNTP();
         else
         {
-            aquaduino->disableNTP();
-            aquaduino->setTime(hour, minute, second, day, month, year);
+            __aquaduino->disableNTP();
+            __aquaduino->setTime(hour, minute, second, day, month, year);
         }
 
-        aquaduino->setNtpSyncInterval(ntpperiod);
+        __aquaduino->setNtpSyncInterval(ntpperiod);
 
-        aquaduino->setTimezone(timezone);
+        __aquaduino->setTimezone(timezone);
 
-        aquaduino->writeConfig(aquaduino);
+        __aquaduino->writeConfig(__aquaduino);
 
-        aquaduino->resetActuatorIterator();
-        while (aquaduino->getNextActuator(&actuator) != -1)
+        __aquaduino->resetActuatorIterator();
+        while (__aquaduino->getNextActuator(&actuator) != -1)
         {
-            aquaduino->writeConfig(actuator);
+            __aquaduino->writeConfig(actuator);
         }
 
         server->httpSeeOther("/config");
@@ -1859,12 +1819,12 @@ int8_t Aquaduino::printMainActuatorTable(WebServer* server)
     Actuator* currentActuator;
     Controller* currentController;
 
-    parser = aquaduino->getTemplateParser();
+    parser = __aquaduino->getTemplateParser();
     strcpy_P(aRowFileName, template_main_actuatorrow_fname);
 
-    aquaduino->resetActuatorIterator();
+    __aquaduino->resetActuatorIterator();
 
-    while ((i = aquaduino->getNextActuator(&currentActuator)) != -1)
+    while ((i = __aquaduino->getNextActuator(&currentActuator)) != -1)
     {
         templateARow = SD.open(aRowFileName, FILE_READ);
         while ((matchIdx =
@@ -1908,8 +1868,8 @@ int8_t Aquaduino::printMainActuatorTable(WebServer* server)
                 server->print(controllerID);
                 break;
             case ACTUATORROW_COPTIONS:
-                aquaduino->resetControllerIterator();
-                while ((j = aquaduino->getNextController(&currentController)) != -1)
+                __aquaduino->resetControllerIterator();
+                while ((j = __aquaduino->getNextController(&currentController)) != -1)
                 {
                     itoa(j, controllerID, 10);
                     parser->selectListOption(currentController->getName(),
@@ -1974,7 +1934,7 @@ int8_t Aquaduino::printMainControllerTable(WebServer* server)
     strcpy_P(cRowFileName, template_main_controllerrow_fname);
     templateCRow = SD.open(cRowFileName, FILE_READ);
 
-    parser = aquaduino->getTemplateParser();
+    parser = __aquaduino->getTemplateParser();
 
     resetControllerIterator();
     while ((i = getNextController(&controller)) != -1)
@@ -2040,7 +2000,7 @@ int8_t Aquaduino::printMainSensorTable(WebServer* server)
     strcpy_P(sRowFileName, template_main_sensorrow_fname);
     templateSRow = SD.open(sRowFileName, FILE_READ);
 
-    parser = aquaduino->getTemplateParser();
+    parser = __aquaduino->getTemplateParser();
 
     resetSensorIterator();
     while ((i = getNextSensor(&sensor)) != -1)
@@ -2118,7 +2078,7 @@ int8_t Aquaduino::printMainWebpage(WebServer* server)
     File templateFile;
     int16_t matchIdx;
 
-    parser = aquaduino->getTemplateParser();
+    parser = __aquaduino->getTemplateParser();
 
     strcpy_P(fileName, template_main_fname);
     templateFile = SD.open(fileName, FILE_READ);
@@ -2272,27 +2232,9 @@ void Aquaduino::run()
     }
 }
 
-/*
- * ============================================================================
- */
-
 int freeRam()
 {
     extern int __heap_start, *__brkval;
     int v;
     return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
-}
-
-void setup()
-{
-    Serial.begin(9600);
-    Serial.println(F("Starting Aquaduino..."));
-    new Aquaduino();
-
-    Serial.println(F("Starting main loop..."));
-}
-
-void loop()
-{
-    aquaduino->run();
 }

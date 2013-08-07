@@ -147,7 +147,7 @@ if ((EXISTS ${ARDUINO_SDK_PATH}) AND (EXISTS ${AVR_COMPILER_PATH}))
 			  ${CMAKE_CURRENT_SOURCE_DIR}/Framework/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/Framework/*.c
 			  ${CMAKE_CURRENT_SOURCE_DIR}/Sensors/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/Sensors/*.c
 			  ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
-	add_executable(aquaduino ${AQADUINO_SRC})
+	add_library(aquaduino ${AQADUINO_SRC})
 	target_link_libraries(aquaduino
 						  arduino_core
 						  arduino_spi
@@ -158,14 +158,4 @@ if ((EXISTS ${ARDUINO_SDK_PATH}) AND (EXISTS ${AVR_COMPILER_PATH}))
 						  arduino_template_parser
 						  arduino_xively
 						  arduino_httpclient)
-
-	add_custom_target(aquaduino.hex
-					  ${CMAKE_OBJCOPY} -O ihex -R .eeprom aquaduino aquaduino.hex
-					  DEPENDS aquaduino
-					  COMMENT "objcopying aquaduino to aquaduino.hex")
-					   
-	add_custom_target(flash
-					  ${AVRDUDE} -C${CMAKE_CURRENT_SOURCE_DIR}/avrdude.conf -patmega2560 -cwiring -P"$ENV{ARDUINO_COM}" -b115200 -D -Uflash:w:aquaduino.hex:i
-					  DEPENDS aquaduino.hex
-					  COMMENT "Flashing Aquaduino")
 endif()

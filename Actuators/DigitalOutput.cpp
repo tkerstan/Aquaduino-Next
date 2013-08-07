@@ -271,7 +271,7 @@ int8_t DigitalOutput::showWebinterface(WebServer* server,
     else
     {
         server->httpSuccess();
-        parser = aquaduino->getTemplateParser();
+        parser = __aquaduino->getTemplateParser();
         templateFile = SD.open(templateFileName, FILE_READ);
         while ((matchIdx =
                 parser->processTemplateUntilNextMatch(&templateFile,

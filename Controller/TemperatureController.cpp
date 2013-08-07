@@ -125,9 +125,9 @@ int8_t TemperatureController::run()
     if (m_Sensor == -1 || (m_Actuator1 == -1 && m_Actuator2 == -1))
         return -1;
 
-    temp = aquaduino->getSensorValue(m_Sensor);
-    actuator1 = aquaduino->getActuator(m_Actuator1);
-    actuator2 = aquaduino->getActuator(m_Actuator2);
+    temp = __aquaduino->getSensorValue(m_Sensor);
+    actuator1 = __aquaduino->getActuator(m_Actuator1);
+    actuator2 = __aquaduino->getActuator(m_Actuator2);
 
     if (actuator1)
     {
@@ -228,10 +228,10 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
     else
     {
         server->httpSuccess();
-        parser = aquaduino->getTemplateParser();
+        parser = __aquaduino->getTemplateParser();
         templateFile = SD.open(templateFileName, FILE_READ);
-        aquaduino->resetSensorIterator();
-        aquaduino->resetActuatorIterator();
+        __aquaduino->resetSensorIterator();
+        __aquaduino->resetActuatorIterator();
         sensorNames[0] = "None";
         actuatorNames[0] = sensorNames[0];
 
@@ -240,7 +240,7 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
         i = 1;
         j = 1;
 
-        while ((sensorIdx = aquaduino->getNextSensor(&sensor)) != -1)
+        while ((sensorIdx = __aquaduino->getNextSensor(&sensor)) != -1)
         {
             sensorNames[i] = sensor->getName();
             itoa(sensorIdx, sensorValArray[i], 10);
@@ -248,9 +248,9 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
             i++;
         }
 
-        while ((actuatorIdx = aquaduino->getNextActuator(&actuator)) != -1)
+        while ((actuatorIdx = __aquaduino->getNextActuator(&actuator)) != -1)
         {
-            if (aquaduino->getController(actuator->getController()) == this)
+            if (__aquaduino->getController(actuator->getController()) == this)
             {
                 if (m_Actuator1 == actuatorIdx)
                     select1 = j;
@@ -285,7 +285,7 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
                                    server);
                 break;
             case TEMPERATURECONTROLLER_TEMPERATURE:
-                server->print(aquaduino->getSensorValue(m_Sensor));
+                server->print(__aquaduino->getSensorValue(m_Sensor));
                 break;
             case TEMPERATURECONTROLLER_REFTEMP1_NAME:
                 server->print((__FlashStringHelper *) pgm_input_reftemp1);

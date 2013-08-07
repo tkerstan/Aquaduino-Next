@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+<?fileVersion 4.0.0?>
+
+<cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
 		<cconfiguration id="cdt.managedbuild.config.gnu.cross.lib.debug.258489203">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.lib.debug.258489203" moduleId="org.eclipse.cdt.core.settings" name="Debug">
 				<externalSettings>
 					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Aquaduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Aquaduino/Debug"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="Aquaduino" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
@@ -14,11 +18,10 @@
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.config.gnu.cross.lib.debug.258489203" name="Debug" parent="cdt.managedbuild.config.gnu.cross.lib.debug" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
+				<configuration artifactExtension="a" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.config.gnu.cross.lib.debug.258489203" name="Debug" parent="cdt.managedbuild.config.gnu.cross.lib.debug" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.lib.debug.258489203." name="/" resourcePath="">
 						<toolChain errorParsers="" id="cdt.managedbuild.toolchain.gnu.cross.lib.debug.1445107012" name="Cross GCC" nonInternalBuilderId="cdt.managedbuild.builder.gnu.cross" superClass="cdt.managedbuild.toolchain.gnu.cross.lib.debug">
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.921560172" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix" value="avr-" valueType="string"/>
@@ -49,6 +52,8 @@
 								<option id="gnu.cpp.compiler.option.debugging.level.2098548674" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.685859551" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Aquaduino}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HttpClient}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Xively}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Arduino}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/OneWire}&quot;"/>
@@ -78,18 +83,22 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.8118688" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
 								<option id="gnu.cpp.link.option.libs.1180732614" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="c"/>
+									<listOptionValue builtIn="false" value="Xively"/>
+									<listOptionValue builtIn="false" value="HttpClient"/>
 									<listOptionValue builtIn="false" value="m"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Arduino"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Ethernet"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OneWire"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="SD"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="SPI"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="TemplateParser"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Time"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Webduino"/>
+									<listOptionValue builtIn="false" value="Arduino"/>
+									<listOptionValue builtIn="false" value="Ethernet"/>
+									<listOptionValue builtIn="false" value="OneWire"/>
+									<listOptionValue builtIn="false" value="SD"/>
+									<listOptionValue builtIn="false" value="SPI"/>
+									<listOptionValue builtIn="false" value="TemplateParser"/>
+									<listOptionValue builtIn="false" value="Time"/>
+									<listOptionValue builtIn="false" value="Webduino"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.625669167" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Arduino/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Xively/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HttpClient/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/OneWire/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SD/Debug}&quot;"/>
@@ -125,6 +134,9 @@
 				<externalSettings>
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Aquaduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Aquaduino/Release"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Aquaduino" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -133,11 +145,10 @@
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.config.gnu.cross.lib.release.1643897995" name="Release" parent="cdt.managedbuild.config.gnu.cross.lib.release" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
+				<configuration artifactExtension="a" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.config.gnu.cross.lib.release.1643897995" name="Release" parent="cdt.managedbuild.config.gnu.cross.lib.release" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.lib.release.1643897995." name="/" resourcePath="">
 						<toolChain errorParsers="" id="cdt.managedbuild.toolchain.gnu.cross.lib.release.457146899" name="Cross GCC" nonInternalBuilderId="cdt.managedbuild.builder.gnu.cross" superClass="cdt.managedbuild.toolchain.gnu.cross.lib.release">
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.1364714851" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix" value="avr-" valueType="string"/>
@@ -179,6 +190,8 @@
 								<option id="gnu.cpp.compiler.option.other.other.74545562" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -mmcu=atmega2560" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1062625164" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Aquaduino}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HttpClient}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Xively}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Arduino}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/OneWire}&quot;"/>
@@ -196,18 +209,22 @@
 							<tool command="gcc" id="cdt.managedbuild.tool.gnu.cross.cpp.linker.1199532484" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
 								<option id="gnu.cpp.link.option.libs.2089195022" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="c"/>
+									<listOptionValue builtIn="false" value="Xively"/>
+									<listOptionValue builtIn="false" value="HttpClient"/>
 									<listOptionValue builtIn="false" value="m"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Arduino"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Ethernet"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OneWire"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="SD"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="SPI"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="TemplateParser"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Time"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Webduino"/>
+									<listOptionValue builtIn="false" value="Arduino"/>
+									<listOptionValue builtIn="false" value="Ethernet"/>
+									<listOptionValue builtIn="false" value="OneWire"/>
+									<listOptionValue builtIn="false" value="SD"/>
+									<listOptionValue builtIn="false" value="SPI"/>
+									<listOptionValue builtIn="false" value="TemplateParser"/>
+									<listOptionValue builtIn="false" value="Time"/>
+									<listOptionValue builtIn="false" value="Webduino"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.105320336" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Arduino/Release}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Xively/Release}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HttpClient/Release}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ethernet/Release}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/OneWire/Release}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SD/Release}&quot;"/>

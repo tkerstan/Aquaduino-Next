@@ -24,7 +24,7 @@
 #include "Object.h"
 #include "Serializable.h"
 #include "WebInterface.h"
-#include "Config.h"
+#include "FrameworkConfig.h"
 
 /**
  * \brief A controller realizes a control task like water level monitoring,

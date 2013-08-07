@@ -118,7 +118,7 @@ int8_t SDConfigManager::writeConfig(Actuator* actuator)
 
     memset(&config, 0, sizeof(config));
 
-    id = aquaduino->getActuatorID(actuator);
+    id = __aquaduino->getActuatorID(actuator);
     fileName[0] = 'A';
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
@@ -151,7 +151,7 @@ int8_t SDConfigManager::writeConfig(Controller* controller)
 
     memset(&config, 0, sizeof(config));
 
-    id = aquaduino->getControllerID(controller);
+    id = __aquaduino->getControllerID(controller);
     fileName[0] = 'C';
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
@@ -184,7 +184,7 @@ int8_t SDConfigManager::writeConfig(Sensor* sensor)
 
     memset(&config, 0, sizeof(config));
 
-    id = aquaduino->getSensorID(sensor);
+    id = __aquaduino->getSensorID(sensor);
     fileName[0] = 'S';
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
@@ -234,7 +234,7 @@ int8_t SDConfigManager::readConfig(Actuator* actuator)
 
     memset(&config, 0, sizeof(config));
 
-    id = aquaduino->getActuatorID(actuator);
+    id = __aquaduino->getActuatorID(actuator);
     fileName[0] = 'A';
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
@@ -261,7 +261,7 @@ int8_t SDConfigManager::readConfig(Controller* controller)
 
     memset(&config, 0, sizeof(config));
 
-    id = aquaduino->getControllerID(controller);
+    id = __aquaduino->getControllerID(controller);
     fileName[0] = 'C';
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
@@ -287,7 +287,7 @@ int8_t SDConfigManager::readConfig(Sensor* sensor)
 
     memset(&config, 0, sizeof(config));
 
-    id = aquaduino->getSensorID(sensor);
+    id = __aquaduino->getSensorID(sensor);
     fileName[0] = 'S';
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");

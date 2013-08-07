@@ -23,7 +23,7 @@
 #include <Framework/Sensor.h>
 #include <Arduino.h>
 #include <OneWire.h>
-#include <Framework/Config.h>
+#include <Framework/FrameworkConfig.h>
 
 /**
  * \brief Basic implementation for DS18S20 Temperature Sensors

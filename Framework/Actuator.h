@@ -22,7 +22,7 @@
 #define AQUADUINOACTOR_H_
 
 #include "Object.h"
-#include "Config.h"
+#include "FrameworkConfig.h"
 #include "Controller.h"
 #include "Serializable.h"
 #include "WebInterface.h"

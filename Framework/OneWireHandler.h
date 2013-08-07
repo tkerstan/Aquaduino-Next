@@ -22,7 +22,7 @@
 #define ONEWIREHANDLER_H_
 
 #include <OneWire.h>
-#include <Framework/Config.h>
+#include <Framework/FrameworkConfig.h>
 
 /**
  * \brief Muxing and Demuxing of multiple OneWire devices

@@ -27,7 +27,7 @@
 #include <HttpClient.h>
 #include <Xively.h>
 
-#include "Framework/Config.h"
+#include "Framework/FrameworkConfig.h"
 #include "Framework/Controller.h"
 #include "Framework/Actuator.h"
 #include "Framework/Sensor.h"
@@ -204,7 +204,7 @@ private:
     double m_SensorReadings[MAX_SENSORS];
 };
 
-extern Aquaduino* aquaduino;
+extern Aquaduino* __aquaduino;
 
 #endif /* Aquaduino_H_ */
 

@@ -60,7 +60,7 @@ double DS18S20::read()
 {
     uint8_t data[12];
     int8_t i = 0;
-    OneWireHandler* handler = aquaduino->getOneWireHandler();
+    OneWireHandler* handler = __aquaduino->getOneWireHandler();
     int8_t crc;
 
     if (!m_ReadPending)
@@ -71,7 +71,6 @@ double DS18S20::read()
     }
     else if (millis() - m_LastReadIssue > 750)
     {
-        Serial.print(F("Reading Onewire scratchpad returned ="));
         if (handler->read(m_Idx, m_Address, data, 12))
             return 0.0;
         temp_hist[m_Runs++] = ((double) convertToRaw(data,
@@ -133,7 +132,7 @@ uint16_t DS18S20::serialize(void* buffer, uint16_t size)
 
 uint16_t DS18S20::deserialize(void* data, uint16_t size)
 {
-    OneWireHandler* handler = aquaduino->getOneWireHandler();
+    OneWireHandler* handler = __aquaduino->getOneWireHandler();
 
     memcpy(&m_Pin, data, sizeof(m_Pin));
     memcpy(&m_Address, ((char*) data) + sizeof(m_Pin), sizeof(m_Address));
@@ -159,7 +158,7 @@ int8_t DS18S20::showWebinterface(WebServer* server,
 
     int8_t i = 0;
     int8_t selected = 0;
-    OneWireHandler* handler = aquaduino->getOneWireHandler();
+    OneWireHandler* handler = __aquaduino->getOneWireHandler();
 
     if (type == WebServer::POST)
     {
@@ -197,7 +196,7 @@ int8_t DS18S20::showWebinterface(WebServer* server,
                 selected = i;
         }
 
-        parser = aquaduino->getTemplateParser();
+        parser = __aquaduino->getTemplateParser();
 
         templateFile = SD.open(templateFileName, FILE_READ);
         while ((matchIdx =

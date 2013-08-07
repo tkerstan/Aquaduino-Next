@@ -125,8 +125,8 @@ int8_t ClockTimerController::run()
     Controller* controller;
     for (i = 0; i < MAX_CLOCKTIMERS; i++)
     {
-        actuator = aquaduino->getActuator(m_ActuatorMapping[i]);
-        controller = aquaduino->getController(actuator->getController());
+        actuator = __aquaduino->getActuator(m_ActuatorMapping[i]);
+        controller = __aquaduino->getController(actuator->getController());
         if (actuator != NULL && controller == this)
         {
             if (m_Timers[i].check())
@@ -174,7 +174,7 @@ int8_t ClockTimerController::prepareActuatorSelect(
     int8_t i, j;
 
     int8_t myActuators[MAX_ACTUATORS];
-    int8_t actuators = aquaduino->getAssignedActuatorIDs(this,
+    int8_t actuators = __aquaduino->getAssignedActuatorIDs(this,
                                                          myActuators,
                                                          MAX_ACTUATORS);
 
@@ -191,7 +191,7 @@ int8_t ClockTimerController::prepareActuatorSelect(
         }
         //if (m_SelectedActuator == j + 1 || !isMapped(myActuators[i - 1]))
         actuatorNames[++j] =
-                aquaduino->getActuator(myActuators[i - 1])->getName();
+                __aquaduino->getActuator(myActuators[i - 1])->getName();
         itoa(myActuators[i - 1], actuatorValArray[j], 10);
         actuatorValuePointers[j] = actuatorValArray[j];
 //        }
@@ -231,7 +231,7 @@ int8_t ClockTimerController::printMain(WebServer* server,
     strcpy_P(templateFileName, template_clocktimercontroller_fname);
 
     server->httpSuccess();
-    parser = aquaduino->getTemplateParser();
+    parser = __aquaduino->getTemplateParser();
     mainTemplateFile = SD.open(templateFileName, FILE_READ);
 
     for (i = 0; i < MAX_CLOCKTIMERS; i++)
@@ -339,7 +339,7 @@ int8_t ClockTimerController::printRow(WebServer* server,
 
     strcpy_P(templateRowFileName, template_clocktimercontroller_row_fname);
 
-    parser = aquaduino->getTemplateParser();
+    parser = __aquaduino->getTemplateParser();
 
     for (i = 0; i < max_timers; i++)
     {

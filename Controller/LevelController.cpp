@@ -129,7 +129,7 @@ int8_t LevelController::run()
     if (m_Sensor < 0 || m_Sensor >= MAX_SENSORS)
         return -1;
 
-    long reading = aquaduino->getSensorValue(m_Sensor);
+    long reading = __aquaduino->getSensorValue(m_Sensor);
     unsigned long millisNow = millis();
     long deltaTSwitch = millisNow - lastTime;
 
@@ -256,13 +256,13 @@ int8_t LevelController::showWebinterface(WebServer* server,
     {
 
         server->httpSuccess();
-        parser = aquaduino->getTemplateParser();
+        parser = __aquaduino->getTemplateParser();
         templateFile = SD.open(templateFileName, FILE_READ);
-        aquaduino->resetSensorIterator();
+        __aquaduino->resetSensorIterator();
         sensorNames[0] = "None";
         sensorValuePointers[0] = "-1";
         i = 1;
-        while ((sensorIdx = aquaduino->getNextSensor(&sensor)) != -1)
+        while ((sensorIdx = __aquaduino->getNextSensor(&sensor)) != -1)
         {
             sensorNames[i] = sensor->getName();
             itoa(sensorIdx, sensorValArray[i], 10);

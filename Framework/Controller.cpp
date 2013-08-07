@@ -55,7 +55,7 @@ void Controller::allMyActuators(int8_t on)
     int8_t actuators = 0;
     Actuator* assignedActuators[MAX_ACTUATORS] =
         { 0 };
-    actuators = aquaduino->getAssignedActuators(this,
+    actuators = __aquaduino->getAssignedActuators(this,
                                                 assignedActuators,
                                                 MAX_ACTUATORS);
 
@@ -76,7 +76,7 @@ void Controller::allMyActuators(float dutyCycle)
     int8_t actuators = 0;
     Actuator* assignedActuators[MAX_ACTUATORS] =
         { 0 };
-    actuators = aquaduino->getAssignedActuators(this,
+    actuators = __aquaduino->getAssignedActuators(this,
                                                 assignedActuators,
                                                 MAX_ACTUATORS);
 

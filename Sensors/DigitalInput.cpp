@@ -86,7 +86,7 @@ int8_t DigitalInput::showWebinterface(WebServer* server,
     else
     {
         server->httpSuccess();
-        parser = aquaduino->getTemplateParser();
+        parser = __aquaduino->getTemplateParser();
         templateFile = SD.open(templateFileName, FILE_READ);
         while ((matchIdx =
                 parser->processTemplateUntilNextMatch(&templateFile,

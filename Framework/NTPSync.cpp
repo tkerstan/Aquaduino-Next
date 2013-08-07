@@ -47,7 +47,7 @@ time_t NTPSync()
 {
     EthernetUDP Udp;
 
-    long timeZoneOffset = aquaduino->getTimezone() * SECS_PER_HOUR;
+    long timeZoneOffset = __aquaduino->getTimezone() * SECS_PER_HOUR;
     unsigned char packetBuffer[NTP_PACKET_SIZE];
     const unsigned long seventy_years = 2208988800UL;
     unsigned long secsSince1900;
@@ -69,7 +69,7 @@ time_t NTPSync()
     packetBuffer[15] = 52;
 
     Udp.begin(8888);
-    Udp.beginPacket(*(aquaduino->getNTP()), 123);
+    Udp.beginPacket(*(__aquaduino->getNTP()), 123);
     Udp.write(packetBuffer, NTP_PACKET_SIZE);
     Udp.endPacket();
 

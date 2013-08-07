@@ -21,7 +21,7 @@
 #ifndef OBJECT_H_
 #define OBJECT_H_
 
-#include <Framework/Config.h>
+#include <Framework/FrameworkConfig.h>
 #include <Framework/ObjectTypes.h>
 
 /**\brief Base class for all Controller, Actuators, Sensors and the Aquaduino.

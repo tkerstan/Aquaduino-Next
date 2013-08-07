@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef CONFIG_H_
-#define CONFIG_H_
+#ifndef FRAMEWORKCONFIG_H_
+#define FRAMEWORKCONFIG_H_
 
 #include <stdint.h>
 #include <Framework/ObjectTypes.h>
@@ -28,58 +28,27 @@
 /**
  * \brief Defines the maximum number of controllers the system can manage
  */
-#define MAX_CONTROLLERS             4
+#define MAX_CONTROLLERS             8
 
 /**
  * \brief Defines the maximum number of actuators the system can manage
  */
-#define MAX_ACTUATORS               12
+#define MAX_ACTUATORS               24
 
 /**
  * \brief Defines the maximum number of sensors the system can manage
  */
-#define MAX_SENSORS                 3
-
-/**
- * \brief Defines the actuators being used
- */
-#define ACTUATOR_CONFIG             { ACTUATOR_DIGITALOUTPUT, \
-                                      ACTUATOR_DIGITALOUTPUT, \
-                                      ACTUATOR_DIGITALOUTPUT, \
-                                      ACTUATOR_DIGITALOUTPUT, \
-                                      ACTUATOR_DIGITALOUTPUT, \
-                                      ACTUATOR_DIGITALOUTPUT, \
-                                      ACTUATOR_DIGITALOUTPUT, \
-                                      ACTUATOR_DIGITALOUTPUT, \
-                                      ACTUATOR_DIGITALOUTPUT, \
-                                      ACTUATOR_DIGITALOUTPUT, \
-                                      ACTUATOR_DIGITALOUTPUT, \
-                                      ACTUATOR_DIGITALOUTPUT }
-
-/**
- * \brief Defines the controllers being used
- */
-#define CONTROLLER_CONFIG           { CONTROLLER_TEMPERATURE, \
-                                      CONTROLLER_TEMPERATURE, \
-                                      CONTROLLER_LEVEL, \
-                                      CONTROLLER_CLOCKTIMER } \
-
-/**
- * \brief Defines the sensors being used
- */
-#define SENSOR_CONFIG               { SENSOR_DIGITALINPUT, \
-                                      SENSOR_DS18S20,      \
-                                      SENSOR_DS18S20}
+#define MAX_SENSORS                 8
 
 /**
  * \brief Defines the maximum number of Clocktimers the system can manage
  */
-#define MAX_CLOCKTIMERS             8
+#define MAX_CLOCKTIMERS             24
 
 /**
  * \brief Defines the maximum number of timers per clocktimer
  */
-#define CLOCKTIMER_MAX_TIMERS       8
+#define CLOCKTIMER_MAX_TIMERS       4
 
 /**
  * \brief Defines the default timezone

@@ -23,7 +23,7 @@
 
 #include <Arduino.h>
 #include <Framework/Serializable.h>
-#include <Framework/Config.h>
+#include <Framework/FrameworkConfig.h>
 
 const static uint8_t max_timers = CLOCKTIMER_MAX_TIMERS;
 
