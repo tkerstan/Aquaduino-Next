@@ -23,6 +23,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 /**
  * \brief Map implementation using a fixed array
@@ -91,7 +92,7 @@ ArrayMap<T>::ArrayMap(const ArrayMap<T>& m)
  */
 template<class T>
 ArrayMap<T>::ArrayMap(const int8_t size) :
-        m_Size(size), m_Current(-1), m_Last(0)
+        m_Size(size), m_Current(0), m_Last(0)
 {
     m_Array = (T*) malloc(sizeof(T) * size);
     memset(m_Array, 0, sizeof(T) * size);
@@ -133,17 +134,19 @@ int8_t ArrayMap<T>::findHead()
 template<class T>
 int8_t ArrayMap<T>::add(const T e)
 {
-    int8_t i = m_Last;
+    int8_t i = 0;
+    int8_t idx = m_Last;
 
     for (; i < m_Size; i++)
     {
-        if (m_Array[i] == NULL)
+        if (m_Array[idx] == NULL)
         {
-            m_Array[i] = e;
-            //Initialize the iterator when map was empty.
-            m_Current = m_Current < 0 ? i : m_Current;
-            return i;
+            m_Array[idx] = e;
+            return idx;
         }
+        idx++;
+        if (idx >= m_Size)
+            idx = 0;
     }
 
     return -1;
@@ -160,8 +163,6 @@ int8_t ArrayMap<T>::set(int8_t idx, const T e)
     if (m_Array[idx] == NULL)
     {
         m_Array[idx] = e;
-        //Initialize the iterator when map was empty.
-        m_Current = m_Current < 0 ? idx : m_Current;
         return idx;
     }
 
@@ -181,7 +182,7 @@ int8_t ArrayMap<T>::remove(const T e)
 
     if (pos >= 0)
     {
-        m_Array[pos] == NULL;
+        m_Array[pos] = NULL;
         m_Last = pos;
         return pos;
 
