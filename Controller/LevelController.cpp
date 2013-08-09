@@ -23,6 +23,7 @@
 #include <TemplateParser.h>
 #include <SD.h>
 #include <Framework/Flashvars.h>
+#include <limits.h>
 
 /**
  * \brief Constructor
@@ -125,62 +126,69 @@ uint16_t LevelController::deserialize(void* data, uint16_t size)
 int8_t LevelController::run()
 {
     static unsigned long lastTime = 0;
+    unsigned long millisNow = 0;
+    long delay_low_millis = 0;
+    long delay_high_millis = 0;
+    long timeout_millis = 0;
+    long deltaTSwitch = 0;
+    int8_t sensor_val = 0;
 
     if (m_Sensor < 0 || m_Sensor >= MAX_SENSORS)
         return -1;
 
-    long reading = __aquaduino->getSensorValue(m_Sensor);
-    unsigned long millisNow = millis();
-    long deltaTSwitch = millisNow - lastTime;
+    sensor_val = __aquaduino->getSensorValue(m_Sensor);
+    millisNow = millis();
+    deltaTSwitch = millisNow - lastTime;
+
+    delay_high_millis = 1000 * (long) m_Delayh;
+    delay_low_millis = 1000 * (long) m_Delayl;
+    timeout_millis = 1000 * (long) m_Timeout;
 
     //Check for overflow while processing refill
-    //May double the debounce delays in case of overflow
     if (m_State != LEVELCONTROLLER_STATE_OK && lastTime > millisNow)
-    {
-        lastTime = 0;
-    }
+        deltaTSwitch = LONG_MAX - lastTime + millisNow;
 
     switch (m_State)
     {
     case LEVELCONTROLLER_STATE_OK:
         allMyActuators((int8_t) 0);
-        if (reading == HIGH)
+        if (sensor_val == HIGH)
         {
             m_State = LEVELCONTROLLER_STATE_DEBOUNCE;
             lastTime = millisNow;
         }
         break;
     case LEVELCONTROLLER_STATE_DEBOUNCE:
-        if (reading == HIGH && deltaTSwitch > 1000 * m_Delayh)
+        if (sensor_val == HIGH && deltaTSwitch > delay_high_millis)
         {
             allMyActuators((int8_t) 1);
             lastTime = millisNow;
             m_State = LEVELCONTROLLER_STATE_REFILL;
         }
-        else if (reading == LOW)
+        else if (sensor_val == LOW)
         {
             m_State = LEVELCONTROLLER_STATE_OK;
         }
         break;
     case LEVELCONTROLLER_STATE_REFILL:
-        if (reading == LOW)
+        if (sensor_val == LOW)
         {
             m_State = LEVELCONTROLLER_STATE_OVERRUN;
             lastTime = millisNow;
         }
-        else if (reading == HIGH && deltaTSwitch > 1000 * m_Timeout)
+        else if (sensor_val == HIGH && deltaTSwitch > timeout_millis)
         {
             m_State = LEVELCONTROLLER_STATE_REFILL_TIMEOUT;
             allMyActuators((int8_t) 0);
         }
         break;
     case LEVELCONTROLLER_STATE_OVERRUN:
-        if (reading == LOW && deltaTSwitch > m_Delayl * 1000)
+        if (sensor_val == LOW && deltaTSwitch > delay_low_millis)
         {
             m_State = LEVELCONTROLLER_STATE_OK;
             allMyActuators((int8_t) 0);
         }
-        else if (reading == HIGH)
+        else if (sensor_val == HIGH)
         {
             m_State = LEVELCONTROLLER_STATE_REFILL;
         }
@@ -201,6 +209,7 @@ int8_t LevelController::showWebinterface(WebServer* server,
     TemplateParser* parser;
     int8_t matchIdx;
     char i_sensor_name[20];
+    int16_t val;
 
     char templateFileName[template_levelcontroller_fnsize];
     strcpy_P(templateFileName, template_levelcontroller_fname);
@@ -225,22 +234,22 @@ int8_t LevelController::showWebinterface(WebServer* server,
                          (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_DELAYL])))
                 == 0)
             {
-                uint8_t d = atoi(value);
-                m_Delayl = d;
+                val = atoi(value);
+                m_Delayl = val;
             }
             else if (strcmp_P(name,
                               (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_DELAYH])))
                      == 0)
             {
-                uint8_t d = atoi(value);
-                m_Delayh = d;
+                val = atol(value);
+                m_Delayh = val;
             }
             else if (strcmp_P(name,
                               (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_TIMEOUT])))
                      == 0)
             {
-                uint8_t d = atoi(value);
-                m_Timeout = d;
+                val = atol(value);
+                m_Timeout = val;
             }
             else if (strcmp_P(name,
                               (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_SENSOR])))
