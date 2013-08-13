@@ -97,4 +97,11 @@
  */
 #define TEMP_HISTORY                10
 
+/**
+ * \brief Enables/Disabled Interrupt driven mode. Note concurrent HW accesses
+ * are note protected! Usage of SPI in Controllers may lead to not deterministic
+ * behavior.
+ */
+#undef INTERRUPT_DRIVEN
+
 #endif /*CONFIG_H_*/

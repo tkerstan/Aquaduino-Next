@@ -694,10 +694,10 @@ int8_t Aquaduino::getAssignedActuators(Controller* controller,
     Actuator* currentActuator;
     int8_t controllerIdx = m_Controllers.findElement(controller);
 
-    m_Actuators.resetIterator();
-    while ((actuatorIdx = m_Actuators.getNext(&currentActuator)) != -1)
+    for (actuatorIdx = 0; actuatorIdx < MAX_ACTUATORS; actuatorIdx++)
     {
-        if (currentActuator->getController() == controllerIdx)
+        currentActuator = m_Actuators.get(actuatorIdx);
+        if (currentActuator && currentActuator->getController() == controllerIdx)
         {
             if (nrOfAssignedActuators < max)
                 actuators[nrOfAssignedActuators] = currentActuator;
@@ -728,10 +728,11 @@ int8_t Aquaduino::getAssignedActuatorIDs(Controller* controller,
     Actuator* currentActuator;
     int8_t controllerIdx = m_Controllers.findElement(controller);
 
-    m_Actuators.resetIterator();
-    while ((actuatorIdx = m_Actuators.getNext(&currentActuator)) != -1)
+    //m_Actuators.resetIterator();
+    for (actuatorIdx = 0; actuatorIdx < MAX_ACTUATORS; actuatorIdx++)
     {
-        if (currentActuator->getController() == controllerIdx)
+        currentActuator = m_Actuators.get(actuatorIdx);
+        if (currentActuator && currentActuator->getController() == controllerIdx)
         {
             if (nrOfAssignedActuators < max)
                 actuatorIDs[nrOfAssignedActuators] = actuatorIdx;
@@ -2191,6 +2192,59 @@ int8_t Aquaduino::showWebinterface(WebServer* server,
     return mainWebpage(server, type);
 }
 
+void Aquaduino::startTimer()
+{
+#ifdef INTERRUPT_DRIVEN
+    Serial.println("Interrupt triggered mode enabled.");
+    TCCR5A = 0;
+    TCCR5B = 0;
+    TCNT5  = 0;
+    TIMSK5 = 0;
+
+    OCR5A = 25000;
+    TCCR5A = _BV(WGM51) | _BV(WGM50);
+    TCCR5B = _BV(CS51) | _BV(CS50) | _BV(WGM53) | _BV(WGM52);
+
+    TIMSK5 = _BV(TOIE5);
+#else
+    Serial.println("Software triggered mode enabled.");
+#endif
+}
+
+void Aquaduino::readSensors()
+{
+    int8_t sensorIdx;
+    Sensor* currentSensor;
+
+    for (sensorIdx = 0; sensorIdx < MAX_SENSORS; sensorIdx++)
+    {
+        currentSensor = m_Sensors.get(sensorIdx);
+        if(currentSensor){
+            m_SensorReadings[sensorIdx] = currentSensor->read();
+            m_XiveleyDatastreams[sensorIdx]->setFloat(m_SensorReadings[sensorIdx]);
+        }
+        else
+        {
+            m_SensorReadings[sensorIdx] = 0.0;
+            m_XiveleyDatastreams[sensorIdx]->setFloat(0.0);
+        }
+    }
+}
+
+void Aquaduino::executeControllers()
+{
+    int8_t controllerIdx;
+    Controller* currentController;
+
+    for (controllerIdx = 0; controllerIdx < MAX_CONTROLLERS; controllerIdx++)
+    {
+        currentController = m_Controllers.get(controllerIdx);
+        if (currentController)
+            currentController->run();
+    }
+}
+
+
 /**
  * \brief Top level run method.
  *
@@ -2200,18 +2254,12 @@ int8_t Aquaduino::showWebinterface(WebServer* server,
  */
 void Aquaduino::run()
 {
-    int8_t controllerIdx = -1;
-    int8_t sensorIdx = -1;
-    Controller* currentController;
-    Sensor* currentSensor;
     static int8_t curMin = minute();
 
-    m_Sensors.resetIterator();
-    while ((sensorIdx = m_Sensors.getNext(&currentSensor)) != -1)
-    {
-        m_SensorReadings[sensorIdx] = currentSensor->read();
-        m_XiveleyDatastreams[sensorIdx]->setFloat(m_SensorReadings[sensorIdx]);
-    }
+#ifndef INTERRUPT_DRIVEN
+    readSensors();
+    executeControllers();
+#endif
 
     if (isXivelyEnabled() && minute() != curMin)
     {
@@ -2220,16 +2268,17 @@ void Aquaduino::run()
         Serial.println(m_XivelyClient.put(*m_XivelyFeed, m_XivelyAPIKey));
     }
 
-    m_Controllers.resetIterator();
-    while ((controllerIdx = m_Controllers.getNext(&currentController)) != -1)
-    {
-        currentController->run();
-    }
-
     if (m_WebServer != NULL)
     {
         m_WebServer->processConnection();
     }
+}
+
+ISR(TIMER5_OVF_vect){
+#ifdef INTERRUPT_DRIVEN
+    __aquaduino->readSensors();
+    __aquaduino->executeControllers();
+#endif
 }
 
 int freeRam()
