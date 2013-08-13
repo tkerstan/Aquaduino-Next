@@ -58,7 +58,7 @@
 /**
  * \brief Defines the size of the serialization buffer.
  */
-#define SERIALIZATION_BUFFER        200
+#define SERIALIZATION_BUFFER        500
 
 /**
  * \brief Defines the maximum length of Strings stored in Aquaduino components
