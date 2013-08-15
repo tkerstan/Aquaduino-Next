@@ -1,0 +1,6 @@
+This library allows for parsing template files stored on SD Cards in an
+efficient manner. The class provides the method processTemplateUntilNextMatch.
+This method scans the template for the first occurence of a template string out
+of a set of strings and prints the contents up to the first occurence. This methods allows for the implementation of more complex template structures like cascaded templates. The other method provided is the method processSingleTemplate. This method uses the method processTemplateUntilNextMatch and directly substiutes the given template strings by associated replacement strings. Note that in both cases the template string array is required to be stored in PROGMEM.
+
+Have fun.
