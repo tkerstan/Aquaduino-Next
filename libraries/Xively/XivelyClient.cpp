@@ -119,7 +119,7 @@ int XivelyClient::get(XivelyFeed& aFeed, const char* aApiKey)
             // We've reached the end of the ID string, see if it matches any of the
             // datastreams in the feed
             // But first skip the updated time, to get to the value
-            http.find(",");
+            http.find((char*)",");
             for (int i =0; i < aFeed.size(); i++)
             {
               if ((idBitfield & 1<<i) && (aFeed[i].idLength() == idIdx))

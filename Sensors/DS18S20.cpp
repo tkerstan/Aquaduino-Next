@@ -61,7 +61,6 @@ double DS18S20::read()
     uint8_t data[12];
     int8_t i = 0;
     OneWireHandler* handler = __aquaduino->getOneWireHandler();
-    int8_t crc;
 
     if (!m_ReadPending)
     {

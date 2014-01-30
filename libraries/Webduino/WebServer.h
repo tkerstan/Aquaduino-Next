@@ -140,7 +140,7 @@ extern "C" unsigned long millis(void);
  * when you call nextURLparam AFTER the last parameter is read.  The
  * last actual parameter gets an "OK" return code. */
 
-typedef enum URLPARAM_RESULT { URLPARAM_OK,
+enum URLPARAM_RESULT { URLPARAM_OK,
                                URLPARAM_NAME_OFLO,
                                URLPARAM_VALUE_OFLO,
                                URLPARAM_BOTH_OFLO,

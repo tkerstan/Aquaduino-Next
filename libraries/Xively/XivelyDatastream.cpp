@@ -51,6 +51,7 @@ int XivelyDatastream::updateValue(Stream& aStream)
     }
     break;
   };
+  return 0;
 }
 
 int XivelyDatastream::timedRead(Stream& aStream)
