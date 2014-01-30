@@ -6,6 +6,7 @@
 #include <Actuators/DigitalOutput.h>
 #include <Sensors/DigitalInput.h>
 #include <Sensors/DS18S20.h>
+#include <Sensors/SerialInput.h>
 
 Aquaduino *aquaduino;
 
@@ -60,6 +61,9 @@ void setup()
                 break;
             case SENSOR_DS18S20:
                 aquaduino->addSensor(new DS18S20());
+                break;
+            case SENSOR_SERIALINPUT:
+                aquaduino->addSensor(new SerialInput());
                 break;
             default:
             	Serial.println("Unknown sensor type");
