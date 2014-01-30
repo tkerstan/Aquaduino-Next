@@ -21,8 +21,7 @@
 #ifndef WEBINTERFACE_H_
 #define WEBINTERFACE_H_
 
-#define WEBDUINO_NO_IMPLEMENTATION
-
+#include <Arduino.h>
 #include <WebServer.h>
 
 /**

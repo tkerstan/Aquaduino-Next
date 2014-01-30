@@ -26,20 +26,20 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.lib.debug.258489203." name="/" resourcePath="">
 						<toolChain errorParsers="" id="cdt.managedbuild.toolchain.gnu.cross.lib.debug.1445107012" name="Cross GCC" nonInternalBuilderId="cdt.managedbuild.builder.gnu.cross" superClass="cdt.managedbuild.toolchain.gnu.cross.lib.debug">
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.921560172" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix" value="avr-" valueType="string"/>
-							<option id="cdt.managedbuild.option.gnu.cross.path.1684526125" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path" value="D:\Compiler\avr-gcc-4.7.2-mingw32\bin" valueType="string"/>
+							<option id="cdt.managedbuild.option.gnu.cross.path.1684526125" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path" value="/opt/avr-gcc-4.8.2/bin" valueType="string"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.1894415999" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
-							<builder buildPath="${workspace_loc:/Framework/Debug}" id="cdt.managedbuild.builder.gnu.cross.1778799041" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="cdt.managedbuild.builder.gnu.cross"/>
+							<builder buildPath="${workspace_loc:/Aquaduino-Next}/Debug" id="cdt.managedbuild.builder.gnu.cross.532753177" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="cdt.managedbuild.builder.gnu.cross"/>
 							<tool errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.cross.c.compiler.1766608754" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler">
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.571913288" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" value="gnu.c.optimization.level.size" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.debugging.level.1190345553" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.885227442" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="F_CPU=16000000L"/>
+									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
+									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="USB_VID=NULL"/>
 									<listOptionValue builtIn="false" value="USB_PID=NULL"/>
 									<listOptionValue builtIn="false" value="ARDUINO=103"/>
-									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="__AVR_ATmega2560__"/>
-									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
 								</option>
 								<option id="gnu.c.compiler.option.optimization.flags.684871391" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" value="-ffunction-sections -fdata-sections -fno-exceptions" valueType="string"/>
 								<option id="gnu.c.compiler.option.debugging.other.2053838711" name="Other debugging flags" superClass="gnu.c.compiler.option.debugging.other" value="" valueType="string"/>
@@ -70,16 +70,17 @@
 								<option id="gnu.cpp.compiler.option.debugging.other.344890098" name="Other debugging flags" superClass="gnu.cpp.compiler.option.debugging.other" value="" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1540146458" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="F_CPU=16000000L"/>
+									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
+									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="USB_VID=NULL"/>
 									<listOptionValue builtIn="false" value="USB_PID=NULL"/>
 									<listOptionValue builtIn="false" value="ARDUINO=103"/>
-									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="__AVR_ATmega2560__"/>
-									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
 									<listOptionValue builtIn="false" value="DEBUG"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.744987354" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -mmcu=atmega2560" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.undef.1225201285" name="Undefined symbols (-U)" superClass="gnu.cpp.compiler.option.preprocessor.undef"/>
+								<option id="gnu.cpp.compiler.option.warnings.allwarn.501532547" name="All warnings (-Wall)" superClass="gnu.cpp.compiler.option.warnings.allwarn" value="false" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1044663313" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.784324584" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker"/>
@@ -135,20 +136,20 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.lib.release.1643897995." name="/" resourcePath="">
 						<toolChain errorParsers="" id="cdt.managedbuild.toolchain.gnu.cross.lib.release.457146899" name="Cross GCC" nonInternalBuilderId="cdt.managedbuild.builder.gnu.cross" superClass="cdt.managedbuild.toolchain.gnu.cross.lib.release">
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.1364714851" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix" value="avr-" valueType="string"/>
-							<option id="cdt.managedbuild.option.gnu.cross.path.1566665254" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path" value="D:\Compiler\avr-gcc-4.7.2-mingw32\bin" valueType="string"/>
+							<option id="cdt.managedbuild.option.gnu.cross.path.1566665254" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path" value="/opt/avr-gcc-4.8.2/bin" valueType="string"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.228273347" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
-							<builder buildPath="${workspace_loc:/Framework/Release}" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator" id="cdt.managedbuild.builder.gnu.cross.1993080908" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="cdt.managedbuild.builder.gnu.cross"/>
+							<builder buildPath="${workspace_loc:/Aquaduino-Next}/Release - Os" id="cdt.managedbuild.builder.gnu.cross.78622052" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="cdt.managedbuild.builder.gnu.cross"/>
 							<tool command="gcc" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.cross.c.compiler.1243019753" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler">
 								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.option.optimization.level.721371390" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" value="gnu.c.optimization.level.size" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.debugging.level.107653963" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1217085911" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="F_CPU=16000000L"/>
+									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
+									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="USB_VID=NULL"/>
 									<listOptionValue builtIn="false" value="USB_PID=NULL"/>
 									<listOptionValue builtIn="false" value="ARDUINO=103"/>
-									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="__AVR_ATmega2560__"/>
-									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
 								</option>
 								<option id="gnu.c.compiler.option.optimization.flags.90849195" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" value="-ffunction-sections -fdata-sections -fno-exceptions" valueType="string"/>
 								<option id="gnu.c.compiler.option.debugging.other.1926855709" name="Other debugging flags" superClass="gnu.c.compiler.option.debugging.other" value="" valueType="string"/>
@@ -163,12 +164,12 @@
 								<option id="gnu.cpp.compiler.option.debugging.other.1908718393" name="Other debugging flags" superClass="gnu.cpp.compiler.option.debugging.other" value="" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.992068046" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="F_CPU=16000000L"/>
+									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
+									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="USB_VID=NULL"/>
 									<listOptionValue builtIn="false" value="USB_PID=NULL"/>
 									<listOptionValue builtIn="false" value="ARDUINO=103"/>
-									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="__AVR_ATmega2560__"/>
-									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.74545562" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -mmcu=atmega2560" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1062625164" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
@@ -195,6 +196,7 @@
 								<option id="gnu.cpp.link.option.libs.2089195022" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="c"/>
 									<listOptionValue builtIn="false" value="m"/>
+									<listOptionValue builtIn="false" value="c"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.105320336" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths"/>
 								<option id="gnu.cpp.link.option.flags.802852982" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-Os -Wl,--gc-sections,--relax -mmcu=atmega2560" valueType="string"/>
@@ -243,20 +245,20 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.lib.release.1643897995.1744061750." name="/" resourcePath="">
 						<toolChain errorParsers="" id="cdt.managedbuild.toolchain.gnu.cross.lib.release.1090743354" name="Cross GCC" nonInternalBuilderId="cdt.managedbuild.builder.gnu.cross" superClass="cdt.managedbuild.toolchain.gnu.cross.lib.release">
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.906361906" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix" value="avr-" valueType="string"/>
-							<option id="cdt.managedbuild.option.gnu.cross.path.695800109" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path" value="D:\Compiler\avr-gcc-4.7.2-mingw32\bin" valueType="string"/>
+							<option id="cdt.managedbuild.option.gnu.cross.path.695800109" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path" value="/opt/avr-gcc-4.8.2/bin" valueType="string"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.811442601" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
-							<builder buildPath="${workspace_loc:/Framework/Release}" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator" id="cdt.managedbuild.builder.gnu.cross.629601846" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="cdt.managedbuild.builder.gnu.cross"/>
+							<builder buildPath="${workspace_loc:/Aquaduino-Next}/Release - O2" id="cdt.managedbuild.builder.gnu.cross.298350764" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="cdt.managedbuild.builder.gnu.cross"/>
 							<tool command="gcc" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.cross.c.compiler.7867588" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler">
 								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.option.optimization.level.1822780925" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" value="gnu.c.optimization.level.more" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.debugging.level.2044791847" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.395776479" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="F_CPU=16000000L"/>
+									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
+									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="USB_VID=NULL"/>
 									<listOptionValue builtIn="false" value="USB_PID=NULL"/>
 									<listOptionValue builtIn="false" value="ARDUINO=103"/>
-									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="__AVR_ATmega2560__"/>
-									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
 								</option>
 								<option id="gnu.c.compiler.option.optimization.flags.1216304847" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" value="-ffunction-sections -fdata-sections -fno-exceptions" valueType="string"/>
 								<option id="gnu.c.compiler.option.debugging.other.1011944288" name="Other debugging flags" superClass="gnu.c.compiler.option.debugging.other" value="" valueType="string"/>
@@ -271,12 +273,12 @@
 								<option id="gnu.cpp.compiler.option.debugging.other.1902019826" name="Other debugging flags" superClass="gnu.cpp.compiler.option.debugging.other" value="" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1039493110" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="F_CPU=16000000L"/>
+									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
+									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="USB_VID=NULL"/>
 									<listOptionValue builtIn="false" value="USB_PID=NULL"/>
 									<listOptionValue builtIn="false" value="ARDUINO=103"/>
-									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="__AVR_ATmega2560__"/>
-									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.942486489" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -mmcu=atmega2560" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.include.paths.401803488" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
@@ -303,9 +305,10 @@
 								<option id="gnu.cpp.link.option.libs.544267040" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="c"/>
 									<listOptionValue builtIn="false" value="m"/>
+									<listOptionValue builtIn="false" value="c"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1279008695" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths"/>
-								<option id="gnu.cpp.link.option.flags.1096349681" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-O2 -Wl,--gc-sections,--relax -mmcu=atmega2560" valueType="string"/>
+								<option id="gnu.cpp.link.option.flags.1096349681" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-Os -Wl,--gc-sections,--relax -mmcu=atmega2560" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.494301580" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -336,25 +339,41 @@
 		<configuration configurationName="Release">
 			<resource resourceType="PROJECT" workspacePath="/Aquaduino"/>
 		</configuration>
+		<configuration configurationName="Release - O2"/>
+		<configuration configurationName="Release - Os"/>
 		<configuration configurationName="Debug">
 			<resource resourceType="PROJECT" workspacePath="/Aquaduino"/>
 		</configuration>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
+		<buildTargets>
+			<target name="hex" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+				<buildCommand>make</buildCommand>
+				<buildTarget>hex</buildTarget>
+				<stopOnError>true</stopOnError>
+				<useDefaultCommand>true</useDefaultCommand>
+				<runAllBuilders>true</runAllBuilders>
+			</target>
+			<target name="upload" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+				<buildCommand>make</buildCommand>
+				<buildTarget>upload</buildTarget>
+				<stopOnError>true</stopOnError>
+				<useDefaultCommand>true</useDefaultCommand>
+				<runAllBuilders>true</runAllBuilders>
+			</target>
+			<target name="size" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+				<buildCommand>make</buildCommand>
+				<buildArguments/>
+				<buildTarget>size</buildTarget>
+				<stopOnError>true</stopOnError>
+				<useDefaultCommand>true</useDefaultCommand>
+				<runAllBuilders>true</runAllBuilders>
+			</target>
+		</buildTargets>
+	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.lib.debug.258489203;cdt.managedbuild.config.gnu.cross.lib.debug.258489203.;cdt.managedbuild.tool.gnu.cross.cpp.compiler.1011815318;cdt.managedbuild.tool.gnu.cpp.compiler.input.1044663313">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
-			<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP">
-				<buildOutputProvider>
-					<openAction enabled="true" filePath=""/>
-					<parser enabled="true"/>
-				</buildOutputProvider>
-				<scannerInfoProvider id="specsFile">
-					<runAction arguments="-E -P -v -dD &quot;${plugin_state_location}/specs.cpp&quot;" command="avr-g++" useDefault="true"/>
-					<parser enabled="true"/>
-				</scannerInfoProvider>
-			</profile>
-		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.lib.release.1643897995;cdt.managedbuild.config.gnu.cross.lib.release.1643897995.;cdt.managedbuild.tool.gnu.cross.c.compiler.1243019753;cdt.managedbuild.tool.gnu.c.compiler.input.320544101">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
 			<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC">
@@ -364,6 +383,19 @@
 				</buildOutputProvider>
 				<scannerInfoProvider id="specsFile">
 					<runAction arguments="-E -P -v -dD &quot;${plugin_state_location}/specs.c&quot;" command="avr-gcc" useDefault="true"/>
+					<parser enabled="true"/>
+				</scannerInfoProvider>
+			</profile>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.lib.debug.258489203;cdt.managedbuild.config.gnu.cross.lib.debug.258489203.;cdt.managedbuild.tool.gnu.cross.cpp.compiler.1011815318;cdt.managedbuild.tool.gnu.cpp.compiler.input.1044663313">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
+			<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP">
+				<buildOutputProvider>
+					<openAction enabled="true" filePath=""/>
+					<parser enabled="true"/>
+				</buildOutputProvider>
+				<scannerInfoProvider id="specsFile">
+					<runAction arguments="-E -P -v -dD &quot;${plugin_state_location}/specs.cpp&quot;" command="avr-g++" useDefault="true"/>
 					<parser enabled="true"/>
 				</scannerInfoProvider>
 			</profile>
@@ -394,32 +426,11 @@
 				</scannerInfoProvider>
 			</profile>
 		</scannerConfigBuildInfo>
-	</storageModule>
-	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
-	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
-		<buildTargets>
-			<target name="hex" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
-				<buildCommand>make</buildCommand>
-				<buildTarget>hex</buildTarget>
-				<stopOnError>true</stopOnError>
-				<useDefaultCommand>true</useDefaultCommand>
-				<runAllBuilders>true</runAllBuilders>
-			</target>
-			<target name="upload" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
-				<buildCommand>make</buildCommand>
-				<buildTarget>upload</buildTarget>
-				<stopOnError>true</stopOnError>
-				<useDefaultCommand>true</useDefaultCommand>
-				<runAllBuilders>true</runAllBuilders>
-			</target>
-			<target name="size" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
-				<buildCommand>make</buildCommand>
-				<buildArguments/>
-				<buildTarget>size</buildTarget>
-				<stopOnError>true</stopOnError>
-				<useDefaultCommand>true</useDefaultCommand>
-				<runAllBuilders>true</runAllBuilders>
-			</target>
-		</buildTargets>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.lib.release.1643897995.1744061750;cdt.managedbuild.config.gnu.cross.lib.release.1643897995.1744061750.;cdt.managedbuild.tool.gnu.cross.c.compiler.7867588;cdt.managedbuild.tool.gnu.c.compiler.input.1954744589">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.lib.release.1643897995.1744061750;cdt.managedbuild.config.gnu.cross.lib.release.1643897995.1744061750.;cdt.managedbuild.tool.gnu.cross.cpp.compiler.1198271205;cdt.managedbuild.tool.gnu.cpp.compiler.input.1147359812">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
+		</scannerConfigBuildInfo>
 	</storageModule>
 </cproject>
