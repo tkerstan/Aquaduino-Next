@@ -127,18 +127,6 @@ Aquaduino::Aquaduino() :
 
     readConfig(this);
 
-    for (i = 0; i < MAX_SENSORS; i++)
-    {
-        m_XiveleyDatastreams[i] =
-                new XivelyDatastream(m_XivelyChannelNames[i],
-                                     strlen(m_XivelyChannelNames[i]),
-                                     DATASTREAM_FLOAT);
-    }
-
-    m_XivelyFeed = new XivelyFeed(atol(m_XivelyFeedName),
-                                  m_XiveleyDatastreams,
-                                  MAX_SENSORS);
-
     if (m_DHCP)
     {
         Serial.println(F("Waiting for DHCP reply..."));
@@ -459,6 +447,37 @@ void Aquaduino::setTime(int8_t hour, int8_t minute, int8_t second, int8_t day,
 {
     if (!m_NTP)
         ::setTime(hour, minute, second, day, month, year);
+}
+
+/**
+ * \brief Enables Xively.
+ *
+ * Enables the Xively flag. When this flag is set sensor data with valid
+ * Xively channels will be send to Xively.
+ */
+
+void Aquaduino::initXively()
+{
+    Serial.print(F("Xively API Key: "));
+    Serial.println(m_XivelyAPIKey);
+
+    Serial.print(F("Xively Feed: "));
+    Serial.println(m_XivelyFeedName);
+    Serial.println(F("Xively Channels:"));
+    for (uint8_t i = 0; i < getNrOfSensors(); i++)
+    {
+        Serial.print(i);
+        Serial.print(":");
+        Serial.println(m_XivelyChannelNames[i]);
+        m_XiveleyDatastreams[i] =
+                new XivelyDatastream(m_XivelyChannelNames[i],
+                                     strlen(m_XivelyChannelNames[i]),
+                                     DATASTREAM_FLOAT);
+    }
+
+    m_XivelyFeed = new XivelyFeed(atol(m_XivelyFeedName),
+                                  m_XiveleyDatastreams,
+                                  getNrOfSensors());
 }
 
 /**

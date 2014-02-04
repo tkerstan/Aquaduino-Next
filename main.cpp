@@ -70,6 +70,8 @@ void setup()
         }
     }
 
+    aquaduino->initXively();
+
     aquaduino->startTimer();
 }
 

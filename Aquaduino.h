@@ -98,6 +98,7 @@ public:
                  int8_t month, int16_t year);
 
 
+    void initXively();
     void enableXively();
     void disableXively();
     int8_t isXivelyEnabled();
