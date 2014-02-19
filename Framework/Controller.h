@@ -23,7 +23,6 @@
 
 #include "Object.h"
 #include "Serializable.h"
-#include "WebInterface.h"
 #include "FrameworkConfig.h"
 
 /**
@@ -41,7 +40,7 @@
  * When the controller shall be configurable throuh the web it needs to
  * implement the WebInterface interface.
  */
-class Controller: public Object, public Serializable, public WebInterface
+class Controller: public Object, public Serializable
 {
 public:
     Controller(const char* name);
@@ -52,9 +51,6 @@ public:
      * Called by Aquaduino::run
      */
     virtual int8_t run() = 0;
-    virtual int8_t showWebinterface(WebServer* server,
-                                    WebServer::ConnectionType type,
-                                    char* url) = 0;
 
 protected:
     virtual ~Controller();

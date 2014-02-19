@@ -53,9 +53,6 @@ public:
     virtual void setPWM(float dutyCycle);
     virtual float getPWM();
 
-    virtual int8_t showWebinterface(WebServer* server,
-                                    WebServer::ConnectionType type, char* url);
-
 };
 
 #endif /* DIGITALOUTPUT_H_ */

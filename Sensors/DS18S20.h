@@ -41,8 +41,6 @@ public:
 
     uint16_t serialize(void* buffer, uint16_t size);
     uint16_t deserialize(void* data, uint16_t size);
-    int8_t showWebinterface(WebServer* server, WebServer::ConnectionType type,
-                            char* url);
 
 private:
     uint16_t convertToRaw(uint8_t* data, uint8_t size, int8_t type);

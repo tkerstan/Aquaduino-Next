@@ -41,9 +41,7 @@ public:
     virtual uint16_t deserialize(void* data, uint16_t size);
 
     virtual int8_t run();
-    virtual int8_t showWebinterface(WebServer* server,
-                                    WebServer::ConnectionType type,
-                                    char* url);
+
 private:
     int8_t m_Sensor;
     double m_RefTemp1;

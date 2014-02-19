@@ -25,7 +25,6 @@
 #include "FrameworkConfig.h"
 #include "Controller.h"
 #include "Serializable.h"
-#include "WebInterface.h"
 
 class Controller;
 
@@ -44,7 +43,7 @@ class Controller;
  * stored here. The index can then be stored directly in a configuration file
  * by the ConfigManager.
  */
-class Actuator: public Object, public Serializable, public WebInterface
+class Actuator: public Object, public Serializable
 {
 private:
     Actuator(const Actuator&);

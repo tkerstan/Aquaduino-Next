@@ -23,7 +23,6 @@
 
 #include <stdint.h>
 #include <Framework/ObjectTypes.h>
-#include <Framework/Colors.h>
 
 /**
  * \brief Defines the maximum number of controllers the system can manage

@@ -34,12 +34,11 @@
 								<option id="gnu.c.compiler.option.debugging.level.1190345553" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.885227442" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="F_CPU=16000000L"/>
-									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
-									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="USB_VID=NULL"/>
 									<listOptionValue builtIn="false" value="USB_PID=NULL"/>
-									<listOptionValue builtIn="false" value="ARDUINO=103"/>
+									<listOptionValue builtIn="false" value="ARDUINO=105"/>
 									<listOptionValue builtIn="false" value="__AVR_ATmega2560__"/>
+									<listOptionValue builtIn="false" value="DEBUG"/>
 								</option>
 								<option id="gnu.c.compiler.option.optimization.flags.684871391" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" value="-ffunction-sections -fdata-sections -fno-exceptions" valueType="string"/>
 								<option id="gnu.c.compiler.option.debugging.other.2053838711" name="Other debugging flags" superClass="gnu.c.compiler.option.debugging.other" value="" valueType="string"/>
@@ -70,11 +69,9 @@
 								<option id="gnu.cpp.compiler.option.debugging.other.344890098" name="Other debugging flags" superClass="gnu.cpp.compiler.option.debugging.other" value="" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1540146458" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="F_CPU=16000000L"/>
-									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
-									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="USB_VID=NULL"/>
 									<listOptionValue builtIn="false" value="USB_PID=NULL"/>
-									<listOptionValue builtIn="false" value="ARDUINO=103"/>
+									<listOptionValue builtIn="false" value="ARDUINO=105"/>
 									<listOptionValue builtIn="false" value="__AVR_ATmega2560__"/>
 									<listOptionValue builtIn="false" value="DEBUG"/>
 								</option>
@@ -132,23 +129,21 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.config.gnu.cross.lib.release.1643897995" name="Release - Os" parent="cdt.managedbuild.config.gnu.cross.lib.release" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.config.gnu.cross.lib.release.1643897995" name="Release - Os" parent="cdt.managedbuild.config.gnu.cross.lib.release" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.lib.release.1643897995." name="/" resourcePath="">
 						<toolChain errorParsers="" id="cdt.managedbuild.toolchain.gnu.cross.lib.release.457146899" name="Cross GCC" nonInternalBuilderId="cdt.managedbuild.builder.gnu.cross" superClass="cdt.managedbuild.toolchain.gnu.cross.lib.release">
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.1364714851" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix" value="avr-" valueType="string"/>
 							<option id="cdt.managedbuild.option.gnu.cross.path.1566665254" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path" value="/opt/avr-gcc-4.8.2/bin" valueType="string"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.228273347" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
-							<builder buildPath="${workspace_loc:/Aquaduino-Next}/Release - Os" id="cdt.managedbuild.builder.gnu.cross.78622052" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="cdt.managedbuild.builder.gnu.cross"/>
+							<builder buildPath="${workspace_loc:/Aquaduino-Next}/Release - Os" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator" id="cdt.managedbuild.builder.gnu.cross.78622052" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="cdt.managedbuild.builder.gnu.cross"/>
 							<tool command="gcc" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.cross.c.compiler.1243019753" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler">
 								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.option.optimization.level.721371390" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" value="gnu.c.optimization.level.size" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.debugging.level.107653963" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1217085911" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="F_CPU=16000000L"/>
-									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
-									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="USB_VID=NULL"/>
 									<listOptionValue builtIn="false" value="USB_PID=NULL"/>
-									<listOptionValue builtIn="false" value="ARDUINO=103"/>
+									<listOptionValue builtIn="false" value="ARDUINO=105"/>
 									<listOptionValue builtIn="false" value="__AVR_ATmega2560__"/>
 								</option>
 								<option id="gnu.c.compiler.option.optimization.flags.90849195" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" value="-ffunction-sections -fdata-sections -fno-exceptions" valueType="string"/>
@@ -164,11 +159,9 @@
 								<option id="gnu.cpp.compiler.option.debugging.other.1908718393" name="Other debugging flags" superClass="gnu.cpp.compiler.option.debugging.other" value="" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.992068046" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="F_CPU=16000000L"/>
-									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
-									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="USB_VID=NULL"/>
 									<listOptionValue builtIn="false" value="USB_PID=NULL"/>
-									<listOptionValue builtIn="false" value="ARDUINO=103"/>
+									<listOptionValue builtIn="false" value="ARDUINO=105"/>
 									<listOptionValue builtIn="false" value="__AVR_ATmega2560__"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.74545562" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -mmcu=atmega2560" valueType="string"/>
@@ -253,11 +246,9 @@
 								<option id="gnu.c.compiler.option.debugging.level.2044791847" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.395776479" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="F_CPU=16000000L"/>
-									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
-									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="USB_VID=NULL"/>
 									<listOptionValue builtIn="false" value="USB_PID=NULL"/>
-									<listOptionValue builtIn="false" value="ARDUINO=103"/>
+									<listOptionValue builtIn="false" value="ARDUINO=105"/>
 									<listOptionValue builtIn="false" value="__AVR_ATmega2560__"/>
 								</option>
 								<option id="gnu.c.compiler.option.optimization.flags.1216304847" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" value="-ffunction-sections -fdata-sections -fno-exceptions" valueType="string"/>
@@ -273,11 +264,9 @@
 								<option id="gnu.cpp.compiler.option.debugging.other.1902019826" name="Other debugging flags" superClass="gnu.cpp.compiler.option.debugging.other" value="" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1039493110" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="F_CPU=16000000L"/>
-									<listOptionValue builtIn="false" value="WEBDUINO_NO_IMPLEMENTATION"/>
-									<listOptionValue builtIn="false" value="__AVR_LIBC_DEPRECATED_ENABLE__=1"/>
 									<listOptionValue builtIn="false" value="USB_VID=NULL"/>
 									<listOptionValue builtIn="false" value="USB_PID=NULL"/>
-									<listOptionValue builtIn="false" value="ARDUINO=103"/>
+									<listOptionValue builtIn="false" value="ARDUINO=105"/>
 									<listOptionValue builtIn="false" value="__AVR_ATmega2560__"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.942486489" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -mmcu=atmega2560" valueType="string"/>
