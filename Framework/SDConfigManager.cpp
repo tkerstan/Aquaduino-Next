@@ -42,16 +42,20 @@ SDConfigManager::SDConfigManager(const char* folder)
 {
     File f;
 
-    strncpy(m_folder, folder, PREFIX_LENGTH - 1);
-    m_folder[PREFIX_LENGTH - 1] = 0;
+    if (folder == NULL){
+        m_folder[0] = 0;
+    } else {
+        strncpy(m_folder, folder, PREFIX_LENGTH - 1);
+        m_folder[PREFIX_LENGTH - 1] = 0;
 
-    if (!SD.exists(m_folder))
-        SD.mkdir(m_folder);
-    else
-    {
-        f = SD.open(m_folder, FILE_READ);
-        if (!f.isDirectory())
-            m_folder[0] = 0;
+        if (!SD.exists(m_folder))
+            SD.mkdir(m_folder);
+        else
+        {
+            f = SD.open(m_folder, FILE_READ);
+            if (!f.isDirectory())
+                m_folder[0] = 0;
+        }
     }
 }
 
@@ -94,11 +98,6 @@ int8_t SDConfigManager::writeConfig(Aquaduino* aquaduino)
 
     if (serializedBytes)
     {
-        config.objectType = AQUADUINO;
-        config.controllerIdx = -1;
-        config.actuatorIdx = -1;
-        config.sensorIdx = -1;
-
         writtenBytes = writeStructToFile("aqua.cfg", &config);
 
         if (writtenBytes != sizeof(struct configuration))
@@ -127,12 +126,6 @@ int8_t SDConfigManager::writeConfig(Actuator* actuator)
 
     if (serializedBytes)
     {
-        config.controllerIdx = actuator->getController();
-        config.objectType = actuator->getType();
-        config.actuatorIdx = id;
-        config.sensorIdx = -1;
-        strcpy(config.name, actuator->getName());
-
         writtenBytes = writeStructToFile(fileName, &config);
 
         if (writtenBytes != sizeof(struct configuration))
@@ -160,14 +153,7 @@ int8_t SDConfigManager::writeConfig(Controller* controller)
 
     if (serializedBytes)
     {
-        config.controllerIdx = id;
-        config.objectType = controller->getType();
-        config.actuatorIdx = -1;
-        config.sensorIdx = -1;
-        strcpy(config.name, controller->getName());
-
         writtenBytes = writeStructToFile(fileName, &config);
-
         if (writtenBytes != sizeof(struct configuration))
             return -1;
     }
@@ -193,12 +179,6 @@ int8_t SDConfigManager::writeConfig(Sensor* sensor)
 
     if (serializedBytes)
     {
-        config.controllerIdx = -1;
-        config.objectType = sensor->getType();
-        config.actuatorIdx = -1;
-        config.sensorIdx = -1;
-        strcpy(config.name, sensor->getName());
-
         writtenBytes = writeStructToFile(fileName, &config);
 
         if (writtenBytes != sizeof(struct configuration))
@@ -218,8 +198,7 @@ int8_t SDConfigManager::readConfig(Aquaduino* aquaduino)
 
     if (readBytes == sizeof(struct configuration))
     {
-        if (aquaduino->getType() == config.objectType)
-            aquaduino->deserialize(config.data, bufferSize);
+        aquaduino->deserialize(config.data, bufferSize);
     }
 
     return 0;
@@ -241,14 +220,10 @@ int8_t SDConfigManager::readConfig(Actuator* actuator)
 
     readBytes = readStructFromFile(fileName, &config);
 
-    if (readBytes == sizeof(struct configuration))
+    if (readBytes != sizeof(struct configuration))
     {
-        if (actuator->getType() == config.objectType)
-            actuator->deserialize(config.data, bufferSize);
-        actuator->setName(config.name);
-        actuator->setController(config.controllerIdx);
+      return readBytes;
     }
-
     return 0;
 }
 
@@ -268,13 +243,10 @@ int8_t SDConfigManager::readConfig(Controller* controller)
 
     readBytes = readStructFromFile(fileName, &config);
 
-    if (readBytes == sizeof(struct configuration))
+    if (readBytes != sizeof(struct configuration))
     {
-        if (controller->getType() == config.objectType)
-            controller->deserialize(config.data, bufferSize);
-        controller->setName(config.name);
+        return readBytes;
     }
-
     return 0;
 }
 
@@ -294,11 +266,9 @@ int8_t SDConfigManager::readConfig(Sensor* sensor)
 
     readBytes = readStructFromFile(fileName, &config);
 
-    if (readBytes == sizeof(struct configuration))
+    if (readBytes != sizeof(struct configuration))
     {
-        if (sensor->getType() == config.objectType)
-            sensor->deserialize(config.data, bufferSize);
-        sensor->setName(config.name);
+        return readBytes;
     }
 
     return 0;
