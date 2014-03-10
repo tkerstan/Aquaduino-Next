@@ -40,7 +40,7 @@ struct configuration
     /**
      * \brief Name of the component
      */
-    char name[AQUADUINO_STRING_LENGTH];
+    //char name[AQUADUINO_STRING_LENGTH];
 
     /**
      * \brief type of the component
@@ -48,14 +48,14 @@ struct configuration
      * The type can be used to identify whether the data is suitable for
      * deserialization in a specific component.
      */
-    uint8_t objectType;
+    //uint8_t objectType;
 
     /**
      * \brief Index of the associated controller.
      *
      * This field can be used to store the associated controller of a component
      */
-    int8_t controllerIdx;
+    //int8_t controllerIdx;
 
     /**
      * \brief Index of the associated actuator.
@@ -63,7 +63,7 @@ struct configuration
      * This field can be used to store the associated actuator of a component.
      * Not used yet.
      */
-    int8_t actuatorIdx;
+    //int8_t actuatorIdx;
 
     /**
      * \brief Index of the associated sensor.
@@ -71,7 +71,7 @@ struct configuration
      * This field can be used to store the associated sensor of a component.
      * Not used yet.
      */
-    int8_t sensorIdx;
+    //int8_t sensorIdx;
 
     /**
      * \brief Buffer for user data
