@@ -13,13 +13,13 @@ Aquaduino *aquaduino;
 void setup()
 {
     int8_t i;
-    int8_t actuatorConfig[MAX_ACTUATORS] = ACTUATOR_CONFIG;
+/*    int8_t actuatorConfig[MAX_ACTUATORS] = ACTUATOR_CONFIG;
     int8_t controllerConfig[MAX_CONTROLLERS] = CONTROLLER_CONFIG;
-    int8_t sensorConfig[MAX_SENSORS] = SENSOR_CONFIG;
+    int8_t sensorConfig[MAX_SENSORS] = SENSOR_CONFIG;*/
 
     aquaduino = new Aquaduino();
 
-    Serial.println(F("Initializing actuators..."));
+/*    Serial.println(F("Initializing actuators..."));
     for (i = 0; i < ACTUATORS; i++)
     {
         switch (actuatorConfig[i])
@@ -68,7 +68,7 @@ void setup()
             default:
             	Serial.println("Unknown sensor type");
         }
-    }
+    } */
 
     aquaduino->initXively();
 
