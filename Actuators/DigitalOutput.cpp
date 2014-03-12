@@ -216,3 +216,14 @@ float DigitalOutput::getPWM()
 {
     return m_DutyCycle;
 }
+
+void DigitalOutput::setPin(uint8_t pin)
+{
+    m_Pin = pin;
+}
+
+uint8_t DigitalOutput::getPin()
+{
+    return m_Pin;
+}
+

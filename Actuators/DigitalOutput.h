@@ -53,6 +53,9 @@ public:
     virtual void setPWM(float dutyCycle);
     virtual float getPWM();
 
+    void setPin(uint8_t pin);
+    uint8_t getPin();
+
 };
 
 #endif /* DIGITALOUTPUT_H_ */

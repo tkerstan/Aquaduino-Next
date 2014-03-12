@@ -137,3 +137,13 @@ uint16_t DS18S20::deserialize(void* data, uint16_t size)
         m_Idx = handler->addPin(m_Pin);
     return sizeof(m_Pin) + sizeof(m_Address);
 }
+
+void  DS18S20::setPin(uint8_t pin)
+{
+    m_Pin = pin;
+}
+
+uint8_t DS18S20::getPin()
+{
+    return m_Pin;
+}

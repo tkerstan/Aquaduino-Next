@@ -34,6 +34,8 @@ public:
 
     uint16_t serialize(void* buffer, uint16_t size);
     uint16_t deserialize(void* data, uint16_t size);
+    void setPin(uint8_t pin);
+    uint8_t getPin();
 
 private:
     unsigned char m_Pin;

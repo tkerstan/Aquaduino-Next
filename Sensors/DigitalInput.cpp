@@ -54,3 +54,13 @@ uint16_t DigitalInput::deserialize(void* data, uint16_t size)
     pinMode(m_Pin, INPUT);
     return sizeof(m_Pin);
 }
+
+void  DigitalInput::setPin(uint8_t pin)
+{
+    m_Pin = pin;
+}
+
+uint8_t DigitalInput::getPin()
+{
+    return m_Pin;
+}
