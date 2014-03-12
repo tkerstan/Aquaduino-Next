@@ -53,6 +53,7 @@
 #include <Actuators/DigitalOutput.h>
 #include <Sensors/DS18S20.h>
 #include <Sensors/DigitalInput.h>
+#include <Sensors/SerialInput.h>
 #include <SD.h>
 #include <Time.h>
 #include <EthernetUdp.h>
@@ -103,10 +104,11 @@ Aquaduino::Aquaduino() :
     if (!SD.begin(4))
     {
         Serial.println(F("No SD Card available"));
-        while(1);
+        while (1)
+            ;
     }
 
-    m_ConfigManager = new SDConfigManager("config");
+    m_ConfigManager = new SDConfigManager();
 
     m_MAC[0] = 0xDE;
     m_MAC[1] = 0xAD;
@@ -708,7 +710,8 @@ int8_t Aquaduino::getAssignedActuators(Controller* controller,
     for (actuatorIdx = 0; actuatorIdx < MAX_ACTUATORS; actuatorIdx++)
     {
         currentActuator = m_Actuators.get(actuatorIdx);
-        if (currentActuator && currentActuator->getController() == controllerIdx)
+        if (currentActuator && currentActuator->getController()
+                == controllerIdx)
         {
             if (nrOfAssignedActuators < max)
                 actuators[nrOfAssignedActuators] = currentActuator;
@@ -743,7 +746,8 @@ int8_t Aquaduino::getAssignedActuatorIDs(Controller* controller,
     for (actuatorIdx = 0; actuatorIdx < MAX_ACTUATORS; actuatorIdx++)
     {
         currentActuator = m_Actuators.get(actuatorIdx);
-        if (currentActuator && currentActuator->getController() == controllerIdx)
+        if (currentActuator && currentActuator->getController()
+                == controllerIdx)
         {
             if (nrOfAssignedActuators < max)
                 actuatorIDs[nrOfAssignedActuators] = actuatorIdx;
@@ -892,39 +896,298 @@ uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
 uint16_t Aquaduino::deserialize(void* data, uint16_t size)
 {
     uint8_t* bPtr = (uint8_t*) data;
+    uint16_t stringLength = 0;
+    uint16_t xivelyFeedNameLength = 0;
+    uint16_t xivelyApiKeyLength = 0;
+    uint16_t xivelyChannelNameLength = 0;
+    uint16_t nrOfActuators = 0;
+    uint16_t nrOfControllers = 0;
+    uint16_t nrOfSensors = 0;
+    uint16_t calculatedSize = 0;
+    uint8_t* namePtr = 0;
+    uint8_t* typePtr = 0;
+    uint8_t* portPtr = 0;
+    uint16_t i = 0;
 
-    if (m_Size > size || data == NULL)
+    if (size >= 7)
+    {
+        stringLength = bPtr[0];
+        xivelyFeedNameLength = bPtr[1];
+        xivelyApiKeyLength = bPtr[2];
+        xivelyChannelNameLength = bPtr[3];
+        nrOfActuators = bPtr[4];
+        nrOfControllers = bPtr[5];
+        nrOfSensors = bPtr[6];
+        Serial.print(F("stringLength = "));
+        Serial.println(stringLength);
+        Serial.print(F("xivelyFeedNameLength = "));
+        Serial.println(xivelyFeedNameLength);
+        Serial.print(F("xivelyApiKeyLength = "));
+        Serial.println(xivelyApiKeyLength);
+        Serial.print(F("xivelyChannelNameLength = "));
+        Serial.println(xivelyChannelNameLength);
+        Serial.print(F("nrOfActuators = "));
+        Serial.println(nrOfActuators);
+        Serial.print(F("nrOfControllers = "));
+        Serial.println(nrOfControllers);
+        Serial.print(F("nrOfSensors = "));
+        Serial.println(nrOfSensors);
+    }
+
+    // See Main.java in Aquaduino-Config for calculation
+    calculatedSize = 7
+            + ((nrOfActuators + nrOfControllers + nrOfSensors) * stringLength)
+            + (2 * nrOfActuators) + nrOfControllers + (2 * nrOfSensors)
+            + (nrOfSensors * xivelyChannelNameLength) + 6 + 1 + 4 + 4 + 4 + 1
+            + 4 + 1 + 1 + 1 + xivelyApiKeyLength + xivelyFeedNameLength;
+    Serial.print(calculatedSize);
+    Serial.print("?=");
+    Serial.println(size);
+
+    if ((calculatedSize != size) || (stringLength != AQUADUINO_STRING_LENGTH)
+        || (xivelyFeedNameLength != XIVELY_FEED_NAME_LENGTH)
+        || (xivelyApiKeyLength != XIVELY_API_KEY_LENGTH)
+        || (xivelyChannelNameLength != XIVELY_CHANNEL_NAME_LENGTH)
+        || (nrOfActuators > MAX_ACTUATORS)
+        || (nrOfControllers > MAX_CONTROLLERS) || (nrOfSensors > MAX_SENSORS))
+    {
+        Serial.println(F("Invalid configuration file!"));
         return 0;
+    }
 
-    memcpy(m_MAC, bPtr, sizeof(m_MAC));
+    bPtr += 7;
+
+    for (i = 0; i < nrOfActuators; i++)
+    {
+
+        char* name = (char*) (bPtr);
+        uint8_t typeId = bPtr[stringLength];
+        uint8_t portId = bPtr[stringLength+1];
+        bPtr += stringLength + 2;
+        Actuator* actuator;
+        int8_t idx;
+
+        switch(typeId){
+        case 1:
+            actuator = new DigitalOutput(name, 1, 0);
+            ((DigitalOutput*) actuator)->setPin(portId);
+            break;
+        default:
+            actuator = NULL;
+            break;
+        }
+
+        if ( (actuator != NULL) && (idx = __aquaduino->addActuator(actuator)) != -1)
+        {
+            Serial.print(F("Added actuator "));
+            Serial.print(name);
+            Serial.print(F(" @ index "));
+            Serial.println(idx);
+
+        }
+    }
+
+    for (i = 0; i < nrOfControllers; i++)
+    {
+
+        char* name = (char*) (bPtr);
+        uint8_t typeId = bPtr[stringLength];
+        bPtr += stringLength + 1;
+        Controller* controller;
+        int8_t idx;
+
+        switch(typeId){
+        case 1:
+            controller = new LevelController(name);
+            break;
+        case 2:
+            controller = new TemperatureController(name);
+            break;
+        case 3:
+            controller = new LevelController(name);
+            break;
+        default:
+            controller = NULL;
+            break;
+        }
+
+        if ( (controller != NULL) && (idx = __aquaduino->addController(controller)) != -1)
+        {
+            Serial.print(F("Added controller "));
+            Serial.print(name);
+            Serial.print(F(" @ index "));
+            Serial.println(idx);
+        }
+    }
+
+    for (i = 0; i < nrOfSensors; i++)
+    {
+
+        char* name = (char*) (bPtr);
+        uint8_t typeId = bPtr[stringLength];
+        uint8_t portId = bPtr[stringLength+1];
+        char* xivelyFeed = (char*) &bPtr[stringLength+2];
+        bPtr += stringLength + 2 + xivelyChannelNameLength;
+        Sensor* sensor;
+        int8_t idx;
+
+        switch(typeId){
+        case 1:
+            sensor = new DigitalInput();
+            ((DigitalInput*) sensor)->setPin(portId);
+            break;
+        case 2:
+            sensor = new DS18S20();
+            ((DS18S20*) sensor)->setPin(portId);
+            break;
+        case 3:
+            sensor = new SerialInput();
+            break;
+        default:
+            sensor = NULL;
+            break;
+        }
+
+        if ( (sensor != NULL) && (idx = __aquaduino->addSensor(sensor)) != -1)
+        {
+            sensor->setName(name);
+            memcpy(m_XivelyChannelNames[idx], xivelyFeed, xivelyChannelNameLength);
+            Serial.print(F("Added sensor "));
+            Serial.print(name);
+            Serial.print(F(" @ index "));
+            Serial.print(idx);
+            Serial.print(F(" posting to Xively Channel \""));
+            Serial.print(xivelyFeed);
+            Serial.println(F("\""));
+        }
+    }
+    memcpy(&m_MAC, bPtr, sizeof(m_MAC));
     bPtr += sizeof(m_MAC);
-    memcpy(&m_IP[0], bPtr, sizeof(uint32_t));
-    bPtr += sizeof(uint32_t);
-    memcpy(&m_Netmask[0], bPtr, sizeof(uint32_t));
-    bPtr += sizeof(uint32_t);
-    memcpy(&m_DNSServer[0], bPtr, sizeof(uint32_t));
-    bPtr += sizeof(uint32_t);
-    memcpy(&m_Gateway[0], bPtr, sizeof(uint32_t));
-    bPtr += sizeof(uint32_t);
-    memcpy(&m_NTPServer[0], bPtr, sizeof(uint32_t));
-    bPtr += sizeof(uint32_t);
-    memcpy(&m_NTPSyncInterval, bPtr, sizeof(m_NTPSyncInterval));
-    bPtr += sizeof(m_NTPSyncInterval);
+    Serial.print(F("MAC: "));
+    for (int i = 0; i < sizeof(m_MAC); i++){
+        Serial.print(m_MAC[i], HEX);
+        if (i != sizeof(m_MAC)-1)
+            Serial.print(":");
+    }
+    Serial.println();
+
     memcpy(&m_DHCP, bPtr, sizeof(m_DHCP));
     bPtr += sizeof(m_DHCP);
-    memcpy(&m_NTP, bPtr, sizeof(m_NTP));
+    Serial.print(F("DHCP: "));
+    Serial.println(m_DHCP);
+
+    memcpy(&m_IP[0], bPtr, 4);
+    bPtr += 4;
+    Serial.print(F("IP: "));
+    for (int i = 0; i < 4; i++){
+        Serial.print(m_IP[i]);
+        if (i != 3)
+            Serial.print(".");
+
+    }
+    Serial.println();
+
+
+    memcpy(&m_Netmask[0], bPtr, 4);
+    bPtr += 4;
+    Serial.print(F("Netmask: "));
+    for (int i = 0; i < 4; i++){
+        Serial.print(m_Netmask[i]);
+        if (i != 3)
+            Serial.print(".");
+
+    }
+    Serial.println();
+
+    memcpy(&m_Gateway[0], bPtr, 4);
+    bPtr += 4;
+    Serial.print(F("Gateway: "));
+    for (int i = 0; i < 4; i++){
+        Serial.print(m_Gateway[i]);
+        if (i != 3)
+            Serial.print(".");
+
+    }
+    Serial.println();
+
+    memcpy(&m_NTP, bPtr, 4);
     bPtr += sizeof(m_NTP);
+    Serial.print(F("NTP: "));
+    Serial.println(m_NTP);
+
+
+    memcpy(&m_NTPServer[0], bPtr, 4);
+    bPtr += 4;
+    Serial.print(F("NTP Server: "));
+    for (int i = 0; i < 4; i++){
+        Serial.print(m_NTPServer[i]);
+        if (i != 3)
+            Serial.print(".");
+
+    }
+    Serial.println();
+
+    memcpy(&m_NTPSyncInterval, bPtr, sizeof(m_NTPSyncInterval));
+    bPtr += sizeof(m_NTPSyncInterval);
+    Serial.print(F("NTP Sync Interval: "));
+    Serial.println(m_NTPSyncInterval);
+
     memcpy(&m_Timezone, bPtr, sizeof(m_Timezone));
     bPtr += sizeof(m_Timezone);
+    Serial.print(F("Timezone: "));
+    Serial.println(m_Timezone);
+
     memcpy(&m_Xively, bPtr, sizeof(m_Xively));
     bPtr += sizeof(m_Xively);
-    memcpy(m_XivelyAPIKey, bPtr, sizeof(m_XivelyAPIKey));
+    Serial.print(F("Xively: "));
+    Serial.println(m_Xively);
+
+    memcpy(&m_XivelyAPIKey, bPtr, sizeof(m_XivelyAPIKey));
     bPtr += sizeof(m_XivelyAPIKey);
+    Serial.print(F("Xively API Key: "));
+    Serial.println(m_XivelyAPIKey);
+
     memcpy(&m_XivelyFeedName, bPtr, sizeof(m_XivelyFeedName));
     bPtr += sizeof(m_XivelyFeedName);
-    memcpy(&m_XivelyChannelNames, bPtr, sizeof(m_XivelyChannelNames));
-    bPtr += sizeof(m_XivelyChannelNames);
-    return m_Size;
+    Serial.print(F("Xively Feed Name: "));
+    Serial.println(m_XivelyFeedName);
+
+    Serial.println(F("Finished deserialization"));
+
+    return 0;
+
+    /*if (m_Size > size || data == NULL)
+     return 0;
+
+     memcpy(m_MAC, bPtr, sizeof(m_MAC));
+     bPtr += sizeof(m_MAC);
+     memcpy(&m_IP[0], bPtr, sizeof(uint32_t));
+     bPtr += sizeof(uint32_t);
+     memcpy(&m_Netmask[0], bPtr, sizeof(uint32_t));
+     bPtr += sizeof(uint32_t);
+     memcpy(&m_DNSServer[0], bPtr, sizeof(uint32_t));
+     bPtr += sizeof(uint32_t);
+     memcpy(&m_Gateway[0], bPtr, sizeof(uint32_t));
+     bPtr += sizeof(uint32_t);
+     memcpy(&m_NTPServer[0], bPtr, sizeof(uint32_t));
+     bPtr += sizeof(uint32_t);
+     memcpy(&m_NTPSyncInterval, bPtr, sizeof(m_NTPSyncInterval));
+     bPtr += sizeof(m_NTPSyncInterval);
+     memcpy(&m_DHCP, bPtr, sizeof(m_DHCP));
+     bPtr += sizeof(m_DHCP);
+     memcpy(&m_NTP, bPtr, sizeof(m_NTP));
+     bPtr += sizeof(m_NTP);
+     memcpy(&m_Timezone, bPtr, sizeof(m_Timezone));
+     bPtr += sizeof(m_Timezone);
+     memcpy(&m_Xively, bPtr, sizeof(m_Xively));
+     bPtr += sizeof(m_Xively);
+     memcpy(m_XivelyAPIKey, bPtr, sizeof(m_XivelyAPIKey));
+     bPtr += sizeof(m_XivelyAPIKey);
+     memcpy(&m_XivelyFeedName, bPtr, sizeof(m_XivelyFeedName));
+     bPtr += sizeof(m_XivelyFeedName);
+     memcpy(&m_XivelyChannelNames, bPtr, sizeof(m_XivelyChannelNames));
+     bPtr += sizeof(m_XivelyChannelNames);
+     return m_Size;*/
 }
 
 /**
@@ -1057,7 +1320,7 @@ void Aquaduino::startTimer()
     Serial.println("Interrupt triggered mode enabled.");
     TCCR5A = 0;
     TCCR5B = 0;
-    TCNT5  = 0;
+    TCNT5 = 0;
     TIMSK5 = 0;
 
     OCR5A = 25000;
@@ -1078,7 +1341,8 @@ void Aquaduino::readSensors()
     for (sensorIdx = 0; sensorIdx < MAX_SENSORS; sensorIdx++)
     {
         currentSensor = m_Sensors.get(sensorIdx);
-        if(currentSensor){
+        if (currentSensor)
+        {
             m_SensorReadings[sensorIdx] = currentSensor->read();
             m_XiveleyDatastreams[sensorIdx]->setFloat(m_SensorReadings[sensorIdx]);
         }
@@ -1102,7 +1366,6 @@ void Aquaduino::executeControllers()
             currentController->run();
     }
 }
-
 
 /**
  * \brief Top level run method.
@@ -1128,7 +1391,8 @@ void Aquaduino::run()
     }
 }
 
-ISR(TIMER5_OVF_vect){
+ISR(TIMER5_OVF_vect)
+{
 #ifdef INTERRUPT_DRIVEN
     __aquaduino->readSensors();
     __aquaduino->executeControllers();
