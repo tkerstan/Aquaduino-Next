@@ -39,15 +39,15 @@ public:
     SDConfigManager();
     SDConfigManager(const char* prefix);
 
-    virtual int8_t writeConfig(Aquaduino* aquaduino);
-    virtual int8_t writeConfig(Actuator* actuator);
-    virtual int8_t writeConfig(Controller* controller);
-    virtual int8_t writeConfig(Sensor* sensor);
+    virtual uint16_t writeConfig(Aquaduino* aquaduino);
+    virtual uint16_t writeConfig(Actuator* actuator);
+    virtual uint16_t writeConfig(Controller* controller);
+    virtual uint16_t writeConfig(Sensor* sensor);
 
-    virtual int8_t readConfig(Aquaduino* aquaduino);
-    virtual int8_t readConfig(Actuator* actuator);
-    virtual int8_t readConfig(Controller* controller);
-    virtual int8_t readConfig(Sensor* sensor);
+    virtual uint16_t readConfig(Aquaduino* aquaduino);
+    virtual uint16_t readConfig(Actuator* actuator);
+    virtual uint16_t readConfig(Controller* controller);
+    virtual uint16_t readConfig(Sensor* sensor);
 
 protected:
     uint16_t writeStructToFile(const char* filename,

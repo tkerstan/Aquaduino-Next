@@ -100,56 +100,56 @@ public:
      *
      * Implementing class needs to implement this.
      */
-    virtual int8_t writeConfig(Aquaduino* aquaduino) = 0;
+    virtual uint16_t writeConfig(Aquaduino* aquaduino) = 0;
 
     /**
      * \brief Writes the configuration of an Actuator object.
      *
      * Implementing class needs to implement this.
      */
-    virtual int8_t writeConfig(Actuator* actuator) = 0;
+    virtual uint16_t writeConfig(Actuator* actuator) = 0;
 
     /**
      * \brief Writes the configuration of an Controller object.
      *
      * Implementing class needs to implement this.
      */
-    virtual int8_t writeConfig(Controller* controller) = 0;
+    virtual uint16_t writeConfig(Controller* controller) = 0;
 
     /**
      * \brief Writes the configuration of an Sensor object.
      *
      * Implementing class needs to implement this.
      */
-    virtual int8_t writeConfig(Sensor* sensor) = 0;
+    virtual uint16_t writeConfig(Sensor* sensor) = 0;
 
     /**
      * \brief Writes the configuration of an Aquaduino object.
      *
      * Implementing class needs to implement this.
      */
-    virtual int8_t readConfig(Aquaduino* aquaduino) = 0;
+    virtual uint16_t readConfig(Aquaduino* aquaduino) = 0;
 
     /**
      * \brief Writes the configuration of an Actuator object.
      *
      * Implementing class needs to implement this.
      */
-    virtual int8_t readConfig(Actuator* actuator) = 0;
+    virtual uint16_t readConfig(Actuator* actuator) = 0;
 
     /**
      * \brief Writes the configuration of an Controller object.
      *
      * Implementing class needs to implement this.
      */
-    virtual int8_t readConfig(Controller* controller) = 0;
+    virtual uint16_t readConfig(Controller* controller) = 0;
 
     /**
      * \brief Writes the configuration of an Sensor object.
      *
      * Implementing class needs to implement this.
      */
-    virtual int8_t readConfig(Sensor* sensor) = 0;
+    virtual uint16_t readConfig(Sensor* sensor) = 0;
 };
 
 #endif /* CONFIGMANAGER_H_ */

@@ -42,20 +42,16 @@ SDConfigManager::SDConfigManager(const char* folder)
 {
     File f;
 
-    if (folder == NULL){
-        m_folder[0] = 0;
-    } else {
-        strncpy(m_folder, folder, PREFIX_LENGTH - 1);
-        m_folder[PREFIX_LENGTH - 1] = 0;
+    strncpy(m_folder, folder, PREFIX_LENGTH - 1);
+    m_folder[PREFIX_LENGTH - 1] = 0;
 
-        if (!SD.exists(m_folder))
-            SD.mkdir(m_folder);
-        else
-        {
-            f = SD.open(m_folder, FILE_READ);
-            if (!f.isDirectory())
-                m_folder[0] = 0;
-        }
+    if (!SD.exists(m_folder))
+        SD.mkdir(m_folder);
+    else
+    {
+        f = SD.open(m_folder, FILE_READ);
+        if (!f.isDirectory())
+            m_folder[0] = 0;
     }
 }
 
@@ -86,7 +82,7 @@ SDConfigManager::SDConfigManager(const SDConfigManager&)
 {
 }
 
-int8_t SDConfigManager::writeConfig(Aquaduino* aquaduino)
+uint16_t SDConfigManager::writeConfig(Aquaduino* aquaduino)
 {
     struct configuration config;
     uint16_t serializedBytes = 0;
@@ -107,7 +103,7 @@ int8_t SDConfigManager::writeConfig(Aquaduino* aquaduino)
     return 0;
 }
 
-int8_t SDConfigManager::writeConfig(Actuator* actuator)
+uint16_t SDConfigManager::writeConfig(Actuator* actuator)
 {
     struct configuration config;
     char fileName[FILENAME_LENGTH];
@@ -134,7 +130,7 @@ int8_t SDConfigManager::writeConfig(Actuator* actuator)
     return 0;
 }
 
-int8_t SDConfigManager::writeConfig(Controller* controller)
+uint16_t SDConfigManager::writeConfig(Controller* controller)
 {
     struct configuration config;
     char fileName[FILENAME_LENGTH];
@@ -160,7 +156,7 @@ int8_t SDConfigManager::writeConfig(Controller* controller)
     return 0;
 }
 
-int8_t SDConfigManager::writeConfig(Sensor* sensor)
+uint16_t SDConfigManager::writeConfig(Sensor* sensor)
 {
     struct configuration config;
     char fileName[FILENAME_LENGTH];
@@ -187,7 +183,7 @@ int8_t SDConfigManager::writeConfig(Sensor* sensor)
     return 0;
 }
 
-int8_t SDConfigManager::readConfig(Aquaduino* aquaduino)
+uint16_t SDConfigManager::readConfig(Aquaduino* aquaduino)
 {
     struct configuration config;
     uint16_t readBytes = 0;
@@ -195,16 +191,12 @@ int8_t SDConfigManager::readConfig(Aquaduino* aquaduino)
     memset(&config, 0, sizeof(config));
 
     readBytes = readStructFromFile("aqua.cfg", &config);
-
-    if (readBytes == sizeof(struct configuration))
-    {
-        aquaduino->deserialize(config.data, bufferSize);
-    }
+    return aquaduino->deserialize(config.data, readBytes);
 
     return 0;
 }
 
-int8_t SDConfigManager::readConfig(Actuator* actuator)
+uint16_t SDConfigManager::readConfig(Actuator* actuator)
 {
     struct configuration config;
     char fileName[FILENAME_LENGTH];
@@ -219,15 +211,12 @@ int8_t SDConfigManager::readConfig(Actuator* actuator)
     strcat(fileName, ".cfg");
 
     readBytes = readStructFromFile(fileName, &config);
+    return actuator->deserialize(&config, readBytes);
 
-    if (readBytes != sizeof(struct configuration))
-    {
-      return readBytes;
-    }
     return 0;
 }
 
-int8_t SDConfigManager::readConfig(Controller* controller)
+uint16_t SDConfigManager::readConfig(Controller* controller)
 {
     struct configuration config;
     char fileName[FILENAME_LENGTH];
@@ -242,15 +231,12 @@ int8_t SDConfigManager::readConfig(Controller* controller)
     strcat(fileName, ".cfg");
 
     readBytes = readStructFromFile(fileName, &config);
+    return controller->deserialize(&config, readBytes);
 
-    if (readBytes != sizeof(struct configuration))
-    {
-        return readBytes;
-    }
     return 0;
 }
 
-int8_t SDConfigManager::readConfig(Sensor* sensor)
+uint16_t SDConfigManager::readConfig(Sensor* sensor)
 {
     struct configuration config;
     char fileName[FILENAME_LENGTH];
@@ -265,13 +251,7 @@ int8_t SDConfigManager::readConfig(Sensor* sensor)
     strcat(fileName, ".cfg");
 
     readBytes = readStructFromFile(fileName, &config);
-
-    if (readBytes != sizeof(struct configuration))
-    {
-        return readBytes;
-    }
-
-    return 0;
+    return sensor->deserialize(&config, readBytes);
 }
 
 uint16_t SDConfigManager::writeStructToFile(const char* fileName,
@@ -282,8 +262,10 @@ uint16_t SDConfigManager::writeStructToFile(const char* fileName,
     char path[PREFIX_LENGTH + FILENAME_LENGTH];
     memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
 
-    strcat(path, m_folder);
-    strcat(path, "/");
+    if (m_folder[0] != 0){
+        strcat(path, m_folder);
+        strcat(path, "/");
+    }
     strcat(path, fileName);
 
     Serial.print(F("Writing configuration to "));
@@ -312,8 +294,10 @@ uint16_t SDConfigManager::readStructFromFile(const char* fileName,
 
     memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
 
-    strcat(path, m_folder);
-    strcat(path, "/");
+    if (m_folder[0] != 0){
+        strcat(path, m_folder);
+        strcat(path, "/");
+    }
     strcat(path, fileName);
 
     if (SD.exists(path))
@@ -324,13 +308,9 @@ uint16_t SDConfigManager::readStructFromFile(const char* fileName,
         configFile = SD.open(path, FILE_READ);
         readBytes = configFile.read(config, sizeof(struct configuration));
         configFile.close();
-
-        if (readBytes == sizeof(struct configuration))
-        {
-            Serial.println(" : successful");
-        }
-        else
-            Serial.println(" : failed");
+        Serial.print(F(" = "));
+        Serial.print(readBytes);
+        Serial.println(F(" Bytes"));
     }
     else
     {
