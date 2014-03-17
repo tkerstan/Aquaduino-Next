@@ -9,4 +9,4 @@ size: all
 
 	
 upload: hex
-	avrdude -C/Users/Timo/avrdude.conf -patmega2560 -cwiring -P$(ARDUINOCOM) -b115200 -D -Uflash:w:Aquaduino-Next.hex:i 
+	avrdude -C$(AVRDUDECONF) -patmega2560 -cwiring -P$(ARDUINOCOM) -b115200 -D -Uflash:w:Aquaduino-Next.hex:i 
