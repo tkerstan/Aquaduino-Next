@@ -11,3 +11,6 @@ Debug/
 Release/
 Doc/html
 /Release - O2
+.settings/
+.project
+.cproject
