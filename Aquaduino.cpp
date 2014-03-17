@@ -859,36 +859,7 @@ uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
     if (m_Size > size || buffer == NULL)
         return 0;
 
-    memcpy(bPtr, m_MAC, sizeof(m_MAC));
-    bPtr += sizeof(m_MAC);
-    memcpy(bPtr, &m_IP[0], sizeof(uint32_t));
-    bPtr += sizeof(uint32_t);
-    memcpy(bPtr, &m_Netmask[0], sizeof(uint32_t));
-    bPtr += sizeof(uint32_t);
-    memcpy(bPtr, &m_DNSServer[0], sizeof(uint32_t));
-    bPtr += sizeof(uint32_t);
-    memcpy(bPtr, &m_Gateway[0], sizeof(uint32_t));
-    bPtr += sizeof(uint32_t);
-    memcpy(bPtr, &m_NTPServer[0], sizeof(uint32_t));
-    bPtr += sizeof(uint32_t);
-    memcpy(bPtr, &m_NTPSyncInterval, sizeof(m_NTPSyncInterval));
-    bPtr += sizeof(m_NTPSyncInterval);
-    memcpy(bPtr, &m_DHCP, sizeof(m_DHCP));
-    bPtr += sizeof(m_DHCP);
-    memcpy(bPtr, &m_NTP, sizeof(m_NTP));
-    bPtr += sizeof(m_NTP);
-    memcpy(bPtr, &m_Timezone, sizeof(m_Timezone));
-    bPtr += sizeof(m_Timezone);
-    memcpy(bPtr, &m_Xively, sizeof(m_Xively));
-    bPtr += sizeof(m_Xively);
-    memcpy(bPtr, &m_XivelyAPIKey, sizeof(m_XivelyAPIKey));
-    bPtr += sizeof(m_XivelyAPIKey);
-    memcpy(bPtr, &m_XivelyFeedName, sizeof(m_XivelyFeedName));
-    bPtr += sizeof(m_XivelyFeedName);
-    memcpy(bPtr, &m_XivelyChannelNames, sizeof(m_XivelyChannelNames));
-    bPtr += sizeof(m_XivelyChannelNames);
-
-    return m_Size;
+    return 0;
 }
 
 /**
