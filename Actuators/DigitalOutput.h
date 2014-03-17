@@ -55,6 +55,8 @@ public:
 
     virtual int8_t showWebinterface(WebServer* server,
                                     WebServer::ConnectionType type, char* url);
+    void setPin(uint8_t pin);
+    uint8_t getPin();
 
 };
 

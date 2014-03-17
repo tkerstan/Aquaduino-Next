@@ -140,8 +140,6 @@ uint16_t DS18S20::deserialize(void* data, uint16_t size)
     return sizeof(m_Pin) + sizeof(m_Address);
 }
 
-
-
 int8_t DS18S20::showWebinterface(WebServer* server,
                                  WebServer::ConnectionType type, char* url)
 {
@@ -232,4 +230,14 @@ int8_t DS18S20::showWebinterface(WebServer* server,
         templateFile.close();
     }
     return true;
+}
+
+void DS18S20::setPin(uint8_t pin)
+{
+    m_Pin = pin;
+}
+
+uint8_t DS18S20::getPin()
+{
+    return m_Pin;
 }
