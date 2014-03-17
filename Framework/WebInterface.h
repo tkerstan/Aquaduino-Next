@@ -22,7 +22,9 @@
 #define WEBINTERFACE_H_
 
 #include <Arduino.h>
+#define WEBDUINO_NO_IMPLEMENTATION
 #include <WebServer.h>
+#undef WEBDUINO_NO_IMPLEMENTATION
 
 /**
  * \brief Interface to access the Webduino webserver
