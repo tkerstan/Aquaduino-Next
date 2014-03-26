@@ -21,6 +21,10 @@ protected:
     virtual ~GUIServer();
 private:
     int8_t receiveCommand();
+    void getAllSensors();
+    void getSensorData(uint8_t sensorId);
+    void getAllActuators();
+    void getActuatorData(uint8_t actuatorId);
     uint8_t m_Buffer[50];
     uint16_t m_Port;
     EthernetUDP m_UdpServer;
