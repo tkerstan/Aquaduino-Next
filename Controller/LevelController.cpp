@@ -20,10 +20,24 @@
 
 #include <Controller/LevelController.h>
 #include <Aquaduino.h>
-#include <TemplateParser.h>
+
 #include <SD.h>
-#include <Framework/Flashvars.h>
+
 #include <limits.h>
+
+#ifdef FEATURE_WEBIF
+#include <TemplateParser.h>
+#include <Framework/Flashvars.h>
+#endif
+
+enum TEMPLATE_LEVELCONTROLLER_STATES
+{
+    LEVELCONTROLLER_STATE_OK,
+    LEVELCONTROLLER_STATE_DEBOUNCE,
+    LEVELCONTROLLER_STATE_REFILL,
+    LEVELCONTROLLER_STATE_OVERRUN,
+    LEVELCONTROLLER_STATE_REFILL_TIMEOUT
+};
 
 /**
  * \brief Constructor
@@ -201,6 +215,7 @@ int8_t LevelController::run()
     return 1;
 }
 
+#ifdef FEATURE_WEBIF
 int8_t LevelController::showWebinterface(WebServer* server,
                                          WebServer::ConnectionType type,
                                          char* url)
@@ -345,3 +360,4 @@ int8_t LevelController::showWebinterface(WebServer* server,
     }
     return true;
 }
+#endif

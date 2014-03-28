@@ -1,5 +1,4 @@
 #include <Aquaduino.h>
-#include "Config.h"
 #include <Controller/TemperatureController.h>
 #include <Controller/LevelController.h>
 #include <Controller/ClockTimerController.h>

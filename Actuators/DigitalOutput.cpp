@@ -21,8 +21,11 @@
 #include <Aquaduino.h>
 #include "DigitalOutput.h"
 #include <Arduino.h>
+
+#ifdef FEATURE_WEBIF
 #include <TemplateParser.h>
 #include <Framework/Flashvars.h>
+#endif
 
 /**
  * \brief Constructor
@@ -229,6 +232,7 @@ uint8_t DigitalOutput::getPin()
     return m_Pin;
 }
 
+#ifdef FEATURE_WEBIF
 int8_t DigitalOutput::showWebinterface(WebServer* server,
                                        WebServer::ConnectionType type,
                                        char* url)
@@ -341,3 +345,4 @@ int8_t DigitalOutput::showWebinterface(WebServer* server,
     return true;
 
 }
+#endif

@@ -22,8 +22,11 @@
 #include "SerialInput.h"
 #include <Arduino.h>
 #include <SD.h>
+
+#ifdef FEATURE_WEBIF
 #include <TemplateParser.h>
 #include <Framework/Flashvars.h>
+#endif
 
 static bool sensorPH_stringcomplete;
 static String sensorstringPH = "";
@@ -74,6 +77,7 @@ uint16_t SerialInput::deserialize(void* data, uint16_t size)
     return sizeof(m_Pin);
 }
 
+#ifdef FEATURE_WEBIF
 int8_t SerialInput::showWebinterface(WebServer* server,
                                       WebServer::ConnectionType type, char* url)
 {
@@ -137,4 +141,4 @@ int8_t SerialInput::showWebinterface(WebServer* server,
     }
     return true;
 }
-
+#endif

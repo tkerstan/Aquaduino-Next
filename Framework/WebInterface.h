@@ -22,9 +22,12 @@
 #define WEBINTERFACE_H_
 
 #include <Arduino.h>
+
+#ifdef FEATURE_WEBIF
 #define WEBDUINO_NO_IMPLEMENTATION
 #include <WebServer.h>
 #undef WEBDUINO_NO_IMPLEMENTATION
+#endif
 
 /**
  * \brief Interface to access the Webduino webserver
@@ -35,6 +38,7 @@
 class WebInterface
 {
 public:
+#ifdef FEATURE_WEBIF
     /**
      * \brief Callback for webpage presentation
      * \param[in] server Instance of the Webduino webserver
@@ -48,6 +52,7 @@ public:
     virtual int8_t showWebinterface(WebServer* server,
                                     WebServer::ConnectionType type,
                                     char* url) = 0;
+#endif
 };
 
 #endif /* WEBINTERFACE_H_ */

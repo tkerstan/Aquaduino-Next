@@ -22,8 +22,11 @@
 #include "DigitalInput.h"
 #include <Arduino.h>
 #include <SD.h>
+
+#ifdef FEATURE_WEBIF
 #include <TemplateParser.h>
 #include <Framework/Flashvars.h>
+#endif
 
 /**
  * \brief Constructor
@@ -59,11 +62,7 @@ uint16_t DigitalInput::deserialize(void* data, uint16_t size)
 
 void  DigitalInput::setPin(uint8_t pin)
 {
-    File templateFile;
-    TemplateParser* parser;
-    int16_t matchIdx;
-    char templateFileName[template_digitalinput_fnsize];
-    strcpy_P(templateFileName, template_digitalinput_fname);
+	m_Pin = pin;
 }
 
 uint8_t DigitalInput::getPin()
@@ -71,6 +70,7 @@ uint8_t DigitalInput::getPin()
     return m_Pin;
 }
 
+#ifdef FEATURE_WEBIF
 int8_t DigitalInput::showWebinterface(WebServer* server,
                                       WebServer::ConnectionType type, char* url)
 {
@@ -134,4 +134,4 @@ int8_t DigitalInput::showWebinterface(WebServer* server,
     }
     return true;
 }
-
+#endif
