@@ -192,6 +192,8 @@ Aquaduino::Aquaduino() :
 
     Serial.println(F("Initializing OneWire Handler..."));
     m_OneWireHandler = new OneWireHandler();
+
+    m_GUIServer = new GUIServer(4242);
 }
 
 /**
@@ -2561,6 +2563,8 @@ void Aquaduino::run()
         Serial.print(F("Sending data to Xively... "));
         Serial.println(m_XivelyClient.put(*m_XivelyFeed, m_XivelyAPIKey));
     }
+    
+    m_GUIServer->run();
 
 #ifdef FEATURE_WEBIF
     if (m_WebServer != NULL)

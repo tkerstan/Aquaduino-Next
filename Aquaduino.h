@@ -36,6 +36,7 @@
 #include "Framework/Object.h"
 #include "Framework/Serializable.h"
 #include "Framework/OneWireHandler.h"
+#include "Framework/GUIServer.h"
 
 #ifdef FEATURE_WEBIF
 #include "Framework/WebInterface.h"
@@ -212,6 +213,7 @@ private:
 
     ConfigManager* m_ConfigManager;
     OneWireHandler* m_OneWireHandler;
+    GUIServer* m_GUIServer;
 
     XivelyDatastream* m_XiveleyDatastreams[MAX_SENSORS];
     XivelyFeed* m_XivelyFeed;
