@@ -44,6 +44,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -68,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -92,7 +93,7 @@ $(document).ready(function(){initNavTree('class_config_manager.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -117,44 +118,46 @@ $(document).ready(function(){initNavTree('class_config_manager.html','');});
 <div class="dynheader">
 Inheritance diagram for ConfigManager:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_config_manager__inherit__graph.png" border="0" usemap="#_config_manager_inherit__map" alt="Inheritance graph"/></div>
-<map name="_config_manager_inherit__map" id="_config_manager_inherit__map">
-<area shape="rect" id="node2" href="class_s_d_config_manager.html" title="Configuration Manager using SD card to store and restore configurations. " alt="" coords="5,80,131,107"/></map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+ <div class="center">
+  <img src="class_config_manager.png" usemap="#ConfigManager_map" alt=""/>
+  <map id="ConfigManager_map" name="ConfigManager_map">
+<area href="class_s_d_config_manager.html" title="Configuration Manager using SD card to store and restore configurations. " alt="SDConfigManager" shape="rect" coords="0,56,117,80"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac626ebb363c0993b1a3b2da7fc824afb"><td class="memItemLeft" align="right" valign="top">virtual int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config_manager.html#ac626ebb363c0993b1a3b2da7fc824afb">writeConfig</a> (<a class="el" href="class_aquaduino.html">Aquaduino</a> *<a class="el" href="_aquaduino_8h.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a>)=0</td></tr>
-<tr class="memdesc:ac626ebb363c0993b1a3b2da7fc824afb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the configuration of an <a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a> object.  <a href="#ac626ebb363c0993b1a3b2da7fc824afb">More...</a><br/></td></tr>
-<tr class="separator:ac626ebb363c0993b1a3b2da7fc824afb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29d3892f44c5ed34cdd1f5fd028c1009"><td class="memItemLeft" align="right" valign="top">virtual int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config_manager.html#a29d3892f44c5ed34cdd1f5fd028c1009">writeConfig</a> (<a class="el" href="class_actuator.html">Actuator</a> *actuator)=0</td></tr>
-<tr class="memdesc:a29d3892f44c5ed34cdd1f5fd028c1009"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the configuration of an <a class="el" href="class_actuator.html" title="Abstract class for common actuator methods. ">Actuator</a> object.  <a href="#a29d3892f44c5ed34cdd1f5fd028c1009">More...</a><br/></td></tr>
-<tr class="separator:a29d3892f44c5ed34cdd1f5fd028c1009"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad59cbcbaf26422b42366569eb4dedae2"><td class="memItemLeft" align="right" valign="top">virtual int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config_manager.html#ad59cbcbaf26422b42366569eb4dedae2">writeConfig</a> (<a class="el" href="class_controller.html">Controller</a> *controller)=0</td></tr>
-<tr class="memdesc:ad59cbcbaf26422b42366569eb4dedae2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the configuration of an <a class="el" href="class_controller.html" title="A controller realizes a control task like water level monitoring, temperature monitoring,... ">Controller</a> object.  <a href="#ad59cbcbaf26422b42366569eb4dedae2">More...</a><br/></td></tr>
-<tr class="separator:ad59cbcbaf26422b42366569eb4dedae2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46fc0ec91dab7d2ba0372f669ef880e1"><td class="memItemLeft" align="right" valign="top">virtual int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config_manager.html#a46fc0ec91dab7d2ba0372f669ef880e1">writeConfig</a> (<a class="el" href="class_sensor.html">Sensor</a> *sensor)=0</td></tr>
-<tr class="memdesc:a46fc0ec91dab7d2ba0372f669ef880e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the configuration of an <a class="el" href="class_sensor.html" title="Base class for Sensors. ">Sensor</a> object.  <a href="#a46fc0ec91dab7d2ba0372f669ef880e1">More...</a><br/></td></tr>
-<tr class="separator:a46fc0ec91dab7d2ba0372f669ef880e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab9cab3859b776fdc9e6eba02e53b9ee"><td class="memItemLeft" align="right" valign="top">virtual int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config_manager.html#aab9cab3859b776fdc9e6eba02e53b9ee">readConfig</a> (<a class="el" href="class_aquaduino.html">Aquaduino</a> *<a class="el" href="_aquaduino_8h.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a>)=0</td></tr>
-<tr class="memdesc:aab9cab3859b776fdc9e6eba02e53b9ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the configuration of an <a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a> object.  <a href="#aab9cab3859b776fdc9e6eba02e53b9ee">More...</a><br/></td></tr>
-<tr class="separator:aab9cab3859b776fdc9e6eba02e53b9ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a46f142d90fd28ee105c878f79f6a11"><td class="memItemLeft" align="right" valign="top">virtual int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config_manager.html#a0a46f142d90fd28ee105c878f79f6a11">readConfig</a> (<a class="el" href="class_actuator.html">Actuator</a> *actuator)=0</td></tr>
-<tr class="memdesc:a0a46f142d90fd28ee105c878f79f6a11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the configuration of an <a class="el" href="class_actuator.html" title="Abstract class for common actuator methods. ">Actuator</a> object.  <a href="#a0a46f142d90fd28ee105c878f79f6a11">More...</a><br/></td></tr>
-<tr class="separator:a0a46f142d90fd28ee105c878f79f6a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7056f73b58bda46e09d632adb42a0476"><td class="memItemLeft" align="right" valign="top">virtual int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config_manager.html#a7056f73b58bda46e09d632adb42a0476">readConfig</a> (<a class="el" href="class_controller.html">Controller</a> *controller)=0</td></tr>
-<tr class="memdesc:a7056f73b58bda46e09d632adb42a0476"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the configuration of an <a class="el" href="class_controller.html" title="A controller realizes a control task like water level monitoring, temperature monitoring,... ">Controller</a> object.  <a href="#a7056f73b58bda46e09d632adb42a0476">More...</a><br/></td></tr>
-<tr class="separator:a7056f73b58bda46e09d632adb42a0476"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44bc975785c94278fb6ed257e612c1ae"><td class="memItemLeft" align="right" valign="top">virtual int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config_manager.html#a44bc975785c94278fb6ed257e612c1ae">readConfig</a> (<a class="el" href="class_sensor.html">Sensor</a> *sensor)=0</td></tr>
-<tr class="memdesc:a44bc975785c94278fb6ed257e612c1ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the configuration of an <a class="el" href="class_sensor.html" title="Base class for Sensors. ">Sensor</a> object.  <a href="#a44bc975785c94278fb6ed257e612c1ae">More...</a><br/></td></tr>
-<tr class="separator:a44bc975785c94278fb6ed257e612c1ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a4981e39d95eaf849b1ef28ffc0a39c"><td class="memItemLeft" align="right" valign="top">virtual uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config_manager.html#a4a4981e39d95eaf849b1ef28ffc0a39c">writeConfig</a> (<a class="el" href="class_aquaduino.html">Aquaduino</a> *<a class="el" href="main_8cpp.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a>)=0</td></tr>
+<tr class="memdesc:a4a4981e39d95eaf849b1ef28ffc0a39c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the configuration of an <a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a> object.  <a href="#a4a4981e39d95eaf849b1ef28ffc0a39c">More...</a><br/></td></tr>
+<tr class="separator:a4a4981e39d95eaf849b1ef28ffc0a39c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bf7d34282775316ffb617691988c8dc"><td class="memItemLeft" align="right" valign="top">virtual uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config_manager.html#a7bf7d34282775316ffb617691988c8dc">writeConfig</a> (<a class="el" href="class_actuator.html">Actuator</a> *actuator)=0</td></tr>
+<tr class="memdesc:a7bf7d34282775316ffb617691988c8dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the configuration of an <a class="el" href="class_actuator.html" title="Abstract class for common actuator methods. ">Actuator</a> object.  <a href="#a7bf7d34282775316ffb617691988c8dc">More...</a><br/></td></tr>
+<tr class="separator:a7bf7d34282775316ffb617691988c8dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea34655ea137524648cc3f37fadf14a2"><td class="memItemLeft" align="right" valign="top">virtual uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config_manager.html#aea34655ea137524648cc3f37fadf14a2">writeConfig</a> (<a class="el" href="class_controller.html">Controller</a> *controller)=0</td></tr>
+<tr class="memdesc:aea34655ea137524648cc3f37fadf14a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the configuration of an <a class="el" href="class_controller.html" title="A controller realizes a control task like water level monitoring, temperature monitoring,... ">Controller</a> object.  <a href="#aea34655ea137524648cc3f37fadf14a2">More...</a><br/></td></tr>
+<tr class="separator:aea34655ea137524648cc3f37fadf14a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ad2c717fc9269166fe1b5e1e0f3e188"><td class="memItemLeft" align="right" valign="top">virtual uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config_manager.html#a4ad2c717fc9269166fe1b5e1e0f3e188">writeConfig</a> (<a class="el" href="class_sensor.html">Sensor</a> *sensor)=0</td></tr>
+<tr class="memdesc:a4ad2c717fc9269166fe1b5e1e0f3e188"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the configuration of an <a class="el" href="class_sensor.html" title="Base class for Sensors. ">Sensor</a> object.  <a href="#a4ad2c717fc9269166fe1b5e1e0f3e188">More...</a><br/></td></tr>
+<tr class="separator:a4ad2c717fc9269166fe1b5e1e0f3e188"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab53ed2e07d60bf64dca9cb4f10893764"><td class="memItemLeft" align="right" valign="top">virtual uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config_manager.html#ab53ed2e07d60bf64dca9cb4f10893764">readConfig</a> (<a class="el" href="class_aquaduino.html">Aquaduino</a> *<a class="el" href="main_8cpp.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a>)=0</td></tr>
+<tr class="memdesc:ab53ed2e07d60bf64dca9cb4f10893764"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the configuration of an <a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a> object.  <a href="#ab53ed2e07d60bf64dca9cb4f10893764">More...</a><br/></td></tr>
+<tr class="separator:ab53ed2e07d60bf64dca9cb4f10893764"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92f0bc7e51ad23fb7845e9e315372224"><td class="memItemLeft" align="right" valign="top">virtual uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config_manager.html#a92f0bc7e51ad23fb7845e9e315372224">readConfig</a> (<a class="el" href="class_actuator.html">Actuator</a> *actuator)=0</td></tr>
+<tr class="memdesc:a92f0bc7e51ad23fb7845e9e315372224"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the configuration of an <a class="el" href="class_actuator.html" title="Abstract class for common actuator methods. ">Actuator</a> object.  <a href="#a92f0bc7e51ad23fb7845e9e315372224">More...</a><br/></td></tr>
+<tr class="separator:a92f0bc7e51ad23fb7845e9e315372224"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0487b994050bcb3b29366662d04040c"><td class="memItemLeft" align="right" valign="top">virtual uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config_manager.html#ab0487b994050bcb3b29366662d04040c">readConfig</a> (<a class="el" href="class_controller.html">Controller</a> *controller)=0</td></tr>
+<tr class="memdesc:ab0487b994050bcb3b29366662d04040c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the configuration of an <a class="el" href="class_controller.html" title="A controller realizes a control task like water level monitoring, temperature monitoring,... ">Controller</a> object.  <a href="#ab0487b994050bcb3b29366662d04040c">More...</a><br/></td></tr>
+<tr class="separator:ab0487b994050bcb3b29366662d04040c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b33886a154905189dd4462588055a18"><td class="memItemLeft" align="right" valign="top">virtual uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config_manager.html#a8b33886a154905189dd4462588055a18">readConfig</a> (<a class="el" href="class_sensor.html">Sensor</a> *sensor)=0</td></tr>
+<tr class="memdesc:a8b33886a154905189dd4462588055a18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the configuration of an <a class="el" href="class_sensor.html" title="Base class for Sensors. ">Sensor</a> object.  <a href="#a8b33886a154905189dd4462588055a18">More...</a><br/></td></tr>
+<tr class="separator:a8b33886a154905189dd4462588055a18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides interface methods for reading and writing configurations. </p>
 
 <p>Definition at line <a class="el" href="_config_manager_8h_source.html#l00094">94</a> of file <a class="el" href="_config_manager_8h_source.html">ConfigManager.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aab9cab3859b776fdc9e6eba02e53b9ee"></a>
+<a class="anchor" id="ab53ed2e07d60bf64dca9cb4f10893764"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -162,7 +165,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual int8_t ConfigManager::readConfig </td>
+          <td class="memname">virtual uint16_t ConfigManager::readConfig </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_aquaduino.html">Aquaduino</a> *&#160;</td>
           <td class="paramname"><em>aquaduino</em>)</td><td></td>
@@ -177,11 +180,11 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Implementing class needs to implement this. </p>
 
-<p>Implemented in <a class="el" href="class_s_d_config_manager.html#a1202df1cf91716fba4c51f9b27b7cc90">SDConfigManager</a>.</p>
+<p>Implemented in <a class="el" href="class_s_d_config_manager.html#a1b49648e613eb575ec202832b0655c62">SDConfigManager</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a0a46f142d90fd28ee105c878f79f6a11"></a>
+<a class="anchor" id="a92f0bc7e51ad23fb7845e9e315372224"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -189,7 +192,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual int8_t ConfigManager::readConfig </td>
+          <td class="memname">virtual uint16_t ConfigManager::readConfig </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_actuator.html">Actuator</a> *&#160;</td>
           <td class="paramname"><em>actuator</em>)</td><td></td>
@@ -204,11 +207,11 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Implementing class needs to implement this. </p>
 
-<p>Implemented in <a class="el" href="class_s_d_config_manager.html#a10a368240d6e6c04ccf4920885fc8d93">SDConfigManager</a>.</p>
+<p>Implemented in <a class="el" href="class_s_d_config_manager.html#a8e647723ceee18caf7ae0a3d2fb53268">SDConfigManager</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a7056f73b58bda46e09d632adb42a0476"></a>
+<a class="anchor" id="ab0487b994050bcb3b29366662d04040c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -216,7 +219,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual int8_t ConfigManager::readConfig </td>
+          <td class="memname">virtual uint16_t ConfigManager::readConfig </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_controller.html">Controller</a> *&#160;</td>
           <td class="paramname"><em>controller</em>)</td><td></td>
@@ -231,11 +234,11 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Implementing class needs to implement this. </p>
 
-<p>Implemented in <a class="el" href="class_s_d_config_manager.html#af4512ba0456349259714dc8f9cc582f0">SDConfigManager</a>.</p>
+<p>Implemented in <a class="el" href="class_s_d_config_manager.html#ae6c054e5fb5a9b85a263cbc6f43193a9">SDConfigManager</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a44bc975785c94278fb6ed257e612c1ae"></a>
+<a class="anchor" id="a8b33886a154905189dd4462588055a18"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -243,7 +246,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual int8_t ConfigManager::readConfig </td>
+          <td class="memname">virtual uint16_t ConfigManager::readConfig </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_sensor.html">Sensor</a> *&#160;</td>
           <td class="paramname"><em>sensor</em>)</td><td></td>
@@ -258,11 +261,11 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Implementing class needs to implement this. </p>
 
-<p>Implemented in <a class="el" href="class_s_d_config_manager.html#a6dd980ac457663f0901ae571d1227c35">SDConfigManager</a>.</p>
+<p>Implemented in <a class="el" href="class_s_d_config_manager.html#a7d942dc4ab2c62d47d4b879e32cfa037">SDConfigManager</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ac626ebb363c0993b1a3b2da7fc824afb"></a>
+<a class="anchor" id="a4a4981e39d95eaf849b1ef28ffc0a39c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -270,7 +273,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual int8_t ConfigManager::writeConfig </td>
+          <td class="memname">virtual uint16_t ConfigManager::writeConfig </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_aquaduino.html">Aquaduino</a> *&#160;</td>
           <td class="paramname"><em>aquaduino</em>)</td><td></td>
@@ -285,11 +288,11 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Implementing class needs to implement this. </p>
 
-<p>Implemented in <a class="el" href="class_s_d_config_manager.html#a15d1d86741af99c4ae6fa93cb81907cd">SDConfigManager</a>.</p>
+<p>Implemented in <a class="el" href="class_s_d_config_manager.html#af467cf034b5af4cb19a8e7936175bbbd">SDConfigManager</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a29d3892f44c5ed34cdd1f5fd028c1009"></a>
+<a class="anchor" id="a7bf7d34282775316ffb617691988c8dc"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -297,7 +300,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual int8_t ConfigManager::writeConfig </td>
+          <td class="memname">virtual uint16_t ConfigManager::writeConfig </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_actuator.html">Actuator</a> *&#160;</td>
           <td class="paramname"><em>actuator</em>)</td><td></td>
@@ -312,11 +315,11 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Implementing class needs to implement this. </p>
 
-<p>Implemented in <a class="el" href="class_s_d_config_manager.html#ac7a5874b228c4659eda6ea80e307578f">SDConfigManager</a>.</p>
+<p>Implemented in <a class="el" href="class_s_d_config_manager.html#a1c6f1e353b5e765cf39a5778b75613ec">SDConfigManager</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ad59cbcbaf26422b42366569eb4dedae2"></a>
+<a class="anchor" id="aea34655ea137524648cc3f37fadf14a2"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -324,7 +327,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual int8_t ConfigManager::writeConfig </td>
+          <td class="memname">virtual uint16_t ConfigManager::writeConfig </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_controller.html">Controller</a> *&#160;</td>
           <td class="paramname"><em>controller</em>)</td><td></td>
@@ -339,11 +342,11 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Implementing class needs to implement this. </p>
 
-<p>Implemented in <a class="el" href="class_s_d_config_manager.html#abd9b2f27d34ccf9b76add87ca9f92f4f">SDConfigManager</a>.</p>
+<p>Implemented in <a class="el" href="class_s_d_config_manager.html#a278598855903d033f677711208e38fa0">SDConfigManager</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a46fc0ec91dab7d2ba0372f669ef880e1"></a>
+<a class="anchor" id="a4ad2c717fc9269166fe1b5e1e0f3e188"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -351,7 +354,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual int8_t ConfigManager::writeConfig </td>
+          <td class="memname">virtual uint16_t ConfigManager::writeConfig </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_sensor.html">Sensor</a> *&#160;</td>
           <td class="paramname"><em>sensor</em>)</td><td></td>
@@ -366,7 +369,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Implementing class needs to implement this. </p>
 
-<p>Implemented in <a class="el" href="class_s_d_config_manager.html#a21bc81ab376049d40862c565d862cc7b">SDConfigManager</a>.</p>
+<p>Implemented in <a class="el" href="class_s_d_config_manager.html#a4f51c09a4e377f80c1680bf9ac4b60eb">SDConfigManager</a>.</p>
 
 </div>
 </div>
@@ -379,7 +382,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_config_manager.html">ConfigManager</a></li>
-    <li class="footer">Generated on Tue Aug 6 2013 15:40:20 for Aquaduino by
+    <li class="footer">Generated on Thu Apr 10 2014 22:43:25 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

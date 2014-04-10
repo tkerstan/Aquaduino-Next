@@ -20,7 +20,6 @@ var class_actuator =
     [ "setName", "class_actuator.html#a40fc29ed066a150c8c3e4fc96f858b7f", null ],
     [ "setPWM", "class_actuator.html#a80dbe74fa140d0246452b4531ffbb86f", null ],
     [ "setURL", "class_actuator.html#abb7e16f550fe4d7f3b6e942103dd2a2a", null ],
-    [ "showWebinterface", "class_actuator.html#a8762482803c6e98ac19d375995473196", null ],
     [ "supportsPWM", "class_actuator.html#a66f12d52b9d350c6c5a55c5691e13682", null ],
     [ "unlock", "class_actuator.html#a79eea4d2a41855462875126261c73608", null ],
     [ "m_ControlledBy", "class_actuator.html#a0554cad45d618a9a755bbfb089e1014a", null ],

@@ -8,7 +8,6 @@ var dir_bcbb2cf9a3d3d83e5515c82071a07177 =
       [ "ArrayMap", "class_array_map.html", "class_array_map" ]
     ] ],
     [ "Colors.h", "_colors_8h.html", "_colors_8h" ],
-    [ "Config.h", "_config_8h.html", "_config_8h" ],
     [ "ConfigManager.h", "_config_manager_8h.html", "_config_manager_8h" ],
     [ "Controller.cpp", "_controller_8cpp.html", null ],
     [ "Controller.h", "_controller_8h.html", [
@@ -16,6 +15,11 @@ var dir_bcbb2cf9a3d3d83e5515c82071a07177 =
     ] ],
     [ "Flashvars.cpp", "_flashvars_8cpp.html", "_flashvars_8cpp" ],
     [ "Flashvars.h", "_flashvars_8h.html", "_flashvars_8h" ],
+    [ "FrameworkConfig.h", "_framework_config_8h.html", "_framework_config_8h" ],
+    [ "GUIServer.cpp", "_g_u_i_server_8cpp.html", "_g_u_i_server_8cpp" ],
+    [ "GUIServer.h", "_g_u_i_server_8h.html", [
+      [ "GUIServer", "class_g_u_i_server.html", "class_g_u_i_server" ]
+    ] ],
     [ "NTPSync.cpp", "_n_t_p_sync_8cpp.html", "_n_t_p_sync_8cpp" ],
     [ "Object.cpp", "_object_8cpp.html", null ],
     [ "Object.h", "_object_8h.html", [
@@ -36,7 +40,8 @@ var dir_bcbb2cf9a3d3d83e5515c82071a07177 =
       [ "Serializable", "class_serializable.html", "class_serializable" ]
     ] ],
     [ "util.cpp", "util_8cpp.html", "util_8cpp" ],
-    [ "util.h", "util_8h.html", "util_8h" ],
-    [ "WebInterface.cpp", "_web_interface_8cpp.html", null ],
-    [ "WebInterface.h", "_web_interface_8h.html", "_web_interface_8h" ]
+    [ "util.h", "_framework_2util_8h.html", "_framework_2util_8h" ],
+    [ "WebInterface.h", "_web_interface_8h.html", [
+      [ "WebInterface", "class_web_interface.html", null ]
+    ] ]
 ];

@@ -44,6 +44,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -90,7 +91,7 @@ $(document).ready(function(){initNavTree('_n_t_p_sync_8cpp.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -107,17 +108,14 @@ $(document).ready(function(){initNavTree('_n_t_p_sync_8cpp.html','');});
 <div class="title">NTPSync.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;Time.h&gt;</code><br/>
-<code>#include &lt;EthernetUdp.h&gt;</code><br/>
+<div class="textblock"><code>#include &lt;<a class="el" href="_time_8h_source.html">Time.h</a>&gt;</code><br/>
+<code>#include &lt;<a class="el" href="_ethernet_udp_8h_source.html">EthernetUdp.h</a>&gt;</code><br/>
 <code>#include &lt;<a class="el" href="_aquaduino_8h_source.html">Aquaduino.h</a>&gt;</code><br/>
 </div>
 <p><a href="_n_t_p_sync_8cpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a5fb1b6758c6567db4193321506335472"><td class="memItemLeft" align="right" valign="top">IPAddress&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_t_p_sync_8cpp.html#a5fb1b6758c6567db4193321506335472">sntpServerIP</a> (192, 53, 103, 108)</td></tr>
-<tr class="memdesc:a5fb1b6758c6567db4193321506335472"><td class="mdescLeft">&#160;</td><td class="mdescRight">ptbtime1.ptb.de  <a href="#a5fb1b6758c6567db4193321506335472">More...</a><br/></td></tr>
-<tr class="separator:a5fb1b6758c6567db4193321506335472"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2898e3c748953d17a36dab59bda980dc"><td class="memItemLeft" align="right" valign="top">time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_t_p_sync_8cpp.html#a2898e3c748953d17a36dab59bda980dc">NTPSync</a> ()</td></tr>
 <tr class="memdesc:a2898e3c748953d17a36dab59bda980dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Routine for NTP synchronization.  <a href="#a2898e3c748953d17a36dab59bda980dc">More...</a><br/></td></tr>
 <tr class="separator:a2898e3c748953d17a36dab59bda980dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,6 +124,9 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:ae2843b6487d71a38433763495c106346"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_t_p_sync_8cpp.html#ae2843b6487d71a38433763495c106346">NTP_PACKET_SIZE</a> = 48</td></tr>
 <tr class="separator:ae2843b6487d71a38433763495c106346"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31bbbbf38bc0e14dc94e69b2ac637358"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_i_p_address.html">IPAddress</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_t_p_sync_8cpp.html#a31bbbbf38bc0e14dc94e69b2ac637358">sntpServerIP</a> (192, 53, 103, 108)</td></tr>
+<tr class="memdesc:a31bbbbf38bc0e14dc94e69b2ac637358"><td class="mdescLeft">&#160;</td><td class="mdescRight">ptbtime1.ptb.de  <a href="#a31bbbbf38bc0e14dc94e69b2ac637358">More...</a><br/></td></tr>
+<tr class="separator:a31bbbbf38bc0e14dc94e69b2ac637358"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a2898e3c748953d17a36dab59bda980dc"></a>
@@ -147,44 +148,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a5fb1b6758c6567db4193321506335472"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">IPAddress sntpServerIP </td>
-          <td>(</td>
-          <td class="paramtype">192&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">53&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">103&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">108&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <h2 class="groupheader">Variable Documentation</h2>
 <a class="anchor" id="ae2843b6487d71a38433763495c106346"></a>
 <div class="memitem">
@@ -200,13 +163,25 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a31bbbbf38bc0e14dc94e69b2ac637358"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_i_p_address.html">IPAddress</a> sntpServerIP(192, 53, 103, 108)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_bcbb2cf9a3d3d83e5515c82071a07177.html">Framework</a></li><li class="navelem"><a class="el" href="_n_t_p_sync_8cpp.html">NTPSync.cpp</a></li>
-    <li class="footer">Generated on Tue Aug 6 2013 15:40:20 for Aquaduino by
+    <li class="footer">Generated on Thu Apr 10 2014 22:43:23 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

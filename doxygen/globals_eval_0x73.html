@@ -44,6 +44,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -75,6 +76,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="globals.html"><span>All</span></a></li>
       <li><a href="globals_func.html"><span>Functions</span></a></li>
       <li><a href="globals_vars.html"><span>Variables</span></a></li>
+      <li><a href="globals_type.html"><span>Typedefs</span></a></li>
       <li><a href="globals_enum.html"><span>Enumerations</span></a></li>
       <li class="current"><a href="globals_eval.html"><span>Enumerator</span></a></li>
       <li><a href="globals_defs.html"><span>Macros</span></a></li>
@@ -85,11 +87,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="globals_eval.html#index_a"><span>a</span></a></li>
       <li><a href="globals_eval_0x63.html#index_c"><span>c</span></a></li>
       <li><a href="globals_eval_0x64.html#index_d"><span>d</span></a></li>
+      <li><a href="globals_eval_0x65.html#index_e"><span>e</span></a></li>
+      <li><a href="globals_eval_0x67.html#index_g"><span>g</span></a></li>
+      <li><a href="globals_eval_0x68.html#index_h"><span>h</span></a></li>
       <li><a href="globals_eval_0x6c.html#index_l"><span>l</span></a></li>
       <li><a href="globals_eval_0x6d.html#index_m"><span>m</span></a></li>
       <li><a href="globals_eval_0x6f.html#index_o"><span>o</span></a></li>
+      <li><a href="globals_eval_0x70.html#index_p"><span>p</span></a></li>
+      <li><a href="globals_eval_0x72.html#index_r"><span>r</span></a></li>
       <li class="current"><a href="globals_eval_0x73.html#index_s"><span>s</span></a></li>
       <li><a href="globals_eval_0x74.html#index_t"><span>t</span></a></li>
+      <li><a href="globals_eval_0x75.html#index_u"><span>u</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -112,7 +120,7 @@ $(document).ready(function(){initNavTree('globals_eval_0x73.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -126,10 +134,13 @@ $(document).ready(function(){initNavTree('globals_eval_0x73.html','');});
 
 <h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
 <li>SENSOR_DIGITALINPUT
-: <a class="el" href="_object_types_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba8db61372b5385873719d552a52b57db9">ObjectTypes.h</a>
+: <a class="el" href="_object_types_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a8db61372b5385873719d552a52b57db9">ObjectTypes.h</a>
 </li>
 <li>SENSOR_DS18S20
-: <a class="el" href="_object_types_8h.html#a06fc87d81c62e9abb8790b6e5713c55baca4143929ed850639491452198e614c1">ObjectTypes.h</a>
+: <a class="el" href="_object_types_8h.html#adf764cbdea00d65edcd07bb9953ad2b7aca4143929ed850639491452198e614c1">ObjectTypes.h</a>
+</li>
+<li>SENSOR_SERIALINPUT
+: <a class="el" href="_object_types_8h.html#adf764cbdea00d65edcd07bb9953ad2b7accb1d26b9e95fa5d040d2592b63bd836">ObjectTypes.h</a>
 </li>
 <li>SENSORROW_COLOR
 : <a class="el" href="_flashvars_8h.html#a248fc783e0c2f9af2e7e57d8a3dada75ae11e9f47c423cf308fbc1b32d15c6179">Flashvars.h</a>
@@ -164,13 +175,49 @@ $(document).ready(function(){initNavTree('globals_eval_0x73.html','');});
 <li>SENSORROW_SVALUE
 : <a class="el" href="_flashvars_8h.html#a248fc783e0c2f9af2e7e57d8a3dada75a0871feacc21240336c22eea415b19ee0">Flashvars.h</a>
 </li>
+<li>SETACTUATORDATA
+: <a class="el" href="_g_u_i_server_8cpp.html#a06fc87d81c62e9abb8790b6e5713c55ba2893ab1139a4646a9cf5952f6f2a66fa">GUIServer.cpp</a>
+</li>
+<li>SETSENSORCONFIG
+: <a class="el" href="_g_u_i_server_8cpp.html#a06fc87d81c62e9abb8790b6e5713c55bab86ef2a1f4597b85080082af7b295bb3">GUIServer.cpp</a>
+</li>
+<li>Sock_CLOSE
+: <a class="el" href="w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3bae358e09e9ac34e7490fb2683e2c788e0">w5100.h</a>
+</li>
+<li>Sock_CONNECT
+: <a class="el" href="w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3ba42ed63e8474d671224da940a8552e0b9">w5100.h</a>
+</li>
+<li>Sock_DISCON
+: <a class="el" href="w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3ba0cd98008ecfb95780569fe14444d62fe">w5100.h</a>
+</li>
+<li>Sock_LISTEN
+: <a class="el" href="w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3bab322601c32fba205ae7e7ccf47b1c665">w5100.h</a>
+</li>
+<li>Sock_OPEN
+: <a class="el" href="w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3ba2d1805f0a4f7657b8e0bbfa28eea22c9">w5100.h</a>
+</li>
+<li>Sock_RECV
+: <a class="el" href="w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3baf15e40b37930c8e7065b4a0c3b356358">w5100.h</a>
+</li>
+<li>Sock_SEND
+: <a class="el" href="w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3ba73a60cc20be22b44d47178a6a57c2648">w5100.h</a>
+</li>
+<li>Sock_SEND_KEEP
+: <a class="el" href="w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3ba160b55d9a8e94d27272ae4142dea8a9f">w5100.h</a>
+</li>
+<li>Sock_SEND_MAC
+: <a class="el" href="w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3ba40b14d6445cf866fa99bf08acbe3892f">w5100.h</a>
+</li>
+<li>subnetMask
+: <a class="el" href="_dhcp_8h.html#abc6126af1d45847bc59afa0aa3216b04a94a2aa0da8e6db0e29029ee0fc720166">Dhcp.h</a>
+</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Aug 6 2013 15:40:21 for Aquaduino by
+    <li class="footer">Generated on Thu Apr 10 2014 22:43:27 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

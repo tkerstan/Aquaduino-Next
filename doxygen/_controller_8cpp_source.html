@@ -44,6 +44,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -90,7 +91,7 @@ $(document).ready(function(){initNavTree('_controller_8cpp_source.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -141,11 +142,11 @@ $(document).ready(function(){initNavTree('_controller_8cpp_source.html','');});
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;{</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    int8_t i = 0;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    int8_t actuators = 0;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="class_actuator.html" title="Abstract class for common actuator methods. ">Actuator</a>* assignedActuators[<a class="code" href="_config_8h.html#aea5dca8b379720b7e6d921c984db9aaa" title="Defines the maximum number of actuators the system can manage. ">MAX_ACTUATORS</a>] =</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="class_actuator.html" title="Abstract class for common actuator methods. ">Actuator</a>* assignedActuators[<a class="code" href="_framework_config_8h.html#aea5dca8b379720b7e6d921c984db9aaa" title="Defines the maximum number of actuators the system can manage. ">MAX_ACTUATORS</a>] =</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        { 0 };</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    actuators = <a class="code" href="_aquaduino_8cpp.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a>-&gt;<a class="code" href="class_aquaduino.html#a088ba3bf2e3429f341e09d0c8f62ded4" title="Identifies the actuators assigned to a specific controller. ">getAssignedActuators</a>(<span class="keyword">this</span>,</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    actuators = <a class="code" href="_aquaduino_8cpp.html#a5359fc71c1716419db400f36502686b8">__aquaduino</a>-&gt;<a class="code" href="class_aquaduino.html#a088ba3bf2e3429f341e09d0c8f62ded4" title="Identifies the actuators assigned to a specific controller. ">getAssignedActuators</a>(<span class="keyword">this</span>,</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                                                assignedActuators,</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                                                <a class="code" href="_config_8h.html#aea5dca8b379720b7e6d921c984db9aaa" title="Defines the maximum number of actuators the system can manage. ">MAX_ACTUATORS</a>);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                                                <a class="code" href="_framework_config_8h.html#aea5dca8b379720b7e6d921c984db9aaa" title="Defines the maximum number of actuators the system can manage. ">MAX_ACTUATORS</a>);</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">for</span> (; i &lt; actuators; i++)</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">if</span> (on)</div>
@@ -158,11 +159,11 @@ $(document).ready(function(){initNavTree('_controller_8cpp_source.html','');});
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;{</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    int8_t i = 0;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    int8_t actuators = 0;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="class_actuator.html" title="Abstract class for common actuator methods. ">Actuator</a>* assignedActuators[<a class="code" href="_config_8h.html#aea5dca8b379720b7e6d921c984db9aaa" title="Defines the maximum number of actuators the system can manage. ">MAX_ACTUATORS</a>] =</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="class_actuator.html" title="Abstract class for common actuator methods. ">Actuator</a>* assignedActuators[<a class="code" href="_framework_config_8h.html#aea5dca8b379720b7e6d921c984db9aaa" title="Defines the maximum number of actuators the system can manage. ">MAX_ACTUATORS</a>] =</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        { 0 };</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    actuators = <a class="code" href="_aquaduino_8cpp.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a>-&gt;<a class="code" href="class_aquaduino.html#a088ba3bf2e3429f341e09d0c8f62ded4" title="Identifies the actuators assigned to a specific controller. ">getAssignedActuators</a>(<span class="keyword">this</span>,</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    actuators = <a class="code" href="_aquaduino_8cpp.html#a5359fc71c1716419db400f36502686b8">__aquaduino</a>-&gt;<a class="code" href="class_aquaduino.html#a088ba3bf2e3429f341e09d0c8f62ded4" title="Identifies the actuators assigned to a specific controller. ">getAssignedActuators</a>(<span class="keyword">this</span>,</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                                                assignedActuators,</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                                                <a class="code" href="_config_8h.html#aea5dca8b379720b7e6d921c984db9aaa" title="Defines the maximum number of actuators the system can manage. ">MAX_ACTUATORS</a>);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                                                <a class="code" href="_framework_config_8h.html#aea5dca8b379720b7e6d921c984db9aaa" title="Defines the maximum number of actuators the system can manage. ">MAX_ACTUATORS</a>);</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">for</span> (; i &lt; actuators; i++)</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">if</span> (assignedActuators[i]-&gt;supportsPWM())</div>
@@ -178,7 +179,7 @@ $(document).ready(function(){initNavTree('_controller_8cpp_source.html','');});
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_bcbb2cf9a3d3d83e5515c82071a07177.html">Framework</a></li><li class="navelem"><a class="el" href="_controller_8cpp.html">Controller.cpp</a></li>
-    <li class="footer">Generated on Tue Aug 6 2013 15:40:20 for Aquaduino by
+    <li class="footer">Generated on Thu Apr 10 2014 22:43:21 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

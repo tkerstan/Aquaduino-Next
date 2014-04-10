@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['sensor_5fdigitalinput',['SENSOR_DIGITALINPUT',['../_object_types_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba8db61372b5385873719d552a52b57db9',1,'ObjectTypes.h']]],
-  ['sensor_5fds18s20',['SENSOR_DS18S20',['../_object_types_8h.html#a06fc87d81c62e9abb8790b6e5713c55baca4143929ed850639491452198e614c1',1,'ObjectTypes.h']]],
+  ['sensor_5fdigitalinput',['SENSOR_DIGITALINPUT',['../_object_types_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a8db61372b5385873719d552a52b57db9',1,'ObjectTypes.h']]],
+  ['sensor_5fds18s20',['SENSOR_DS18S20',['../_object_types_8h.html#adf764cbdea00d65edcd07bb9953ad2b7aca4143929ed850639491452198e614c1',1,'ObjectTypes.h']]],
+  ['sensor_5fserialinput',['SENSOR_SERIALINPUT',['../_object_types_8h.html#adf764cbdea00d65edcd07bb9953ad2b7accb1d26b9e95fa5d040d2592b63bd836',1,'ObjectTypes.h']]],
   ['sensorrow_5fcolor',['SENSORROW_COLOR',['../_flashvars_8h.html#a248fc783e0c2f9af2e7e57d8a3dada75ae11e9f47c423cf308fbc1b32d15c6179',1,'Flashvars.h']]],
   ['sensorrow_5fi_5fsname_5fmaxlength',['SENSORROW_I_SNAME_MAXLENGTH',['../_flashvars_8h.html#a248fc783e0c2f9af2e7e57d8a3dada75ac1a2e5fad048900cc2694b09c341643f',1,'Flashvars.h']]],
   ['sensorrow_5fi_5fsname_5fname',['SENSORROW_I_SNAME_NAME',['../_flashvars_8h.html#a248fc783e0c2f9af2e7e57d8a3dada75ae1bb05e516d1ce18a4504eb09d9bea71',1,'Flashvars.h']]],
@@ -12,5 +13,17 @@ var searchData=
   ['sensorrow_5fi_5fxchannel_5fsize',['SENSORROW_I_XCHANNEL_SIZE',['../_flashvars_8h.html#a248fc783e0c2f9af2e7e57d8a3dada75aed4927b11619a2a34b70ca02029472f8',1,'Flashvars.h']]],
   ['sensorrow_5fi_5fxchannel_5fval',['SENSORROW_I_XCHANNEL_VAL',['../_flashvars_8h.html#a248fc783e0c2f9af2e7e57d8a3dada75a58343e0b4eb789c0ed5d7a1d8d106e95',1,'Flashvars.h']]],
   ['sensorrow_5fslink',['SENSORROW_SLINK',['../_flashvars_8h.html#a248fc783e0c2f9af2e7e57d8a3dada75a5c5f3b49f0137e4a085bf7715dcd1cf0',1,'Flashvars.h']]],
-  ['sensorrow_5fsvalue',['SENSORROW_SVALUE',['../_flashvars_8h.html#a248fc783e0c2f9af2e7e57d8a3dada75a0871feacc21240336c22eea415b19ee0',1,'Flashvars.h']]]
+  ['sensorrow_5fsvalue',['SENSORROW_SVALUE',['../_flashvars_8h.html#a248fc783e0c2f9af2e7e57d8a3dada75a0871feacc21240336c22eea415b19ee0',1,'Flashvars.h']]],
+  ['setactuatordata',['SETACTUATORDATA',['../_g_u_i_server_8cpp.html#a06fc87d81c62e9abb8790b6e5713c55ba2893ab1139a4646a9cf5952f6f2a66fa',1,'GUIServer.cpp']]],
+  ['setsensorconfig',['SETSENSORCONFIG',['../_g_u_i_server_8cpp.html#a06fc87d81c62e9abb8790b6e5713c55bab86ef2a1f4597b85080082af7b295bb3',1,'GUIServer.cpp']]],
+  ['sock_5fclose',['Sock_CLOSE',['../w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3bae358e09e9ac34e7490fb2683e2c788e0',1,'w5100.h']]],
+  ['sock_5fconnect',['Sock_CONNECT',['../w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3ba42ed63e8474d671224da940a8552e0b9',1,'w5100.h']]],
+  ['sock_5fdiscon',['Sock_DISCON',['../w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3ba0cd98008ecfb95780569fe14444d62fe',1,'w5100.h']]],
+  ['sock_5flisten',['Sock_LISTEN',['../w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3bab322601c32fba205ae7e7ccf47b1c665',1,'w5100.h']]],
+  ['sock_5fopen',['Sock_OPEN',['../w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3ba2d1805f0a4f7657b8e0bbfa28eea22c9',1,'w5100.h']]],
+  ['sock_5frecv',['Sock_RECV',['../w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3baf15e40b37930c8e7065b4a0c3b356358',1,'w5100.h']]],
+  ['sock_5fsend',['Sock_SEND',['../w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3ba73a60cc20be22b44d47178a6a57c2648',1,'w5100.h']]],
+  ['sock_5fsend_5fkeep',['Sock_SEND_KEEP',['../w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3ba160b55d9a8e94d27272ae4142dea8a9f',1,'w5100.h']]],
+  ['sock_5fsend_5fmac',['Sock_SEND_MAC',['../w5100_8h.html#a8e86ec24bd81fbf5556f4cd1dc09cc3ba40b14d6445cf866fa99bf08acbe3892f',1,'w5100.h']]],
+  ['subnetmask',['subnetMask',['../_dhcp_8h.html#abc6126af1d45847bc59afa0aa3216b04a94a2aa0da8e6db0e29029ee0fc720166',1,'Dhcp.h']]]
 ];

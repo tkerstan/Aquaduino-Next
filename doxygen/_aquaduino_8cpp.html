@@ -44,6 +44,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -90,7 +91,7 @@ $(document).ready(function(){initNavTree('_aquaduino_8cpp.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -114,13 +115,11 @@ $(document).ready(function(){initNavTree('_aquaduino_8cpp.html','');});
 <code>#include &lt;<a class="el" href="_digital_output_8h_source.html">Actuators/DigitalOutput.h</a>&gt;</code><br/>
 <code>#include &lt;<a class="el" href="_d_s18_s20_8h_source.html">Sensors/DS18S20.h</a>&gt;</code><br/>
 <code>#include &lt;<a class="el" href="_digital_input_8h_source.html">Sensors/DigitalInput.h</a>&gt;</code><br/>
-<code>#include &lt;SD.h&gt;</code><br/>
-<code>#include &lt;TemplateParser.h&gt;</code><br/>
-<code>#include &lt;Time.h&gt;</code><br/>
-<code>#include &lt;EthernetUdp.h&gt;</code><br/>
-<code>#include &lt;WebServer.h&gt;</code><br/>
+<code>#include &lt;<a class="el" href="_serial_input_8h_source.html">Sensors/SerialInput.h</a>&gt;</code><br/>
+<code>#include &lt;<a class="el" href="_s_d_8h_source.html">SD.h</a>&gt;</code><br/>
+<code>#include &lt;<a class="el" href="_time_8h_source.html">Time.h</a>&gt;</code><br/>
+<code>#include &lt;<a class="el" href="_ethernet_udp_8h_source.html">EthernetUdp.h</a>&gt;</code><br/>
 <code>#include &lt;stdlib.h&gt;</code><br/>
-<code>#include &lt;<a class="el" href="_flashvars_8h_source.html">Framework/Flashvars.h</a>&gt;</code><br/>
 </div>
 <p><a href="_aquaduino_8cpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -129,125 +128,17 @@ Functions</h2></td></tr>
 <tr class="memitem:a2898e3c748953d17a36dab59bda980dc"><td class="memItemLeft" align="right" valign="top">time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_aquaduino_8cpp.html#a2898e3c748953d17a36dab59bda980dc">NTPSync</a> ()</td></tr>
 <tr class="memdesc:a2898e3c748953d17a36dab59bda980dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Routine for NTP synchronization.  <a href="#a2898e3c748953d17a36dab59bda980dc">More...</a><br/></td></tr>
 <tr class="separator:a2898e3c748953d17a36dab59bda980dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e9931ba7cf22e8e169478c7c2246e8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_aquaduino_8cpp.html#a0e9931ba7cf22e8e169478c7c2246e8e">defaultCmd</a> (WebServer &amp;server, WebServer::ConnectionType type, char *url, bool)</td></tr>
-<tr class="memdesc:a0e9931ba7cf22e8e169478c7c2246e8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the main web page.  <a href="#a0e9931ba7cf22e8e169478c7c2246e8e">More...</a><br/></td></tr>
-<tr class="separator:a0e9931ba7cf22e8e169478c7c2246e8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4b56483b0a299af4fcfe0af34263a18"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_aquaduino_8cpp.html#aa4b56483b0a299af4fcfe0af34263a18">dispatchCommand</a> (WebServer &amp;server, WebServer::ConnectionType type, char **url_path, char *url_tail, bool tail_complete)</td></tr>
-<tr class="memdesc:aa4b56483b0a299af4fcfe0af34263a18"><td class="mdescLeft">&#160;</td><td class="mdescRight">This command is triggered when the request is not the default page.  <a href="#aa4b56483b0a299af4fcfe0af34263a18">More...</a><br/></td></tr>
-<tr class="separator:aa4b56483b0a299af4fcfe0af34263a18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac7b29dc45caaaca67299571f6a2dcc0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_aquaduino_8cpp.html#aac7b29dc45caaaca67299571f6a2dcc0">freeRam</a> ()</td></tr>
 <tr class="separator:aac7b29dc45caaaca67299571f6a2dcc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fc01d736fe50cf5b977f755b675f11d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_aquaduino_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d">setup</a> ()</td></tr>
-<tr class="separator:a4fc01d736fe50cf5b977f755b675f11d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe461d27b9c48d5921c00d521181f12f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_aquaduino_8cpp.html#afe461d27b9c48d5921c00d521181f12f">loop</a> ()</td></tr>
-<tr class="separator:afe461d27b9c48d5921c00d521181f12f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ecf85c13d47309a0b3b3a39721432ae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_aquaduino_8cpp.html#a4ecf85c13d47309a0b3b3a39721432ae">ISR</a> (TIMER5_OVF_vect)</td></tr>
+<tr class="separator:a4ecf85c13d47309a0b3b3a39721432ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a25ffbbb25903635eccfe427b8b406095"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_aquaduino.html">Aquaduino</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_aquaduino_8cpp.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a></td></tr>
-<tr class="separator:a25ffbbb25903635eccfe427b8b406095"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5359fc71c1716419db400f36502686b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_aquaduino.html">Aquaduino</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_aquaduino_8cpp.html#a5359fc71c1716419db400f36502686b8">__aquaduino</a></td></tr>
+<tr class="separator:a5359fc71c1716419db400f36502686b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a0e9931ba7cf22e8e169478c7c2246e8e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void defaultCmd </td>
-          <td>(</td>
-          <td class="paramtype">WebServer &amp;&#160;</td>
-          <td class="paramname"><em>server</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">WebServer::ConnectionType&#160;</td>
-          <td class="paramname"><em>type</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>url</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<hr/>
-<p>Prints the main web page specified in pMFileName. </p>
-
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01139">1139</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aa4b56483b0a299af4fcfe0af34263a18"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dispatchCommand </td>
-          <td>(</td>
-          <td class="paramtype">WebServer &amp;&#160;</td>
-          <td class="paramname"><em>server</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">WebServer::ConnectionType&#160;</td>
-          <td class="paramname"><em>type</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char **&#160;</td>
-          <td class="paramname"><em>url_path</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>url_tail</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>tail_complete</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">server</td><td>Webserver instance to use. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>Request type </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">url_path</td><td>URL of the request </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">url_tail</td><td>contains the part of the URL that wasn't matched against the registered command table. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">tail_complete</td><td>is true if the complete URL fit in url_tail, false if part of it was lost because the buffer was too small.</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>This command dispatches the request based on its URL.</p>
-<p>For the <a class="el" href="class_aquaduino.html" title="Aquaduino main class. ">Aquaduino</a> configuration webpage the URL "config" is hardcoded here and the configCmd is called when the url_path matches this string. <a class="el" href="class_actuator.html" title="Abstract class for common actuator methods. ">Actuator</a> and <a class="el" href="class_controller.html" title="A controller realizes a control task like water level monitoring, temperature monitoring,... ">Controller</a> URLs are compared to url_path. When they match the showWebinterface of the <a class="el" href="class_actuator.html" title="Abstract class for common actuator methods. ">Actuator</a> or <a class="el" href="class_controller.html" title="A controller realizes a control task like water level monitoring, temperature monitoring,... ">Controller</a> is called. </p>
-
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l01163">1163</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="aac7b29dc45caaaca67299571f6a2dcc0"></a>
 <div class="memitem">
 <div class="memproto">
@@ -260,25 +151,27 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l02279">2279</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<hr/>
+ 
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l02585">2585</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="afe461d27b9c48d5921c00d521181f12f"></a>
+<a class="anchor" id="a4ecf85c13d47309a0b3b3a39721432ae"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void loop </td>
+          <td class="memname">ISR </td>
           <td>(</td>
+          <td class="paramtype">TIMER5_OVF_vect&#160;</td>
           <td class="paramname">)</td><td></td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l02295">2295</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l02577">2577</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -301,35 +194,18 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4fc01d736fe50cf5b977f755b675f11d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void setup </td>
-          <td>(</td>
-          <td class="paramname">)</td><td></td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l02286">2286</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
-
-</div>
-</div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="a25ffbbb25903635eccfe427b8b406095"></a>
+<a class="anchor" id="a5359fc71c1716419db400f36502686b8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_aquaduino.html">Aquaduino</a>* aquaduino</td>
+          <td class="memname"><a class="el" href="class_aquaduino.html">Aquaduino</a>* __aquaduino</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00064">64</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_aquaduino_8cpp_source.html#l00069">69</a> of file <a class="el" href="_aquaduino_8cpp_source.html">Aquaduino.cpp</a>.</p>
 
 </div>
 </div>
@@ -339,7 +215,7 @@ Variables</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="_aquaduino_8cpp.html">Aquaduino.cpp</a></li>
-    <li class="footer">Generated on Tue Aug 6 2013 15:40:20 for Aquaduino by
+    <li class="footer">Generated on Thu Apr 10 2014 22:43:23 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

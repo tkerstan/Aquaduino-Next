@@ -218,13 +218,6 @@ var _flashvars_8h =
       [ "LEVELCONTROLLER_I_TIMEOUT", "_flashvars_8h.html#a7ba9527076af79a3b2fd116dd8f328d5a5a905215bfbfb73253cfaa3a82ae346a", null ],
       [ "LEVELCONTROLLER_I_SENSOR", "_flashvars_8h.html#a7ba9527076af79a3b2fd116dd8f328d5aec9b2dab1e0c4ed9c622e24a64785b1e", null ]
     ] ],
-    [ "TEMPLATE_LEVELCONTROLLER_STATES", "_flashvars_8h.html#a05f24accc291f66ab802807c37202e88", [
-      [ "LEVELCONTROLLER_STATE_OK", "_flashvars_8h.html#a05f24accc291f66ab802807c37202e88a42c5459ae9f116cd60ea5024a9d7875f", null ],
-      [ "LEVELCONTROLLER_STATE_DEBOUNCE", "_flashvars_8h.html#a05f24accc291f66ab802807c37202e88a3fac1fb9da0ef5fcf116e527e5e9ba02", null ],
-      [ "LEVELCONTROLLER_STATE_REFILL", "_flashvars_8h.html#a05f24accc291f66ab802807c37202e88ab8d550f3de81655cfdd3a3588ba11391", null ],
-      [ "LEVELCONTROLLER_STATE_OVERRUN", "_flashvars_8h.html#a05f24accc291f66ab802807c37202e88a3d97d11d758182cc2aac95ccb859e55f", null ],
-      [ "LEVELCONTROLLER_STATE_REFILL_TIMEOUT", "_flashvars_8h.html#a05f24accc291f66ab802807c37202e88a319620c9eb43a4c774d13e615966a3ee", null ]
-    ] ],
     [ "TEMPLATE_MAIN", "_flashvars_8h.html#a2b6eb432f64063e5f3e73a6443fb5e06", [
       [ "MAIN_HOUR", "_flashvars_8h.html#a2b6eb432f64063e5f3e73a6443fb5e06af7f94bed619f639f924710720546b393", null ],
       [ "MAIN_MINUTE", "_flashvars_8h.html#a2b6eb432f64063e5f3e73a6443fb5e06a9ccc10e0797a45db182dc46b54f2b8c8", null ],

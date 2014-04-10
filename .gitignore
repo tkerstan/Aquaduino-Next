@@ -1,0 +1,16 @@
+*.d
+*.o
+*.lss
+*.map
+*.elf
+*.eep
+*.bin
+*.hex
+Boards/
+Debug/
+Release/
+Doc/
+/Release - O2
+.settings/
+.project
+.cproject

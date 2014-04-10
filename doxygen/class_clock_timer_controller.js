@@ -12,7 +12,6 @@ var class_clock_timer_controller =
     [ "serialize", "class_clock_timer_controller.html#a7f8c9ad7a4cff13a01df0dfb531cbf89", null ],
     [ "setName", "class_clock_timer_controller.html#a40fc29ed066a150c8c3e4fc96f858b7f", null ],
     [ "setURL", "class_clock_timer_controller.html#abb7e16f550fe4d7f3b6e942103dd2a2a", null ],
-    [ "showWebinterface", "class_clock_timer_controller.html#a27b8253c3a4d170c264dd75241615064", null ],
     [ "m_Name", "class_clock_timer_controller.html#aa941d84108739b8be370972824954fd2", null ],
     [ "m_Type", "class_clock_timer_controller.html#a239c6870522baa669022c8ee7a2cd807", null ],
     [ "m_URL", "class_clock_timer_controller.html#aa73d61fe9016c44220f3be29fe7e25d2", null ]

@@ -44,6 +44,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -68,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -92,7 +93,7 @@ $(document).ready(function(){initNavTree('class_digital_output.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -118,10 +119,15 @@ $(document).ready(function(){initNavTree('class_digital_output.html','');});
 <div class="dynheader">
 Inheritance diagram for DigitalOutput:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_digital_output__inherit__graph.png" border="0" usemap="#_digital_output_inherit__map" alt="Inheritance graph"/></div>
-<map name="_digital_output_inherit__map" id="_digital_output_inherit__map">
-<area shape="rect" id="node2" href="class_actuator.html" title="Abstract class for common actuator methods. " alt="" coords="98,80,168,107"/><area shape="rect" id="node3" href="class_object.html" title="Base class for all Controller, Actuators, Sensors and the Aquaduino. " alt="" coords="5,5,64,32"/><area shape="rect" id="node4" href="class_serializable.html" title="Interface for serialization methods. " alt="" coords="89,5,177,32"/><area shape="rect" id="node5" href="class_web_interface.html" title="Interface to access the Webduino webserver. " alt="" coords="203,5,301,32"/></map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+ <div class="center">
+  <img src="class_digital_output.png" usemap="#DigitalOutput_map" alt=""/>
+  <map id="DigitalOutput_map" name="DigitalOutput_map">
+<area href="class_actuator.html" title="Abstract class for common actuator methods. " alt="Actuator" shape="rect" coords="97,56,184,80"/>
+<area href="class_object.html" title="Base class for all Controller, Actuators, Sensors and the Aquaduino. " alt="Object" shape="rect" coords="0,0,87,24"/>
+<area href="class_serializable.html" title="Interface for serialization methods. " alt="Serializable" shape="rect" coords="97,0,184,24"/>
+<area href="class_web_interface.html" title="Interface to access the Webduino webserver. " alt="WebInterface" shape="rect" coords="194,0,281,24"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -158,9 +164,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adc574f013534e2d0e98043c532efcd84"><td class="memItemLeft" align="right" valign="top">virtual float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_digital_output.html#adc574f013534e2d0e98043c532efcd84">getPWM</a> ()</td></tr>
 <tr class="memdesc:adc574f013534e2d0e98043c532efcd84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets current duty cycle when PWM is active.  <a href="#adc574f013534e2d0e98043c532efcd84">More...</a><br/></td></tr>
 <tr class="separator:adc574f013534e2d0e98043c532efcd84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc5037f1990bb4b383771a77b13664e3"><td class="memItemLeft" align="right" valign="top">virtual int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_digital_output.html#abc5037f1990bb4b383771a77b13664e3">showWebinterface</a> (WebServer *server, WebServer::ConnectionType type, char *url)</td></tr>
-<tr class="memdesc:abc5037f1990bb4b383771a77b13664e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for webpage presentation.  <a href="#abc5037f1990bb4b383771a77b13664e3">More...</a><br/></td></tr>
-<tr class="separator:abc5037f1990bb4b383771a77b13664e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89d48b4e22f8321a2326ca5c8c13b623"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_digital_output.html#a89d48b4e22f8321a2326ca5c8c13b623">setPin</a> (uint8_t pin)</td></tr>
+<tr class="separator:a89d48b4e22f8321a2326ca5c8c13b623"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0997cdee92cf7f18f722cc37d9b04313"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_digital_output.html#a0997cdee92cf7f18f722cc37d9b04313">getPin</a> ()</td></tr>
+<tr class="separator:a0997cdee92cf7f18f722cc37d9b04313"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5caa3a0b0cab70443433f073bcf34cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_actuator.html#af5caa3a0b0cab70443433f073bcf34cc">setController</a> (int8_t controller)</td></tr>
 <tr class="memdesc:af5caa3a0b0cab70443433f073bcf34cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the controller this actuator is assigned to.  <a href="#af5caa3a0b0cab70443433f073bcf34cc">More...</a><br/></td></tr>
 <tr class="separator:af5caa3a0b0cab70443433f073bcf34cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -198,9 +205,9 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a0554cad45d618a9a755bbfb089e1014a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa82a8636c4ca8a486f8583674438ce12"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_actuator.html#aa82a8636c4ca8a486f8583674438ce12">m_locked</a></td></tr>
 <tr class="separator:aa82a8636c4ca8a486f8583674438ce12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa941d84108739b8be370972824954fd2"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_object.html#aa941d84108739b8be370972824954fd2">m_Name</a> [<a class="el" href="_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td></tr>
+<tr class="memitem:aa941d84108739b8be370972824954fd2"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_object.html#aa941d84108739b8be370972824954fd2">m_Name</a> [<a class="el" href="_framework_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td></tr>
 <tr class="separator:aa941d84108739b8be370972824954fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa73d61fe9016c44220f3be29fe7e25d2"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_object.html#aa73d61fe9016c44220f3be29fe7e25d2">m_URL</a> [<a class="el" href="_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td></tr>
+<tr class="memitem:aa73d61fe9016c44220f3be29fe7e25d2"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_object.html#aa73d61fe9016c44220f3be29fe7e25d2">m_URL</a> [<a class="el" href="_framework_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td></tr>
 <tr class="separator:aa73d61fe9016c44220f3be29fe7e25d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a239c6870522baa669022c8ee7a2cd807"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_object.html#a239c6870522baa669022c8ee7a2cd807">m_Type</a></td></tr>
 <tr class="separator:a239c6870522baa669022c8ee7a2cd807"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -249,7 +256,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <p>The parameters onValue and OffValue allow for Actuators that are driven inverted (On=0 and Off=1) like normally closed relays. </p>
 
-<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00036">36</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00039">39</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
 
 </div>
 </div>
@@ -297,7 +304,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_serializable.html#ad6a1d38f4e11eb3e1b1bacd0759dc778">Serializable</a>.</p>
 
-<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00073">73</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00076">76</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
 
 </div>
 </div>
@@ -325,7 +332,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_actuator.html#addc2b03c0496dddab598fec001c352b5">Actuator</a>.</p>
 
-<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00159">159</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00162">162</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
 
 </div>
 </div>
@@ -353,7 +360,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_actuator.html#a271dfad7ab1e78c6c6e4d2e835ea717e">Actuator</a>.</p>
 
-<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00144">144</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00147">147</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
 
 </div>
 </div>
@@ -409,6 +416,23 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a0997cdee92cf7f18f722cc37d9b04313"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t DigitalOutput::getPin </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00230">230</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="adc574f013534e2d0e98043c532efcd84"></a>
 <div class="memitem">
 <div class="memproto">
@@ -433,7 +457,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_actuator.html#a04dab2276ff03751921dfc2e403ec8c1">Actuator</a>.</p>
 
-<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00217">217</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00220">220</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
 
 </div>
 </div>
@@ -539,7 +563,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_actuator.html#a3d962ff8db3b12fe51df5f12ad445caa">Actuator</a>.</p>
 
-<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00174">174</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00177">177</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
 
 </div>
 </div>
@@ -593,7 +617,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_actuator.html#a767243ef9f90e7a99175ad466cc02916">Actuator</a>.</p>
 
-<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00125">125</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00128">128</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
 
 </div>
 </div>
@@ -621,7 +645,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_actuator.html#a40700c01e3123133fd11157f9707ac8a">Actuator</a>.</p>
 
-<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00107">107</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00110">110</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
 
 </div>
 </div>
@@ -668,7 +692,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_serializable.html#a97b461d082ed7a40a0cf8b143ef2f05b">Serializable</a>.</p>
 
-<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00049">49</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00052">52</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
 
 </div>
 </div>
@@ -738,6 +762,24 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a89d48b4e22f8321a2326ca5c8c13b623"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DigitalOutput::setPin </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>pin</em>)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00225">225</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a2d57fa5b1ca9f901451269327309e537"></a>
 <div class="memitem">
 <div class="memproto">
@@ -769,7 +811,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_actuator.html#a80dbe74fa140d0246452b4531ffbb86f">Actuator</a>.</p>
 
-<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00196">196</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00199">199</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
 
 </div>
 </div>
@@ -806,59 +848,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="abc5037f1990bb4b383771a77b13664e3"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int8_t DigitalOutput::showWebinterface </td>
-          <td>(</td>
-          <td class="paramtype">WebServer *&#160;</td>
-          <td class="paramname"><em>server</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">WebServer::ConnectionType&#160;</td>
-          <td class="paramname"><em>type</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>url</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">server</td><td>Instance of the Webduino webserver </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>Type of the request (GET, POST,...) </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">url</td><td>URL used in request. Allows for subURL decoding.</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>This method needs to be implemented by the class providing this interface to present its webpage using the Webduino webserver. </p>
-
-<p>Implements <a class="el" href="class_web_interface.html#a8762482803c6e98ac19d375995473196">WebInterface</a>.</p>
-
-<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00222">222</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a94eb39488340bc43c247a8db14565f10"></a>
 <div class="memitem">
 <div class="memproto">
@@ -883,7 +872,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_actuator.html#a66f12d52b9d350c6c5a55c5691e13682">Actuator</a>.</p>
 
-<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00184">184</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_digital_output_8cpp_source.html#l00187">187</a> of file <a class="el" href="_digital_output_8cpp_source.html">DigitalOutput.cpp</a>.</p>
 
 </div>
 </div>
@@ -966,7 +955,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">char Object::m_Name[<a class="el" href="_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td>
+          <td class="memname">char Object::m_Name[<a class="el" href="_framework_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td>
         </tr>
       </table>
   </td>
@@ -1010,7 +999,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">char Object::m_URL[<a class="el" href="_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td>
+          <td class="memname">char Object::m_URL[<a class="el" href="_framework_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td>
         </tr>
       </table>
   </td>
@@ -1034,7 +1023,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_digital_output.html">DigitalOutput</a></li>
-    <li class="footer">Generated on Tue Aug 6 2013 15:40:20 for Aquaduino by
+    <li class="footer">Generated on Thu Apr 10 2014 22:43:25 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

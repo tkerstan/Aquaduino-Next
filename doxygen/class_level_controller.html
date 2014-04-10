@@ -44,6 +44,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -68,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -92,7 +93,7 @@ $(document).ready(function(){initNavTree('class_level_controller.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -119,10 +120,15 @@ $(document).ready(function(){initNavTree('class_level_controller.html','');});
 <div class="dynheader">
 Inheritance diagram for LevelController:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_level_controller__inherit__graph.png" border="0" usemap="#_level_controller_inherit__map" alt="Inheritance graph"/></div>
-<map name="_level_controller_inherit__map" id="_level_controller_inherit__map">
-<area shape="rect" id="node2" href="class_controller.html" title="A controller realizes a control task like water level monitoring, temperature monitoring,... " alt="" coords="95,80,172,107"/><area shape="rect" id="node3" href="class_object.html" title="Base class for all Controller, Actuators, Sensors and the Aquaduino. " alt="" coords="5,5,64,32"/><area shape="rect" id="node4" href="class_serializable.html" title="Interface for serialization methods. " alt="" coords="89,5,177,32"/><area shape="rect" id="node5" href="class_web_interface.html" title="Interface to access the Webduino webserver. " alt="" coords="203,5,301,32"/></map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+ <div class="center">
+  <img src="class_level_controller.png" usemap="#LevelController_map" alt=""/>
+  <map id="LevelController_map" name="LevelController_map">
+<area href="class_controller.html" title="A controller realizes a control task like water level monitoring, temperature monitoring,... " alt="Controller" shape="rect" coords="109,56,208,80"/>
+<area href="class_object.html" title="Base class for all Controller, Actuators, Sensors and the Aquaduino. " alt="Object" shape="rect" coords="0,0,99,24"/>
+<area href="class_serializable.html" title="Interface for serialization methods. " alt="Serializable" shape="rect" coords="109,0,208,24"/>
+<area href="class_web_interface.html" title="Interface to access the Webduino webserver. " alt="WebInterface" shape="rect" coords="218,0,317,24"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -138,9 +144,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acf5109c2a5b60a9923e4c7b6d4176f6c"><td class="memItemLeft" align="right" valign="top">virtual int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_level_controller.html#acf5109c2a5b60a9923e4c7b6d4176f6c">run</a> ()</td></tr>
 <tr class="memdesc:acf5109c2a5b60a9923e4c7b6d4176f6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run method triggered by <a class="el" href="class_aquaduino.html#a72ddeb7acd4e678dbbf7835f6876fc3c" title="Top level run method. ">Aquaduino::run</a>.  <a href="#acf5109c2a5b60a9923e4c7b6d4176f6c">More...</a><br/></td></tr>
 <tr class="separator:acf5109c2a5b60a9923e4c7b6d4176f6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a994667204edfed42b6689631a103d8ab"><td class="memItemLeft" align="right" valign="top">virtual int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_level_controller.html#a994667204edfed42b6689631a103d8ab">showWebinterface</a> (WebServer *server, WebServer::ConnectionType type, char *url)</td></tr>
-<tr class="memdesc:a994667204edfed42b6689631a103d8ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for webpage presentation.  <a href="#a994667204edfed42b6689631a103d8ab">More...</a><br/></td></tr>
-<tr class="separator:a994667204edfed42b6689631a103d8ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40fc29ed066a150c8c3e4fc96f858b7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_object.html#a40fc29ed066a150c8c3e4fc96f858b7f">setName</a> (const char *name)</td></tr>
 <tr class="memdesc:a40fc29ed066a150c8c3e4fc96f858b7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setter for the object name.  <a href="#a40fc29ed066a150c8c3e4fc96f858b7f">More...</a><br/></td></tr>
 <tr class="separator:a40fc29ed066a150c8c3e4fc96f858b7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -168,9 +171,9 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:aa941d84108739b8be370972824954fd2"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_object.html#aa941d84108739b8be370972824954fd2">m_Name</a> [<a class="el" href="_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td></tr>
+<tr class="memitem:aa941d84108739b8be370972824954fd2"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_object.html#aa941d84108739b8be370972824954fd2">m_Name</a> [<a class="el" href="_framework_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td></tr>
 <tr class="separator:aa941d84108739b8be370972824954fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa73d61fe9016c44220f3be29fe7e25d2"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_object.html#aa73d61fe9016c44220f3be29fe7e25d2">m_URL</a> [<a class="el" href="_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td></tr>
+<tr class="memitem:aa73d61fe9016c44220f3be29fe7e25d2"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_object.html#aa73d61fe9016c44220f3be29fe7e25d2">m_URL</a> [<a class="el" href="_framework_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td></tr>
 <tr class="separator:aa73d61fe9016c44220f3be29fe7e25d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a239c6870522baa669022c8ee7a2cd807"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_object.html#a239c6870522baa669022c8ee7a2cd807">m_Type</a></td></tr>
 <tr class="separator:a239c6870522baa669022c8ee7a2cd807"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -201,7 +204,7 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_level_controller_8cpp_source.html#l00031">31</a> of file <a class="el" href="_level_controller_8cpp_source.html">LevelController.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_level_controller_8cpp_source.html#l00046">46</a> of file <a class="el" href="_level_controller_8cpp_source.html">LevelController.cpp</a>.</p>
 
 </div>
 </div>
@@ -314,7 +317,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_serializable.html#ad6a1d38f4e11eb3e1b1bacd0759dc778">Serializable</a>.</p>
 
-<p>Definition at line <a class="el" href="_level_controller_8cpp_source.html#l00064">64</a> of file <a class="el" href="_level_controller_8cpp_source.html">LevelController.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_level_controller_8cpp_source.html#l00079">79</a> of file <a class="el" href="_level_controller_8cpp_source.html">LevelController.cpp</a>.</p>
 
 </div>
 </div>
@@ -421,11 +424,11 @@ Protected Attributes</h2></td></tr>
 <p>In state LEVELCONTROLLER_STATE_DEBOUNCE it is checked if the reading becomes LOW within the time LevelController::debounceDelayHigh seconds. When this is the case a transition back to LEVELCONTROLLER_STATE_OK is performed. This is the case when the level sensor detected a wave. When the signal is HIGH for at least LevelController::debounceDelayHigh seconds a transition to LEVELCONTROLLER_STATE_REFILL is performed and all assigned actuators are activated.</p>
 <p>In state LEVELCONTROLLER_STATE_REFILL it is checked whether the signal remains HIGH for more than LevelController::refillTimeout seconds. If thats the case it is assumed that the water reservoir ran out of water and the refill process is stopped and a transition to LevelController::LEVELCONTROLLER_STATE_REFILL_TIMEOUT is performed. If the signal gets LOW within LevelController::refillTimeout seconds a transition to LEVELCONTROLLER_STATE_OVERRUN is performed.</p>
 <p>In state LEVELCONTROLLER_STATE_OVERRUN it is checked whether the reading remains LOW and a time of LevelController::hysteresis seconds passes. If this is the case the refill process has finished and a transition to LEVELCONTROLLER_STATE_OK is performed. If the reading gets HIGH again a transition back to LEVELCONTROLLER_STATE_REFILL.</p>
-<p>In state LEVELCONTROLLER_STATE_REFILL_TIMEOUT nothing happens until the state machine variables are reseted from outside this function. This reset is currently implemented in the POST request processing in <a class="el" href="class_level_controller.html#a994667204edfed42b6689631a103d8ab" title="Callback for webpage presentation. ">LevelController::showWebinterface</a>. </p>
+<p>In state LEVELCONTROLLER_STATE_REFILL_TIMEOUT nothing happens until the state machine variables are reseted from outside this function. This reset is currently implemented in the POST request processing in LevelController::showWebinterface. </p>
 
 <p>Implements <a class="el" href="class_controller.html#a571614716a0e7dd79674988a0f5780d8">Controller</a>.</p>
 
-<p>Definition at line <a class="el" href="_level_controller_8cpp_source.html#l00125">125</a> of file <a class="el" href="_level_controller_8cpp_source.html">LevelController.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_level_controller_8cpp_source.html#l00140">140</a> of file <a class="el" href="_level_controller_8cpp_source.html">LevelController.cpp</a>.</p>
 
 </div>
 </div>
@@ -472,7 +475,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_serializable.html#a97b461d082ed7a40a0cf8b143ef2f05b">Serializable</a>.</p>
 
-<p>Definition at line <a class="el" href="_level_controller_8cpp_source.html#l00042">42</a> of file <a class="el" href="_level_controller_8cpp_source.html">LevelController.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_level_controller_8cpp_source.html#l00057">57</a> of file <a class="el" href="_level_controller_8cpp_source.html">LevelController.cpp</a>.</p>
 
 </div>
 </div>
@@ -542,59 +545,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a994667204edfed42b6689631a103d8ab"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int8_t LevelController::showWebinterface </td>
-          <td>(</td>
-          <td class="paramtype">WebServer *&#160;</td>
-          <td class="paramname"><em>server</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">WebServer::ConnectionType&#160;</td>
-          <td class="paramname"><em>type</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>url</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">server</td><td>Instance of the Webduino webserver </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>Type of the request (GET, POST,...) </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">url</td><td>URL used in request. Allows for subURL decoding.</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>This method needs to be implemented by the class providing this interface to present its webpage using the Webduino webserver. </p>
-
-<p>Implements <a class="el" href="class_controller.html#ad8a96958b672fa16ca021809b18585de">Controller</a>.</p>
-
-<p>Definition at line <a class="el" href="_level_controller_8cpp_source.html#l00196">196</a> of file <a class="el" href="_level_controller_8cpp_source.html">LevelController.cpp</a>.</p>
-
-</div>
-</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="aa941d84108739b8be370972824954fd2"></a>
 <div class="memitem">
@@ -604,7 +554,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">char Object::m_Name[<a class="el" href="_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td>
+          <td class="memname">char Object::m_Name[<a class="el" href="_framework_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td>
         </tr>
       </table>
   </td>
@@ -648,7 +598,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">char Object::m_URL[<a class="el" href="_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td>
+          <td class="memname">char Object::m_URL[<a class="el" href="_framework_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td>
         </tr>
       </table>
   </td>
@@ -672,7 +622,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_level_controller.html">LevelController</a></li>
-    <li class="footer">Generated on Tue Aug 6 2013 15:40:20 for Aquaduino by
+    <li class="footer">Generated on Thu Apr 10 2014 22:43:25 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

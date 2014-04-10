@@ -28,5 +28,6 @@ var searchData=
   ['temperaturecontroller_5freftemp2_5fval',['TEMPERATURECONTROLLER_REFTEMP2_VAL',['../_flashvars_8h.html#a4460cee03b653f1ededb69f43cb540eea763cf982296351d2425bdd73b108e426',1,'Flashvars.h']]],
   ['temperaturecontroller_5fsselect',['TEMPERATURECONTROLLER_SSELECT',['../_flashvars_8h.html#a4460cee03b653f1ededb69f43cb540eea68e17a7f4f0b001d60ce0659e7f5d562',1,'Flashvars.h']]],
   ['temperaturecontroller_5ftemperature',['TEMPERATURECONTROLLER_TEMPERATURE',['../_flashvars_8h.html#a4460cee03b653f1ededb69f43cb540eeab4c08114e1ea77cc44d19d4e0c7f2512',1,'Flashvars.h']]],
-  ['temperaturecontroller_5funit',['TEMPERATURECONTROLLER_UNIT',['../_flashvars_8h.html#a4460cee03b653f1ededb69f43cb540eeab4f202cd4e269949927b14c98fa1d858',1,'Flashvars.h']]]
+  ['temperaturecontroller_5funit',['TEMPERATURECONTROLLER_UNIT',['../_flashvars_8h.html#a4460cee03b653f1ededb69f43cb540eeab4f202cd4e269949927b14c98fa1d858',1,'Flashvars.h']]],
+  ['timeroffset',['timerOffset',['../_dhcp_8h.html#abc6126af1d45847bc59afa0aa3216b04a4efe3ce5930f237a992e7c5d993e091d',1,'Dhcp.h']]]
 ];

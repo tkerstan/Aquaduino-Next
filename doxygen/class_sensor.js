@@ -10,7 +10,6 @@ var class_sensor =
     [ "serialize", "class_sensor.html#a97b461d082ed7a40a0cf8b143ef2f05b", null ],
     [ "setName", "class_sensor.html#a40fc29ed066a150c8c3e4fc96f858b7f", null ],
     [ "setURL", "class_sensor.html#abb7e16f550fe4d7f3b6e942103dd2a2a", null ],
-    [ "showWebinterface", "class_sensor.html#a8762482803c6e98ac19d375995473196", null ],
     [ "m_Name", "class_sensor.html#aa941d84108739b8be370972824954fd2", null ],
     [ "m_Type", "class_sensor.html#a239c6870522baa669022c8ee7a2cd807", null ],
     [ "m_URL", "class_sensor.html#aa73d61fe9016c44220f3be29fe7e25d2", null ]

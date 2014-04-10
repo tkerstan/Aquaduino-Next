@@ -44,6 +44,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -68,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -92,7 +93,7 @@ $(document).ready(function(){initNavTree('class_s_d_config_manager.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -109,24 +110,24 @@ $(document).ready(function(){initNavTree('class_s_d_config_manager.html','');});
 
 <p>This is the complete list of members for <a class="el" href="class_s_d_config_manager.html">SDConfigManager</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_s_d_config_manager.html#a1202df1cf91716fba4c51f9b27b7cc90">readConfig</a>(Aquaduino *aquaduino)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_s_d_config_manager.html#a10a368240d6e6c04ccf4920885fc8d93">readConfig</a>(Actuator *actuator)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_s_d_config_manager.html#af4512ba0456349259714dc8f9cc582f0">readConfig</a>(Controller *controller)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_s_d_config_manager.html#a6dd980ac457663f0901ae571d1227c35">readConfig</a>(Sensor *sensor)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_s_d_config_manager.html#a1b49648e613eb575ec202832b0655c62">readConfig</a>(Aquaduino *aquaduino)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_s_d_config_manager.html#a8e647723ceee18caf7ae0a3d2fb53268">readConfig</a>(Actuator *actuator)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_s_d_config_manager.html#ae6c054e5fb5a9b85a263cbc6f43193a9">readConfig</a>(Controller *controller)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_s_d_config_manager.html#a7d942dc4ab2c62d47d4b879e32cfa037">readConfig</a>(Sensor *sensor)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_s_d_config_manager.html#af82e2c7188e996b42f9158b108dd6abc">readStructFromFile</a>(const char *filename, struct configuration *config)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_s_d_config_manager.html#a7970dcc6948b26e7a70ec6cefbacc9b8">SDConfigManager</a>()</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_s_d_config_manager.html#a970e4caefa4c667d3446d8efb3b5b48c">SDConfigManager</a>(const char *prefix)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_s_d_config_manager.html#a15d1d86741af99c4ae6fa93cb81907cd">writeConfig</a>(Aquaduino *aquaduino)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_s_d_config_manager.html#ac7a5874b228c4659eda6ea80e307578f">writeConfig</a>(Actuator *actuator)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_s_d_config_manager.html#abd9b2f27d34ccf9b76add87ca9f92f4f">writeConfig</a>(Controller *controller)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_s_d_config_manager.html#a21bc81ab376049d40862c565d862cc7b">writeConfig</a>(Sensor *sensor)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_s_d_config_manager.html#af467cf034b5af4cb19a8e7936175bbbd">writeConfig</a>(Aquaduino *aquaduino)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_s_d_config_manager.html#a1c6f1e353b5e765cf39a5778b75613ec">writeConfig</a>(Actuator *actuator)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_s_d_config_manager.html#a278598855903d033f677711208e38fa0">writeConfig</a>(Controller *controller)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_s_d_config_manager.html#a4f51c09a4e377f80c1680bf9ac4b60eb">writeConfig</a>(Sensor *sensor)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_s_d_config_manager.html#a85a23603c7aecf85c331b0d9059c05b6">writeStructToFile</a>(const char *filename, struct configuration *config)</td><td class="entry"><a class="el" href="class_s_d_config_manager.html">SDConfigManager</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Aug 6 2013 15:40:20 for Aquaduino by
+    <li class="footer">Generated on Thu Apr 10 2014 22:43:25 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

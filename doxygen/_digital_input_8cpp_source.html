@@ -44,6 +44,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -90,7 +91,7 @@ $(document).ready(function(){initNavTree('_digital_input_8cpp_source.html','');}
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -126,106 +127,120 @@ $(document).ready(function(){initNavTree('_digital_input_8cpp_source.html','');}
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_aquaduino_8h.html">Aquaduino.h</a>&gt;</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_digital_input_8h.html">DigitalInput.h</a>&quot;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;Arduino.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;SD.h&gt;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;TemplateParser.h&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_flashvars_8h.html">Framework/Flashvars.h</a>&gt;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="code" href="class_digital_input.html#ad7f2f23569675f6a1502057b555106c0">   31</a></span>&#160;<a class="code" href="class_digital_input.html#ad7f2f23569675f6a1502057b555106c0" title="Constructor. ">DigitalInput::DigitalInput</a>()</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="class_object.html#a239c6870522baa669022c8ee7a2cd807">m_Type</a> = <a class="code" href="_object_types_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba8db61372b5385873719d552a52b57db9">SENSOR_DIGITALINPUT</a>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    m_Pin = 0;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="code" href="class_digital_input.html#aa36bf1861bbf6e182b6e63463bbdc3da">   42</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="class_digital_input.html#aa36bf1861bbf6e182b6e63463bbdc3da" title="Returns the value of the digital input. ">DigitalInput::read</a>()</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span> digitalRead(m_Pin);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="code" href="class_digital_input.html#afc46c6cee0701b10698da9ba74d345b4">   47</a></span>&#160;uint16_t <a class="code" href="class_digital_input.html#afc46c6cee0701b10698da9ba74d345b4" title="Callback for serialization of an object. ">DigitalInput::serialize</a>(<span class="keywordtype">void</span>* buffer, uint16_t size)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    memcpy(buffer, &amp;m_Pin, <span class="keyword">sizeof</span>(m_Pin));</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(m_Pin);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="code" href="class_digital_input.html#a9e33235d8c769d2a54c886aeaefdf7ba">   53</a></span>&#160;uint16_t <a class="code" href="class_digital_input.html#a9e33235d8c769d2a54c886aeaefdf7ba" title="Callback for deserialization of an object. ">DigitalInput::deserialize</a>(<span class="keywordtype">void</span>* data, uint16_t size)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;{</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    memcpy(&amp;m_Pin, data, <span class="keyword">sizeof</span>(m_Pin));</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    pinMode(m_Pin, INPUT);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(m_Pin);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="code" href="class_digital_input.html#ac43a357d60e0ae9e19bf682d4f198765">   60</a></span>&#160;int8_t <a class="code" href="class_digital_input.html#ac43a357d60e0ae9e19bf682d4f198765" title="Callback for webpage presentation. ">DigitalInput::showWebinterface</a>(WebServer* server,</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                                      WebServer::ConnectionType type, <span class="keywordtype">char</span>* url)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;{</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    File templateFile;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    TemplateParser* parser;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    int16_t matchIdx;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">char</span> templateFileName[<a class="code" href="_flashvars_8h.html#a657637ea42dacb135c86492926eac28f">template_digitalinput_fnsize</a>];</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    strcpy_P(templateFileName, <a class="code" href="_flashvars_8h.html#ad4c0ca8b110c9342b8581322ef769de9">template_digitalinput_fname</a>);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">if</span> (type == WebServer::POST)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        int8_t repeat;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordtype">char</span> name[16], value[16];</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">do</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            repeat = server-&gt;readPOSTparam(name, 16, value, 16);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordflow">if</span> (strcmp_P(name,</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                         (PGM_P) pgm_read_word(&amp;(<a class="code" href="_flashvars_8h.html#ab624d24ca16d70762fde873263143694">template_digitalinput_inputs</a>[<a class="code" href="_flashvars_8h.html#a325dca8fa8b4b17684369a022e455f6ea47142d84c6d67522e68200de315a10b0">DI_I_PIN</a>])))</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                == 0)</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            {</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                m_Pin = atoi(value);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                pinMode(m_Pin, INPUT);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            }</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        } <span class="keywordflow">while</span> (repeat);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        server-&gt;httpSeeOther(this-&gt;<a class="code" href="class_object.html#aa73d61fe9016c44220f3be29fe7e25d2">m_URL</a>);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    }</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    {</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        server-&gt;httpSuccess();</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        parser = <a class="code" href="_aquaduino_8cpp.html#a25ffbbb25903635eccfe427b8b406095">aquaduino</a>-&gt;<a class="code" href="class_aquaduino.html#aed76e9fb8f6a3714bbd8de7781133f6e" title="Getter for the TemplateParser. ">getTemplateParser</a>();</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        templateFile = SD.open(templateFileName, FILE_READ);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">while</span> ((matchIdx =</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                parser-&gt;processTemplateUntilNextMatch(&amp;templateFile,</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                                                      <a class="code" href="_flashvars_8h.html#aeed2d78e59e15d44a578dcda71c49776">template_digitalinput</a>,</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                                                      <a class="code" href="_flashvars_8h.html#a81c856a2cdb060b0380ab93f051bdbb3">template_digitalinput_elements</a>,</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                                                      server))</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;               &gt;= 0)</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        {</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keywordflow">switch</span> (matchIdx)</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            {</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a36ca4ecc1f3be3d7b260fcacbc7b87e2ab2da4af0901d979c8ac4c6a85df076ce">DI_SNAME</a>:</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                server-&gt;print(<a class="code" href="class_object.html#aff677ddb7fe429a58e22cd3cadbcee7b" title="Getter for the name of the object. ">getName</a>());</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a36ca4ecc1f3be3d7b260fcacbc7b87e2a1d3c891cc6b2b296fea10e1007bde292">DI_PIN_NAME</a>:</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                server-&gt;print((__FlashStringHelper *) pgm_read_word(<a class="code" href="_flashvars_8h.html#ab624d24ca16d70762fde873263143694">template_digitalinput_inputs</a>));</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a36ca4ecc1f3be3d7b260fcacbc7b87e2ac0e460db3d063ab519fd87c7582a1703">DI_PIN_VAL</a>:</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                server-&gt;print(m_Pin);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a36ca4ecc1f3be3d7b260fcacbc7b87e2a3fd1ed86811a17874dc4a931754c9aeb">DI_PIN_SIZE</a>:</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                server-&gt;print(3);</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a36ca4ecc1f3be3d7b260fcacbc7b87e2a43bf3105e5f1703efdbbdf3d50f9a05a">DI_PIN_MAXLENGTH</a>:</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                server-&gt;print(2);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            }</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        }</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        templateFile.close();</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    }</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;}</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_arduino_8h.html">Arduino.h</a>&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_s_d_8h.html">SD.h</a>&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#ifdef FEATURE_WEBIF</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;<a class="code" href="_template_parser_8h.html">TemplateParser.h</a>&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_flashvars_8h.html">Framework/Flashvars.h</a>&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="code" href="class_digital_input.html#ad7f2f23569675f6a1502057b555106c0">   34</a></span>&#160;<a class="code" href="class_digital_input.html#ad7f2f23569675f6a1502057b555106c0" title="Constructor. ">DigitalInput::DigitalInput</a>()</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="class_object.html#a239c6870522baa669022c8ee7a2cd807">m_Type</a> = <a class="code" href="_object_types_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a8db61372b5385873719d552a52b57db9">SENSOR_DIGITALINPUT</a>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    m_Pin = 0;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="code" href="class_digital_input.html#aa36bf1861bbf6e182b6e63463bbdc3da">   45</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="class_digital_input.html#aa36bf1861bbf6e182b6e63463bbdc3da" title="Returns the value of the digital input. ">DigitalInput::read</a>()</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="_arduino_8h.html#a47ebd125381c211f80468fb47f717a35">digitalRead</a>(m_Pin);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="code" href="class_digital_input.html#afc46c6cee0701b10698da9ba74d345b4">   50</a></span>&#160;uint16_t <a class="code" href="class_digital_input.html#afc46c6cee0701b10698da9ba74d345b4" title="Callback for serialization of an object. ">DigitalInput::serialize</a>(<span class="keywordtype">void</span>* buffer, uint16_t size)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    memcpy(buffer, &amp;m_Pin, <span class="keyword">sizeof</span>(m_Pin));</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(m_Pin);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="code" href="class_digital_input.html#a9e33235d8c769d2a54c886aeaefdf7ba">   56</a></span>&#160;uint16_t <a class="code" href="class_digital_input.html#a9e33235d8c769d2a54c886aeaefdf7ba" title="Callback for deserialization of an object. ">DigitalInput::deserialize</a>(<span class="keywordtype">void</span>* data, uint16_t size)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;{</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    memcpy(&amp;m_Pin, data, <span class="keyword">sizeof</span>(m_Pin));</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="_arduino_8h.html#aedf28437b0c388082e19f9f6e4f47cf0">pinMode</a>(m_Pin, <a class="code" href="_arduino_8h.html#a1bb283bd7893b9855e2f23013891fc82">INPUT</a>);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(m_Pin);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="code" href="class_digital_input.html#a723fe64a5dee166619ba6293fd6e07c4">   63</a></span>&#160;<span class="keywordtype">void</span>  <a class="code" href="class_digital_input.html#a723fe64a5dee166619ba6293fd6e07c4">DigitalInput::setPin</a>(uint8_t pin)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;{</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    m_Pin = pin;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="code" href="class_digital_input.html#a420ed3a01479cde387a266ec34738be4">   68</a></span>&#160;uint8_t <a class="code" href="class_digital_input.html#a420ed3a01479cde387a266ec34738be4">DigitalInput::getPin</a>()</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;{</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">return</span> m_Pin;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">#ifdef FEATURE_WEBIF</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor"></span>int8_t DigitalInput::showWebinterface(<a class="code" href="class_web_server.html">WebServer</a>* server,</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                      <a class="code" href="class_web_server.html#a6a3694f8bd91bbbd8a4932676b5c8569">WebServer::ConnectionType</a> type, <span class="keywordtype">char</span>* url)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;{</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="class_file.html">File</a> templateFile;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <a class="code" href="class_template_parser.html">TemplateParser</a>* parser;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    int16_t matchIdx;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">char</span> templateFileName[<a class="code" href="_flashvars_8h.html#a657637ea42dacb135c86492926eac28f">template_digitalinput_fnsize</a>];</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="_date_strings_8cpp.html#ae74941b597bdd8ffb5c35f45b636946b">strcpy_P</a>(templateFileName, template_digitalinput_fname);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">if</span> (type == <a class="code" href="class_web_server.html#a6a3694f8bd91bbbd8a4932676b5c8569ae67d3c969439410be0def6bae61f1835">WebServer::POST</a>)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        int8_t repeat;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordtype">char</span> name[16], value[16];</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">do</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            repeat = server-&gt;<a class="code" href="class_web_server.html#ab92562ad21b9818b3b03532a1a0bd3ee">readPOSTparam</a>(name, 16, value, 16);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="keywordflow">if</span> (strcmp_P(name,</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                         (<a class="code" href="_date_strings_8cpp.html#a963f816fc88a5d8479c285ed4c630229">PGM_P</a>) <a class="code" href="_date_strings_8cpp.html#a910fb5f01313d339d3b835d45e1e5ad0">pgm_read_word</a>(&amp;(template_digitalinput_inputs[<a class="code" href="_flashvars_8h.html#a325dca8fa8b4b17684369a022e455f6ea47142d84c6d67522e68200de315a10b0">DI_I_PIN</a>])))</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                == 0)</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            {</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                m_Pin = atoi(value);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                <a class="code" href="_arduino_8h.html#aedf28437b0c388082e19f9f6e4f47cf0">pinMode</a>(m_Pin, <a class="code" href="_arduino_8h.html#a1bb283bd7893b9855e2f23013891fc82">INPUT</a>);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            }</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        } <span class="keywordflow">while</span> (repeat);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        server-&gt;<a class="code" href="class_web_server.html#ada19dc0b64183cf3b4d8aed4e858ddc1">httpSeeOther</a>(this-&gt;<a class="code" href="class_object.html#aa73d61fe9016c44220f3be29fe7e25d2">m_URL</a>);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    {</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        server-&gt;<a class="code" href="class_web_server.html#afa585901b2eeec86913ffa280a858067">httpSuccess</a>();</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        parser = <a class="code" href="_aquaduino_8cpp.html#a5359fc71c1716419db400f36502686b8">__aquaduino</a>-&gt;getTemplateParser();</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        templateFile = <a class="code" href="_s_d_8cpp.html#a09844862ba75e249f0c5363d8a4e9c75">SD</a>.<a class="code" href="class_s_d_class.html#a02207388d102649d4a17901183c13f18">open</a>(templateFileName, <a class="code" href="_s_d_8h.html#ad52d51659a75e25d96fb04d22ff718cb">FILE_READ</a>);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">while</span> ((matchIdx =</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                parser-&gt;<a class="code" href="class_template_parser.html#ab36e713a28a816fee7c057931841e9f2">processTemplateUntilNextMatch</a>(&amp;templateFile,</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                                                      template_digitalinput,</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                                                      template_digitalinput_elements,</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                                                      server))</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;               &gt;= 0)</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        {</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="keywordflow">switch</span> (matchIdx)</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a36ca4ecc1f3be3d7b260fcacbc7b87e2ab2da4af0901d979c8ac4c6a85df076ce">DI_SNAME</a>:</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                server-&gt;<a class="code" href="class_print.html#aa4158dd94bc1741f92d99c427261d7c0">print</a>(<a class="code" href="class_object.html#aff677ddb7fe429a58e22cd3cadbcee7b" title="Getter for the name of the object. ">getName</a>());</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a36ca4ecc1f3be3d7b260fcacbc7b87e2a1d3c891cc6b2b296fea10e1007bde292">DI_PIN_NAME</a>:</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                server-&gt;<a class="code" href="class_print.html#aa4158dd94bc1741f92d99c427261d7c0">print</a>((__FlashStringHelper *) <a class="code" href="_date_strings_8cpp.html#a910fb5f01313d339d3b835d45e1e5ad0">pgm_read_word</a>(template_digitalinput_inputs));</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a36ca4ecc1f3be3d7b260fcacbc7b87e2ac0e460db3d063ab519fd87c7582a1703">DI_PIN_VAL</a>:</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                server-&gt;<a class="code" href="class_print.html#aa4158dd94bc1741f92d99c427261d7c0">print</a>(m_Pin);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a36ca4ecc1f3be3d7b260fcacbc7b87e2a3fd1ed86811a17874dc4a931754c9aeb">DI_PIN_SIZE</a>:</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                server-&gt;<a class="code" href="class_print.html#aa4158dd94bc1741f92d99c427261d7c0">print</a>(3);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            <span class="keywordflow">case</span> <a class="code" href="_flashvars_8h.html#a36ca4ecc1f3be3d7b260fcacbc7b87e2a43bf3105e5f1703efdbbdf3d50f9a05a">DI_PIN_MAXLENGTH</a>:</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                server-&gt;<a class="code" href="class_print.html#aa4158dd94bc1741f92d99c427261d7c0">print</a>(2);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            }</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        }</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        templateFile.<a class="code" href="class_file.html#a83cbce54d6c3b8c2f417b51f6b3f488c">close</a>();</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    }</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;}</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_23013611a072febdb8d5691f6d36bd1a.html">Sensors</a></li><li class="navelem"><a class="el" href="_digital_input_8cpp.html">DigitalInput.cpp</a></li>
-    <li class="footer">Generated on Tue Aug 6 2013 15:40:20 for Aquaduino by
+    <li class="footer">Generated on Thu Apr 10 2014 22:43:23 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

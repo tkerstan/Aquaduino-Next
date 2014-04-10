@@ -5,5 +5,9 @@ var dir_23013611a072febdb8d5691f6d36bd1a =
       [ "DigitalInput", "class_digital_input.html", "class_digital_input" ]
     ] ],
     [ "DS18S20.cpp", "_d_s18_s20_8cpp.html", null ],
-    [ "DS18S20.h", "_d_s18_s20_8h.html", "_d_s18_s20_8h" ]
+    [ "DS18S20.h", "_d_s18_s20_8h.html", "_d_s18_s20_8h" ],
+    [ "SerialInput.cpp", "_serial_input_8cpp.html", "_serial_input_8cpp" ],
+    [ "SerialInput.h", "_serial_input_8h.html", [
+      [ "SerialInput", "class_serial_input.html", "class_serial_input" ]
+    ] ]
 ];

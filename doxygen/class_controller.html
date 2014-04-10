@@ -44,6 +44,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -68,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -92,7 +93,7 @@ $(document).ready(function(){initNavTree('class_controller.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -119,10 +120,17 @@ $(document).ready(function(){initNavTree('class_controller.html','');});
 <div class="dynheader">
 Inheritance diagram for Controller:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_controller__inherit__graph.png" border="0" usemap="#_controller_inherit__map" alt="Inheritance graph"/></div>
-<map name="_controller_inherit__map" id="_controller_inherit__map">
-<area shape="rect" id="node5" href="class_clock_timer_controller.html" title="Controller implementation to provide clocktimers for actuators. " alt="" coords="5,155,147,181"/><area shape="rect" id="node6" href="class_level_controller.html" title="Water level controller. " alt="" coords="172,155,279,181"/><area shape="rect" id="node7" href="class_temperature_controller.html" title="Controller for temperature monitoring. " alt="" coords="303,155,452,181"/><area shape="rect" id="node2" href="class_object.html" title="Base class for all Controller, Actuators, Sensors and the Aquaduino. " alt="" coords="97,5,156,32"/><area shape="rect" id="node3" href="class_serializable.html" title="Interface for serialization methods. " alt="" coords="181,5,269,32"/><area shape="rect" id="node4" href="class_web_interface.html" title="Interface to access the Webduino webserver. " alt="" coords="295,5,393,32"/></map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+ <div class="center">
+  <img src="class_controller.png" usemap="#Controller_map" alt=""/>
+  <map id="Controller_map" name="Controller_map">
+<area href="class_object.html" title="Base class for all Controller, Actuators, Sensors and the Aquaduino. " alt="Object" shape="rect" coords="0,0,139,24"/>
+<area href="class_serializable.html" title="Interface for serialization methods. " alt="Serializable" shape="rect" coords="149,0,288,24"/>
+<area href="class_web_interface.html" title="Interface to access the Webduino webserver. " alt="WebInterface" shape="rect" coords="298,0,437,24"/>
+<area href="class_clock_timer_controller.html" title="Controller implementation to provide clocktimers for actuators. " alt="ClockTimerController" shape="rect" coords="0,112,139,136"/>
+<area href="class_level_controller.html" title="Water level controller. " alt="LevelController" shape="rect" coords="149,112,288,136"/>
+<area href="class_temperature_controller.html" title="Controller for temperature monitoring. " alt="TemperatureController" shape="rect" coords="298,112,437,136"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -132,9 +140,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a571614716a0e7dd79674988a0f5780d8"><td class="memItemLeft" align="right" valign="top">virtual int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#a571614716a0e7dd79674988a0f5780d8">run</a> ()=0</td></tr>
 <tr class="memdesc:a571614716a0e7dd79674988a0f5780d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface method for triggering the controller.  <a href="#a571614716a0e7dd79674988a0f5780d8">More...</a><br/></td></tr>
 <tr class="separator:a571614716a0e7dd79674988a0f5780d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8a96958b672fa16ca021809b18585de"><td class="memItemLeft" align="right" valign="top">virtual int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#ad8a96958b672fa16ca021809b18585de">showWebinterface</a> (WebServer *server, WebServer::ConnectionType type, char *url)=0</td></tr>
-<tr class="memdesc:ad8a96958b672fa16ca021809b18585de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for webpage presentation.  <a href="#ad8a96958b672fa16ca021809b18585de">More...</a><br/></td></tr>
-<tr class="separator:ad8a96958b672fa16ca021809b18585de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40fc29ed066a150c8c3e4fc96f858b7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_object.html#a40fc29ed066a150c8c3e4fc96f858b7f">setName</a> (const char *name)</td></tr>
 <tr class="memdesc:a40fc29ed066a150c8c3e4fc96f858b7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setter for the object name.  <a href="#a40fc29ed066a150c8c3e4fc96f858b7f">More...</a><br/></td></tr>
 <tr class="separator:a40fc29ed066a150c8c3e4fc96f858b7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -171,9 +176,9 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:aa941d84108739b8be370972824954fd2"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_object.html#aa941d84108739b8be370972824954fd2">m_Name</a> [<a class="el" href="_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td></tr>
+<tr class="memitem:aa941d84108739b8be370972824954fd2"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_object.html#aa941d84108739b8be370972824954fd2">m_Name</a> [<a class="el" href="_framework_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td></tr>
 <tr class="separator:aa941d84108739b8be370972824954fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa73d61fe9016c44220f3be29fe7e25d2"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_object.html#aa73d61fe9016c44220f3be29fe7e25d2">m_URL</a> [<a class="el" href="_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td></tr>
+<tr class="memitem:aa73d61fe9016c44220f3be29fe7e25d2"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_object.html#aa73d61fe9016c44220f3be29fe7e25d2">m_URL</a> [<a class="el" href="_framework_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td></tr>
 <tr class="separator:aa73d61fe9016c44220f3be29fe7e25d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a239c6870522baa669022c8ee7a2cd807"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_object.html#a239c6870522baa669022c8ee7a2cd807">m_Type</a></td></tr>
 <tr class="separator:a239c6870522baa669022c8ee7a2cd807"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -343,7 +348,7 @@ Protected Attributes</h2></td></tr>
 <p>This method needs to be implemented to deserialize the desired data of the class providing this interface.</p>
 <dl class="section return"><dt>Returns</dt><dd>Number of bytes deserialized. </dd></dl>
 
-<p>Implemented in <a class="el" href="class_clock_timer.html#a9a612dc93badec3e2abc0441cd12d191">ClockTimer</a>, <a class="el" href="class_aquaduino.html#af0dc485b4dd7a95d7ec727c647f49bd3">Aquaduino</a>, <a class="el" href="class_clock_timer_controller.html#ad1a1af85cb3297d521cf5bc4ceeef853">ClockTimerController</a>, <a class="el" href="class_level_controller.html#abe89aff2d22e4e8899e1145b206266e8">LevelController</a>, <a class="el" href="class_digital_output.html#ae30bd9b0578633a13a730df9741765b7">DigitalOutput</a>, <a class="el" href="class_d_s18_s20.html#aac8a3a2ef0acb8722fcbf24418d6cae7">DS18S20</a>, <a class="el" href="class_temperature_controller.html#a0859d5909434102ca7a90fa35e6717ea">TemperatureController</a>, and <a class="el" href="class_digital_input.html#a9e33235d8c769d2a54c886aeaefdf7ba">DigitalInput</a>.</p>
+<p>Implemented in <a class="el" href="class_clock_timer.html#a9a612dc93badec3e2abc0441cd12d191">ClockTimer</a>, <a class="el" href="class_aquaduino.html#af0dc485b4dd7a95d7ec727c647f49bd3">Aquaduino</a>, <a class="el" href="class_clock_timer_controller.html#ad1a1af85cb3297d521cf5bc4ceeef853">ClockTimerController</a>, <a class="el" href="class_level_controller.html#abe89aff2d22e4e8899e1145b206266e8">LevelController</a>, <a class="el" href="class_digital_output.html#ae30bd9b0578633a13a730df9741765b7">DigitalOutput</a>, <a class="el" href="class_d_s18_s20.html#aac8a3a2ef0acb8722fcbf24418d6cae7">DS18S20</a>, <a class="el" href="class_temperature_controller.html#a0859d5909434102ca7a90fa35e6717ea">TemperatureController</a>, <a class="el" href="class_digital_input.html#a9e33235d8c769d2a54c886aeaefdf7ba">DigitalInput</a>, and <a class="el" href="class_serial_input.html#a956d1280fa8dec56667e17d6853e18d4">SerialInput</a>.</p>
 
 </div>
 </div>
@@ -492,7 +497,7 @@ Protected Attributes</h2></td></tr>
 <p>This method needs to be implemented to serialize the desired data of the class providing this interface.</p>
 <dl class="section return"><dt>Returns</dt><dd>Number of bytes serialized. </dd></dl>
 
-<p>Implemented in <a class="el" href="class_clock_timer.html#a68df14e237f89f930455c99b3130d023">ClockTimer</a>, <a class="el" href="class_aquaduino.html#ac629814f13c66eda31f8dc27ae5a1a80">Aquaduino</a>, <a class="el" href="class_clock_timer_controller.html#a7f8c9ad7a4cff13a01df0dfb531cbf89">ClockTimerController</a>, <a class="el" href="class_level_controller.html#a93be846e6a8b09ad73b9d0ef25e1a3bd">LevelController</a>, <a class="el" href="class_digital_output.html#acf0d0717b39aebeea6b533f7fdd55ed9">DigitalOutput</a>, <a class="el" href="class_d_s18_s20.html#aae603560148a0cc31a34eb1a7dab416c">DS18S20</a>, <a class="el" href="class_temperature_controller.html#a5fd15e574fc495e4f6adf8f038921f06">TemperatureController</a>, and <a class="el" href="class_digital_input.html#afc46c6cee0701b10698da9ba74d345b4">DigitalInput</a>.</p>
+<p>Implemented in <a class="el" href="class_clock_timer.html#a68df14e237f89f930455c99b3130d023">ClockTimer</a>, <a class="el" href="class_aquaduino.html#ac629814f13c66eda31f8dc27ae5a1a80">Aquaduino</a>, <a class="el" href="class_clock_timer_controller.html#a7f8c9ad7a4cff13a01df0dfb531cbf89">ClockTimerController</a>, <a class="el" href="class_level_controller.html#a93be846e6a8b09ad73b9d0ef25e1a3bd">LevelController</a>, <a class="el" href="class_digital_output.html#acf0d0717b39aebeea6b533f7fdd55ed9">DigitalOutput</a>, <a class="el" href="class_d_s18_s20.html#aae603560148a0cc31a34eb1a7dab416c">DS18S20</a>, <a class="el" href="class_temperature_controller.html#a5fd15e574fc495e4f6adf8f038921f06">TemperatureController</a>, <a class="el" href="class_digital_input.html#afc46c6cee0701b10698da9ba74d345b4">DigitalInput</a>, and <a class="el" href="class_serial_input.html#a79c30d97f861ec1c968022a3369c3155">SerialInput</a>.</p>
 
 </div>
 </div>
@@ -562,59 +567,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad8a96958b672fa16ca021809b18585de"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual int8_t Controller::showWebinterface </td>
-          <td>(</td>
-          <td class="paramtype">WebServer *&#160;</td>
-          <td class="paramname"><em>server</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">WebServer::ConnectionType&#160;</td>
-          <td class="paramname"><em>type</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>url</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">server</td><td>Instance of the Webduino webserver </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>Type of the request (GET, POST,...) </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">url</td><td>URL used in request. Allows for subURL decoding.</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>This method needs to be implemented by the class providing this interface to present its webpage using the Webduino webserver. </p>
-
-<p>Implements <a class="el" href="class_web_interface.html#a8762482803c6e98ac19d375995473196">WebInterface</a>.</p>
-
-<p>Implemented in <a class="el" href="class_clock_timer_controller.html#a27b8253c3a4d170c264dd75241615064">ClockTimerController</a>, <a class="el" href="class_level_controller.html#a994667204edfed42b6689631a103d8ab">LevelController</a>, and <a class="el" href="class_temperature_controller.html#a99ce11713729731ec86877a129021779">TemperatureController</a>.</p>
-
-</div>
-</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="aa941d84108739b8be370972824954fd2"></a>
 <div class="memitem">
@@ -624,7 +576,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">char Object::m_Name[<a class="el" href="_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td>
+          <td class="memname">char Object::m_Name[<a class="el" href="_framework_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td>
         </tr>
       </table>
   </td>
@@ -668,7 +620,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">char Object::m_URL[<a class="el" href="_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td>
+          <td class="memname">char Object::m_URL[<a class="el" href="_framework_config_8h.html#a31c45d33edbcecf7c621bc72f678f10f">AQUADUINO_STRING_LENGTH</a>]</td>
         </tr>
       </table>
   </td>
@@ -692,7 +644,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_controller.html">Controller</a></li>
-    <li class="footer">Generated on Tue Aug 6 2013 15:40:20 for Aquaduino by
+    <li class="footer">Generated on Thu Apr 10 2014 22:43:25 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

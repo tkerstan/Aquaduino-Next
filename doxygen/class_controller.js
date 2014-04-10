@@ -12,7 +12,6 @@ var class_controller =
     [ "serialize", "class_controller.html#a97b461d082ed7a40a0cf8b143ef2f05b", null ],
     [ "setName", "class_controller.html#a40fc29ed066a150c8c3e4fc96f858b7f", null ],
     [ "setURL", "class_controller.html#abb7e16f550fe4d7f3b6e942103dd2a2a", null ],
-    [ "showWebinterface", "class_controller.html#ad8a96958b672fa16ca021809b18585de", null ],
     [ "m_Name", "class_controller.html#aa941d84108739b8be370972824954fd2", null ],
     [ "m_Type", "class_controller.html#a239c6870522baa669022c8ee7a2cd807", null ],
     [ "m_URL", "class_controller.html#aa73d61fe9016c44220f3be29fe7e25d2", null ]

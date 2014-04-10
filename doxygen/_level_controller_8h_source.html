@@ -44,6 +44,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -90,7 +91,7 @@ $(document).ready(function(){initNavTree('_level_controller_8h_source.html','');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -139,25 +140,29 @@ $(document).ready(function(){initNavTree('_level_controller_8h_source.html','');
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">virtual</span> uint16_t <a class="code" href="class_level_controller.html#abe89aff2d22e4e8899e1145b206266e8" title="Callback for deserialization of an object. ">deserialize</a>(<span class="keywordtype">void</span>* data, uint16_t size);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">virtual</span> int8_t <a class="code" href="class_level_controller.html#acf5109c2a5b60a9923e4c7b6d4176f6c" title="Run method triggered by Aquaduino::run. ">run</a>();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">virtual</span> int8_t <a class="code" href="class_level_controller.html#a994667204edfed42b6689631a103d8ab" title="Callback for webpage presentation. ">showWebinterface</a>(WebServer* server,</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                                    WebServer::ConnectionType type,</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                                    <span class="keywordtype">char</span>* url);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    int16_t m_Delayh;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    int16_t m_Delayl;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    int16_t m_Timeout;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    int8_t m_State;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    int8_t m_Sensor;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;};</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* LEVELCONTROLLER_H_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#ifdef FEATURE_WEBIF</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor"></span>    <span class="keyword">virtual</span> int8_t showWebinterface(<a class="code" href="class_web_server.html">WebServer</a>* server,</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                                    <a class="code" href="class_web_server.html#a6a3694f8bd91bbbd8a4932676b5c8569">WebServer::ConnectionType</a> type,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                                    <span class="keywordtype">char</span>* url);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    int16_t m_Delayh;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    int16_t m_Delayl;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    int16_t m_Timeout;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    int8_t m_State;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    int8_t m_Sensor;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;};</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* LEVELCONTROLLER_H_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_b500f500d6f9b315c95ab1cd4a3b5c0d.html">Controller</a></li><li class="navelem"><a class="el" href="_level_controller_8h.html">LevelController.h</a></li>
-    <li class="footer">Generated on Tue Aug 6 2013 15:40:19 for Aquaduino by
+    <li class="footer">Generated on Thu Apr 10 2014 22:43:21 for Aquaduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

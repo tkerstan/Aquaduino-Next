@@ -1,6 +1,7 @@
 var NAVTREE =
 [
   [ "Aquaduino", "index.html", [
+    [ "Deprecated List", "deprecated.html", null ],
     [ "Classes", null, [
       [ "Class List", "annotated.html", "annotated" ],
       [ "Class Index", "classes.html", null ],
@@ -8,7 +9,11 @@ var NAVTREE =
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", "functions_func" ],
-        [ "Variables", "functions_vars.html", null ]
+        [ "Variables", "functions_vars.html", "functions_vars" ],
+        [ "Typedefs", "functions_type.html", null ],
+        [ "Enumerations", "functions_enum.html", null ],
+        [ "Enumerator", "functions_eval.html", null ],
+        [ "Related Functions", "functions_rela.html", null ]
       ] ]
     ] ],
     [ "Files", null, [
@@ -16,10 +21,11 @@ var NAVTREE =
       [ "File Members", "globals.html", [
         [ "All", "globals.html", "globals_dup" ],
         [ "Functions", "globals_func.html", null ],
-        [ "Variables", "globals_vars.html", null ],
+        [ "Variables", "globals_vars.html", "globals_vars" ],
+        [ "Typedefs", "globals_type.html", null ],
         [ "Enumerations", "globals_enum.html", null ],
         [ "Enumerator", "globals_eval.html", "globals_eval" ],
-        [ "Macros", "globals_defs.html", null ]
+        [ "Macros", "globals_defs.html", "globals_defs" ]
       ] ]
     ] ]
   ] ]
@@ -28,9 +34,20 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_actuator_8cpp.html",
-"_flashvars_8h.html#a7b92769f92ee62f91539740d05f4a095a463b2650a5842a790e64a16db2a96c18",
-"class_actuator.html#ad6a1d38f4e11eb3e1b1bacd0759dc778",
-"class_level_controller.html#a93be846e6a8b09ad73b9d0ef25e1a3bd"
+"_dns_8cpp.html#aec58b005886b6618714462498c54686f",
+"_flashvars_8h.html#a83cff6085325242261863e3e62017965",
+"_platform_8h.html#a2caf5cd7bcdbe1eefa727f44ffb10bac",
+"_tone_8cpp.html#abfb10b583902f7d75ac083182ec88b40",
+"binary_8h.html#a1091c38008a9db8961b17503cec42da4",
+"binary_8h.html#a909bdb7a3255d3b36a1368cca9415a67",
+"class_actuator.html#aa82a8636c4ca8a486f8583674438ce12",
+"class_counting_stream.html#a88a4a829fb5d589efb43955ad0cbddcc",
+"class_ethernet_u_d_p.html#afd6cc6e2c1163f94c60855ad233899bd",
+"class_level_controller.html#a67bb9bfe6e021c997565b0f5871cf2ad",
+"class_serializable.html#a97b461d082ed7a40a0cf8b143ef2f05b",
+"class_web_server.html#aa4158dd94bc1741f92d99c427261d7c0",
+"globals_vars_0x6f.html",
+"struct_endpoint_descriptor.html#a889ee6bef249cfc21fb0ea12cb6d43f6"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
