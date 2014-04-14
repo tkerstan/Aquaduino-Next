@@ -190,8 +190,8 @@ uint16_t SDConfigManager::readConfig(Aquaduino* aquaduino)
 
     memset(&config, 0, sizeof(config));
 
-    if (readStructFromFile("aqua.cfg", &config))
-        return aquaduino->deserialize(config.data, readBytes);
+    readBytes = readStructFromFile("aqua.cfg", &config);
+    return aquaduino->deserialize(config.data, readBytes);
 
     return 0;
 }
@@ -210,8 +210,8 @@ uint16_t SDConfigManager::readConfig(Actuator* actuator)
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
 
-    if (readStructFromFile(fileName, &config))
-        return actuator->deserialize(&config, readBytes);
+    readBytes = readStructFromFile(fileName, &config);
+    return actuator->deserialize(&config, readBytes);
 
     return 0;
 }
@@ -230,8 +230,8 @@ uint16_t SDConfigManager::readConfig(Controller* controller)
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
 
-    if (readStructFromFile(fileName, &config))
-        return controller->deserialize(&config, readBytes);
+    readBytes = readStructFromFile(fileName, &config);
+    return controller->deserialize(&config, readBytes);
 
     return 0;
 }
@@ -250,10 +250,8 @@ uint16_t SDConfigManager::readConfig(Sensor* sensor)
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
 
-    if (readStructFromFile(fileName, &config))
-        return sensor->deserialize(&config, readBytes);
-
-    return 0;
+    readBytes = readStructFromFile(fileName, &config);
+    return sensor->deserialize(&config, readBytes);
 }
 
 uint16_t SDConfigManager::writeStructToFile(const char* fileName,
