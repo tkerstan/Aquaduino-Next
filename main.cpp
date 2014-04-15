@@ -6,7 +6,6 @@
 #include <Actuators/DigitalOutput.h>
 #include <Sensors/DigitalInput.h>
 #include <Sensors/DS18S20.h>
-#include <Sensors/SerialInput.h>
 
 Aquaduino *aquaduino;
 

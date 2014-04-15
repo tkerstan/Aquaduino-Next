@@ -24,6 +24,10 @@
  * \brief Defines the actuators being used
  */
 #define ACTUATOR_CONFIG             { ACTUATOR_DIGITALOUTPUT, \
+		                              ACTUATOR_DIGITALOUTPUT, \
+		                              ACTUATOR_DIGITALOUTPUT, \
+		                              ACTUATOR_DIGITALOUTPUT, \
+		                              ACTUATOR_DIGITALOUTPUT, \
                                       ACTUATOR_DIGITALOUTPUT, \
                                       ACTUATOR_DIGITALOUTPUT, \
                                       ACTUATOR_DIGITALOUTPUT, \
@@ -36,7 +40,7 @@
                                       ACTUATOR_DIGITALOUTPUT, \
                                       ACTUATOR_DIGITALOUTPUT }
 
-#define ACTUATORS                     12
+#define ACTUATORS                     16
 
 /**
  * \brief Defines the controllers being used
@@ -50,9 +54,11 @@
 /**
  * \brief Defines the sensors being used
  */
-#define SENSOR_CONFIG               { SENSOR_DIGITALINPUT, \
+#define SENSOR_CONFIG               { SENSOR_SERIALINPUTPH, \
+		                              SENSOR_SERIALINPUTEC, \
+		                              SENSOR_SERIALINPUTORP, \
                                       SENSOR_DS18S20 }
 #endif
 
 
-#define SENSORS                       2
+#define SENSORS                       4
