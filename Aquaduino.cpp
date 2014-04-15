@@ -53,7 +53,9 @@
 #include <Actuators/DigitalOutput.h>
 #include <Sensors/DS18S20.h>
 #include <Sensors/DigitalInput.h>
-#include <Sensors/SerialInput.h>
+#include <Sensors/SerialAtlasPH.h>
+#include <Sensors/SerialAtlasEC.h>
+#include <Sensors/SerialAtlasORP.h>
 #include <SD.h>
 #include <Time.h>
 #include <EthernetUdp.h>
@@ -1027,7 +1029,13 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
             ((DS18S20*) sensor)->setPin(portId);
             break;
         case 3:
-            sensor = new SerialInput();
+            sensor = new SerialAtlasPH();
+            break;
+        case 4:
+            sensor = new SerialAtlasEC();
+            break;
+        case 5:
+            sensor = new SerialAtlasORP();
             break;
         default:
             sensor = NULL;

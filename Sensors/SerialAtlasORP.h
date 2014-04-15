@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Timo Kerstan.  All right reserved.
+ * Copyright (c) 2014 Timo Kerstan.  All right reserved.
  *
  * This file is part of Aquaduino.
  *
@@ -18,31 +18,25 @@
  *
  */
 
-#ifndef SERIALINPUT_H
-#define SERIALINPUT_H
+#ifndef SERIALATLASORP_H
+#define SERIALATLASORP_H
 
 #include <Framework/Sensor.h>
 
 /**
  * \brief Class for using Arduino pins as digital input.
  */
-class SerialInput: public Sensor
+class SerialAtlasORP: public Sensor
 {
 public:
-    SerialInput();
+    SerialAtlasORP();
     double read();
 
     uint16_t serialize(void* buffer, uint16_t size);
     uint16_t deserialize(void* data, uint16_t size);
 
-#ifdef FEATURE_WEBIF
-    int8_t showWebinterface(WebServer* server,
-                                        WebServer::ConnectionType type,
-                                        char* url);
-#endif
-
 private:
     unsigned char m_Pin;
 };
 
-#endif /* SERIALINPUT_H */
+#endif
