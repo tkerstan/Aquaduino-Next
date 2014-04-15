@@ -28,14 +28,21 @@ INC += libraries/Time
 INC += libraries/Webduino
 INC += libraries/Xively
 
-INC_PARAMS = $(foreach d, $(INC), -I$(PREFIX)/$d)
+INC_PARAMS = $(foreach d, $(INC), -I$(PWD)/$d)
 
 OBJDIR = $(PWD)/obj
 
+SRCS = $(wildcard *.c)
+SRCS += $(wildcard *.cpp)
+OBJS = $(patsubst %.c,%.o,$(wildcard *.c))
+OBJS += $(patsubst %.cpp,%.o,$(wildcard *.cpp))
+
 $(OBJDIR)/%.o: %.cpp
-	$(CROSSCPP) $(INC_PARAMS) -c -o $@ $(CFLAGS) $<
+	@echo "Compiling $<"
+	@$(CROSSCPP) $(INC_PARAMS) -c -o $@ $(CFLAGS) $< &> $(PWD)/build.log
 	
 $(OBJDIR)/%.o: %.c
-	$(CROSSCC) $(INC_PARAMS) -c -o $@ $(CFLAGS) $< 
+	@echo "Compiling $<"
+	@$(CROSSCC) $(INC_PARAMS) -c -o $@ $(CFLAGS) $< &> $(PWD)/build.log
 
-all: $(foreach d, $(OBJS), $d.o)
+compile: $(foreach d, $(OBJS), $(OBJDIR)/$d)
