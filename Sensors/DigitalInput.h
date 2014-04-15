@@ -34,11 +34,14 @@ public:
 
     uint16_t serialize(void* buffer, uint16_t size);
     uint16_t deserialize(void* data, uint16_t size);
+    void setPin(uint8_t pin);
+    uint8_t getPin();
+
+#ifdef FEATURE_WEBIF
     int8_t showWebinterface(WebServer* server,
                                         WebServer::ConnectionType type,
                                         char* url);
-    void setPin(uint8_t pin);
-    uint8_t getPin();
+#endif
 
 private:
     unsigned char m_Pin;

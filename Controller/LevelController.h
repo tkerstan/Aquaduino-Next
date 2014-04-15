@@ -48,9 +48,13 @@ public:
     virtual uint16_t deserialize(void* data, uint16_t size);
 
     virtual int8_t run();
+
+#ifdef FEATURE_WEBIF
     virtual int8_t showWebinterface(WebServer* server,
                                     WebServer::ConnectionType type,
                                     char* url);
+#endif
+
 private:
     int16_t m_Delayh;
     int16_t m_Delayl;

@@ -1186,15 +1186,6 @@ extern const uint16_t template_levelcontroller_elements =
 sizeof(template_levelcontroller) / sizeof(char*);
 #endif
 
-enum TEMPLATE_LEVELCONTROLLER_STATES
-{
-    LEVELCONTROLLER_STATE_OK,
-    LEVELCONTROLLER_STATE_DEBOUNCE,
-    LEVELCONTROLLER_STATE_REFILL,
-    LEVELCONTROLLER_STATE_OVERRUN,
-    LEVELCONTROLLER_STATE_REFILL_TIMEOUT
-};
-
 #ifdef _FLASHVAR_IMPLEMENTATION_
 extern const char* const template_levelcontroller_states[] PROGMEM =
 {

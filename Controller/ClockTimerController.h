@@ -50,12 +50,17 @@ public:
     virtual uint16_t deserialize(void* data, uint16_t size);
 
     virtual int8_t run();
+
+#ifdef FEATURE_WEBIF
     virtual int8_t showWebinterface(WebServer* server,
                                     WebServer::ConnectionType type, char* url);
+#endif
+
 private:
     ClockTimerController(ClockTimerController&);
     ClockTimerController(const ClockTimerController&);
 
+#ifdef FEATURE_WEBIF
     int8_t printMain(WebServer* server, WebServer::ConnectionType type,
                      char* url);
     int8_t printRow(WebServer* server, WebServer::ConnectionType type,
@@ -66,6 +71,8 @@ private:
             char actuatorValArray[MAX_ACTUATORS + 1][3]);
     int8_t processPost(WebServer* server, WebServer::ConnectionType type,
                        char* url);
+#endif
+
     int8_t isMapped(int8_t actuatorNr);
     ClockTimer m_Timers[MAX_CLOCKTIMERS];
     int8_t m_ActuatorMapping[MAX_CLOCKTIMERS];

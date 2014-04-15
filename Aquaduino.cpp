@@ -57,12 +57,16 @@
 #include <Sensors/SerialAtlasEC.h>
 #include <Sensors/SerialAtlasORP.h>
 #include <SD.h>
-#include <TemplateParser.h>
 #include <Time.h>
 #include <EthernetUdp.h>
-#include <WebServer.h>
 #include <stdlib.h>
+
+
+#ifdef FEATURE_WEBIF
+#include <WebServer.h>
 #include <Framework/Flashvars.h>
+#include <TemplateParser.h>
+#endif
 
 Aquaduino* __aquaduino;
 
@@ -90,8 +94,10 @@ Aquaduino::Aquaduino() :
         m_Controllers(MAX_CONTROLLERS),
         m_Actuators(MAX_ACTUATORS),
         m_Sensors(MAX_SENSORS),
+#ifdef FEATURE_WEBIF
         m_WebServer(NULL),
         m_TemplateParser(NULL),
+#endif
         m_XivelyClient(ethClient)
 {
     int i = 0;
@@ -167,8 +173,10 @@ Aquaduino::Aquaduino() :
         enableNTP();
     }
 
+#ifdef FEATURE_WEBIF
     Serial.println(F("Starting Webserver..."));
     setWebserver(new WebServer("", 80));
+#endif
 
     Serial.println(F("Initializing PWM..."));
 
@@ -186,6 +194,8 @@ Aquaduino::Aquaduino() :
 
     Serial.println(F("Initializing OneWire Handler..."));
     m_OneWireHandler = new OneWireHandler();
+
+    m_GUIServer = new GUIServer(4242);
 }
 
 /**
@@ -885,9 +895,6 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
     uint16_t nrOfControllers = 0;
     uint16_t nrOfSensors = 0;
     uint16_t calculatedSize = 0;
-    uint8_t* namePtr = 0;
-    uint8_t* typePtr = 0;
-    uint8_t* portPtr = 0;
     uint16_t i = 0;
 
     if (size >= 7)
@@ -1287,11 +1294,17 @@ int8_t Aquaduino::readConfig(Sensor* sensor)
     return m_ConfigManager->readConfig(sensor);
 }
 
+#ifdef FEATURE_WEBIF
 void defaultCmd(WebServer &server, WebServer::ConnectionType type, char * url,
                 bool);
+#endif
+
+#ifdef FEATURE_WEBIF
 void dispatchCommand(WebServer &server, WebServer::ConnectionType type,
                      char **url_path, char *url_tail, bool tail_complete);
+#endif
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief Setter for the Webduino webserver instance.
  * \param[in] webServer WebServer instance to be used.
@@ -1314,7 +1327,9 @@ void Aquaduino::setWebserver(WebServer* webServer)
     webServer->setUrlPathCommand(&dispatchCommand);
     webServer->begin();
 }
+#endif
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief Getter for the WebServer
  *
@@ -1324,7 +1339,9 @@ WebServer* Aquaduino::getWebserver()
 {
     return m_WebServer;
 }
+#endif
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief Setter for the TemplateParser to be used for HTML template parsing.
  * \param[in] parser Instance of the used TemplateParser.
@@ -1337,7 +1354,9 @@ void Aquaduino::setTemplateParser(TemplateParser* parser)
 {
     m_TemplateParser = parser;
 }
+#endif
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief Getter for the TemplateParser
  *
@@ -1347,12 +1366,14 @@ TemplateParser* Aquaduino::getTemplateParser()
 {
     return m_TemplateParser;
 }
+#endif
 
 /**
  * ----------------------------------------------------------------------------
  *
  */
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief Prints the main web page.
  *
@@ -1440,9 +1461,11 @@ void dispatchCommand(WebServer &server, WebServer::ConnectionType type,
         __aquaduino->showWebinterface(&server, type, *url_path);
     }
 }
+#endif
 
 int freeRam();
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief Prints the configuration webpage.
  *
@@ -1730,7 +1753,9 @@ void Aquaduino::printConfigWebpage(WebServer* server)
     }
     templateFile.close();
 }
+#endif
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief This command is trigger upon request to the URL "/config"
  * \param[in] server Webserver instance to use
@@ -1957,7 +1982,9 @@ int8_t Aquaduino::configWebpageProcessPost(WebServer* server,
     }
     return true;
 }
+#endif
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief This command is trigger upon request to the URL "/config"
  * \param[in] server Webserver instance to use
@@ -2063,7 +2090,9 @@ int8_t Aquaduino::mainWebpageProcessPost(WebServer* server,
 
     return true;
 }
+#endif
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief Prints the actuator table below the main information.
  * \param[in] server Webserver instance to use
@@ -2176,7 +2205,9 @@ int8_t Aquaduino::printMainActuatorTable(WebServer* server)
 
     return 1;
 }
+#endif
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief Prints the controller table below the main information.
  * \param[in] server Webserver instance to use
@@ -2241,7 +2272,9 @@ int8_t Aquaduino::printMainControllerTable(WebServer* server)
 
     return 1;
 }
+#endif
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief Prints the sensor table below the main information.
  * \param[in] server Webserver instance to use
@@ -2325,7 +2358,9 @@ int8_t Aquaduino::printMainSensorTable(WebServer* server)
 
     return 1;
 }
+#endif
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief Prints the main web page
  * \param[in] server Webserver instance to use
@@ -2418,7 +2453,9 @@ int8_t Aquaduino::printMainWebpage(WebServer* server)
 
     return 1;
 }
+#endif
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief Handler for main web page
  * \param[in] server Webserver instance to use
@@ -2436,7 +2473,9 @@ int8_t Aquaduino::mainWebpage(WebServer* server, WebServer::ConnectionType type)
         printMainWebpage(server);
     return 1;
 }
+#endif
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief Handles all request not covered by actuators, controllers and sensors
  *
@@ -2452,6 +2491,7 @@ int8_t Aquaduino::showWebinterface(WebServer* server,
 
     return mainWebpage(server, type);
 }
+#endif
 
 void Aquaduino::startTimer()
 {
@@ -2528,11 +2568,15 @@ void Aquaduino::run()
         Serial.print(F("Sending data to Xively... "));
         Serial.println(m_XivelyClient.put(*m_XivelyFeed, m_XivelyAPIKey));
     }
+    
+    m_GUIServer->run();
 
+#ifdef FEATURE_WEBIF
     if (m_WebServer != NULL)
     {
         m_WebServer->processConnection();
     }
+#endif
 }
 
 ISR(TIMER5_OVF_vect)
@@ -2548,4 +2592,76 @@ int freeRam()
     extern int __heap_start, *__brkval;
     int v;
     return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
+}
+
+Aquaduino *aquaduino;
+
+void setup()
+{
+    int8_t i;
+/*    int8_t actuatorConfig[MAX_ACTUATORS] = ACTUATOR_CONFIG;
+    int8_t controllerConfig[MAX_CONTROLLERS] = CONTROLLER_CONFIG;
+    int8_t sensorConfig[MAX_SENSORS] = SENSOR_CONFIG;*/
+
+    aquaduino = new Aquaduino();
+
+/*    Serial.println(F("Initializing actuators..."));
+    for (i = 0; i < ACTUATORS; i++)
+    {
+        switch (actuatorConfig[i])
+        {
+            case ACTUATOR_DIGITALOUTPUT:
+                aquaduino->addActuator(new DigitalOutput(NULL, HIGH, LOW));
+                break;
+            default:
+            	Serial.println("Unknown actuator type");
+        }
+    }
+
+    Serial.println(F("Initializing controllers..."));
+    for (int i = 0; i < CONTROLLERS; i++)
+    {
+        switch (controllerConfig[i])
+        {
+            case CONTROLLER_LEVEL:
+                aquaduino->addController(new LevelController("Level"));
+                break;
+            case CONTROLLER_TEMPERATURE:
+                aquaduino->addController(new TemperatureController("Temperature"));
+                break;
+            case CONTROLLER_CLOCKTIMER:
+                aquaduino->addController(new ClockTimerController("Clock Timer"));
+                break;
+            default:
+            	Serial.println("Unknown controller type");
+        }
+    }
+
+    Serial.println(F("Initializing sensors..."));
+    for (int i = 0; i < SENSORS; i++)
+    {
+        switch (sensorConfig[i])
+        {
+            case SENSOR_DIGITALINPUT:
+                aquaduino->addSensor(new DigitalInput());
+                break;
+            case SENSOR_DS18S20:
+                aquaduino->addSensor(new DS18S20());
+                break;
+            case SENSOR_SERIALINPUT:
+                aquaduino->addSensor(new SerialInput());
+                break;
+            default:
+            	Serial.println("Unknown sensor type");
+        }
+    } */
+
+    aquaduino->initXively();
+
+    aquaduino->startTimer();
+}
+
+void loop()
+{
+    aquaduino->run();
 }

@@ -19,6 +19,8 @@
     *
     */
 
+#ifdef FEATURE_WEBIF
 #define WEBDUINO_SERIAL_DEBUGGING 0
 #undef WEBDUINO_NO_IMPLEMENTATION
 #include "WebServer.h"
+#endif

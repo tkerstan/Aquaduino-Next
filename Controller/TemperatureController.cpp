@@ -21,8 +21,11 @@
 #include <Controller/TemperatureController.h>
 #include <Aquaduino.h>
 #include <SD.h>
+
+#ifdef FEATURE_WEBIF
 #include <TemplateParser.h>
 #include <Framework/Flashvars.h>
+#endif
 
 /**
  * Constructor
@@ -160,6 +163,7 @@ int8_t TemperatureController::run()
     return true;
 }
 
+#ifdef FEATURE_WEBIF
 int8_t TemperatureController::showWebinterface(WebServer* server,
                                                WebServer::ConnectionType type,
                                                char* url)
@@ -359,3 +363,4 @@ int8_t TemperatureController::showWebinterface(WebServer* server,
     }
     return true;
 }
+#endif

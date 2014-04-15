@@ -22,8 +22,11 @@
 #include "ClockTimerController.h"
 #include <Time.h>
 #include <SD.h>
+
+#ifdef FEATURE_WEBIF
 #include <TemplateParser.h>
 #include <Framework/Flashvars.h>
+#endif
 
 /**
  * \brief Constructor
@@ -154,6 +157,7 @@ int8_t ClockTimerController::isMapped(int8_t actuatorNr)
     return mapped;
 }
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief Internal method
  * \param[out] actuatorNames Array of pointers to the actuator names.
@@ -199,7 +203,9 @@ int8_t ClockTimerController::prepareActuatorSelect(
 
     return j;
 }
+#endif
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief Prints the main page of the WebInterface.
  * \param[in] server Instance of the Webduino webserver
@@ -321,7 +327,9 @@ int8_t ClockTimerController::printMain(WebServer* server,
 
     return 0;
 }
+#endif
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief Prints the row of a clocktimer entry.
  * \param[in] server Instance of the Webduino webserver
@@ -414,7 +422,9 @@ int8_t ClockTimerController::printRow(WebServer* server,
     }
     return 0;
 }
+#endif
 
+#ifdef FEATURE_WEBIF
 /**
  * \brief Processes the input submitted by a POST request.
  * \param[in] server Instance of the Webduino webserver
@@ -535,7 +545,9 @@ int8_t ClockTimerController::processPost(WebServer* server,
 
     return 0;
 }
+#endif
 
+#ifdef FEATURE_WEBIF
 int8_t ClockTimerController::showWebinterface(WebServer* server,
                                               WebServer::ConnectionType type,
                                               char* url)
@@ -553,3 +565,4 @@ int8_t ClockTimerController::showWebinterface(WebServer* server,
     return true;
 
 }
+#endif

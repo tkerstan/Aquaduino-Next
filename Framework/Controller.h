@@ -52,9 +52,6 @@ public:
      * Called by Aquaduino::run
      */
     virtual int8_t run() = 0;
-    virtual int8_t showWebinterface(WebServer* server,
-                                    WebServer::ConnectionType type,
-                                    char* url) = 0;
 
 protected:
     virtual ~Controller();

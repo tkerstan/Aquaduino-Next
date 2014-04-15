@@ -9,6 +9,7 @@
 #include <Framework/GUIServer.h>
 #include <Arduino.h>
 
+
 enum {
 	GETVERSION = 0,
 	GETALLSENSORS = 1,
@@ -209,4 +210,5 @@ void GUIServer::setSensorConfig(uint8_t sensorId, uint8_t type, uint8_t value) {
  void GUIServer::setSensorConfig
  void GUIServer::setActuatorData
  */
+
 

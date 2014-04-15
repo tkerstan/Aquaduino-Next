@@ -23,10 +23,14 @@
 #include "DigitalInput.h"
 #include <Arduino.h>
 #include <SD.h>
-#include <TemplateParser.h>
 #include <Framework/util.h>
 #include <Framework/OneWireHandler.h>
+
+#ifdef FEATURE_WEBIF
 #include <Framework/Flashvars.h>
+#include <TemplateParser.h>
+#endif
+
 
 /**
  * \brief Constructor
@@ -140,6 +144,17 @@ uint16_t DS18S20::deserialize(void* data, uint16_t size)
     return sizeof(m_Pin) + sizeof(m_Address);
 }
 
+void DS18S20::setPin(uint8_t pin)
+{
+    m_Pin = pin;
+}
+
+uint8_t DS18S20::getPin()
+{
+    return m_Pin;
+}
+
+#ifdef FEATURE_WEBIF
 int8_t DS18S20::showWebinterface(WebServer* server,
                                  WebServer::ConnectionType type, char* url)
 {
@@ -231,13 +246,4 @@ int8_t DS18S20::showWebinterface(WebServer* server,
     }
     return true;
 }
-
-void DS18S20::setPin(uint8_t pin)
-{
-    m_Pin = pin;
-}
-
-uint8_t DS18S20::getPin()
-{
-    return m_Pin;
-}
+#endif
