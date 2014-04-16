@@ -72,3 +72,12 @@ uint16_t SerialAtlasORP::deserialize(void* data, uint16_t size)
     pinMode(m_Pin, INPUT);
     return sizeof(m_Pin);
 }
+
+#ifdef FEATURE_WEBIF
+int8_t SerialAtlasORP::showWebinterface(WebServer* server,
+                                      WebServer::ConnectionType type, char* url)
+{
+    return false;
+}
+#endif
+
