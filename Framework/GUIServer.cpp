@@ -46,16 +46,16 @@ void GUIServer::run() {
 	if (receiveCommand()) {
 		m_UdpServer.beginPacket(m_UdpServer.remoteIP(),
 				m_UdpServer.remotePort());
-		m_UdpServer.write(m_Buffer[0]);
 		m_UdpServer.write(m_Buffer[1]);
+		m_UdpServer.write(m_Buffer[0]);
 
 		Serial.print(F("Request ID: "));
-		Serial.println(m_Buffer[1]);
-		Serial.print(F("Method ID: "));
 		Serial.println(m_Buffer[0]);
+		Serial.print(F("Method ID: "));
+		Serial.println(m_Buffer[1]);
 		Serial.print(F("value: "));
 		Serial.println(m_Buffer[2]);
-		switch (m_Buffer[0]) {
+		switch (m_Buffer[1]) {
 		case GETVERSION:
 			m_UdpServer.write((uint8_t) 0);
 			m_UdpServer.write(1);
@@ -166,6 +166,8 @@ void GUIServer::getAllActuators() {
 	m_UdpServer.write((uint8_t) 0);
 	//num of actuators
 	m_UdpServer.write((uint8_t) __aquaduino->getNrOfActuators());
+	Serial.print("num of Actuators: ");
+	Serial.println(__aquaduino->getNrOfActuators());
 	//sensor information
 	Actuator* actuator;
 	__aquaduino->resetActuatorIterator();
@@ -243,13 +245,16 @@ void GUIServer::setActuatorData(uint8_t actuatorId, uint8_t dataType, uint8_t da
 	if (dataType == 6) {
 		//actuator->assignedControllerID(data);
 	}
+	__aquaduino->writeConfig(actuator);
 }
 
 void GUIServer::setActuatorData(uint8_t actuatorId, uint8_t dataType, char* data) {
 	Actuator* actuator = __aquaduino->getActuator(actuatorId);
+	Serial.println("setActuatorData: 2");
 	if (dataType == 2) {
 		actuator->setName(data);
 	}
+	__aquaduino->writeConfig(actuator);
 }
 /*
  void GUIServer::setSensorConfig
