@@ -32,47 +32,14 @@ static const uint16_t bufferSize = SERIALIZATION_BUFFER;
 class Aquaduino;
 
 /**
+ * TODO: The serialization and deserialization needs to be reviewed again!!!
+ */
+/**
  * \brief This structure is used to represent the configuration data of
  * Aquaduino components.
  */
 struct configuration
 {
-    /**
-     * \brief Name of the component
-     */
-    //char name[AQUADUINO_STRING_LENGTH];
-
-    /**
-     * \brief type of the component
-     *
-     * The type can be used to identify whether the data is suitable for
-     * deserialization in a specific component.
-     */
-    //uint8_t objectType;
-
-    /**
-     * \brief Index of the associated controller.
-     *
-     * This field can be used to store the associated controller of a component
-     */
-    //int8_t controllerIdx;
-
-    /**
-     * \brief Index of the associated actuator.
-     *
-     * This field can be used to store the associated actuator of a component.
-     * Not used yet.
-     */
-    //int8_t actuatorIdx;
-
-    /**
-     * \brief Index of the associated sensor.
-     *
-     * This field can be used to store the associated sensor of a component.
-     * Not used yet.
-     */
-    //int8_t sensorIdx;
-
     /**
      * \brief Buffer for user data
      *
@@ -83,6 +50,42 @@ struct configuration
      * The size is specified by the macro #SERIALIZATION_BUFFER
      */
     char data[bufferSize];
+
+    /**
+     * \brief Name of the component
+     */
+    char name[AQUADUINO_STRING_LENGTH];
+
+    /**
+     * \brief type of the component
+     *
+     * The type can be used to identify whether the data is suitable for
+     * deserialization in a specific component.
+     */
+    uint8_t objectType;
+
+    /**
+     * \brief Index of the associated controller.
+     *
+     * This field can be used to store the associated controller of a component
+     */
+    int8_t controllerIdx;
+
+    /**
+     * \brief Index of the associated actuator.
+     *
+     * This field can be used to store the associated actuator of a component.
+     * Not used yet.
+     */
+    int8_t actuatorIdx;
+
+    /**
+     * \brief Index of the associated sensor.
+     *
+     * This field can be used to store the associated sensor of a component.
+     * Not used yet.
+     */
+    int8_t sensorIdx;
 };
 
 /**

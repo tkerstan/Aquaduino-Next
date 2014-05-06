@@ -1948,10 +1948,6 @@ int8_t Aquaduino::configWebpageProcessPost(WebServer* server,
         __aquaduino->writeConfig(__aquaduino);
 
         __aquaduino->resetActuatorIterator();
-        while (__aquaduino->getNextActuator(&actuator) != -1)
-        {
-            __aquaduino->writeConfig(actuator);
-        }
 
         server->httpSeeOther("/config");
     }

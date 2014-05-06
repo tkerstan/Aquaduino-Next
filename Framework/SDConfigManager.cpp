@@ -94,6 +94,11 @@ uint16_t SDConfigManager::writeConfig(Aquaduino* aquaduino)
 
     if (serializedBytes)
     {
+        config.objectType = AQUADUINO;
+        config.controllerIdx = -1;
+        config.actuatorIdx = -1;
+        config.sensorIdx = -1;
+
         writtenBytes = writeStructToFile("aqua.cfg", &config);
 
         if (writtenBytes != sizeof(struct configuration))
@@ -122,6 +127,12 @@ uint16_t SDConfigManager::writeConfig(Actuator* actuator)
 
     if (serializedBytes)
     {
+        config.controllerIdx = actuator->getController();
+        config.objectType = actuator->getType();
+        config.actuatorIdx = id;
+        config.sensorIdx = -1;
+        strcpy(config.name, actuator->getName());
+
         writtenBytes = writeStructToFile(fileName, &config);
 
         if (writtenBytes != sizeof(struct configuration))
@@ -149,6 +160,13 @@ uint16_t SDConfigManager::writeConfig(Controller* controller)
 
     if (serializedBytes)
     {
+
+        config.controllerIdx = id;
+        config.objectType = controller->getType();
+        config.actuatorIdx = -1;
+        config.sensorIdx = -1;
+        strcpy(config.name, controller->getName());
+
         writtenBytes = writeStructToFile(fileName, &config);
         if (writtenBytes != sizeof(struct configuration))
             return -1;
@@ -175,6 +193,12 @@ uint16_t SDConfigManager::writeConfig(Sensor* sensor)
 
     if (serializedBytes)
     {
+        config.controllerIdx = -1;
+        config.objectType = sensor->getType();
+        config.actuatorIdx = -1;
+        config.sensorIdx = -1;
+        strcpy(config.name, sensor->getName());
+
         writtenBytes = writeStructToFile(fileName, &config);
 
         if (writtenBytes != sizeof(struct configuration))
@@ -210,8 +234,12 @@ uint16_t SDConfigManager::readConfig(Actuator* actuator)
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
 
-    if ((readBytes = readStructFromFile(fileName, &config)))
+    if ((readBytes = readStructFromFile(fileName, &config)) && (actuator->getType() == config.objectType))
+    {
+        actuator->setName(config.name);
+        actuator->setController(config.controllerIdx);
         return actuator->deserialize(&config, readBytes);
+    }
 
     return 0;
 }
@@ -230,8 +258,11 @@ uint16_t SDConfigManager::readConfig(Controller* controller)
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
 
-    if ((readBytes = readStructFromFile(fileName, &config)))
+    if ((readBytes = readStructFromFile(fileName, &config)) && (controller->getType() == config.objectType))
+    {
+        controller->setName(config.name);
         return controller->deserialize(&config, readBytes);
+    }
 
     return 0;
 }
@@ -250,8 +281,11 @@ uint16_t SDConfigManager::readConfig(Sensor* sensor)
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
 
-    if ((readBytes = readStructFromFile(fileName, &config)))
+    if ((readBytes = readStructFromFile(fileName, &config)) && (sensor->getType() == config.objectType) )
+    {
+        sensor->setName(config.name);
         return sensor->deserialize(&config, readBytes);
+    }
 
     return 0;
 }
@@ -264,7 +298,8 @@ uint16_t SDConfigManager::writeStructToFile(const char* fileName,
     char path[PREFIX_LENGTH + FILENAME_LENGTH];
     memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
 
-    if (m_folder[0] != 0){
+    if (m_folder[0] != 0)
+    {
         strcat(path, m_folder);
         strcat(path, "/");
     }
@@ -296,7 +331,8 @@ uint16_t SDConfigManager::readStructFromFile(const char* fileName,
 
     memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
 
-    if (m_folder[0] != 0){
+    if (m_folder[0] != 0)
+    {
         strcat(path, m_folder);
         strcat(path, "/");
     }
