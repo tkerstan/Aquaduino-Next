@@ -1,11 +1,16 @@
 include Makefile.rules
 
+
+
 compile: $(foreach d, $(OBJS), $(OBJDIR)/$d)
-	for i in $(DIRS); do make -s -C $$i compile; done
+	@for i in $(DIRS); do make -s -C $$i compile; done
+
+depend: $(foreach d, $(DEPS), $(OBJDIR)/$d)
+	@for i in $(DIRS); do make -s -C $$i depend; done
 
 all: compile
 	@echo "Linking Aquaduino.elf"
-	@$(CROSSCPP) $(LDFLAGS) -o Aquaduino.elf $(wildcard $(OBJDIR)/*.o) -lm -lc >> build.log
+	@$(CROSSCPP) $(LDFLAGS) -o Aquaduino.elf $(shell find $(OBJDIR) -type f -name '*.o') -lm -lc >> build.log
 	
 clean:
-	rm -f $(OBJDIR)/*
+	rm -rf $(OBJDIR)/*

@@ -69,6 +69,9 @@ class Aquaduino: public Object, Serializable, WebInterface
 public:
     Aquaduino();
 
+    void initPeripherals();
+    void initNetwork();
+
     void setMAC(uint8_t* mac);
     void getMAC(uint8_t* mac);
 
@@ -100,6 +103,8 @@ public:
     void enableNTP();
     void disableNTP();
     int8_t isNTPEnabled();
+
+
 
     void setTime(int8_t hour, int8_t minute, int8_t second, int8_t day,
                  int8_t month, int16_t year);

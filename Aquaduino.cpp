@@ -100,13 +100,33 @@ Aquaduino::Aquaduino() :
 #endif
         m_XivelyClient(ethClient)
 {
-    int i = 0;
-    int8_t status = 0;
-
-    Serial.begin(115200);
-
     __aquaduino = this;
     m_Type = AQUADUINO;
+    m_ConfigManager = new SDConfigManager();
+
+    initPeripherals();
+    initNetwork();
+    initXively();
+
+#ifdef INTERRUPT_DRIVEN
+    Serial.println("Interrupt triggered mode enabled.");
+    startTimer();
+#else
+    Serial.println("Software triggered mode enabled.");
+#endif
+
+}
+
+/**
+ * \brief Initialize peripherals of Arduino Board
+ *
+ *
+ */
+
+void Aquaduino::initPeripherals(){
+
+	//Init Serial Port
+	Serial.begin(115200);
 
     // Deselect all SPI devices!
     pinMode(4, OUTPUT);
@@ -114,6 +134,7 @@ Aquaduino::Aquaduino() :
     pinMode(10, OUTPUT);
     digitalWrite(10, HIGH);
 
+    //Initializing SD slot
     if (!SD.begin(4))
     {
         Serial.println(F("No SD Card available"));
@@ -121,7 +142,32 @@ Aquaduino::Aquaduino() :
             ;
     }
 
-    m_ConfigManager = new SDConfigManager();
+    //Setting the PWM frequencies to 31.25kHz
+	Serial.println(F("Initializing PWM frequency to 31.25 kHz..."));
+    TCCR1A = _BV(WGM11) | _BV(WGM10);
+    TCCR1B = _BV(CS10);
+    TCCR2A = _BV(WGM21) | _BV(WGM20);
+    TCCR2B = _BV(CS20);
+    TCCR3A = _BV(WGM31) | _BV(WGM30);
+    TCCR3B = _BV(CS30);
+    TCCR4A = _BV(WGM41) | _BV(WGM40);
+    TCCR4B = _BV(CS40);
+    TCCR5A = _BV(WGM51) | _BV(WGM50);
+    TCCR5B = _BV(CS50);
+
+    Serial.println(F("Initializing OneWire Handler..."));
+    m_OneWireHandler = new OneWireHandler();
+}
+
+/**
+ * \brief Initialize peripherals of Arduino Board
+ *
+ *
+ */
+
+void Aquaduino::initNetwork()
+{
+	int8_t status = 0;
 
     m_MAC[0] = 0xDE;
     m_MAC[1] = 0xAD;
@@ -177,23 +223,6 @@ Aquaduino::Aquaduino() :
     Serial.println(F("Starting Webserver..."));
     setWebserver(new WebServer("", 80));
 #endif
-
-    Serial.println(F("Initializing PWM..."));
-
-    //TODO: Setting the PWM frequencies to 31.25kHz should be done somewhere else
-    TCCR1A = _BV(WGM11) | _BV(WGM10);
-    TCCR1B = _BV(CS10);
-    TCCR2A = _BV(WGM21) | _BV(WGM20);
-    TCCR2B = _BV(CS20);
-    TCCR3A = _BV(WGM31) | _BV(WGM30);
-    TCCR3B = _BV(CS30);
-    TCCR4A = _BV(WGM41) | _BV(WGM40);
-    TCCR4B = _BV(CS40);
-    TCCR5A = _BV(WGM51) | _BV(WGM50);
-    TCCR5B = _BV(CS50);
-
-    Serial.println(F("Initializing OneWire Handler..."));
-    m_OneWireHandler = new OneWireHandler();
 
     m_GUIServer = new GUIServer(4242);
 }
@@ -866,11 +895,6 @@ const uint16_t Aquaduino::m_Size = sizeof(m_MAC) + sizeof(uint32_t)
  */
 uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
 {
-    uint8_t* bPtr = (uint8_t*) buffer;
-
-    if (m_Size > size || buffer == NULL)
-        return 0;
-
     return 0;
 }
 
@@ -906,20 +930,6 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
         nrOfActuators = bPtr[4];
         nrOfControllers = bPtr[5];
         nrOfSensors = bPtr[6];
-        Serial.print(F("stringLength = "));
-        Serial.println(stringLength);
-        Serial.print(F("xivelyFeedNameLength = "));
-        Serial.println(xivelyFeedNameLength);
-        Serial.print(F("xivelyApiKeyLength = "));
-        Serial.println(xivelyApiKeyLength);
-        Serial.print(F("xivelyChannelNameLength = "));
-        Serial.println(xivelyChannelNameLength);
-        Serial.print(F("nrOfActuators = "));
-        Serial.println(nrOfActuators);
-        Serial.print(F("nrOfControllers = "));
-        Serial.println(nrOfControllers);
-        Serial.print(F("nrOfSensors = "));
-        Serial.println(nrOfSensors);
     }
 
     // See Main.java in Aquaduino-Config for calculation
@@ -928,9 +938,6 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
             + (2 * nrOfActuators) + nrOfControllers + (2 * nrOfSensors)
             + (nrOfSensors * xivelyChannelNameLength) + 6 + 1 + 4 + 4 + 4 + 1
             + 4 + 1 + 1 + 1 + xivelyApiKeyLength + xivelyFeedNameLength;
-    Serial.print(calculatedSize);
-    Serial.print("?=");
-    Serial.println(size);
 
     if ((calculatedSize != size) || (stringLength != AQUADUINO_STRING_LENGTH)
         || (xivelyFeedNameLength != XIVELY_FEED_NAME_LENGTH)
@@ -940,6 +947,9 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
         || (nrOfControllers > MAX_CONTROLLERS) || (nrOfSensors > MAX_SENSORS))
     {
         Serial.println(F("Invalid configuration file!"));
+        Serial.print(calculatedSize);
+        Serial.print("?=");
+        Serial.println(size);
         return 0;
     }
 
@@ -1058,7 +1068,7 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
     memcpy(&m_MAC, bPtr, sizeof(m_MAC));
     bPtr += sizeof(m_MAC);
     Serial.print(F("MAC: "));
-    for (int i = 0; i < sizeof(m_MAC); i++){
+    for (uint8_t i = 0; i < sizeof(m_MAC); i++){
         Serial.print(m_MAC[i], HEX);
         if (i != sizeof(m_MAC)-1)
             Serial.print(":");
@@ -1146,42 +1156,7 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
     Serial.print(F("Xively Feed Name: "));
     Serial.println(m_XivelyFeedName);
 
-    Serial.println(F("Finished deserialization"));
-
-    return 0;
-
-    /*if (m_Size > size || data == NULL)
-     return 0;
-
-     memcpy(m_MAC, bPtr, sizeof(m_MAC));
-     bPtr += sizeof(m_MAC);
-     memcpy(&m_IP[0], bPtr, sizeof(uint32_t));
-     bPtr += sizeof(uint32_t);
-     memcpy(&m_Netmask[0], bPtr, sizeof(uint32_t));
-     bPtr += sizeof(uint32_t);
-     memcpy(&m_DNSServer[0], bPtr, sizeof(uint32_t));
-     bPtr += sizeof(uint32_t);
-     memcpy(&m_Gateway[0], bPtr, sizeof(uint32_t));
-     bPtr += sizeof(uint32_t);
-     memcpy(&m_NTPServer[0], bPtr, sizeof(uint32_t));
-     bPtr += sizeof(uint32_t);
-     memcpy(&m_NTPSyncInterval, bPtr, sizeof(m_NTPSyncInterval));
-     bPtr += sizeof(m_NTPSyncInterval);
-     memcpy(&m_DHCP, bPtr, sizeof(m_DHCP));
-     bPtr += sizeof(m_DHCP);
-     memcpy(&m_NTP, bPtr, sizeof(m_NTP));
-     bPtr += sizeof(m_NTP);
-     memcpy(&m_Timezone, bPtr, sizeof(m_Timezone));
-     bPtr += sizeof(m_Timezone);
-     memcpy(&m_Xively, bPtr, sizeof(m_Xively));
-     bPtr += sizeof(m_Xively);
-     memcpy(m_XivelyAPIKey, bPtr, sizeof(m_XivelyAPIKey));
-     bPtr += sizeof(m_XivelyAPIKey);
-     memcpy(&m_XivelyFeedName, bPtr, sizeof(m_XivelyFeedName));
-     bPtr += sizeof(m_XivelyFeedName);
-     memcpy(&m_XivelyChannelNames, bPtr, sizeof(m_XivelyChannelNames));
-     bPtr += sizeof(m_XivelyChannelNames);
-     return m_Size;*/
+    return size;
 }
 
 /**
@@ -2493,10 +2468,11 @@ int8_t Aquaduino::showWebinterface(WebServer* server,
 }
 #endif
 
+/**
+ * \brief Starts triggering of sensors and controller by timer interrupt
+ */
 void Aquaduino::startTimer()
 {
-#ifdef INTERRUPT_DRIVEN
-    Serial.println("Interrupt triggered mode enabled.");
     TCCR5A = 0;
     TCCR5B = 0;
     TCNT5 = 0;
@@ -2507,9 +2483,6 @@ void Aquaduino::startTimer()
     TCCR5B = _BV(CS51) | _BV(CS50) | _BV(WGM53) | _BV(WGM52);
 
     TIMSK5 = _BV(TOIE5);
-#else
-    Serial.println("Software triggered mode enabled.");
-#endif
 }
 
 void Aquaduino::readSensors()
@@ -2598,67 +2571,8 @@ Aquaduino *aquaduino;
 
 void setup()
 {
-    int8_t i;
-/*    int8_t actuatorConfig[MAX_ACTUATORS] = ACTUATOR_CONFIG;
-    int8_t controllerConfig[MAX_CONTROLLERS] = CONTROLLER_CONFIG;
-    int8_t sensorConfig[MAX_SENSORS] = SENSOR_CONFIG;*/
-
     aquaduino = new Aquaduino();
 
-/*    Serial.println(F("Initializing actuators..."));
-    for (i = 0; i < ACTUATORS; i++)
-    {
-        switch (actuatorConfig[i])
-        {
-            case ACTUATOR_DIGITALOUTPUT:
-                aquaduino->addActuator(new DigitalOutput(NULL, HIGH, LOW));
-                break;
-            default:
-            	Serial.println("Unknown actuator type");
-        }
-    }
-
-    Serial.println(F("Initializing controllers..."));
-    for (int i = 0; i < CONTROLLERS; i++)
-    {
-        switch (controllerConfig[i])
-        {
-            case CONTROLLER_LEVEL:
-                aquaduino->addController(new LevelController("Level"));
-                break;
-            case CONTROLLER_TEMPERATURE:
-                aquaduino->addController(new TemperatureController("Temperature"));
-                break;
-            case CONTROLLER_CLOCKTIMER:
-                aquaduino->addController(new ClockTimerController("Clock Timer"));
-                break;
-            default:
-            	Serial.println("Unknown controller type");
-        }
-    }
-
-    Serial.println(F("Initializing sensors..."));
-    for (int i = 0; i < SENSORS; i++)
-    {
-        switch (sensorConfig[i])
-        {
-            case SENSOR_DIGITALINPUT:
-                aquaduino->addSensor(new DigitalInput());
-                break;
-            case SENSOR_DS18S20:
-                aquaduino->addSensor(new DS18S20());
-                break;
-            case SENSOR_SERIALINPUT:
-                aquaduino->addSensor(new SerialInput());
-                break;
-            default:
-            	Serial.println("Unknown sensor type");
-        }
-    } */
-
-    aquaduino->initXively();
-
-    aquaduino->startTimer();
 }
 
 void loop()

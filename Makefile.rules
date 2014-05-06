@@ -31,18 +31,37 @@ INC += libraries/Xively
 INC_PARAMS = $(foreach d, $(INC), -I$(PWD)/$d)
 
 OBJDIR = $(PWD)/obj
+OBJSUBDIR = $(OBJDIR)$(subst $(PWD),,$(shell pwd))
 
 SRCS = $(wildcard *.c)
 SRCS += $(wildcard *.cpp)
 OBJS = $(patsubst %.c,%.o,$(wildcard *.c))
 OBJS += $(patsubst %.cpp,%.o,$(wildcard *.cpp))
+DEPS = $(patsubst %.c,%.c.depends,$(wildcard *.c))
+DEPS += $(patsubst %.cpp,%.cpp.depends,$(wildcard *.cpp))
+DEPPRE = $(addprefix $(OBJSUBDIR)/, $(DEPS))
 
-$(OBJDIR)/%.o: %.cpp
+-include $(DEPPRE)
+
+$(OBJSUBDIR)/%.o: %.cpp 
 	@echo "Compiling $<"
 	@$(CROSSCPP) $(INC_PARAMS) -c -o $@ $(CFLAGS) $< &> $(PWD)/build.log
 	
-$(OBJDIR)/%.o: %.c
+$(OBJSUBDIR)/%.o: %.c
 	@echo "Compiling $<"
 	@$(CROSSCC) $(INC_PARAMS) -c -o $@ $(CFLAGS) $< &> $(PWD)/build.log
+	
+$(OBJSUBDIR)/%.cpp.depends: %.cpp
+	@echo "Creating dependencies for $<"
+	@$(CROSSCC) -M -MT'$@' -MT'$(OBJSUBDIR)/$<' $(INC_PARAMS) $(CFLAGS) $< > $@
 
-compile: $(foreach d, $(OBJS), $(OBJDIR)/$d)
+$(OBJSUBDIR)/%.c.depends: %.c
+	@echo "Creating dependencies for $<"
+	@$(CROSSCC) -M -MT'$@' -MT'$(OBJSUBDIR)/$<' $(INC_PARAMS) $(CFLAGS) $< > $@
+	
+$(OBJSUBDIR):
+	@mkdir -p $(OBJSUBDIR) &> /dev/null
+
+compile: depend $(OBJSUBDIR) $(foreach d, $(OBJS), $(OBJSUBDIR)/$d)
+
+depend: $(OBJSUBDIR) $(foreach d, $(DEPS), $(OBJSUBDIR)/$d)
