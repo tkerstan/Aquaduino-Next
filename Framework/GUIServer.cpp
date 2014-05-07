@@ -159,20 +159,22 @@ void GUIServer::getSensorData(uint8_t sensorId) {
 	//errorcode 0
 	m_UdpServer.write((uint8_t) 0);
 
-	//valueAct:float
+	//sensorId:int
 	m_UdpServer.write(__aquaduino->getSensorValue(sensorId));
-	//valueMax24h:float
-	m_UdpServer.write((uint8_t)0.04);
+	//valueAct:float * 1000 -> uint32
+	m_UdpServer.write((uint32_t) __aquaduino->getSensorValue(sensorId) * 1000);
+	//valueMax24h:float * 1000 -> uint32
+	m_UdpServer.write((uint32_t) 65800);
 	//valueMax24hTime:time
 	m_UdpServer.write((uint32_t) 1395867979);
 	//valueMin24h:float
-	m_UdpServer.write((uint8_t)0.01);
+	m_UdpServer.write((uint32_t)4.01);
 	//valueMin24hTime:time
 	m_UdpServer.write((uint32_t) 1395867979);
 	//lastCalibration:dateTime
 	m_UdpServer.write((uint32_t) 1395867979);
-	//operatingHours
-	m_UdpServer.write((uint8_t) 0);
+	//operatingHours:int
+	m_UdpServer.write((uint8_t) 13);
 	//lastOperatingHoursReset
 	m_UdpServer.write((uint32_t) 1395867979);
 
