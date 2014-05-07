@@ -16,7 +16,8 @@ enum {
 	SETSENSORCONFIG = 3,
 	GETALLACTUATORS = 4,
 	GETACTUATORDATA = 5,
-	SETACTUATORDATA = 6
+	SETACTUATORDATA = 6,
+	SETACTUATORCONFIG = 7
 };
 
 GUIServer::GUIServer(uint16_t port) {
@@ -71,10 +72,10 @@ void GUIServer::run() {
 			case 1:
 				break;
 			case 2:
-				setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) m_Buffer[4]);
+				setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) &m_Buffer[4]);
 				break;
 			case 3:
-				setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) m_Buffer[4]);
+				setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) &m_Buffer[4]);
 				break;
 			case 4:
 				setSensorConfig(m_Buffer[2], m_Buffer[3], (uint8_t) m_Buffer[4]);
@@ -101,6 +102,21 @@ void GUIServer::run() {
 				break;
 			case 2:
 				setActuatorData(m_Buffer[2], m_Buffer[3], (char*) m_Buffer[4]);
+			}
+			break;
+		case SETACTUATORCONFIG:
+			switch (m_Buffer[3]) {
+			case 1:
+				break;
+			case 2:
+				setActuatorConfig(m_Buffer[2], m_Buffer[3], (char*) &m_Buffer[4]);
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
 			}
 			break;
 		default:
@@ -215,6 +231,8 @@ void GUIServer::setSensorConfig(uint8_t sensorId, uint8_t type, char* value) {
 	__aquaduino->writeConfig(sensor);
 }
 void GUIServer::setSensorConfig(uint8_t sensorId, uint8_t type, uint8_t value) {
+	Serial.print("set Name: ");
+	Serial.println(value);
 	Sensor* sensor = __aquaduino->getSensor(sensorId);
 	if (type == 1) {
 		//sensor->resetOperatinHours();
@@ -253,6 +271,16 @@ void GUIServer::setActuatorData(uint8_t actuatorId, uint8_t dataType, char* data
 	Serial.println("setActuatorData: 2");
 	if (dataType == 2) {
 		actuator->setName(data);
+	}
+	__aquaduino->writeConfig(actuator);
+}
+void GUIServer::setActuatorConfig(uint8_t actuatorId, uint8_t type, char* value) {
+	Actuator* actuator = __aquaduino->getActuator(actuatorId);
+	if (type == 2) {
+		actuator->setName(value);
+	}
+	if (type == 3) {
+		//sensorUnit����not implemented yet
 	}
 	__aquaduino->writeConfig(actuator);
 }
