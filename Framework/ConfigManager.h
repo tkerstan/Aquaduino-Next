@@ -31,14 +31,70 @@ static const uint16_t bufferSize = SERIALIZATION_BUFFER;
 
 class Aquaduino;
 
+struct AquaduinoConfig{
+    /**
+     * \brief Buffer for user data
+     *
+     * This buffer may hold the user data of the component. Only the component
+     * itself can interpret it using its Serializable::deserialize method. It is filled
+     * using the Serializable::serialize method of the component.
+     *
+     * The size is specified by the macro #SERIALIZATION_BUFFER
+     */
+    char data[bufferSize];
+};
+
 /**
- * TODO: The serialization and deserialization needs to be reviewed again!!!
+ * \brief This structure is used to represent the configuration data of
+ * Aquaduino.
  */
+struct ActuatorConfiguration
+{
+    /**
+     * \brief Name of the component
+     */
+    char name[AQUADUINO_STRING_LENGTH];
+
+    /**
+     * \brief type of the component
+     *
+     * The type can be used to identify whether the data is suitable for
+     * deserialization in a specific component.
+     */
+    uint8_t objectType;
+
+    /**
+     * \brief Index of the associated controller.
+     *
+     * This field can be used to store the associated controller of a component
+     */
+    int8_t controllerIdx;
+
+    /**
+     * \brief Index of the actuator.
+     *
+     * This field can be used to store the index of the actuator within Aquaduino.
+     * Not used yet.
+     */
+    int8_t actuatorIdx;
+
+    /**
+     * \brief Buffer for user data
+     *
+     * This buffer may hold the user data of the component. Only the component
+     * itself can interpret it using its Serializable::deserialize method. It is filled
+     * using the Serializable::serialize method of the component.
+     *
+     * The size is specified by the macro #SERIALIZATION_BUFFER
+     */
+    char data[bufferSize];
+};
+
 /**
  * \brief This structure is used to represent the configuration data of
  * Aquaduino components.
  */
-struct configuration
+struct ControllerConfiguration
 {
     /**
      * \brief Buffer for user data
@@ -65,9 +121,9 @@ struct configuration
     uint8_t objectType;
 
     /**
-     * \brief Index of the associated controller.
+     * \brief Index of the controller itself.
      *
-     * This field can be used to store the associated controller of a component
+     * This field can be used to store the index of the controller within Aquaduino
      */
     int8_t controllerIdx;
 
@@ -78,14 +134,44 @@ struct configuration
      * Not used yet.
      */
     int8_t actuatorIdx;
+};
+
+/**
+ * \brief This structure is used to represent the configuration data of
+ * Aquaduino components.
+ */
+struct SensorConfiguration
+{
+    /**
+     * \brief Name of the component
+     */
+    char name[AQUADUINO_STRING_LENGTH];
 
     /**
-     * \brief Index of the associated sensor.
+     * \brief type of the component
      *
-     * This field can be used to store the associated sensor of a component.
-     * Not used yet.
+     * The type can be used to identify whether the data is suitable for
+     * deserialization in a specific component.
+     */
+    uint8_t objectType;
+
+    /**
+     * \brief Index of the Sensor.
+     *
+     * This field can be used to store the index of the sensor within Aquaduino
      */
     int8_t sensorIdx;
+
+    /**
+     * \brief Buffer for user data
+     *
+     * This buffer may hold the user data of the component. Only the component
+     * itself can interpret it using its Serializable::deserialize method. It is filled
+     * using the Serializable::serialize method of the component.
+     *
+     * The size is specified by the macro #SERIALIZATION_BUFFER
+     */
+    char data[bufferSize];
 };
 
 /**
