@@ -126,6 +126,18 @@ void GUIServer::run() {
 	}
 
 }
+size_t GUIServer::write(uint32_t value,EthernetUDP* udpServer)
+{
+    size_t res=0;
+    for (uint8_t x=0;x<4;x++)
+    {
+    	res=udpServer->write(value & 255);
+    	value>>8;
+    }
+
+    return res;
+
+}
 void GUIServer::getAllSensors() {
 	//errorcode 0
 	m_UdpServer.write((uint8_t) 0);
@@ -162,7 +174,8 @@ void GUIServer::getSensorData(uint8_t sensorId) {
 	//sensorId:int
 	m_UdpServer.write(__aquaduino->getSensorValue(sensorId));
 	//valueAct:float * 1000 -> uint32
-	m_UdpServer.write((uint32_t) __aquaduino->getSensorValue(sensorId) * 1000);
+	//m_UdpServer.write((uint32_t) __aquaduino->getSensorValue(sensorId) * 1000);
+	write((uint32_t) __aquaduino->getSensorValue(sensorId) * 1000,&m_UdpServer);
 	//valueMax24h:float * 1000 -> uint32
 	m_UdpServer.write((uint32_t) 65800);
 	//valueMax24hTime:time

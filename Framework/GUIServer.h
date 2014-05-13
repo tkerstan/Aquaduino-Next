@@ -33,6 +33,8 @@ private:
 
    	void setActuatorConfig(uint8_t sensorId, uint8_t type, char* value);
 
+   	size_t write(uint32_t value,EthernetUDP* udpServer);
+
     uint8_t m_Buffer[50];
     uint16_t m_Port;
     EthernetUDP m_UdpServer;
