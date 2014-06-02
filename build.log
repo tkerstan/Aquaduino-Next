@@ -3604,3 +3604,729 @@ libraries/Arduino/main.o: In function `main':
 main.cpp:(.text.startup.main+0x2): undefined reference to `setup'
 main.cpp:(.text.startup.main+0xa): undefined reference to `loop'
 collect2: error: ld returned 1 exit status
+Framework/GUIServer.cpp: In member function 'void GUIServer::run()':
+Framework/GUIServer.cpp:71:65: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) m_Buffer[4]);
+                                                                 ^
+Framework/GUIServer.cpp:74:65: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) m_Buffer[4]);
+                                                                 ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::getSensorData(uint8_t)':
+Framework/GUIServer.cpp:137:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:139:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:143:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:123:10: warning: unused variable 'sensor' [-Wunused-variable]
+  Sensor* sensor = __aquaduino->getSensor(sensorId);
+          ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::getActuatorData(uint8_t)':
+Framework/GUIServer.cpp:180:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:182:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::setSensorConfig(uint8_t, uint8_t, uint8_t)':
+Framework/GUIServer.cpp:196:10: warning: unused variable 'sensor' [-Wunused-variable]
+  Sensor* sensor = __aquaduino->getSensor(sensorId);
+          ^
+Framework/OneWireHandler.cpp: In member function 'void OneWireHandler::issueReadCommand(uint8_t, uint8_t*)':
+Framework/OneWireHandler.cpp:96:12: warning: unused variable 'i' [-Wunused-variable]
+     int8_t i = 0;
+            ^
+Sensors/SerialAtlasEC.cpp:28:13: warning: 'sensorEC_stringcomplete' defined but not used [-Wunused-variable]
+ static bool sensorEC_stringcomplete;
+             ^
+Sensors/SerialAtlasORP.cpp:26:13: warning: 'sensorORP_stringcomplete' defined but not used [-Wunused-variable]
+ static bool sensorORP_stringcomplete;
+             ^
+Sensors/SerialAtlasPH.cpp:26:13: warning: 'sensorPH_stringcomplete' defined but not used [-Wunused-variable]
+ static bool sensorPH_stringcomplete;
+             ^
+libraries/Arduino/HardwareSerial.cpp: In function 'void store_char(unsigned char, ring_buffer*)':
+libraries/Arduino/HardwareSerial.cpp:84:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if (i != buffer->tail) {
+                    ^
+libraries/Arduino/HardwareSerial.cpp: In member function 'virtual size_t HardwareSerial::write(uint8_t)':
+libraries/Arduino/HardwareSerial.cpp:392:27: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   while (i == _tx_buffer->tail)
+                           ^
+libraries/Ethernet/utility/socket.cpp: In function 'uint16_t igmpsend(SOCKET, const uint8_t*, uint16_t)':
+libraries/Ethernet/utility/socket.cpp:316:11: warning: variable 'status' set but not used [-Wunused-but-set-variable]
+   uint8_t status=0;
+           ^
+libraries/Ethernet/Dhcp.cpp: In member function 'uint8_t DhcpClass::parseDHCPResponse(long unsigned int, uint32_t&)':
+libraries/Ethernet/Dhcp.cpp:331:55: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+                     if( *((uint32_t*)_dhcpDhcpServerIp) == 0 || 
+                                                       ^
+In file included from libraries/Ethernet/Dns.cpp:7:0:
+libraries/Ethernet/Dns.cpp: In member function 'uint16_t DNSClient::ProcessResponse(uint16_t, IPAddress&)':
+libraries/Ethernet/Dns.cpp:285:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t header_flags = htons(*((uint16_t*)&header[2]));
+                                                          ^
+libraries/Ethernet/util.h:4:22: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                      ^
+libraries/Ethernet/Dns.cpp:285:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t header_flags = htons(*((uint16_t*)&header[2]));
+                                                          ^
+libraries/Ethernet/util.h:4:34: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                                  ^
+libraries/Ethernet/Dns.cpp:287:50: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     if ( ( iRequestId != (*((uint16_t*)&header[0])) ) ||
+                                                  ^
+In file included from libraries/Ethernet/Dns.cpp:7:0:
+libraries/Ethernet/Dns.cpp:304:57: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t answerCount = htons(*((uint16_t*)&header[6]));
+                                                         ^
+libraries/Ethernet/util.h:4:22: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                      ^
+libraries/Ethernet/Dns.cpp:304:57: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t answerCount = htons(*((uint16_t*)&header[6]));
+                                                         ^
+libraries/Ethernet/util.h:4:34: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                                  ^
+libraries/Ethernet/Dns.cpp:313:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     for (uint16_t i =0; i < htons(*((uint16_t*)&header[4])); i++)
+                                                          ^
+libraries/Ethernet/util.h:4:22: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                      ^
+libraries/Ethernet/Dns.cpp:313:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     for (uint16_t i =0; i < htons(*((uint16_t*)&header[4])); i++)
+                                                          ^
+libraries/Ethernet/util.h:4:34: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                                  ^
+libraries/HttpClient/b64.cpp: In function 'int b64_encode(const unsigned char*, int, unsigned char*, int)':
+libraries/HttpClient/b64.cpp:69:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+libraries/HttpClient/HttpClient.cpp: In member function 'int HttpClient::responseStatusCode()':
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eIdle' not handled in switch [-Wswitch]
+                     switch(iState)
+                           ^
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eRequestStarted' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eReadingContentLength' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eSkipToEndOfHeader' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eLineStartingCRFound' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eReadingBody' not handled in switch [-Wswitch]
+libraries/HttpClient/b64.cpp: In function 'int b64_encode(const unsigned char*, int, unsigned char*, int)':
+libraries/HttpClient/b64.cpp:69:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+Framework/OneWireHandler.cpp: In member function 'void OneWireHandler::issueReadCommand(uint8_t, uint8_t*)':
+Framework/OneWireHandler.cpp:96:12: warning: unused variable 'i' [-Wunused-variable]
+     int8_t i = 0;
+            ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::run()':
+Framework/GUIServer.cpp:71:65: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) m_Buffer[4]);
+                                                                 ^
+Framework/GUIServer.cpp:74:65: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) m_Buffer[4]);
+                                                                 ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::getSensorData(uint8_t)':
+Framework/GUIServer.cpp:137:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:139:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:143:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:123:10: warning: unused variable 'sensor' [-Wunused-variable]
+  Sensor* sensor = __aquaduino->getSensor(sensorId);
+          ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::getActuatorData(uint8_t)':
+Framework/GUIServer.cpp:180:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:182:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::setSensorConfig(uint8_t, uint8_t, uint8_t)':
+Framework/GUIServer.cpp:196:10: warning: unused variable 'sensor' [-Wunused-variable]
+  Sensor* sensor = __aquaduino->getSensor(sensorId);
+          ^
+Framework/OneWireHandler.cpp: In member function 'void OneWireHandler::issueReadCommand(uint8_t, uint8_t*)':
+Framework/OneWireHandler.cpp:96:12: warning: unused variable 'i' [-Wunused-variable]
+     int8_t i = 0;
+            ^
+Sensors/SerialAtlasORP.cpp:26:13: warning: 'sensorORP_stringcomplete' defined but not used [-Wunused-variable]
+ static bool sensorORP_stringcomplete;
+             ^
+Sensors/SerialAtlasPH.cpp:26:13: warning: 'sensorPH_stringcomplete' defined but not used [-Wunused-variable]
+ static bool sensorPH_stringcomplete;
+             ^
+Sensors/SerialAtlasEC.cpp:28:13: warning: 'sensorEC_stringcomplete' defined but not used [-Wunused-variable]
+ static bool sensorEC_stringcomplete;
+             ^
+libraries/Arduino/HardwareSerial.cpp: In function 'void store_char(unsigned char, ring_buffer*)':
+libraries/Arduino/HardwareSerial.cpp:84:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if (i != buffer->tail) {
+                    ^
+libraries/Arduino/HardwareSerial.cpp: In member function 'virtual size_t HardwareSerial::write(uint8_t)':
+libraries/Arduino/HardwareSerial.cpp:392:27: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   while (i == _tx_buffer->tail)
+                           ^
+libraries/Ethernet/utility/socket.cpp: In function 'uint16_t igmpsend(SOCKET, const uint8_t*, uint16_t)':
+libraries/Ethernet/utility/socket.cpp:316:11: warning: variable 'status' set but not used [-Wunused-but-set-variable]
+   uint8_t status=0;
+           ^
+libraries/Ethernet/Dhcp.cpp: In member function 'uint8_t DhcpClass::parseDHCPResponse(long unsigned int, uint32_t&)':
+libraries/Ethernet/Dhcp.cpp:331:55: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+                     if( *((uint32_t*)_dhcpDhcpServerIp) == 0 || 
+                                                       ^
+In file included from libraries/Ethernet/Dns.cpp:7:0:
+libraries/Ethernet/Dns.cpp: In member function 'uint16_t DNSClient::ProcessResponse(uint16_t, IPAddress&)':
+libraries/Ethernet/Dns.cpp:285:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t header_flags = htons(*((uint16_t*)&header[2]));
+                                                          ^
+libraries/Ethernet/util.h:4:22: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                      ^
+libraries/Ethernet/Dns.cpp:285:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t header_flags = htons(*((uint16_t*)&header[2]));
+                                                          ^
+libraries/Ethernet/util.h:4:34: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                                  ^
+libraries/Ethernet/Dns.cpp:287:50: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     if ( ( iRequestId != (*((uint16_t*)&header[0])) ) ||
+                                                  ^
+In file included from libraries/Ethernet/Dns.cpp:7:0:
+libraries/Ethernet/Dns.cpp:304:57: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t answerCount = htons(*((uint16_t*)&header[6]));
+                                                         ^
+libraries/Ethernet/util.h:4:22: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                      ^
+libraries/Ethernet/Dns.cpp:304:57: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t answerCount = htons(*((uint16_t*)&header[6]));
+                                                         ^
+libraries/Ethernet/util.h:4:34: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                                  ^
+libraries/Ethernet/Dns.cpp:313:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     for (uint16_t i =0; i < htons(*((uint16_t*)&header[4])); i++)
+                                                          ^
+libraries/Ethernet/util.h:4:22: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                      ^
+libraries/Ethernet/Dns.cpp:313:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     for (uint16_t i =0; i < htons(*((uint16_t*)&header[4])); i++)
+                                                          ^
+libraries/Ethernet/util.h:4:34: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                                  ^
+libraries/HttpClient/b64.cpp: In function 'int b64_encode(const unsigned char*, int, unsigned char*, int)':
+libraries/HttpClient/b64.cpp:69:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+libraries/HttpClient/HttpClient.cpp: In member function 'int HttpClient::responseStatusCode()':
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eIdle' not handled in switch [-Wswitch]
+                     switch(iState)
+                           ^
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eRequestStarted' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eReadingContentLength' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eSkipToEndOfHeader' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eLineStartingCRFound' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eReadingBody' not handled in switch [-Wswitch]
+avr-gcc: error: libraries/SD/utility/SdFile.o: No such file or directory
+avr-gcc: error: libraries/Time/Time.o: No such file or directory
+avr-gcc: error: libraries/Xively/XivelyClient.o: No such file or directory
+/opt/avr-gcc-4.8.2/lib/gcc/avr/4.8.2/../../../../avr/lib/avr6/crtm2560.o: In function `__bad_interrupt':
+../../../../../../src/avr-libc-1.8.0/crt1/gcrt1.S:195: undefined reference to `main'
+Framework/ArrayMap_test.o: In function `TestOnce::~TestOnce()':
+ArrayMap_test.cpp:(.text._ZN8TestOnceD0Ev[TestOnce::~TestOnce()]+0xe): undefined reference to `operator delete(void*)'
+Framework/ArrayMap_test.o: In function `test_incorrect::~test_incorrect()':
+ArrayMap_test.cpp:(.text._ZN14test_incorrectD0Ev[test_incorrect::~test_incorrect()]+0xe): undefined reference to `operator delete(void*)'
+Framework/ArrayMap_test.o: In function `test_correct::~test_correct()':
+ArrayMap_test.cpp:(.text._ZN12test_correctD0Ev[test_correct::~test_correct()]+0xe): undefined reference to `operator delete(void*)'
+Framework/ArrayMap_test.o: In function `bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)':
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x60): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x90): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xa0): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xae): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xbe): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xd2): undefined reference to `Print::print(int, int)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xe2): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xf0): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x100): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x10e): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x11e): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x134): undefined reference to `Print::print(int, int)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x144): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x152): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x162): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x174): undefined reference to `Print::print(unsigned int, int)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x184): undefined reference to `Print::println(char const*)'
+libraries/ArduinoUnit/utility/ArduinoUnit.o: In function `Test::TestString::printTo(Print&) const':
+ArduinoUnit.cpp:(.text._ZNK4Test10TestString7printToER5Print+0x12): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArduinoUnit.cpp:(.text._ZNK4Test10TestString7printToER5Print+0x18): undefined reference to `Print::print(char const*)'
+libraries/ArduinoUnit/utility/ArduinoUnit.o: In function `Test::~Test()':
+ArduinoUnit.cpp:(.text._ZN4TestD0Ev+0xe): undefined reference to `operator delete(void*)'
+libraries/ArduinoUnit/utility/ArduinoUnit.o:(.rodata._ZTV4Test[vtable for Test]+0x6): undefined reference to `__cxa_pure_virtual'
+libraries/ArduinoUnit/utility/ArduinoUnit.o:(.rodata._ZTV8TestOnce[vtable for TestOnce]+0xc): undefined reference to `__cxa_pure_virtual'
+libraries/ArduinoUnit/utility/ArduinoUnit.o:(.data._ZN4Test3outE+0x0): undefined reference to `Serial'
+collect2: error: ld returned 1 exit status
+/opt/avr-gcc-4.8.2/lib/gcc/avr/4.8.2/../../../../avr/lib/avr6/crtm2560.o: In function `__bad_interrupt':
+../../../../../../src/avr-libc-1.8.0/crt1/gcrt1.S:195: undefined reference to `main'
+Framework/ArrayMap_test.o: In function `TestOnce::~TestOnce()':
+ArrayMap_test.cpp:(.text._ZN8TestOnceD0Ev[TestOnce::~TestOnce()]+0xe): undefined reference to `operator delete(void*)'
+Framework/ArrayMap_test.o: In function `test_incorrect::~test_incorrect()':
+ArrayMap_test.cpp:(.text._ZN14test_incorrectD0Ev[test_incorrect::~test_incorrect()]+0xe): undefined reference to `operator delete(void*)'
+Framework/ArrayMap_test.o: In function `test_correct::~test_correct()':
+ArrayMap_test.cpp:(.text._ZN12test_correctD0Ev[test_correct::~test_correct()]+0xe): undefined reference to `operator delete(void*)'
+Framework/ArrayMap_test.o: In function `bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)':
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x60): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x90): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xa0): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xae): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xbe): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xd2): undefined reference to `Print::print(int, int)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xe2): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xf0): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x100): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x10e): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x11e): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x134): undefined reference to `Print::print(int, int)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x144): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x152): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x162): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x174): undefined reference to `Print::print(unsigned int, int)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x184): undefined reference to `Print::println(char const*)'
+libraries/ArduinoUnit/utility/ArduinoUnit.o: In function `Test::TestString::printTo(Print&) const':
+ArduinoUnit.cpp:(.text._ZNK4Test10TestString7printToER5Print+0x12): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArduinoUnit.cpp:(.text._ZNK4Test10TestString7printToER5Print+0x18): undefined reference to `Print::print(char const*)'
+libraries/ArduinoUnit/utility/ArduinoUnit.o: In function `Test::~Test()':
+ArduinoUnit.cpp:(.text._ZN4TestD0Ev+0xe): undefined reference to `operator delete(void*)'
+libraries/ArduinoUnit/utility/ArduinoUnit.o:(.rodata._ZTV4Test[vtable for Test]+0x6): undefined reference to `__cxa_pure_virtual'
+libraries/ArduinoUnit/utility/ArduinoUnit.o:(.rodata._ZTV8TestOnce[vtable for TestOnce]+0xc): undefined reference to `__cxa_pure_virtual'
+libraries/ArduinoUnit/utility/ArduinoUnit.o:(.data._ZN4Test3outE+0x0): undefined reference to `Serial'
+collect2: error: ld returned 1 exit status
+/opt/avr-gcc-4.8.2/lib/gcc/avr/4.8.2/../../../../avr/lib/avr6/crtm2560.o: In function `__bad_interrupt':
+../../../../../../src/avr-libc-1.8.0/crt1/gcrt1.S:195: undefined reference to `main'
+Framework/ArrayMap_test.o: In function `TestOnce::~TestOnce()':
+ArrayMap_test.cpp:(.text._ZN8TestOnceD0Ev[TestOnce::~TestOnce()]+0xe): undefined reference to `operator delete(void*)'
+Framework/ArrayMap_test.o: In function `test_incorrect::~test_incorrect()':
+ArrayMap_test.cpp:(.text._ZN14test_incorrectD0Ev[test_incorrect::~test_incorrect()]+0xe): undefined reference to `operator delete(void*)'
+Framework/ArrayMap_test.o: In function `test_correct::~test_correct()':
+ArrayMap_test.cpp:(.text._ZN12test_correctD0Ev[test_correct::~test_correct()]+0xe): undefined reference to `operator delete(void*)'
+Framework/ArrayMap_test.o: In function `bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)':
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x60): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x90): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xa0): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xae): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xbe): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xd2): undefined reference to `Print::print(int, int)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xe2): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xf0): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x100): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x10e): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x11e): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x134): undefined reference to `Print::print(int, int)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x144): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x152): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x162): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x174): undefined reference to `Print::print(unsigned int, int)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x184): undefined reference to `Print::println(char const*)'
+libraries/ArduinoUnit/utility/ArduinoUnit.o: In function `Test::TestString::printTo(Print&) const':
+ArduinoUnit.cpp:(.text._ZNK4Test10TestString7printToER5Print+0x12): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArduinoUnit.cpp:(.text._ZNK4Test10TestString7printToER5Print+0x18): undefined reference to `Print::print(char const*)'
+libraries/ArduinoUnit/utility/ArduinoUnit.o: In function `Test::~Test()':
+ArduinoUnit.cpp:(.text._ZN4TestD0Ev+0xe): undefined reference to `operator delete(void*)'
+libraries/ArduinoUnit/utility/ArduinoUnit.o:(.rodata._ZTV4Test[vtable for Test]+0x6): undefined reference to `__cxa_pure_virtual'
+libraries/ArduinoUnit/utility/ArduinoUnit.o:(.rodata._ZTV8TestOnce[vtable for TestOnce]+0xc): undefined reference to `__cxa_pure_virtual'
+libraries/ArduinoUnit/utility/ArduinoUnit.o:(.data._ZN4Test3outE+0x0): undefined reference to `Serial'
+collect2: error: ld returned 1 exit status
+/opt/avr-gcc-4.8.2/lib/gcc/avr/4.8.2/../../../../avr/lib/avr6/crtm2560.o: In function `__bad_interrupt':
+../../../../../../src/avr-libc-1.8.0/crt1/gcrt1.S:195: undefined reference to `main'
+Framework/ArrayMap_test.o: In function `TestOnce::~TestOnce()':
+ArrayMap_test.cpp:(.text._ZN8TestOnceD0Ev[TestOnce::~TestOnce()]+0xe): undefined reference to `operator delete(void*)'
+Framework/ArrayMap_test.o: In function `test_incorrect::~test_incorrect()':
+ArrayMap_test.cpp:(.text._ZN14test_incorrectD0Ev[test_incorrect::~test_incorrect()]+0xe): undefined reference to `operator delete(void*)'
+Framework/ArrayMap_test.o: In function `test_correct::~test_correct()':
+ArrayMap_test.cpp:(.text._ZN12test_correctD0Ev[test_correct::~test_correct()]+0xe): undefined reference to `operator delete(void*)'
+Framework/ArrayMap_test.o: In function `bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)':
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x60): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x90): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xa0): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xae): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xbe): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xd2): undefined reference to `Print::print(int, int)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xe2): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0xf0): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x100): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x10e): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x11e): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x134): undefined reference to `Print::print(int, int)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x144): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x152): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x162): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x174): undefined reference to `Print::print(unsigned int, int)'
+ArrayMap_test.cpp:(.text._ZN4Test9assertionIiEEbPK19__FlashStringHelperjS3_RKT_S3_PFbS6_S6_ES3_S6_[bool Test::assertion<int>(__FlashStringHelper const*, unsigned int, __FlashStringHelper const*, int const&, __FlashStringHelper const*, bool (*)(int const&, int const&), __FlashStringHelper const*, int const&)]+0x184): undefined reference to `Print::println(char const*)'
+libraries/ArduinoUnit/utility/ArduinoUnit.o: In function `Test::TestString::printTo(Print&) const':
+ArduinoUnit.cpp:(.text._ZNK4Test10TestString7printToER5Print+0x12): undefined reference to `Print::print(__FlashStringHelper const*)'
+ArduinoUnit.cpp:(.text._ZNK4Test10TestString7printToER5Print+0x18): undefined reference to `Print::print(char const*)'
+libraries/ArduinoUnit/utility/ArduinoUnit.o: In function `Test::~Test()':
+ArduinoUnit.cpp:(.text._ZN4TestD0Ev+0xe): undefined reference to `operator delete(void*)'
+libraries/ArduinoUnit/utility/ArduinoUnit.o:(.rodata._ZTV4Test[vtable for Test]+0x6): undefined reference to `__cxa_pure_virtual'
+libraries/ArduinoUnit/utility/ArduinoUnit.o:(.rodata._ZTV8TestOnce[vtable for TestOnce]+0xc): undefined reference to `__cxa_pure_virtual'
+libraries/ArduinoUnit/utility/ArduinoUnit.o:(.data._ZN4Test3outE+0x0): undefined reference to `Serial'
+collect2: error: ld returned 1 exit status
+libraries/Arduino/HardwareSerial.cpp: In function 'void store_char(unsigned char, ring_buffer*)':
+libraries/Arduino/HardwareSerial.cpp:84:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if (i != buffer->tail) {
+                    ^
+libraries/Arduino/HardwareSerial.cpp: In member function 'virtual size_t HardwareSerial::write(uint8_t)':
+libraries/Arduino/HardwareSerial.cpp:392:27: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   while (i == _tx_buffer->tail)
+                           ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::run()':
+Framework/GUIServer.cpp:71:65: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) m_Buffer[4]);
+                                                                 ^
+Framework/GUIServer.cpp:74:65: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) m_Buffer[4]);
+                                                                 ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::getSensorData(uint8_t)':
+Framework/GUIServer.cpp:137:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:139:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:143:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:123:10: warning: unused variable 'sensor' [-Wunused-variable]
+  Sensor* sensor = __aquaduino->getSensor(sensorId);
+          ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::getActuatorData(uint8_t)':
+Framework/GUIServer.cpp:180:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:182:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::setSensorConfig(uint8_t, uint8_t, uint8_t)':
+Framework/GUIServer.cpp:196:10: warning: unused variable 'sensor' [-Wunused-variable]
+  Sensor* sensor = __aquaduino->getSensor(sensorId);
+          ^
+Framework/OneWireHandler.cpp: In member function 'void OneWireHandler::issueReadCommand(uint8_t, uint8_t*)':
+Framework/OneWireHandler.cpp:96:12: warning: unused variable 'i' [-Wunused-variable]
+     int8_t i = 0;
+            ^
+Sensors/SerialAtlasEC.cpp:28:13: warning: 'sensorEC_stringcomplete' defined but not used [-Wunused-variable]
+ static bool sensorEC_stringcomplete;
+             ^
+Sensors/SerialAtlasORP.cpp:26:13: warning: 'sensorORP_stringcomplete' defined but not used [-Wunused-variable]
+ static bool sensorORP_stringcomplete;
+             ^
+Sensors/SerialAtlasPH.cpp:26:13: warning: 'sensorPH_stringcomplete' defined but not used [-Wunused-variable]
+ static bool sensorPH_stringcomplete;
+             ^
+libraries/Ethernet/utility/socket.cpp: In function 'uint16_t igmpsend(SOCKET, const uint8_t*, uint16_t)':
+libraries/Ethernet/utility/socket.cpp:316:11: warning: variable 'status' set but not used [-Wunused-but-set-variable]
+   uint8_t status=0;
+           ^
+libraries/Ethernet/Dhcp.cpp: In member function 'uint8_t DhcpClass::parseDHCPResponse(long unsigned int, uint32_t&)':
+libraries/Ethernet/Dhcp.cpp:331:55: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+                     if( *((uint32_t*)_dhcpDhcpServerIp) == 0 || 
+                                                       ^
+In file included from libraries/Ethernet/Dns.cpp:7:0:
+libraries/Ethernet/Dns.cpp: In member function 'uint16_t DNSClient::ProcessResponse(uint16_t, IPAddress&)':
+libraries/Ethernet/Dns.cpp:285:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t header_flags = htons(*((uint16_t*)&header[2]));
+                                                          ^
+libraries/Ethernet/util.h:4:22: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                      ^
+libraries/Ethernet/Dns.cpp:285:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t header_flags = htons(*((uint16_t*)&header[2]));
+                                                          ^
+libraries/Ethernet/util.h:4:34: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                                  ^
+libraries/Ethernet/Dns.cpp:287:50: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     if ( ( iRequestId != (*((uint16_t*)&header[0])) ) ||
+                                                  ^
+In file included from libraries/Ethernet/Dns.cpp:7:0:
+libraries/Ethernet/Dns.cpp:304:57: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t answerCount = htons(*((uint16_t*)&header[6]));
+                                                         ^
+libraries/Ethernet/util.h:4:22: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                      ^
+libraries/Ethernet/Dns.cpp:304:57: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t answerCount = htons(*((uint16_t*)&header[6]));
+                                                         ^
+libraries/Ethernet/util.h:4:34: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                                  ^
+libraries/Ethernet/Dns.cpp:313:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     for (uint16_t i =0; i < htons(*((uint16_t*)&header[4])); i++)
+                                                          ^
+libraries/Ethernet/util.h:4:22: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                      ^
+libraries/Ethernet/Dns.cpp:313:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     for (uint16_t i =0; i < htons(*((uint16_t*)&header[4])); i++)
+                                                          ^
+libraries/Ethernet/util.h:4:34: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                                  ^
+libraries/HttpClient/b64.cpp: In function 'int b64_encode(const unsigned char*, int, unsigned char*, int)':
+libraries/HttpClient/b64.cpp:69:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+libraries/HttpClient/HttpClient.cpp: In member function 'int HttpClient::responseStatusCode()':
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eIdle' not handled in switch [-Wswitch]
+                     switch(iState)
+                           ^
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eRequestStarted' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eReadingContentLength' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eSkipToEndOfHeader' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eLineStartingCRFound' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eReadingBody' not handled in switch [-Wswitch]
+libraries/Arduino/HardwareSerial.cpp: In function 'void store_char(unsigned char, ring_buffer*)':
+libraries/Arduino/HardwareSerial.cpp:84:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if (i != buffer->tail) {
+                    ^
+libraries/Arduino/HardwareSerial.cpp: In member function 'virtual size_t HardwareSerial::write(uint8_t)':
+libraries/Arduino/HardwareSerial.cpp:392:27: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   while (i == _tx_buffer->tail)
+                           ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::run()':
+Framework/GUIServer.cpp:71:65: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) m_Buffer[4]);
+                                                                 ^
+Framework/GUIServer.cpp:74:65: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) m_Buffer[4]);
+                                                                 ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::getSensorData(uint8_t)':
+Framework/GUIServer.cpp:137:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:139:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:143:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:123:10: warning: unused variable 'sensor' [-Wunused-variable]
+  Sensor* sensor = __aquaduino->getSensor(sensorId);
+          ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::getActuatorData(uint8_t)':
+Framework/GUIServer.cpp:180:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:182:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::setSensorConfig(uint8_t, uint8_t, uint8_t)':
+Framework/GUIServer.cpp:196:10: warning: unused variable 'sensor' [-Wunused-variable]
+  Sensor* sensor = __aquaduino->getSensor(sensorId);
+          ^
+Framework/OneWireHandler.cpp: In member function 'void OneWireHandler::issueReadCommand(uint8_t, uint8_t*)':
+Framework/OneWireHandler.cpp:96:12: warning: unused variable 'i' [-Wunused-variable]
+     int8_t i = 0;
+            ^
+Sensors/SerialAtlasEC.cpp:28:13: warning: 'sensorEC_stringcomplete' defined but not used [-Wunused-variable]
+ static bool sensorEC_stringcomplete;
+             ^
+Sensors/SerialAtlasORP.cpp:26:13: warning: 'sensorORP_stringcomplete' defined but not used [-Wunused-variable]
+ static bool sensorORP_stringcomplete;
+             ^
+Sensors/SerialAtlasPH.cpp:26:13: warning: 'sensorPH_stringcomplete' defined but not used [-Wunused-variable]
+ static bool sensorPH_stringcomplete;
+             ^
+libraries/Ethernet/utility/socket.cpp: In function 'uint16_t igmpsend(SOCKET, const uint8_t*, uint16_t)':
+libraries/Ethernet/utility/socket.cpp:316:11: warning: variable 'status' set but not used [-Wunused-but-set-variable]
+   uint8_t status=0;
+           ^
+libraries/Ethernet/Dhcp.cpp: In member function 'uint8_t DhcpClass::parseDHCPResponse(long unsigned int, uint32_t&)':
+libraries/Ethernet/Dhcp.cpp:331:55: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+                     if( *((uint32_t*)_dhcpDhcpServerIp) == 0 || 
+                                                       ^
+In file included from libraries/Ethernet/Dns.cpp:7:0:
+libraries/Ethernet/Dns.cpp: In member function 'uint16_t DNSClient::ProcessResponse(uint16_t, IPAddress&)':
+libraries/Ethernet/Dns.cpp:285:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t header_flags = htons(*((uint16_t*)&header[2]));
+                                                          ^
+libraries/Ethernet/util.h:4:22: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                      ^
+libraries/Ethernet/Dns.cpp:285:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t header_flags = htons(*((uint16_t*)&header[2]));
+                                                          ^
+libraries/Ethernet/util.h:4:34: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                                  ^
+libraries/Ethernet/Dns.cpp:287:50: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     if ( ( iRequestId != (*((uint16_t*)&header[0])) ) ||
+                                                  ^
+In file included from libraries/Ethernet/Dns.cpp:7:0:
+libraries/Ethernet/Dns.cpp:304:57: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t answerCount = htons(*((uint16_t*)&header[6]));
+                                                         ^
+libraries/Ethernet/util.h:4:22: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                      ^
+libraries/Ethernet/Dns.cpp:304:57: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t answerCount = htons(*((uint16_t*)&header[6]));
+                                                         ^
+libraries/Ethernet/util.h:4:34: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                                  ^
+libraries/Ethernet/Dns.cpp:313:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     for (uint16_t i =0; i < htons(*((uint16_t*)&header[4])); i++)
+                                                          ^
+libraries/Ethernet/util.h:4:22: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                      ^
+libraries/Ethernet/Dns.cpp:313:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     for (uint16_t i =0; i < htons(*((uint16_t*)&header[4])); i++)
+                                                          ^
+libraries/Ethernet/util.h:4:34: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                                  ^
+libraries/HttpClient/b64.cpp: In function 'int b64_encode(const unsigned char*, int, unsigned char*, int)':
+libraries/HttpClient/b64.cpp:69:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+libraries/HttpClient/HttpClient.cpp: In member function 'int HttpClient::responseStatusCode()':
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eIdle' not handled in switch [-Wswitch]
+                     switch(iState)
+                           ^
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eRequestStarted' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eReadingContentLength' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eSkipToEndOfHeader' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eLineStartingCRFound' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eReadingBody' not handled in switch [-Wswitch]
+libraries/Arduino/HardwareSerial.cpp: In function 'void store_char(unsigned char, ring_buffer*)':
+libraries/Arduino/HardwareSerial.cpp:84:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if (i != buffer->tail) {
+                    ^
+libraries/Arduino/HardwareSerial.cpp: In member function 'virtual size_t HardwareSerial::write(uint8_t)':
+libraries/Arduino/HardwareSerial.cpp:392:27: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   while (i == _tx_buffer->tail)
+                           ^
+Framework/OneWireHandler.cpp: In member function 'void OneWireHandler::issueReadCommand(uint8_t, uint8_t*)':
+Framework/OneWireHandler.cpp:96:12: warning: unused variable 'i' [-Wunused-variable]
+     int8_t i = 0;
+            ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::run()':
+Framework/GUIServer.cpp:71:65: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) m_Buffer[4]);
+                                                                 ^
+Framework/GUIServer.cpp:74:65: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) m_Buffer[4]);
+                                                                 ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::getSensorData(uint8_t)':
+Framework/GUIServer.cpp:137:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:139:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:143:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:123:10: warning: unused variable 'sensor' [-Wunused-variable]
+  Sensor* sensor = __aquaduino->getSensor(sensorId);
+          ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::getActuatorData(uint8_t)':
+Framework/GUIServer.cpp:180:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp:182:41: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  m_UdpServer.write((uint32_t) 1395867979);
+                                         ^
+Framework/GUIServer.cpp: In member function 'void GUIServer::setSensorConfig(uint8_t, uint8_t, uint8_t)':
+Framework/GUIServer.cpp:196:10: warning: unused variable 'sensor' [-Wunused-variable]
+  Sensor* sensor = __aquaduino->getSensor(sensorId);
+          ^
+Sensors/SerialAtlasORP.cpp:26:13: warning: 'sensorORP_stringcomplete' defined but not used [-Wunused-variable]
+ static bool sensorORP_stringcomplete;
+             ^
+Sensors/SerialAtlasEC.cpp:28:13: warning: 'sensorEC_stringcomplete' defined but not used [-Wunused-variable]
+ static bool sensorEC_stringcomplete;
+             ^
+Sensors/SerialAtlasPH.cpp:26:13: warning: 'sensorPH_stringcomplete' defined but not used [-Wunused-variable]
+ static bool sensorPH_stringcomplete;
+             ^
+libraries/Ethernet/utility/socket.cpp: In function 'uint16_t igmpsend(SOCKET, const uint8_t*, uint16_t)':
+libraries/Ethernet/utility/socket.cpp:316:11: warning: variable 'status' set but not used [-Wunused-but-set-variable]
+   uint8_t status=0;
+           ^
+libraries/Ethernet/Dhcp.cpp: In member function 'uint8_t DhcpClass::parseDHCPResponse(long unsigned int, uint32_t&)':
+libraries/Ethernet/Dhcp.cpp:331:55: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+                     if( *((uint32_t*)_dhcpDhcpServerIp) == 0 || 
+                                                       ^
+In file included from libraries/Ethernet/Dns.cpp:7:0:
+libraries/Ethernet/Dns.cpp: In member function 'uint16_t DNSClient::ProcessResponse(uint16_t, IPAddress&)':
+libraries/Ethernet/Dns.cpp:285:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t header_flags = htons(*((uint16_t*)&header[2]));
+                                                          ^
+libraries/Ethernet/util.h:4:22: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                      ^
+libraries/Ethernet/Dns.cpp:285:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t header_flags = htons(*((uint16_t*)&header[2]));
+                                                          ^
+libraries/Ethernet/util.h:4:34: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                                  ^
+libraries/Ethernet/Dns.cpp:287:50: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     if ( ( iRequestId != (*((uint16_t*)&header[0])) ) ||
+                                                  ^
+In file included from libraries/Ethernet/Dns.cpp:7:0:
+libraries/Ethernet/Dns.cpp:304:57: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t answerCount = htons(*((uint16_t*)&header[6]));
+                                                         ^
+libraries/Ethernet/util.h:4:22: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                      ^
+libraries/Ethernet/Dns.cpp:304:57: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     uint16_t answerCount = htons(*((uint16_t*)&header[6]));
+                                                         ^
+libraries/Ethernet/util.h:4:34: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                                  ^
+libraries/Ethernet/Dns.cpp:313:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     for (uint16_t i =0; i < htons(*((uint16_t*)&header[4])); i++)
+                                                          ^
+libraries/Ethernet/util.h:4:22: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                      ^
+libraries/Ethernet/Dns.cpp:313:58: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     for (uint16_t i =0; i < htons(*((uint16_t*)&header[4])); i++)
+                                                          ^
+libraries/Ethernet/util.h:4:34: note: in definition of macro 'htons'
+ #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+                                  ^
+libraries/HttpClient/b64.cpp: In function 'int b64_encode(const unsigned char*, int, unsigned char*, int)':
+libraries/HttpClient/b64.cpp:69:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+libraries/HttpClient/HttpClient.cpp: In member function 'int HttpClient::responseStatusCode()':
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eIdle' not handled in switch [-Wswitch]
+                     switch(iState)
+                           ^
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eRequestStarted' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eReadingContentLength' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eSkipToEndOfHeader' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eLineStartingCRFound' not handled in switch [-Wswitch]
+libraries/HttpClient/HttpClient.cpp:322:27: warning: enumeration value 'eReadingBody' not handled in switch [-Wswitch]

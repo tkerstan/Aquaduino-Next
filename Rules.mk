@@ -49,13 +49,13 @@ CLEAN		:= $(CLEAN) $(OBJS_$(d)) $(DEPS_$(d))
 
 TGTS_$(d)	:= Aquaduino.elf
 TGT_BIN		:= $(TGT_BIN) Aquaduino.elf
-LL_ALL		:= $(LL_ALL) $(OBJS_$(d))
+AQ_OBJS_ALL	:= $(AQ_OBJS_ALL) $(OBJS_$(d))
 CLEAN		:= $(CLEAN) $(TGTS_$(d)) $(DEPS_$(d))
 
 # Local rules
 $(OBJS_$(d)):	CF_TGT := -I$(d)
 
-Aquaduino.elf : Framework/AquaduinoMain.o
+Aquaduino.elf : Framework/AquaduinoMain.o $(AQ_OBJS_ALL)
 	@echo "Linking $@"
 	$(LINK)
 
@@ -68,7 +68,7 @@ Aquaduino.elf : Framework/AquaduinoMain.o
 # The variables TGT_*, CLEAN and CMD_INST* may be added to by the Makefile
 # fragments in the various subdirectories.
 
-TGT_BIN	:= $(LL_ALL) $(TGT_BIN)
+TGT_BIN	:= $(TGT_BIN)
 
 .PHONY:		targets
 targets:	$(TGT_BIN) $(TGT_SBIN) $(TGT_ETC) $(TGT_LIB)

@@ -21,7 +21,7 @@ CLEAN		:= $(CLEAN) $(OBJS_$(d)) $(DEPS_$(d))
 
 TGTS_$(d)	:= ArrayMap_test.elf
 TGT_BIN		:= $(TGT_BIN) ArrayMap_test.elf
-LL_ALL		:= $(LL_ALL) $(OBJS_$(d))
+AQ_OBJS_ALL	:= $(AQ_OBJS_ALL) $(OBJS_$(d))
 CLEAN		:= $(CLEAN) $(TGTS_$(d)) $(DEPS_$(d))
 
 # Local rules
@@ -30,7 +30,9 @@ $(OBJS_$(d)):	CF_TGT := -I$(d)
 ArrayMap_test.elf: CF_TGT := -I$(d)
 ArrayMap_test.elf: $(d)/ArrayMap_test.o libraries/ArduinoUnit/utility/ArduinoUnit.o \
                    libraries/ArduinoUnit/utility/FakeStream.o libraries/ArduinoUnit/utility/FakeStreamBuffer.o \
-                   libraries/ArduinoUnit/utility/FreeMemory.o
+                   libraries/ArduinoUnit/utility/FreeMemory.o libraries/Arduino/HardwareSerial.o \
+                   libraries/Arduino/Print.o libraries/Arduino/new.o libraries/Arduino/main.o \
+                   libraries/Arduino/wiring.o
 	@echo "Linking $@"
 	$(LINK)
 
