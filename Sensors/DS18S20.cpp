@@ -19,7 +19,7 @@
  */
 
 #include "DS18S20.h"
-#include <Aquaduino.h>
+#include <Framework/Aquaduino.h>
 #include "DigitalInput.h"
 #include <Arduino.h>
 #include <SD.h>

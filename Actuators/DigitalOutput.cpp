@@ -18,8 +18,8 @@
  *
  */
 
-#include <Aquaduino.h>
-#include "DigitalOutput.h"
+#include <Framework/Aquaduino.h>
+#include <DigitalOutput.h>
 #include <Arduino.h>
 
 #ifdef FEATURE_WEBIF

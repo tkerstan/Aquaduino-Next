@@ -19,7 +19,7 @@
  */
 
 #include <Controller/TemperatureController.h>
-#include <Aquaduino.h>
+#include <Framework/Aquaduino.h>
 #include <SD.h>
 
 #ifdef FEATURE_WEBIF

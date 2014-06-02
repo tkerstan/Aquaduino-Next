@@ -2566,16 +2566,3 @@ int freeRam()
     int v;
     return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
 }
-
-Aquaduino *aquaduino;
-
-void setup()
-{
-    aquaduino = new Aquaduino();
-
-}
-
-void loop()
-{
-    aquaduino->run();
-}
