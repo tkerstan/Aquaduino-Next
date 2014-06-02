@@ -36,10 +36,10 @@ public:
     uint16_t deserialize(void* data, uint16_t size);
 
 #ifdef FEATURE_WEBIF
-    int8_t showWebinterface(WebServer* server, WebServer::ConnectionType type,
-                            char* url);
+    int8_t showWebinterface(WebServer* server,
+                                        WebServer::ConnectionType type,
+                                        char* url);
 #endif
-
 
 private:
     unsigned char m_Pin;

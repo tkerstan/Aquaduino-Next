@@ -65,7 +65,6 @@ uint16_t DigitalOutput::serialize(void* buffer, uint16_t size)
         memcpy(bPtr, &m_On, sizeof(m_On));
         bPtr += sizeof(m_On);
         memcpy(bPtr, &m_DutyCycle, sizeof(m_DutyCycle));
-
     }
     else
         return 0;

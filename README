@@ -51,7 +51,7 @@ Features
     * Currently supported Sensors
         * Level sensor (Digital Input)
         * Temperature sensor (DS18x20)
-        * pH/ORP/EC in progress
+        * Atlas pH/ORP/EC
         * Support for monitoring using Xively
 
 * Template Parser Framework

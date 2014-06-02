@@ -598,7 +598,6 @@ int8_t Aquaduino::addController(Controller* newController)
         buffer[0] = 'C';
         itoa(idx, &buffer[1], 10);
         m_Controllers[idx]->setURL(buffer);
-        __aquaduino->readConfig(newController);
     }
     return idx;
 }
@@ -685,7 +684,6 @@ int8_t Aquaduino::addActuator(Actuator* newActuator)
         buffer[0] = 'A';
         itoa(idx, &buffer[1], 10);
         newActuator->setURL(buffer);
-        readConfig(newActuator);
     }
     return idx;
 }
@@ -827,7 +825,6 @@ int8_t Aquaduino::addSensor(Sensor* newSensor)
         buffer[0] = 'S';
         itoa(idx, &buffer[1], 10);
         newSensor->setURL(buffer);
-        readConfig(newSensor);
     }
     return idx;
 }
@@ -977,11 +974,7 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
 
         if ( (actuator != NULL) && (idx = __aquaduino->addActuator(actuator)) != -1)
         {
-            Serial.print(F("Added actuator "));
-            Serial.print(name);
-            Serial.print(F(" @ index "));
-            Serial.println(idx);
-
+            readConfig(actuator);
         }
     }
 
@@ -1011,10 +1004,7 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
 
         if ( (controller != NULL) && (idx = __aquaduino->addController(controller)) != -1)
         {
-            Serial.print(F("Added controller "));
-            Serial.print(name);
-            Serial.print(F(" @ index "));
-            Serial.println(idx);
+            readConfig(controller);
         }
     }
 
@@ -1033,19 +1023,24 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
         case 1:
             sensor = new DigitalInput();
             ((DigitalInput*) sensor)->setPin(portId);
+            ((DigitalInput*) sensor)->setName(name);
             break;
         case 2:
             sensor = new DS18S20();
             ((DS18S20*) sensor)->setPin(portId);
+            ((DS18S20*) sensor)->setName(name);
             break;
         case 3:
             sensor = new SerialAtlasPH();
+            ((SerialAtlasPH*) sensor)->setName(name);
             break;
         case 4:
             sensor = new SerialAtlasEC();
+            ((SerialAtlasEC*) sensor)->setName(name);
             break;
         case 5:
             sensor = new SerialAtlasORP();
+            ((SerialAtlasORP*) sensor)->setName(name);
             break;
         default:
             sensor = NULL;
@@ -1054,15 +1049,8 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
 
         if ( (sensor != NULL) && (idx = __aquaduino->addSensor(sensor)) != -1)
         {
-            sensor->setName(name);
             memcpy(m_XivelyChannelNames[idx], xivelyFeed, xivelyChannelNameLength);
-            Serial.print(F("Added sensor "));
-            Serial.print(name);
-            Serial.print(F(" @ index "));
-            Serial.print(idx);
-            Serial.print(F(" posting to Xively Channel \""));
-            Serial.print(xivelyFeed);
-            Serial.println(F("\""));
+            readConfig(sensor);
         }
     }
     memcpy(&m_MAC, bPtr, sizeof(m_MAC));
@@ -1948,10 +1936,6 @@ int8_t Aquaduino::configWebpageProcessPost(WebServer* server,
         __aquaduino->writeConfig(__aquaduino);
 
         __aquaduino->resetActuatorIterator();
-        while (__aquaduino->getNextActuator(&actuator) != -1)
-        {
-            __aquaduino->writeConfig(actuator);
-        }
 
         server->httpSeeOther("/config");
     }
