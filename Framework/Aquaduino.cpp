@@ -102,6 +102,7 @@ Aquaduino::Aquaduino() :
 {
     __aquaduino = this;
     m_Type = AQUADUINO;
+    //ToDo: Buggy!
     m_ConfigManager = new SDConfigManager();
 
     initPeripherals();
@@ -974,7 +975,8 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
 
         if ( (actuator != NULL) && (idx = __aquaduino->addActuator(actuator)) != -1)
         {
-            readConfig(actuator);
+        	//ToDo:Buggy
+            //readConfig(actuator);
         }
     }
 
@@ -995,7 +997,7 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
             controller = new TemperatureController(name);
             break;
         case 3:
-            controller = new LevelController(name);
+            controller = new ClockTimerController(name);
             break;
         default:
             controller = NULL;
@@ -1004,7 +1006,8 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
 
         if ( (controller != NULL) && (idx = __aquaduino->addController(controller)) != -1)
         {
-            readConfig(controller);
+        	//ToDo:Buggy
+            //readConfig(controller);
         }
     }
 
@@ -1050,7 +1053,8 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
         if ( (sensor != NULL) && (idx = __aquaduino->addSensor(sensor)) != -1)
         {
             memcpy(m_XivelyChannelNames[idx], xivelyFeed, xivelyChannelNameLength);
-            readConfig(sensor);
+            //ToDo:Buggy
+            //readConfig(sensor);
         }
     }
     memcpy(&m_MAC, bPtr, sizeof(m_MAC));
@@ -1119,8 +1123,9 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
     }
     Serial.println();
 
-    memcpy(&m_NTPSyncInterval, bPtr, sizeof(m_NTPSyncInterval));
-    bPtr += sizeof(m_NTPSyncInterval);
+	//ToDo: Inconsistent to Aquaduino-Config
+    memcpy(&m_NTPSyncInterval, bPtr, 1);
+    bPtr += 1;
     Serial.print(F("NTP Sync Interval: "));
     Serial.println(m_NTPSyncInterval);
 
@@ -1158,7 +1163,12 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
  */
 int8_t Aquaduino::writeConfig(Aquaduino* aquaduino)
 {
-    return m_ConfigManager->writeConfig(aquaduino);
+	if (m_ConfigManager != NULL)
+	{
+		//ToDo:Buggy
+		//m_ConfigManager->writeConfig(aquaduino);
+	}
+	return 0;
 }
 
 /**
@@ -1172,7 +1182,12 @@ int8_t Aquaduino::writeConfig(Aquaduino* aquaduino)
  */
 int8_t Aquaduino::writeConfig(Actuator* actuator)
 {
-    return m_ConfigManager->writeConfig(actuator);
+	if (m_ConfigManager != NULL)
+	{
+		//ToDo:Buggy
+		//m_ConfigManager->writeConfig(actuator);
+	}
+	return 0;
 }
 
 /**
@@ -1186,7 +1201,12 @@ int8_t Aquaduino::writeConfig(Actuator* actuator)
  */
 int8_t Aquaduino::writeConfig(Controller* controller)
 {
-    return m_ConfigManager->writeConfig(controller);
+	if (m_ConfigManager != NULL)
+	{
+		//ToDo:Buggy
+		//m_ConfigManager->writeConfig(controller);
+	}
+	return 0;
 }
 
 /**
@@ -1200,7 +1220,12 @@ int8_t Aquaduino::writeConfig(Controller* controller)
  */
 int8_t Aquaduino::writeConfig(Sensor* sensor)
 {
-    return m_ConfigManager->writeConfig(sensor);
+	if (m_ConfigManager != NULL)
+	{
+		//ToDo:Buggy
+		//m_ConfigManager->writeConfig(sensor);
+	}
+	return 0;
 }
 
 /**
@@ -1212,7 +1237,11 @@ int8_t Aquaduino::writeConfig(Sensor* sensor)
  */
 int8_t Aquaduino::readConfig(Aquaduino* aquaduino)
 {
-    return m_ConfigManager->readConfig(aquaduino);
+	if (m_ConfigManager != NULL)
+	{
+		m_ConfigManager->readConfig(aquaduino);
+	}
+	return 0;
 }
 
 /**
@@ -1226,7 +1255,12 @@ int8_t Aquaduino::readConfig(Aquaduino* aquaduino)
  */
 int8_t Aquaduino::readConfig(Actuator* actuator)
 {
-    return m_ConfigManager->readConfig(actuator);
+	if (m_ConfigManager != NULL)
+	{
+		//ToDo:Buggy
+		//m_ConfigManager->readConfig(actuator);
+	}
+	return 0;
 }
 
 /**
@@ -1240,7 +1274,12 @@ int8_t Aquaduino::readConfig(Actuator* actuator)
  */
 int8_t Aquaduino::readConfig(Controller* controller)
 {
-    return m_ConfigManager->readConfig(controller);
+	if (m_ConfigManager != NULL)
+	{
+		//ToDo:Buggy
+		//m_ConfigManager->readConfig(controller);
+	}
+	return 0;
 }
 
 /**
@@ -1254,7 +1293,12 @@ int8_t Aquaduino::readConfig(Controller* controller)
  */
 int8_t Aquaduino::readConfig(Sensor* sensor)
 {
-    return m_ConfigManager->readConfig(sensor);
+	if (m_ConfigManager != NULL)
+	{
+		//ToDo:Buggy
+		//m_ConfigManager->readConfig(sensor);
+	}
+	return 0;
 }
 
 #ifdef FEATURE_WEBIF
@@ -2526,7 +2570,10 @@ void Aquaduino::run()
         Serial.println(m_XivelyClient.put(*m_XivelyFeed, m_XivelyAPIKey));
     }
     
-    m_GUIServer->run();
+    if (m_GUIServer != NULL)
+    {
+    	m_GUIServer->run();
+    }
 
 #ifdef FEATURE_WEBIF
     if (m_WebServer != NULL)
@@ -2549,17 +2596,4 @@ int freeRam()
     extern int __heap_start, *__brkval;
     int v;
     return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
-}
-
-Aquaduino *aquaduino;
-
-void setup()
-{
-    aquaduino = new Aquaduino();
-
-}
-
-void loop()
-{
-    aquaduino->run();
 }

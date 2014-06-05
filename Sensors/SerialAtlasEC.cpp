@@ -18,7 +18,7 @@
  *
  */
 
-#include <Aquaduino.h>
+#include <Framework/Aquaduino.h>
 #include "SerialAtlasEC.h"
 #include <Arduino.h>
 #include <SD.h>

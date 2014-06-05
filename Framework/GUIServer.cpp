@@ -302,18 +302,4 @@ void GUIServer::setActuatorConfig(uint8_t actuatorId, uint8_t type, char* value)
 /*
  void GUIServer::setSensorConfig
  void GUIServer::setActuatorData
- */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/

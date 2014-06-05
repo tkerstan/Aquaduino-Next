@@ -22,7 +22,7 @@
 #define CONFIGMANAGER_H_
 
 #include <Arduino.h>
-#include <Aquaduino.h>
+#include <Framework/Aquaduino.h>
 #include <Framework/Actuator.h>
 #include <Framework/Controller.h>
 #include <Framework/Sensor.h>
