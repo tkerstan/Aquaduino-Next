@@ -58,7 +58,21 @@ $(OBJS_$(d)):	CF_TGT := -I$(d)
 Aquaduino.elf : Framework/AquaduinoMain.o $(AQ_OBJS_ALL)
 	@echo "Linking $@"
 	$(LINK)
+	
+%.hex: %.elf
+	avr-objcopy -O ihex -R .eeprom $< $@
 
+objdump: Aquaduino.elf
+	avr-objdump -S Aquaduino.elf > Aquduino.dump
+
+size: Aquaduino.elf
+	avr-size Aquaduino.elf
+
+upload: Aquaduino.hex
+	avrdude -C$(AVRDUDECONF) -patmega2560 -cwiring -P$(ARDUINOCOM) -b115200 -D -Uflash:w:Aquaduino.hex:i 
+
+upload_test: ArrayMap_test.hex
+	avrdude -C$(AVRDUDECONF) -patmega2560 -cwiring -P$(ARDUINOCOM) -b115200 -D -Uflash:w:ArrayMap_test.hex:i 
 
 # Standard things
 
