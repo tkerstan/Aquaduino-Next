@@ -1032,6 +1032,7 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
             sensor = new DS18S20();
             ((DS18S20*) sensor)->setPin(portId);
             ((DS18S20*) sensor)->setName(name);
+            m_OneWireHandler->addPin(portId);
             break;
         case 3:
             sensor = new SerialAtlasPH();
