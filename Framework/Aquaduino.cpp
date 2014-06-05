@@ -1123,8 +1123,9 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
     }
     Serial.println();
 
-    memcpy(&m_NTPSyncInterval, bPtr, sizeof(m_NTPSyncInterval));
-    bPtr += sizeof(m_NTPSyncInterval);
+	//ToDo: Inconsistent to Aquaduino-Config
+    memcpy(&m_NTPSyncInterval, bPtr, 1);
+    bPtr += 1;
     Serial.print(F("NTP Sync Interval: "));
     Serial.println(m_NTPSyncInterval);
 
