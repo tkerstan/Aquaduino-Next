@@ -1,6 +1,5 @@
 # Standard things
 
-.SILENT:
 .ONESHELL:
 
 all: targets
