@@ -64,7 +64,7 @@ done
 
 if [ x"$CC" = x ]
 then
-	CC=/opt/avr-gcc-4.8.2/bin/avr-gcc
+	CC=/c/Compiler/avr-gcc-4.8.2-mingw32/bin/avr-gcc
 	export CC
 fi
 
@@ -89,7 +89,7 @@ expr "$fil" : ".*\.c" >/dev/null || exec $CC $cmdline
 dep=$tgt.d
 rm -f $dep
 
-$CC -MD $cmdline
+$CC -MMD $cmdline
 res=$?
 
 dgcc3=`echo $tgt | sed -e 's/\.[^.]*$//'`.d
@@ -99,6 +99,7 @@ for tf in $dgcc3 $dgcc
 do
 	if [ -f $tf ] && mv $tf $dep.tmp
 	then
+#		sed -e 's@\\\([^ ]\)@/\1@g' -e 's@[cC]:@/cygdrive/c@' -i $dep.tmp
 		sed -e "s%.*:%$tgt $dep:%" < $dep.tmp >> $dep
 		sed -e 's%^.*:%%' -e 's%^ *%%' -e 's% *\\$%%' -e 's%$%:%' \
 			< $dep.tmp >> $dep
