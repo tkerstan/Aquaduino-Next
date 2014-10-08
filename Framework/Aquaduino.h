@@ -150,8 +150,8 @@ public:
 
     OneWireHandler* getOneWireHandler();
 
-    uint16_t serialize(void* buffer, uint16_t size);
-    uint16_t deserialize(void* data, uint16_t size);
+    uint16_t serialize(Stream* s);
+    uint16_t deserialize(Stream* s);
 
     int8_t writeConfig(Aquaduino* aquaduino);
     int8_t writeConfig(Actuator* actuator);

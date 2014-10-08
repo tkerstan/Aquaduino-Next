@@ -180,48 +180,30 @@ void ClockTimer::clearAll()
     }
 }
 
-uint16_t ClockTimer::serialize(void* buffer, uint16_t size)
+uint16_t ClockTimer::serialize(Stream* s)
 {
     uint16_t mySize = sizeof(m_HOn) + sizeof(m_MOn) + sizeof(m_HOff)
                       + sizeof(m_MOff) + sizeof(m_DOW);
-    uint16_t pos = 0;
-    uint8_t* charBuffer = (uint8_t*) buffer;
 
-    if (mySize > size)
-        return 0;
+    s->write((uint8_t*) m_HOn, sizeof(m_HOn));
+    s->write((uint8_t*) m_MOn, sizeof(m_MOn));
+    s->write((uint8_t*) m_HOff, sizeof(m_HOff));
+    s->write((uint8_t*) m_MOff, sizeof(m_MOff));
+    s->write((uint8_t*) &m_DOW, sizeof(m_DOW));
 
-    memcpy(charBuffer, m_HOn, sizeof(m_HOn));
-    pos += sizeof(m_HOn);
-    memcpy(charBuffer + pos, m_MOn, sizeof(m_MOn));
-    pos += sizeof(m_MOn);
-    memcpy(charBuffer + pos, m_HOff, sizeof(m_HOff));
-    pos += sizeof(m_HOff);
-    memcpy(charBuffer + pos, m_MOff, sizeof(m_MOff));
-    pos += sizeof(m_MOff);
-    memcpy(charBuffer + pos, &m_DOW, sizeof(m_DOW));
-    pos += sizeof(m_DOW);
     return mySize;
 }
 
-uint16_t ClockTimer::deserialize(void* data, uint16_t size)
+uint16_t ClockTimer::deserialize(Stream* s)
 {
     uint16_t mySize = sizeof(m_HOn) + sizeof(m_MOn) + sizeof(m_HOff)
                       + sizeof(m_MOff) + sizeof(m_DOW);
-    uint16_t pos = 0;
-    uint8_t* charBuffer = (uint8_t*) data;
 
-    if (size != mySize)
-        return 0;
+    s->readBytes((char*)m_HOn, sizeof(m_HOn));
+    s->readBytes((char*)m_MOn, sizeof(m_MOn));
+    s->readBytes((char*)m_HOff, sizeof(m_HOff));
+    s->readBytes((char*)m_MOff, sizeof(m_MOff));
+    s->readBytes((char*)&m_DOW, sizeof(m_DOW));
 
-    memcpy(m_HOn, charBuffer, sizeof(m_HOn));
-    pos += sizeof(m_HOn);
-    memcpy(m_MOn, charBuffer + pos, sizeof(m_MOn));
-    pos += sizeof(m_MOn);
-    memcpy(m_HOff, charBuffer + pos, sizeof(m_HOff));
-    pos += sizeof(m_HOff);
-    memcpy(m_MOff, charBuffer + pos, sizeof(m_MOff));
-    pos += sizeof(m_MOff);
-    memcpy(&m_DOW, charBuffer + pos, sizeof(m_DOW));
-    pos += sizeof(m_DOW);
     return mySize;
 }

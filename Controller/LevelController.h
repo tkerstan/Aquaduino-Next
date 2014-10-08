@@ -44,8 +44,8 @@ class LevelController: public Controller
 public:
     LevelController(const char* name);
 
-    virtual uint16_t serialize(void* buffer, uint16_t size);
-    virtual uint16_t deserialize(void* data, uint16_t size);
+    virtual uint16_t serialize(Stream* s);
+    virtual uint16_t deserialize(Stream* s);
 
     virtual int8_t run();
 

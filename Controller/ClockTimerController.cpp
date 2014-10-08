@@ -54,65 +54,39 @@ ClockTimerController::~ClockTimerController()
 {
 }
 
-uint16_t ClockTimerController::serialize(void* buffer, uint16_t size)
+uint16_t ClockTimerController::serialize(Stream* s)
 {
     uint8_t i;
     uint8_t clockTimers = MAX_CLOCKTIMERS;
-    uint8_t* charBuffer = (uint8_t*) buffer;
-    uint16_t pos = 0;
-    uint16_t timerSize = 0;
-    int32_t left = size;
 
-    charBuffer[0] = clockTimers;
+    s->write(clockTimers);
 
-    if (sizeof(m_ActuatorMapping) + sizeof(uint8_t) > size)
-        return 0;
-
-    pos += sizeof(uint8_t);
-    memcpy(charBuffer + pos, m_ActuatorMapping, sizeof(m_ActuatorMapping));
-    pos += sizeof(m_ActuatorMapping);
+    s->write((uint8_t*)m_ActuatorMapping, sizeof(m_ActuatorMapping));
     for (i = 0; i < MAX_CLOCKTIMERS; i++)
     {
-        left = ((int32_t) size) - pos - 2;
-        if (left < 0)
-            return 0;
-        timerSize = m_Timers[i].serialize(charBuffer + pos + 2, left);
-        charBuffer[pos] = (timerSize & 0xFF00) >> 8;
-        charBuffer[pos + 1] = timerSize & 0xFF;
-        pos += timerSize + 2;
+        m_Timers[i].serialize(s);
     }
-    return pos;
+	return 1;
 }
 
-uint16_t ClockTimerController::deserialize(void* data, uint16_t size)
+uint16_t ClockTimerController::deserialize(Stream* s)
 {
     uint8_t i;
     uint8_t clockTimers = 0;
-    uint8_t* charBuffer = (uint8_t*) data;
-    uint16_t pos = 0;
-    uint16_t timerSize = 0;
 
-    clockTimers = charBuffer[0];
+    clockTimers = (uint8_t) s->read();
 
     if (clockTimers != MAX_CLOCKTIMERS)
         return 0;
 
-    pos += sizeof(uint8_t);
+    s->readBytes((char*) m_ActuatorMapping, sizeof(m_ActuatorMapping));
 
-    memcpy(m_ActuatorMapping, charBuffer + pos, sizeof(m_ActuatorMapping));
-
-    pos += sizeof(m_ActuatorMapping);
     for (i = 0; i < MAX_CLOCKTIMERS; i++)
     {
-        timerSize = charBuffer[pos] << 8;
-        timerSize += charBuffer[pos + 1];
-        pos += 2;
-
-        if (m_Timers[i].deserialize(charBuffer + pos, timerSize) == 0)
+        if (m_Timers[i].deserialize(s) == 0)
             return 0;
-        pos += timerSize;
     }
-    return pos;
+	return 1;
 }
 
 /**

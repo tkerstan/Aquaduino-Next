@@ -65,18 +65,19 @@ double SerialAtlasORP::read()
     return actualORP;
 }
 
-uint16_t SerialAtlasORP::serialize(void* buffer, uint16_t size)
+uint16_t SerialAtlasORP::serialize(Stream* s)
 {
-    memcpy(buffer, &m_Pin, sizeof(m_Pin));
-    return sizeof(m_Pin);
+	s->write(m_Pin);
+	return 1;
 }
 
-uint16_t SerialAtlasORP::deserialize(void* data, uint16_t size)
+uint16_t SerialAtlasORP::deserialize(Stream* s)
 {
-    memcpy(&m_Pin, data, sizeof(m_Pin));
-    pinMode(m_Pin, INPUT);
-    return sizeof(m_Pin);
+	m_Pin = s->read();
+	pinMode(m_Pin, INPUT);
+	return 1;
 }
+
 
 #ifdef FEATURE_WEBIF
 int8_t SerialAtlasORP::showWebinterface(WebServer* server,

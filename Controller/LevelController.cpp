@@ -54,50 +54,31 @@ LevelController::LevelController(const char* name) :
     m_Sensor = -1;
 }
 
-uint16_t LevelController::serialize(void* buffer, uint16_t size)
+uint16_t LevelController::serialize(Stream* s)
 {
-    uint8_t* bPtr = (uint8_t*) buffer;
-    uint8_t offset = 0;
-
     uint16_t mySize = sizeof(m_Delayl) + sizeof(m_Delayh)
                       + sizeof(m_Timeout) + sizeof(m_Sensor);
-    if (mySize <= size)
-    {
-        memcpy(bPtr, &m_Sensor, sizeof(m_Sensor));
-        offset += sizeof(m_Sensor);
-        memcpy(bPtr + offset, &m_Delayl, sizeof(m_Delayl));
-        offset += sizeof(m_Delayl);
-        memcpy(bPtr + offset, &m_Delayh, sizeof(m_Delayh));
-        offset += sizeof(m_Delayh);
-        memcpy(bPtr + offset, &m_Timeout, sizeof(m_Timeout));
-        offset += sizeof(m_Timeout);
-        return mySize;
-    }
-    return 0;
+    s->write((uint8_t*)&m_Sensor, sizeof(m_Sensor));
+    s->write((uint8_t*)&m_Delayl, sizeof(m_Delayl));
+    s->write((uint8_t*)&m_Delayh, sizeof(m_Delayh));
+    s->write((uint8_t*)&m_Timeout, sizeof(m_Timeout));
+	return mySize;
 }
 
-uint16_t LevelController::deserialize(void* data, uint16_t size)
+uint16_t LevelController::deserialize(Stream* s)
 {
-    uint8_t* bPtr = (uint8_t*) data;
-    uint8_t offset = 0;
-
     uint16_t mySize = sizeof(m_Delayl) + sizeof(m_Delayh)
                       + sizeof(m_Timeout);
-    if (mySize <= size)
-    {
-        memcpy(&m_Sensor, bPtr, sizeof(m_Sensor));
-        offset += sizeof(m_Sensor);
-        if (m_Sensor < 0 || m_Sensor >= MAX_SENSORS)
-            m_Sensor = -1;
-        memcpy(&m_Delayl, bPtr + offset, sizeof(m_Delayl));
-        offset += sizeof(m_Delayl);
-        memcpy(&m_Delayh, bPtr + offset, sizeof(m_Delayh));
-        offset += sizeof(m_Delayh);
-        memcpy(&m_Timeout, bPtr + offset, sizeof(m_Timeout));
-        offset += sizeof(m_Timeout);
-        return mySize;
-    }
-    return 0;
+    if (mySize > s->available())
+    	return 0;
+
+	s->readBytes((char*) &m_Sensor, sizeof(m_Sensor));
+	if (m_Sensor < 0 || m_Sensor >= MAX_SENSORS)
+		m_Sensor = -1;
+	s->readBytes((char*) &m_Delayl, sizeof(m_Delayl));
+	s->readBytes((char*) &m_Delayh, sizeof(m_Delayh));
+	s->readBytes((char*) &m_Timeout, sizeof(m_Timeout));
+	return mySize;
 }
 
 /**

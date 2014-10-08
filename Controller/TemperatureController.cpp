@@ -55,62 +55,40 @@ TemperatureController::~TemperatureController()
 {
 }
 
-uint16_t TemperatureController::serialize(void* buffer, uint16_t size)
+uint16_t TemperatureController::serialize(Stream* s)
 {
-    uint8_t* bPtr = (uint8_t*) buffer;
-    uint8_t offset = 0;
-
     uint16_t mySize = sizeof(m_RefTemp1) + sizeof(m_Hysteresis1)
                       + sizeof(m_RefTemp2) + sizeof(m_Hysteresis2);
-    if (mySize <= size)
-    {
-        memcpy(bPtr, &m_Sensor, sizeof(m_Sensor));
-        offset += sizeof(m_Sensor);
-        memcpy(bPtr + offset, &m_RefTemp1, sizeof(m_RefTemp1));
-        offset += sizeof(m_RefTemp1);
-        memcpy(bPtr + offset, &m_Hysteresis1, sizeof(m_Hysteresis1));
-        offset += sizeof(m_Hysteresis1);
-        memcpy(bPtr + offset, &m_Actuator1, sizeof(m_Actuator1));
-        offset += sizeof(m_Actuator1);
-        memcpy(bPtr + offset, &m_RefTemp2, sizeof(m_RefTemp2));
-        offset += sizeof(m_RefTemp2);
-        memcpy(bPtr + offset, &m_Hysteresis2, sizeof(m_Hysteresis2));
-        offset += sizeof(m_Hysteresis2);
-        memcpy(bPtr + offset, &m_Actuator2, sizeof(m_Actuator2));
-        offset += sizeof(m_Actuator2);
-        return mySize;
-    }
-    return 0;
+
+    s->write((uint8_t*) &m_Sensor, sizeof(m_Sensor));
+    s->write((uint8_t*) &m_RefTemp1, sizeof(m_RefTemp1));
+    s->write((uint8_t*) &m_Hysteresis1, sizeof(m_Hysteresis1));
+    s->write((uint8_t*) &m_Actuator1, sizeof(m_Actuator1));
+    s->write((uint8_t*) &m_RefTemp2, sizeof(m_RefTemp2));
+    s->write((uint8_t*) &m_Hysteresis2, sizeof(m_Hysteresis2));
+    s->write((uint8_t*) &m_Actuator2, sizeof(m_Actuator2));
+
+    return mySize;
 }
 
-uint16_t TemperatureController::deserialize(void* data, uint16_t size)
+uint16_t TemperatureController::deserialize(Stream* s)
 {
-    uint8_t* bPtr = (uint8_t*) data;
-    uint8_t offset = 0;
-
     uint16_t mySize = sizeof(m_RefTemp1) + sizeof(m_Hysteresis1)
                       + sizeof(m_RefTemp2) + sizeof(m_Hysteresis2);
-    if (mySize <= size)
+    if (mySize != s->available())
     {
-        memcpy(&m_Sensor, bPtr, sizeof(m_Sensor));
-        offset += sizeof(m_Sensor);
+    	s->readBytes((char*) &m_Sensor, sizeof(m_Sensor));
         if (m_Sensor < 0 || m_Sensor >= MAX_SENSORS)
             m_Sensor = -1;
-        memcpy(&m_RefTemp1, bPtr + offset, sizeof(m_RefTemp1));
-        offset += sizeof(m_RefTemp1);
-        memcpy(&m_Hysteresis1, bPtr + offset, sizeof(m_Hysteresis1));
-        offset += sizeof(m_Hysteresis1);
-        memcpy(&m_Actuator1, bPtr + offset, sizeof(m_Actuator1));
-        offset += sizeof(m_Actuator1);
-        memcpy(&m_RefTemp2, bPtr + offset, sizeof(m_RefTemp2));
-        offset += sizeof(m_RefTemp2);
-        memcpy(&m_Hysteresis2, bPtr + offset, sizeof(m_Hysteresis2));
-        offset += sizeof(m_Hysteresis2);
-        memcpy(&m_Actuator2, bPtr + offset, sizeof(m_Actuator2));
-        offset += sizeof(m_Actuator2);
+    	s->readBytes((char*) &m_RefTemp1, sizeof(m_RefTemp1));
+    	s->readBytes((char*) &m_Hysteresis1, sizeof(m_Hysteresis1));
+    	s->readBytes((char*) &m_Actuator1, sizeof(m_Actuator1));
+    	s->readBytes((char*) &m_RefTemp2, sizeof(m_RefTemp2));
+    	s->readBytes((char*) &m_Hysteresis2, sizeof(m_Hysteresis2));
+    	s->readBytes((char*) &m_Actuator2, sizeof(m_Actuator2));
         return mySize;
     }
-    return 0;
+	return 0;
 }
 
 /**

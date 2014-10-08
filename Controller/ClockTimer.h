@@ -203,8 +203,8 @@ public:
 
     int8_t check();
 
-    virtual uint16_t serialize(void* buffer, uint16_t size);
-    virtual uint16_t deserialize(void* data, uint16_t size);
+    virtual uint16_t serialize(Stream* s);
+    virtual uint16_t deserialize(Stream* s);
 
 private:
     ClockTimer(const ClockTimer&);

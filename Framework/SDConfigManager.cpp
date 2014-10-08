@@ -23,6 +23,8 @@
 #include <Aquaduino.h>
 #include <Framework/ObjectTypes.h>
 
+extern int freeRam();
+
 /**
  * Default constructor.
  *
@@ -85,313 +87,264 @@ SDConfigManager::SDConfigManager(const SDConfigManager&)
 
 uint16_t SDConfigManager::writeConfig(Aquaduino* aquaduino)
 {
-    struct AquaduinoConfig config;
-    uint16_t serializedBytes = 0;
-    uint16_t writtenBytes = 0;
-
-    memset(&config, 0, sizeof(config));
-
-    serializedBytes = aquaduino->serialize(config.data, bufferSize);
-
-    if (serializedBytes)
-    {
-        writtenBytes = writeStructToFile("aqua.cfg", &config, AQUADUINO);
-
-        if (writtenBytes != sizeof(struct AquaduinoConfig))
-            return -1;
-    }
-
-    return 0;
+	return 0;
 }
 
 uint16_t SDConfigManager::writeConfig(Actuator* actuator)
 {
-    struct ActuatorConfiguration config;
+	File configFile;
     char fileName[FILENAME_LENGTH];
-    uint16_t serializedBytes = 0;
-    uint16_t writtenBytes = 0;
+    char path[PREFIX_LENGTH + FILENAME_LENGTH];
     int8_t id;
+    int retval = 0;
 
-    memset(&config, 0, sizeof(config));
+    memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
 
     id = __aquaduino->getActuatorID(actuator);
     fileName[0] = 'A';
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
 
-    serializedBytes = actuator->serialize(config.data, bufferSize);
+    strcat(path, m_folder);
+    strcat(path, "/");
+    strcat(path, fileName);
 
-    if (serializedBytes)
-    {
-        config.controllerIdx = actuator->getController();
-        config.objectType = actuator->getType();
-        config.actuatorIdx = id;
-        strcpy(config.name, actuator->getName());
+    Serial.print(F("Writing actuator config to "));
+    Serial.print(path);
+    Serial.println(F(" ..."));
 
-        writtenBytes = writeStructToFile(fileName, &config, ACTUATOR);
+	Serial.print("Serializing...");
+	configFile = SD.open(path, FILE_WRITE);
+	configFile.seek(SEEK_SET);
+	configFile.write(actuator->getController());
+	if (actuator->serialize(&configFile))
+		Serial.println(F(" OK!"));
+	else
+		Serial.println(F(" Failed!"));
+	configFile.close();
 
-        if (writtenBytes != sizeof(struct ActuatorConfiguration))
-            return -1;
-    }
-    return 0;
+    return retval;
 }
 
 uint16_t SDConfigManager::writeConfig(Controller* controller)
 {
-    struct ControllerConfiguration config;
+	File configFile;
     char fileName[FILENAME_LENGTH];
-    uint16_t serializedBytes = 0;
-    uint16_t writtenBytes = 0;
+    char path[PREFIX_LENGTH + FILENAME_LENGTH];
     int8_t id;
+    int retval = 0;
 
-    memset(&config, 0, sizeof(config));
+    memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
 
     id = __aquaduino->getControllerID(controller);
     fileName[0] = 'C';
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
 
-    serializedBytes = controller->serialize(config.data, bufferSize);
+    strcat(path, m_folder);
+    strcat(path, "/");
+    strcat(path, fileName);
 
-    if (serializedBytes)
-    {
+    Serial.print(F("Writing controller config to "));
+    Serial.print(path);
+    Serial.println(F(" ..."));
 
-        config.controllerIdx = id;
-        config.objectType = controller->getType();
-        config.actuatorIdx = -1;
-        strcpy(config.name, controller->getName());
+	Serial.print("Serializing...");
+	configFile = SD.open(path, FILE_WRITE);
+	configFile.seek(SEEK_SET);
+	if (controller->serialize(&configFile))
+		Serial.println(F(" OK!"));
+	else
+		Serial.println(F(" Failed!"));
+	configFile.close();
 
-        writtenBytes = writeStructToFile(fileName, &config, CONTROLLER);
-        if (writtenBytes != sizeof(struct ControllerConfiguration))
-            return -1;
-    }
-    return 0;
+    return retval;
 }
 
 uint16_t SDConfigManager::writeConfig(Sensor* sensor)
 {
-    struct SensorConfiguration config;
+	File configFile;
     char fileName[FILENAME_LENGTH];
-    uint16_t serializedBytes = 0;
-    uint16_t writtenBytes = 0;
+    char path[PREFIX_LENGTH + FILENAME_LENGTH];
     int8_t id;
+    int retval = 0;
 
-    memset(&config, 0, sizeof(config));
+    memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
 
     id = __aquaduino->getSensorID(sensor);
-    fileName[0] = 'S';
+    fileName[0] = 'C';
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
 
-    serializedBytes = sensor->serialize(config.data, bufferSize);
+    strcat(path, m_folder);
+    strcat(path, "/");
+    strcat(path, fileName);
 
-    if (serializedBytes)
-    {
-        config.objectType = sensor->getType();
-        config.sensorIdx = -1;
-        strcpy(config.name, sensor->getName());
+    Serial.print(F("Writing sensor config to "));
+    Serial.print(path);
+    Serial.println(F(" ..."));
 
-        writtenBytes = writeStructToFile(fileName, &config, SENSOR);
+	Serial.print("Serializing...");
+	configFile = SD.open(path, FILE_WRITE);
+	configFile.seek(SEEK_SET);
+	if (sensor->serialize(&configFile))
+		Serial.println(F(" OK!"));
+	else
+		Serial.println(F(" Failed!"));
+	configFile.close();
 
-        if (writtenBytes != sizeof(struct SensorConfiguration))
-            return -1;
-    }
-    return 0;
+    return retval;
 }
 
 uint16_t SDConfigManager::readConfig(Aquaduino* aquaduino)
 {
-    struct AquaduinoConfig config;
-    uint16_t readBytes = 0;
+	File configFile;
+	char path[PREFIX_LENGTH + FILENAME_LENGTH];
+	int retval = 0;
 
-    memset(&config, 0, sizeof(config));
+	memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
 
-    if ((readBytes = readStructFromFile("aqua.cfg", &config, AQUADUINO)))
-        return aquaduino->deserialize(config.data, readBytes);
+	strcat(path, m_folder);
+	strcat(path, "/");
+	strcat(path, "aqua.cfg");
 
-    return 0;
+	if (SD.exists(path))
+	{
+		configFile = SD.open(path, FILE_READ);
+		aquaduino->deserialize(&configFile);
+		configFile.close();
+	}
+	else
+	{
+		retval = 1;
+	}
+
+    return retval;
 }
 
 uint16_t SDConfigManager::readConfig(Actuator* actuator)
 {
-    struct ActuatorConfiguration config;
+	File configFile;
     char fileName[FILENAME_LENGTH];
-    uint16_t readBytes = 0;
+    char path[PREFIX_LENGTH + FILENAME_LENGTH];
     int8_t id;
+    int retval = 0;
 
-    memset(&config, 0, sizeof(config));
+    memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
 
     id = __aquaduino->getActuatorID(actuator);
     fileName[0] = 'A';
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
 
-    if ((readBytes = readStructFromFile(fileName, &config, ACTUATOR)))
-    {
-        actuator->setName(config.name);
-        actuator->setController(config.controllerIdx);
-        return actuator->deserialize(config.data, readBytes);
-    }
+    strcat(path, m_folder);
+    strcat(path, "/");
+    strcat(path, fileName);
 
-    return 0;
+    Serial.print(F("Reading actuator config from "));
+    Serial.print(path);
+    Serial.println(F(" ..."));
+
+    if (SD.exists(path))
+	{
+    	Serial.print(" File exists! Deserializing...");
+		configFile = SD.open(path, FILE_READ);
+		actuator->setController(configFile.read());
+		if (actuator->deserialize(&configFile))
+			Serial.println(F(" OK!"));
+		else
+			Serial.println(F(" Failed!"));
+		configFile.close();
+	}
+	else
+	{
+		Serial.println(" File does not exist!");
+		retval = 1;
+	}
+
+    return retval;
 }
 
 uint16_t SDConfigManager::readConfig(Controller* controller)
 {
-    struct ControllerConfiguration config;
+	File configFile;
     char fileName[FILENAME_LENGTH];
-    uint16_t readBytes = 0;
+    char path[PREFIX_LENGTH + FILENAME_LENGTH];
     int8_t id;
+    int retval = 0;
 
-    memset(&config, 0, sizeof(config));
+    memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
 
     id = __aquaduino->getControllerID(controller);
     fileName[0] = 'C';
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
 
-    if ((readBytes = readStructFromFile(fileName, &config, CONTROLLER)))
-    {
-        controller->setName(config.name);
-        return controller->deserialize(config.data, readBytes);
-    }
+    strcat(path, m_folder);
+    strcat(path, "/");
+    strcat(path, fileName);
 
-    return 0;
+    Serial.print(F("Reading controller config from "));
+    Serial.print(path);
+    Serial.println(F(" ..."));
+
+    if (SD.exists(path))
+	{
+    	Serial.print(" File exists! Deserializing...");
+		configFile = SD.open(path, FILE_READ);
+		if (controller->deserialize(&configFile))
+			Serial.println(F(" OK!"));
+		else
+			Serial.println(F(" Failed!"));
+		configFile.close();
+	}
+	else
+	{
+		Serial.println(" File does not exist!");
+		retval = 1;
+	}
+
+    return retval;
 }
 
 uint16_t SDConfigManager::readConfig(Sensor* sensor)
 {
-    struct SensorConfiguration config;
+	File configFile;
     char fileName[FILENAME_LENGTH];
-    uint16_t readBytes = 0;
+    char path[PREFIX_LENGTH + FILENAME_LENGTH];
     int8_t id;
+    int retval = 0;
 
-    memset(&config, 0, sizeof(config));
+    memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
 
     id = __aquaduino->getSensorID(sensor);
-    fileName[0] = 'S';
+    fileName[0] = 'C';
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
 
-    if ((readBytes = readStructFromFile(fileName, &config, SENSOR)))
-    {
-        sensor->setName(config.name);
-        return sensor->deserialize(config.data, readBytes);
-    }
-
-    return 0;
-}
-
-uint16_t SDConfigManager::writeStructToFile(const char* fileName,
-                                            void* config,
-                                            uint8_t objectType)
-{
-    uint16_t writtenBytes = 0;
-    uint16_t expectedResult = 0;
-    File configFile;
-    char path[PREFIX_LENGTH + FILENAME_LENGTH];
-    memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
-
-    if (m_folder[0] != 0)
-    {
-        strcat(path, m_folder);
-        strcat(path, "/");
-    }
+    strcat(path, m_folder);
+    strcat(path, "/");
     strcat(path, fileName);
 
-    Serial.print(F("Writing configuration to "));
+    Serial.print(F("Reading sensor config from "));
     Serial.print(path);
-
-    configFile = SD.open(path, FILE_WRITE);
-    configFile.seek(SEEK_SET);
-
-    switch (objectType){
-    case AQUADUINO:
-        break;
-    case ACTUATOR:
-        expectedResult = sizeof(struct ActuatorConfiguration);
-        writtenBytes = configFile.write((uint8_t*) config, sizeof(struct ActuatorConfiguration));
-        break;
-    case CONTROLLER:
-        expectedResult = sizeof(struct ControllerConfiguration);
-        writtenBytes = configFile.write((uint8_t*) config, sizeof(struct ControllerConfiguration));
-        break;
-    case SENSOR:
-        expectedResult = sizeof(struct SensorConfiguration);
-        writtenBytes = configFile.write((uint8_t*) config, sizeof(struct SensorConfiguration));
-        break;
-    default:
-        break;
-    }
-
-    configFile.close();
-
-    if (writtenBytes == expectedResult)
-        Serial.println(F(" : successful"));
-    else
-        Serial.println(F(" : failed"));
-
-    return writtenBytes;
-}
-
-uint16_t SDConfigManager::readStructFromFile(const char* fileName,
-                                             void* config,
-                                             uint8_t objectType)
-{
-    uint16_t readBytes = 0;
-    uint16_t expectedBytes = 0;
-    File configFile;
-    char path[PREFIX_LENGTH + FILENAME_LENGTH];
-
-    memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
-
-    if (m_folder[0] != 0)
-    {
-        strcat(path, m_folder);
-        strcat(path, "/");
-    }
-    strcat(path, fileName);
+    Serial.println(F(" ..."));
 
     if (SD.exists(path))
-    {
-        Serial.print(F("Reading configuration from "));
-        Serial.print(path);
+	{
+    	Serial.print(" File exists! Deserializing...");
+		configFile = SD.open(path, FILE_READ);
+		if (sensor->deserialize(&configFile))
+			Serial.println(F(" OK!"));
+		else
+			Serial.println(F(" Failed!"));
+		configFile.close();
+	}
+	else
+	{
+		Serial.println(" File does not exist!");
+		retval = 1;
+	}
 
-        configFile = SD.open(path, FILE_READ);
-        switch (objectType){
-        case AQUADUINO:
-            readBytes = configFile.read(config, sizeof(struct AquaduinoConfig));
-            expectedBytes = readBytes;
-            break;
-        case ACTUATOR:
-            expectedBytes = sizeof(struct ActuatorConfiguration);
-            readBytes = configFile.read(config, sizeof(struct ActuatorConfiguration));
-            break;
-        case CONTROLLER:
-            expectedBytes = sizeof(struct ControllerConfiguration);
-            readBytes = configFile.read(config, sizeof(struct ControllerConfiguration));
-            break;
-        case SENSOR:
-            expectedBytes = sizeof(struct SensorConfiguration);
-            readBytes = configFile.read(config, sizeof(struct SensorConfiguration));
-            break;
-        default:
-            break;
-        }
-        configFile.close();
-        Serial.print(F(" = "));
-        Serial.print(readBytes);
-        Serial.print(F(" Bytes. Expected "));
-        Serial.println(expectedBytes);
-    }
-    else
-    {
-        Serial.print(path);
-        Serial.println(F(" does not exist"));
-    }
-
-    if (expectedBytes == readBytes)
-        return readBytes;
-    else
-        return 0;
+    return retval;
 }

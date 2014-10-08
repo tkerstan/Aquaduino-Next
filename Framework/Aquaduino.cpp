@@ -71,6 +71,7 @@
 Aquaduino* __aquaduino;
 
 extern time_t NTPSync();
+extern int freeRam();
 
 /**
  * \brief Default Constructor
@@ -102,10 +103,15 @@ Aquaduino::Aquaduino() :
 {
     __aquaduino = this;
     m_Type = AQUADUINO;
-    //ToDo: Buggy!
-    m_ConfigManager = new SDConfigManager();
 
     initPeripherals();
+	Serial.print(F("Startup Free Ram: "));
+	Serial.println(freeRam());
+
+    //ToDo: Buggy!
+    m_ConfigManager = new SDConfigManager();
+    readConfig(this);
+
     initNetwork();
     initXively();
 
@@ -181,8 +187,6 @@ void Aquaduino::initNetwork()
     memset(m_XivelyFeedName, 0, sizeof(m_XivelyFeedName));
     memset(m_XiveleyDatastreams, 0, sizeof(m_XiveleyDatastreams));
     memset(m_XivelyChannelNames, 0, sizeof(m_XivelyChannelNames));
-
-    readConfig(this);
 
     if (m_DHCP)
     {
@@ -891,7 +895,7 @@ const uint16_t Aquaduino::m_Size = sizeof(m_MAC) + sizeof(uint32_t)
  * \returns amount of data serialized in bytes. Returns 0 if serialization
  * failed.
  */
-uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
+uint16_t Aquaduino::serialize(Stream* s)
 {
     return 0;
 }
@@ -906,9 +910,9 @@ uint16_t Aquaduino::serialize(void* buffer, uint16_t size)
  * \returns amount of data deserialized in bytes. Returns 0 if deserialization
  * failed.
  */
-uint16_t Aquaduino::deserialize(void* data, uint16_t size)
+uint16_t Aquaduino::deserialize(Stream* s)
 {
-    uint8_t* bPtr = (uint8_t*) data;
+
     uint16_t stringLength = 0;
     uint16_t xivelyFeedNameLength = 0;
     uint16_t xivelyApiKeyLength = 0;
@@ -918,16 +922,17 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
     uint16_t nrOfSensors = 0;
     uint16_t calculatedSize = 0;
     uint16_t i = 0;
+    uint16_t size = s->available();
 
     if (size >= 7)
     {
-        stringLength = bPtr[0];
-        xivelyFeedNameLength = bPtr[1];
-        xivelyApiKeyLength = bPtr[2];
-        xivelyChannelNameLength = bPtr[3];
-        nrOfActuators = bPtr[4];
-        nrOfControllers = bPtr[5];
-        nrOfSensors = bPtr[6];
+        stringLength = s->read();
+        xivelyFeedNameLength = s->read();
+        xivelyApiKeyLength = s->read();
+        xivelyChannelNameLength = s->read();
+        nrOfActuators = s->read();
+        nrOfControllers = s->read();
+        nrOfSensors = s->read();
     }
 
     // See Main.java in Aquaduino-Config for calculation
@@ -944,22 +949,19 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
         || (nrOfActuators > MAX_ACTUATORS)
         || (nrOfControllers > MAX_CONTROLLERS) || (nrOfSensors > MAX_SENSORS))
     {
-        Serial.println(F("Invalid configuration file!"));
+        Serial.println(F("Invalid configuration file size!"));
         Serial.print(calculatedSize);
         Serial.print("?=");
         Serial.println(size);
-        return 0;
     }
-
-    bPtr += 7;
 
     for (i = 0; i < nrOfActuators; i++)
     {
 
-        char* name = (char*) (bPtr);
-        uint8_t typeId = bPtr[stringLength];
-        uint8_t portId = bPtr[stringLength+1];
-        bPtr += stringLength + 2;
+        char name[stringLength];
+        s->readBytes(name, stringLength);
+        uint8_t typeId = s->read();
+        uint8_t portId = s->read();
         Actuator* actuator;
         int8_t idx;
 
@@ -975,17 +977,16 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
 
         if ( (actuator != NULL) && (idx = __aquaduino->addActuator(actuator)) != -1)
         {
-        	//ToDo:Buggy
-            //readConfig(actuator);
+            readConfig(actuator);
         }
     }
 
     for (i = 0; i < nrOfControllers; i++)
     {
 
-        char* name = (char*) (bPtr);
-        uint8_t typeId = bPtr[stringLength];
-        bPtr += stringLength + 1;
+    	char name[stringLength];
+    	s->readBytes(name, stringLength);
+        uint8_t typeId = s->read();
         Controller* controller;
         int8_t idx;
 
@@ -1006,19 +1007,19 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
 
         if ( (controller != NULL) && (idx = __aquaduino->addController(controller)) != -1)
         {
-        	//ToDo:Buggy
-            //readConfig(controller);
+            readConfig(controller);
         }
     }
 
     for (i = 0; i < nrOfSensors; i++)
     {
 
-        char* name = (char*) (bPtr);
-        uint8_t typeId = bPtr[stringLength];
-        uint8_t portId = bPtr[stringLength+1];
-        char* xivelyFeed = (char*) &bPtr[stringLength+2];
-        bPtr += stringLength + 2 + xivelyChannelNameLength;
+    	char name[stringLength];
+    	char xivelyFeed[stringLength];
+    	s->readBytes(name, stringLength);
+        uint8_t typeId = s->read();
+        uint8_t portId = s->read();
+        s->readBytes(xivelyFeed, stringLength);
         Sensor* sensor;
         int8_t idx;
 
@@ -1054,12 +1055,10 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
         if ( (sensor != NULL) && (idx = __aquaduino->addSensor(sensor)) != -1)
         {
             memcpy(m_XivelyChannelNames[idx], xivelyFeed, xivelyChannelNameLength);
-            //ToDo:Buggy
-            //readConfig(sensor);
+            readConfig(sensor);
         }
     }
-    memcpy(&m_MAC, bPtr, sizeof(m_MAC));
-    bPtr += sizeof(m_MAC);
+    s->readBytes((char*)m_MAC, sizeof(m_MAC));
     Serial.print(F("MAC: "));
     for (uint8_t i = 0; i < sizeof(m_MAC); i++){
         Serial.print(m_MAC[i], HEX);
@@ -1068,15 +1067,13 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
     }
     Serial.println();
 
-    memcpy(&m_DHCP, bPtr, sizeof(m_DHCP));
-    bPtr += sizeof(m_DHCP);
+    s->readBytes((char*)&m_DHCP, sizeof(m_DHCP));
     Serial.print(F("DHCP: "));
     Serial.println(m_DHCP);
 
-    memcpy(&m_IP[0], bPtr, 4);
-    bPtr += 4;
     Serial.print(F("IP: "));
     for (int i = 0; i < 4; i++){
+    	m_IP[i]= s->read();
         Serial.print(m_IP[i]);
         if (i != 3)
             Serial.print(".");
@@ -1084,11 +1081,9 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
     }
     Serial.println();
 
-
-    memcpy(&m_Netmask[0], bPtr, 4);
-    bPtr += 4;
     Serial.print(F("Netmask: "));
     for (int i = 0; i < 4; i++){
+    	m_Netmask[i] = s->read();
         Serial.print(m_Netmask[i]);
         if (i != 3)
             Serial.print(".");
@@ -1096,10 +1091,9 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
     }
     Serial.println();
 
-    memcpy(&m_Gateway[0], bPtr, 4);
-    bPtr += 4;
     Serial.print(F("Gateway: "));
     for (int i = 0; i < 4; i++){
+    	m_Gateway[i] = s->read();
         Serial.print(m_Gateway[i]);
         if (i != 3)
             Serial.print(".");
@@ -1107,16 +1101,14 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
     }
     Serial.println();
 
-    memcpy(&m_NTP, bPtr, 4);
-    bPtr += sizeof(m_NTP);
+    s->readBytes((char*)&m_NTP, 1);
     Serial.print(F("NTP: "));
     Serial.println(m_NTP);
 
 
-    memcpy(&m_NTPServer[0], bPtr, 4);
-    bPtr += 4;
     Serial.print(F("NTP Server: "));
     for (int i = 0; i < 4; i++){
+    	m_NTPServer[i] = s->read();
         Serial.print(m_NTPServer[i]);
         if (i != 3)
             Serial.print(".");
@@ -1125,28 +1117,23 @@ uint16_t Aquaduino::deserialize(void* data, uint16_t size)
     Serial.println();
 
 	//ToDo: Inconsistent to Aquaduino-Config
-    memcpy(&m_NTPSyncInterval, bPtr, 1);
-    bPtr += 1;
+    s->readBytes((char*)&m_NTPSyncInterval, 1);
     Serial.print(F("NTP Sync Interval: "));
     Serial.println(m_NTPSyncInterval);
 
-    memcpy(&m_Timezone, bPtr, sizeof(m_Timezone));
-    bPtr += sizeof(m_Timezone);
+    s->readBytes((char*)&m_Timezone, sizeof(m_Timezone));
     Serial.print(F("Timezone: "));
     Serial.println(m_Timezone);
 
-    memcpy(&m_Xively, bPtr, sizeof(m_Xively));
-    bPtr += sizeof(m_Xively);
+    s->readBytes((char*)&m_Xively, sizeof(m_Xively));
     Serial.print(F("Xively: "));
     Serial.println(m_Xively);
 
-    memcpy(&m_XivelyAPIKey, bPtr, sizeof(m_XivelyAPIKey));
-    bPtr += sizeof(m_XivelyAPIKey);
+    s->readBytes((char*)&m_XivelyAPIKey, sizeof(m_XivelyAPIKey));
     Serial.print(F("Xively API Key: "));
     Serial.println(m_XivelyAPIKey);
 
-    memcpy(&m_XivelyFeedName, bPtr, sizeof(m_XivelyFeedName));
-    bPtr += sizeof(m_XivelyFeedName);
+    s->readBytes((char*)&m_XivelyFeedName, sizeof(m_XivelyFeedName));
     Serial.print(F("Xively Feed Name: "));
     Serial.println(m_XivelyFeedName);
 
@@ -1167,7 +1154,7 @@ int8_t Aquaduino::writeConfig(Aquaduino* aquaduino)
 	if (m_ConfigManager != NULL)
 	{
 		//ToDo:Buggy
-		//m_ConfigManager->writeConfig(aquaduino);
+		m_ConfigManager->writeConfig(aquaduino);
 	}
 	return 0;
 }
@@ -1186,7 +1173,7 @@ int8_t Aquaduino::writeConfig(Actuator* actuator)
 	if (m_ConfigManager != NULL)
 	{
 		//ToDo:Buggy
-		//m_ConfigManager->writeConfig(actuator);
+		m_ConfigManager->writeConfig(actuator);
 	}
 	return 0;
 }
@@ -1205,7 +1192,7 @@ int8_t Aquaduino::writeConfig(Controller* controller)
 	if (m_ConfigManager != NULL)
 	{
 		//ToDo:Buggy
-		//m_ConfigManager->writeConfig(controller);
+		m_ConfigManager->writeConfig(controller);
 	}
 	return 0;
 }
@@ -1224,7 +1211,7 @@ int8_t Aquaduino::writeConfig(Sensor* sensor)
 	if (m_ConfigManager != NULL)
 	{
 		//ToDo:Buggy
-		//m_ConfigManager->writeConfig(sensor);
+		m_ConfigManager->writeConfig(sensor);
 	}
 	return 0;
 }
@@ -1238,9 +1225,17 @@ int8_t Aquaduino::writeConfig(Sensor* sensor)
  */
 int8_t Aquaduino::readConfig(Aquaduino* aquaduino)
 {
+	IPAddress ip(192,168,2,2);
+	IPAddress nm(255,255,255,0);
+
 	if (m_ConfigManager != NULL)
 	{
+		Serial.println(F("Reading aqua.cfg..."));
 		m_ConfigManager->readConfig(aquaduino);
+		Serial.println(F("Reading aqua.cfg finished."));
+		aquaduino->disableDHCP();
+		aquaduino->setIP(&ip);
+		aquaduino->setNetmask(&ip);
 	}
 	return 0;
 }
@@ -1259,7 +1254,7 @@ int8_t Aquaduino::readConfig(Actuator* actuator)
 	if (m_ConfigManager != NULL)
 	{
 		//ToDo:Buggy
-		//m_ConfigManager->readConfig(actuator);
+		m_ConfigManager->readConfig(actuator);
 	}
 	return 0;
 }
@@ -1277,8 +1272,7 @@ int8_t Aquaduino::readConfig(Controller* controller)
 {
 	if (m_ConfigManager != NULL)
 	{
-		//ToDo:Buggy
-		//m_ConfigManager->readConfig(controller);
+		m_ConfigManager->readConfig(controller);
 	}
 	return 0;
 }
@@ -1297,7 +1291,7 @@ int8_t Aquaduino::readConfig(Sensor* sensor)
 	if (m_ConfigManager != NULL)
 	{
 		//ToDo:Buggy
-		//m_ConfigManager->readConfig(sensor);
+		m_ConfigManager->readConfig(sensor);
 	}
 	return 0;
 }
@@ -1787,7 +1781,6 @@ int8_t Aquaduino::configWebpageProcessPost(WebServer* server,
     int8_t day = 0;
     int8_t month = 0;
     uint16_t year = 0;
-    Actuator* actuator;
 
     /*
      * TODO: Implement security checks when processing POST parameters

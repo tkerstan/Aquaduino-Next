@@ -39,8 +39,8 @@ private:
 public:
     DigitalOutput(const char* name, uint8_t onValue, uint8_t offValue);
 
-    virtual uint16_t serialize(void* buffer, uint16_t size);
-    virtual uint16_t deserialize(void* data, uint16_t size);
+    virtual uint16_t serialize(Stream* s);
+    virtual uint16_t deserialize(Stream* s);
 
     virtual void on();
     virtual void off();

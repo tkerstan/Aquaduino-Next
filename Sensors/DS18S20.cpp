@@ -126,19 +126,19 @@ uint16_t DS18S20::convertToRaw(uint8_t* data, uint8_t size, int8_t type)
     return raw;
 }
 
-uint16_t DS18S20::serialize(void* buffer, uint16_t size)
+uint16_t DS18S20::serialize(Stream* s)
 {
-    memcpy(buffer, &m_Pin, sizeof(m_Pin));
-    memcpy(((char*) buffer) + sizeof(m_Pin), &m_Address, sizeof(m_Address));
+	s->write(m_Pin);
+	s->write(m_Address, sizeof(m_Address));
     return sizeof(m_Pin) + sizeof(m_Address);
 }
 
-uint16_t DS18S20::deserialize(void* data, uint16_t size)
+uint16_t DS18S20::deserialize(Stream* s)
 {
     OneWireHandler* handler = __aquaduino->getOneWireHandler();
 
-    memcpy(&m_Pin, data, sizeof(m_Pin));
-    memcpy(&m_Address, ((char*) data) + sizeof(m_Pin), sizeof(m_Address));
+    m_Pin = s->read();
+	s->readBytes((char*)m_Address, sizeof(m_Address));
     if (handler != NULL)
         m_Idx = handler->addPin(m_Pin);
     return sizeof(m_Pin) + sizeof(m_Address);

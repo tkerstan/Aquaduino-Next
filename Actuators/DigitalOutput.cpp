@@ -49,47 +49,31 @@ DigitalOutput::DigitalOutput(const char* name, uint8_t onValue,
     this->m_On = 0;
 }
 
-uint16_t DigitalOutput::serialize(void* buffer, uint16_t size)
+uint16_t DigitalOutput::serialize(Stream* s)
 {
-    uint8_t* bPtr = (uint8_t*) buffer;
     uint16_t mySize = sizeof(m_OnValue) + sizeof(m_OffValue);
 
-    if (mySize <= size)
-    {
-        memcpy(bPtr, &m_OnValue, sizeof(m_OnValue));
-        bPtr += sizeof(m_OnValue);
-        memcpy(bPtr, &m_OffValue, sizeof(m_OffValue));
-        bPtr += sizeof(m_OffValue);
-        memcpy(bPtr, &m_Pin, sizeof(m_Pin));
-        bPtr += sizeof(m_Pin);
-        memcpy(bPtr, &m_On, sizeof(m_On));
-        bPtr += sizeof(m_On);
-        memcpy(bPtr, &m_DutyCycle, sizeof(m_DutyCycle));
-    }
-    else
-        return 0;
+	s->write(&m_OnValue, sizeof(m_OnValue));
+	s->write(&m_OffValue, sizeof(m_OffValue));
+	s->write((uint8_t*) &m_Pin, sizeof(m_Pin));
+	s->write(&m_On, sizeof(m_On));
+	s->write((uint8_t*)&m_DutyCycle, sizeof(m_DutyCycle));
 
     return mySize;
 }
 
-uint16_t DigitalOutput::deserialize(void* data, uint16_t size)
+uint16_t DigitalOutput::deserialize(Stream* s)
 {
-    uint8_t* bPtr = (uint8_t*) data;
-    uint16_t mySize = sizeof(m_OnValue) + sizeof(m_OffValue);
+	uint16_t mySize = sizeof(m_OnValue) + sizeof(m_OffValue);
 
-    if (size < mySize)
+    if (s->available() < mySize)
         return 0;
 
-    memcpy(&m_OnValue, bPtr, sizeof(m_OnValue));
-    bPtr += sizeof(m_OnValue);
-    memcpy(&m_OffValue, bPtr, sizeof(m_OffValue));
-    bPtr += sizeof(m_OffValue);
-    memcpy(&m_Pin, bPtr, sizeof(m_Pin));
-    bPtr += sizeof(m_Pin);
-    memcpy(&m_On, bPtr, sizeof(m_On));
-    bPtr += sizeof(m_On);
-    memcpy(&m_DutyCycle, bPtr, sizeof(m_DutyCycle));
-    pinMode(m_Pin, OUTPUT);
+	s->readBytes((char*)&m_OnValue, sizeof(m_OnValue));
+	s->readBytes((char*)&m_OffValue, sizeof(m_OffValue));
+	s->readBytes((char*)&m_Pin, sizeof(m_Pin));
+	s->readBytes((char*)&m_On, sizeof(m_On));
+	s->readBytes((char*)&m_DutyCycle, sizeof(m_DutyCycle));
 
     if (supportsPWM())
         setPWM(m_DutyCycle);

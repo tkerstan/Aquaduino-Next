@@ -22,6 +22,7 @@
 #define SERIALIZABLE_H_
 
 #include <Arduino.h>
+#include <Stream.h>
 
 /**
  * \brief Interface for serialization methods.
@@ -43,7 +44,7 @@ public:
      *
      * \returns Number of bytes serialized.
      */
-    virtual uint16_t serialize(void* buffer, uint16_t size) = 0;
+    virtual uint16_t serialize(Stream* s) = 0;
 
    /**
      * \brief Callback for deserialization of an object.
@@ -56,7 +57,7 @@ public:
      *
      * \returns Number of bytes deserialized.
      */
-    virtual uint16_t deserialize(void* data, uint16_t size) = 0;
+    virtual uint16_t deserialize(Stream* s) = 0;
 };
 
 #endif /* SERIALIZABLE_H_ */

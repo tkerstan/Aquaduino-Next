@@ -50,12 +50,6 @@ public:
     virtual uint16_t readConfig(Sensor* sensor);
 
 protected:
-    uint16_t writeStructToFile(const char* filename,
-                               void* config,
-                               uint8_t objectType);
-    uint16_t readStructFromFile(const char* filename,
-                                void* config,
-                                uint8_t objectType);
 
 private:
     SDConfigManager(SDConfigManager&);

@@ -32,8 +32,8 @@ public:
     SerialAtlasORP();
     double read();
 
-    uint16_t serialize(void* buffer, uint16_t size);
-    uint16_t deserialize(void* data, uint16_t size);
+    uint16_t serialize(Stream* s);
+    uint16_t deserialize(Stream* s);
 
 #ifdef FEATURE_WEBIF
     int8_t showWebinterface(WebServer* server,
