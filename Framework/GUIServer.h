@@ -31,7 +31,9 @@ private:
     void setSensorConfig(uint8_t sensorId, uint8_t type, uint8_t value);
     void setActuatorData(uint8_t actuatorId, uint8_t dataType, char* data);
    	void setActuatorData(uint8_t actuatorId, uint8_t dataType, uint8_t data);
+   	void setActuatorConfig(uint8_t actuatorId, uint8_t type, char* value);
 
+   	size_t write(uint32_t value,EthernetUDP* udpServer);
 
     uint8_t m_Buffer[50];
     uint16_t m_Port;

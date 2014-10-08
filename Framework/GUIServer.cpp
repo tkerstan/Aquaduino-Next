@@ -283,7 +283,7 @@ void GUIServer::setActuatorData(uint8_t actuatorId, uint8_t dataType, uint8_t da
 
 void GUIServer::setActuatorData(uint8_t actuatorId, uint8_t dataType, char* data) {
 	Actuator* actuator = __aquaduino->getActuator(actuatorId);
-	Serial.println("setActuatorData: 2");
+	//Serial.println("setActuatorData: 2");
 	if (dataType == 2) {
 		actuator->setName(data);
 	}
