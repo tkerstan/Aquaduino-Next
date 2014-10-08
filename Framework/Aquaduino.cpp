@@ -1233,9 +1233,6 @@ int8_t Aquaduino::readConfig(Aquaduino* aquaduino)
 		Serial.println(F("Reading aqua.cfg..."));
 		m_ConfigManager->readConfig(aquaduino);
 		Serial.println(F("Reading aqua.cfg finished."));
-		aquaduino->disableDHCP();
-		aquaduino->setIP(&ip);
-		aquaduino->setNetmask(&ip);
 	}
 	return 0;
 }
