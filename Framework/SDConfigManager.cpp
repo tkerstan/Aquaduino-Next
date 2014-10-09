@@ -114,8 +114,8 @@ uint16_t SDConfigManager::writeConfig(Actuator* actuator)
     Serial.println(F(" ..."));
 
 	Serial.print("Serializing...");
+	SD.remove(path);
 	configFile = SD.open(path, FILE_WRITE);
-	configFile.seek(SEEK_SET);
 	configFile.write(actuator->getController());
 	if (actuator->serialize(&configFile))
 		Serial.println(F(" OK!"));
@@ -150,8 +150,8 @@ uint16_t SDConfigManager::writeConfig(Controller* controller)
     Serial.println(F(" ..."));
 
 	Serial.print("Serializing...");
+	SD.remove(path);
 	configFile = SD.open(path, FILE_WRITE);
-	configFile.seek(SEEK_SET);
 	if (controller->serialize(&configFile))
 		Serial.println(F(" OK!"));
 	else
@@ -170,9 +170,8 @@ uint16_t SDConfigManager::writeConfig(Sensor* sensor)
     int retval = 0;
 
     memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
-
     id = __aquaduino->getSensorID(sensor);
-    fileName[0] = 'C';
+    fileName[0] = 'S';
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
 
@@ -185,8 +184,8 @@ uint16_t SDConfigManager::writeConfig(Sensor* sensor)
     Serial.println(F(" ..."));
 
 	Serial.print("Serializing...");
+	SD.remove(path);
 	configFile = SD.open(path, FILE_WRITE);
-	configFile.seek(SEEK_SET);
 	if (sensor->serialize(&configFile))
 		Serial.println(F(" OK!"));
 	else
@@ -318,7 +317,7 @@ uint16_t SDConfigManager::readConfig(Sensor* sensor)
     memset(path, 0, PREFIX_LENGTH + FILENAME_LENGTH);
 
     id = __aquaduino->getSensorID(sensor);
-    fileName[0] = 'C';
+    fileName[0] = 'S';
     itoa(id, &fileName[1], 10);
     strcat(fileName, ".cfg");
 
