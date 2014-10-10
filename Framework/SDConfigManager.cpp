@@ -114,8 +114,10 @@ uint16_t SDConfigManager::writeConfig(Actuator* actuator)
     Serial.println(F(" ..."));
 
 	Serial.print("Serializing...");
-	SD.remove(path);
+	if (SD.exists(path))
+		SD.remove(path);
 	configFile = SD.open(path, FILE_WRITE);
+	configFile.write((uint8_t*) actuator->getName(), AQUADUINO_STRING_LENGTH);
 	configFile.write(actuator->getController());
 	if (actuator->serialize(&configFile))
 		Serial.println(F(" OK!"));
@@ -150,8 +152,10 @@ uint16_t SDConfigManager::writeConfig(Controller* controller)
     Serial.println(F(" ..."));
 
 	Serial.print("Serializing...");
-	SD.remove(path);
+	if (SD.exists(path))
+		SD.remove(path);
 	configFile = SD.open(path, FILE_WRITE);
+	configFile.write((uint8_t*) controller->getName(), AQUADUINO_STRING_LENGTH);
 	if (controller->serialize(&configFile))
 		Serial.println(F(" OK!"));
 	else
@@ -184,8 +188,10 @@ uint16_t SDConfigManager::writeConfig(Sensor* sensor)
     Serial.println(F(" ..."));
 
 	Serial.print("Serializing...");
-	SD.remove(path);
+	if (SD.exists(path))
+		SD.remove(path);
 	configFile = SD.open(path, FILE_WRITE);
+	configFile.write((uint8_t*) sensor->getName(), AQUADUINO_STRING_LENGTH);
 	if (sensor->serialize(&configFile))
 		Serial.println(F(" OK!"));
 	else
@@ -226,6 +232,7 @@ uint16_t SDConfigManager::readConfig(Actuator* actuator)
 	File configFile;
     char fileName[FILENAME_LENGTH];
     char path[PREFIX_LENGTH + FILENAME_LENGTH];
+    char name[AQUADUINO_STRING_LENGTH];
     int8_t id;
     int retval = 0;
 
@@ -248,6 +255,8 @@ uint16_t SDConfigManager::readConfig(Actuator* actuator)
 	{
     	Serial.print(" File exists! Deserializing...");
 		configFile = SD.open(path, FILE_READ);
+		configFile.read(name, AQUADUINO_STRING_LENGTH);
+		actuator->setName(name);
 		actuator->setController(configFile.read());
 		if (actuator->deserialize(&configFile))
 			Serial.println(F(" OK!"));
@@ -269,6 +278,7 @@ uint16_t SDConfigManager::readConfig(Controller* controller)
 	File configFile;
     char fileName[FILENAME_LENGTH];
     char path[PREFIX_LENGTH + FILENAME_LENGTH];
+    char name[AQUADUINO_STRING_LENGTH];
     int8_t id;
     int retval = 0;
 
@@ -291,6 +301,9 @@ uint16_t SDConfigManager::readConfig(Controller* controller)
 	{
     	Serial.print(" File exists! Deserializing...");
 		configFile = SD.open(path, FILE_READ);
+		configFile.read(name, AQUADUINO_STRING_LENGTH);
+		controller->setName(name);
+
 		if (controller->deserialize(&configFile))
 			Serial.println(F(" OK!"));
 		else
@@ -311,6 +324,7 @@ uint16_t SDConfigManager::readConfig(Sensor* sensor)
 	File configFile;
     char fileName[FILENAME_LENGTH];
     char path[PREFIX_LENGTH + FILENAME_LENGTH];
+    char name[AQUADUINO_STRING_LENGTH];
     int8_t id;
     int retval = 0;
 
@@ -333,6 +347,8 @@ uint16_t SDConfigManager::readConfig(Sensor* sensor)
 	{
     	Serial.print(" File exists! Deserializing...");
 		configFile = SD.open(path, FILE_READ);
+		configFile.read(name, AQUADUINO_STRING_LENGTH);
+		sensor->setName(name);
 		if (sensor->deserialize(&configFile))
 			Serial.println(F(" OK!"));
 		else
