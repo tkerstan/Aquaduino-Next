@@ -16,7 +16,8 @@ enum {
 	SETSENSORCONFIG = 3,
 	GETALLACTUATORS = 4,
 	GETACTUATORDATA = 5,
-	SETACTUATORDATA = 6
+	SETACTUATORDATA = 6,
+	SETACTUATORCONFIG = 7
 };
 
 GUIServer::GUIServer(uint16_t port) {
@@ -71,10 +72,10 @@ void GUIServer::run() {
 			case 1:
 				break;
 			case 2:
-				setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) m_Buffer[4]);
+				setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) &m_Buffer[4]);
 				break;
 			case 3:
-				setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) m_Buffer[4]);
+				setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) &m_Buffer[4]);
 				break;
 			case 4:
 				setSensorConfig(m_Buffer[2], m_Buffer[3], (uint8_t) m_Buffer[4]);
@@ -103,11 +104,38 @@ void GUIServer::run() {
 				setActuatorData(m_Buffer[2], m_Buffer[3], (char*) m_Buffer[4]);
 			}
 			break;
+		case SETACTUATORCONFIG:
+			switch (m_Buffer[3]) {
+			case 1:
+				break;
+			case 2:
+				setActuatorConfig(m_Buffer[2], m_Buffer[3], (char*) &m_Buffer[4]);
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+			}
+			break;
 		default:
 			break;
 		}
 		m_UdpServer.endPacket();
 	}
+
+}
+size_t GUIServer::write(uint32_t value,EthernetUDP* udpServer)
+{
+    size_t res=0;
+    for (uint8_t x=0;x<4;x++)
+    {
+    	res=udpServer->write(value & 255);
+    	value>>8;
+    }
+
+    return res;
 
 }
 void GUIServer::getAllSensors() {
@@ -143,20 +171,23 @@ void GUIServer::getSensorData(uint8_t sensorId) {
 	//errorcode 0
 	m_UdpServer.write((uint8_t) 0);
 
-	//valueAct:float
+	//sensorId:int
 	m_UdpServer.write(__aquaduino->getSensorValue(sensorId));
-	//valueMax24h:float
-	m_UdpServer.write((uint8_t)0.04);
+	//valueAct:float * 1000 -> uint32
+	//m_UdpServer.write((uint32_t) __aquaduino->getSensorValue(sensorId) * 1000);
+	write((uint32_t) __aquaduino->getSensorValue(sensorId) * 1000,&m_UdpServer);
+	//valueMax24h:float * 1000 -> uint32
+	m_UdpServer.write((uint32_t) 65800);
 	//valueMax24hTime:time
 	m_UdpServer.write((uint32_t) 1395867979);
 	//valueMin24h:float
-	m_UdpServer.write((uint8_t)0.01);
+	m_UdpServer.write((uint32_t)4.01);
 	//valueMin24hTime:time
 	m_UdpServer.write((uint32_t) 1395867979);
 	//lastCalibration:dateTime
 	m_UdpServer.write((uint32_t) 1395867979);
-	//operatingHours
-	m_UdpServer.write((uint8_t) 0);
+	//operatingHours:int
+	m_UdpServer.write((uint8_t) 13);
 	//lastOperatingHoursReset
 	m_UdpServer.write((uint32_t) 1395867979);
 
@@ -215,6 +246,8 @@ void GUIServer::setSensorConfig(uint8_t sensorId, uint8_t type, char* value) {
 	__aquaduino->writeConfig(sensor);
 }
 void GUIServer::setSensorConfig(uint8_t sensorId, uint8_t type, uint8_t value) {
+	Serial.print("set Name: ");
+	Serial.println(value);
 	Sensor* sensor = __aquaduino->getSensor(sensorId);
 	if (type == 1) {
 		//sensor->resetOperatinHours();
@@ -250,27 +283,23 @@ void GUIServer::setActuatorData(uint8_t actuatorId, uint8_t dataType, uint8_t da
 
 void GUIServer::setActuatorData(uint8_t actuatorId, uint8_t dataType, char* data) {
 	Actuator* actuator = __aquaduino->getActuator(actuatorId);
-	Serial.println("setActuatorData: 2");
+	//Serial.println("setActuatorData: 2");
 	if (dataType == 2) {
 		actuator->setName(data);
+	}
+	__aquaduino->writeConfig(actuator);
+}
+void GUIServer::setActuatorConfig(uint8_t actuatorId, uint8_t type, char* value) {
+	Actuator* actuator = __aquaduino->getActuator(actuatorId);
+	if (type == 2) {
+		actuator->setName(value);
+	}
+	if (type == 3) {
+		//sensorUnit����not implemented yet
 	}
 	__aquaduino->writeConfig(actuator);
 }
 /*
  void GUIServer::setSensorConfig
  void GUIServer::setActuatorData
- */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/
