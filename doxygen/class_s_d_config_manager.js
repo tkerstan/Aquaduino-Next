@@ -6,10 +6,8 @@ var class_s_d_config_manager =
     [ "readConfig", "class_s_d_config_manager.html#a8e647723ceee18caf7ae0a3d2fb53268", null ],
     [ "readConfig", "class_s_d_config_manager.html#ae6c054e5fb5a9b85a263cbc6f43193a9", null ],
     [ "readConfig", "class_s_d_config_manager.html#a7d942dc4ab2c62d47d4b879e32cfa037", null ],
-    [ "readStructFromFile", "class_s_d_config_manager.html#af82e2c7188e996b42f9158b108dd6abc", null ],
     [ "writeConfig", "class_s_d_config_manager.html#af467cf034b5af4cb19a8e7936175bbbd", null ],
     [ "writeConfig", "class_s_d_config_manager.html#a1c6f1e353b5e765cf39a5778b75613ec", null ],
     [ "writeConfig", "class_s_d_config_manager.html#a278598855903d033f677711208e38fa0", null ],
-    [ "writeConfig", "class_s_d_config_manager.html#a4f51c09a4e377f80c1680bf9ac4b60eb", null ],
-    [ "writeStructToFile", "class_s_d_config_manager.html#a85a23603c7aecf85c331b0d9059c05b6", null ]
+    [ "writeConfig", "class_s_d_config_manager.html#a4f51c09a4e377f80c1680bf9ac4b60eb", null ]
 ];

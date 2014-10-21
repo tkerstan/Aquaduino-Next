@@ -11,7 +11,7 @@ var dir_6441a473cae93e5cc063dd105ef953fa =
     [ "HID.cpp", "_h_i_d_8cpp.html", null ],
     [ "IPAddress.cpp", "_i_p_address_8cpp.html", null ],
     [ "IPAddress.h", "_i_p_address_8h.html", "_i_p_address_8h" ],
-    [ "main.cpp", "libraries_2_arduino_2main_8cpp.html", "libraries_2_arduino_2main_8cpp" ],
+    [ "main.cpp", "main_8cpp.html", "main_8cpp" ],
     [ "new.cpp", "new_8cpp.html", "new_8cpp" ],
     [ "new.h", "new_8h.html", "new_8h" ],
     [ "pins_arduino.h", "pins__arduino_8h.html", "pins__arduino_8h" ],

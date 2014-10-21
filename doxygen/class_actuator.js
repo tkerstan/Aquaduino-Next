@@ -2,7 +2,7 @@ var class_actuator =
 [
     [ "~Actuator", "class_actuator.html#a3c19e3031076395a918ab72e1acc8a3c", null ],
     [ "Actuator", "class_actuator.html#afd0f5153231172af5891c1b05b64e691", null ],
-    [ "deserialize", "class_actuator.html#ad6a1d38f4e11eb3e1b1bacd0759dc778", null ],
+    [ "deserialize", "class_actuator.html#a713077c13e52c7adeaae9b8439d9dedc", null ],
     [ "forceOff", "class_actuator.html#addc2b03c0496dddab598fec001c352b5", null ],
     [ "forceOn", "class_actuator.html#a271dfad7ab1e78c6c6e4d2e835ea717e", null ],
     [ "getController", "class_actuator.html#aa12e6c3347af475a8b6ea1c8b38bd9e6", null ],
@@ -15,7 +15,7 @@ var class_actuator =
     [ "lock", "class_actuator.html#ab49074dee2e16212e254d5e93e190b5d", null ],
     [ "off", "class_actuator.html#a767243ef9f90e7a99175ad466cc02916", null ],
     [ "on", "class_actuator.html#a40700c01e3123133fd11157f9707ac8a", null ],
-    [ "serialize", "class_actuator.html#a97b461d082ed7a40a0cf8b143ef2f05b", null ],
+    [ "serialize", "class_actuator.html#a408304bf65058bef790073e06b680869", null ],
     [ "setController", "class_actuator.html#af5caa3a0b0cab70443433f073bcf34cc", null ],
     [ "setName", "class_actuator.html#a40fc29ed066a150c8c3e4fc96f858b7f", null ],
     [ "setPWM", "class_actuator.html#a80dbe74fa140d0246452b4531ffbb86f", null ],

@@ -1,12 +1,16 @@
 var hierarchy =
 [
+    [ "__freelist", "struct____freelist.html", null ],
     [ "_RIP_MSG_FIXED", "struct___r_i_p___m_s_g___f_i_x_e_d.html", null ],
     [ "ACMFunctionalDescriptor", "struct_a_c_m_functional_descriptor.html", null ],
+    [ "ActuatorConfiguration", "struct_actuator_configuration.html", null ],
+    [ "AquaduinoConfig", "struct_aquaduino_config.html", null ],
     [ "ArrayMap< T >", "class_array_map.html", null ],
     [ "ArrayMap< Actuator * >", "class_array_map.html", null ],
     [ "ArrayMap< Controller * >", "class_array_map.html", null ],
     [ "ArrayMap< Sensor * >", "class_array_map.html", null ],
     [ "biosParmBlock", "structbios_parm_block.html", null ],
+    [ "BufferNode", "struct_buffer_node.html", null ],
     [ "cache_t", "unioncache__t.html", null ],
     [ "CDCCSInterfaceDescriptor", "struct_c_d_c_c_s_interface_descriptor.html", null ],
     [ "CDCCSInterfaceDescriptor4", "struct_c_d_c_c_s_interface_descriptor4.html", null ],
@@ -17,7 +21,7 @@ var hierarchy =
     [ "ConfigManager", "class_config_manager.html", [
       [ "SDConfigManager", "class_s_d_config_manager.html", null ]
     ] ],
-    [ "configuration", "structconfiguration.html", null ],
+    [ "ControllerConfiguration", "struct_controller_configuration.html", null ],
     [ "csd_t", "unioncsd__t.html", null ],
     [ "CSDV1", "struct_c_s_d_v1.html", null ],
     [ "CSDV2", "struct_c_s_d_v2.html", null ],
@@ -49,7 +53,9 @@ var hierarchy =
       [ "Sensor", "class_sensor.html", [
         [ "DigitalInput", "class_digital_input.html", null ],
         [ "DS18S20", "class_d_s18_s20.html", null ],
-        [ "SerialInput", "class_serial_input.html", null ]
+        [ "SerialAtlasEC", "class_serial_atlas_e_c.html", null ],
+        [ "SerialAtlasORP", "class_serial_atlas_o_r_p.html", null ],
+        [ "SerialAtlasPH", "class_serial_atlas_p_h.html", null ]
       ] ]
     ] ],
     [ "OneWire", "class_one_wire.html", null ],
@@ -67,6 +73,9 @@ var hierarchy =
           [ "EthernetClient", "class_ethernet_client.html", null ],
           [ "HttpClient", "class_http_client.html", null ]
         ] ],
+        [ "FakeStream", "class_fake_stream.html", [
+          [ "FakeStreamBuffer", "class_fake_stream_buffer.html", null ]
+        ] ],
         [ "File", "class_file.html", null ],
         [ "HardwareSerial", "class_hardware_serial.html", null ],
         [ "UDP", "class_u_d_p.html", [
@@ -83,6 +92,7 @@ var hierarchy =
     [ "Sd2Card", "class_sd2_card.html", null ],
     [ "SDClass", "class_s_d_class.html", null ],
     [ "SdVolume", "class_sd_volume.html", null ],
+    [ "SensorConfiguration", "struct_sensor_configuration.html", null ],
     [ "Serializable", "class_serializable.html", [
       [ "Actuator", "class_actuator.html", null ],
       [ "Aquaduino", "class_aquaduino.html", null ],
@@ -95,6 +105,9 @@ var hierarchy =
     [ "SnSR", "class_sn_s_r.html", null ],
     [ "SPIClass", "class_s_p_i_class.html", null ],
     [ "TemplateParser", "class_template_parser.html", null ],
+    [ "Test", "class_test.html", [
+      [ "TestOnce", "class_test_once.html", null ]
+    ] ],
     [ "W5100Class", "class_w5100_class.html", null ],
     [ "WebInterface", "class_web_interface.html", [
       [ "Actuator", "class_actuator.html", null ],

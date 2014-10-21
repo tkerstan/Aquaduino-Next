@@ -2,6 +2,9 @@ var _object_types_8h =
 [
     [ "OBJECT", "_object_types_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a6f78e99ade8d62ec44d30013723e6e75", null ],
     [ "AQUADUINO", "_object_types_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a5b60929f3c3f73936fe4ef4216d5a811", null ],
+    [ "ACTUATOR", "_object_types_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a69212010f56a65da58b3869d43701910", null ],
+    [ "CONTROLLER", "_object_types_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a090263695c5c16c6ab9f97e8d570144c", null ],
+    [ "SENSOR", "_object_types_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a6d497d39379053324114e5611323b558", null ],
     [ "ACTUATOR_DIGITALOUTPUT", "_object_types_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a9f41b364163d74c43fdfa926b538af64", null ],
     [ "CONTROLLER_LEVEL", "_object_types_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a448f0ee4d73c499e4f36a25bebfb69f3", null ],
     [ "CONTROLLER_TEMPERATURE", "_object_types_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a5215a70eff2fe9ef548872ef3f2a1688", null ],

@@ -1,7 +1,0 @@
-<map id="Sensor" name="Sensor">
-<area shape="rect" id="node5" href="$class_digital_input.html" title="Class for using Arduino pins as digital input. " alt="" coords="42,155,128,181"/>
-<area shape="rect" id="node6" href="$class_d_s18_s20.html" title="Basic implementation for DS18S20 Temperature Sensors. " alt="" coords="153,155,231,181"/>
-<area shape="rect" id="node2" href="$class_object.html" title="Base class for all Controller, Actuators, Sensors and the Aquaduino. " alt="" coords="5,5,64,32"/>
-<area shape="rect" id="node3" href="$class_web_interface.html" title="Interface to access the Webduino webserver. " alt="" coords="89,5,188,32"/>
-<area shape="rect" id="node4" href="$class_serializable.html" title="Interface for serialization methods. " alt="" coords="213,5,301,32"/>
-</map>

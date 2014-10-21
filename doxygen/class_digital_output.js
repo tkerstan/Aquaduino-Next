@@ -1,7 +1,7 @@
 var class_digital_output =
 [
     [ "DigitalOutput", "class_digital_output.html#a248c32a575ce7c3c0f82695fcd5e0ebd", null ],
-    [ "deserialize", "class_digital_output.html#ae30bd9b0578633a13a730df9741765b7", null ],
+    [ "deserialize", "class_digital_output.html#a993d75dbcbee5b56c76bb0665e5ba87e", null ],
     [ "forceOff", "class_digital_output.html#abd3acfe5b4d379b495108cf2d13a4812", null ],
     [ "forceOn", "class_digital_output.html#aaae7c2ec3ee5cb0d0d4c80e84da7c9a9", null ],
     [ "getController", "class_digital_output.html#aa12e6c3347af475a8b6ea1c8b38bd9e6", null ],
@@ -15,7 +15,7 @@ var class_digital_output =
     [ "lock", "class_digital_output.html#ab49074dee2e16212e254d5e93e190b5d", null ],
     [ "off", "class_digital_output.html#a502edfed3b56272a8e5613c5b875283f", null ],
     [ "on", "class_digital_output.html#a07d05fe50e050fb70576021209421bad", null ],
-    [ "serialize", "class_digital_output.html#acf0d0717b39aebeea6b533f7fdd55ed9", null ],
+    [ "serialize", "class_digital_output.html#a4fe684b7e699dd24c9bf461c62ef125e", null ],
     [ "setController", "class_digital_output.html#af5caa3a0b0cab70443433f073bcf34cc", null ],
     [ "setName", "class_digital_output.html#a40fc29ed066a150c8c3e4fc96f858b7f", null ],
     [ "setPin", "class_digital_output.html#a89d48b4e22f8321a2326ca5c8c13b623", null ],
