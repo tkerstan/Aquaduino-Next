@@ -46,6 +46,10 @@ public:
     ClockTimerController(const char* name);
     virtual ~ClockTimerController();
 
+    ClockTimer* getClockTimer(int8_t id);
+    void  assignActuatorToClockTimer(int8_t clockTimerID, int8_t actuatorID);
+    int8_t getAssignedActuatorID(int8_t clockTimerID);
+
     virtual uint16_t serialize(Stream* s);
     virtual uint16_t deserialize(Stream* s);
 

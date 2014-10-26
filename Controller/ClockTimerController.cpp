@@ -54,6 +54,54 @@ ClockTimerController::~ClockTimerController()
 {
 }
 
+/**
+ * \brief Getter for the controller clocktimers
+ *
+ * \param[in] clockTimerID Index of the clocktimer
+ * \returns pointer to the requested clocktimer object
+ */
+ClockTimer* ClockTimerController::getClockTimer(int8_t clockTimerID)
+{
+    if (clockTimerID >= 0 && clockTimerID < MAX_CLOCKTIMERS)
+    {
+        return &m_Timers[clockTimerID];
+    }
+    return NULL;
+}
+
+/**
+ * \brief Getter for the controlled actuator of a clocktimer
+ *
+ * \param[in] clockTimerID Index of clocktimer
+ * \returns index of the controlled actuator
+ */
+int8_t ClockTimerController::getAssignedActuatorID(int8_t clockTimerID)
+{
+    if (clockTimerID >= 0 && clockTimerID < MAX_CLOCKTIMERS)
+    {
+        return m_ActuatorMapping[clockTimerID];
+    }
+
+    return -1;
+}
+
+/**
+ * \brief Setter for the controlled actuator of a clocktimer
+ *
+ * \param[in] clockTimerID Index of the clocktimer
+ * \param[in] actuatorID Index of the actuator to be controlled by the clocktimer
+ */
+void ClockTimerController::assignActuatorToClockTimer(int8_t clockTimerID,
+                                                      int8_t actuatorID)
+{
+    if (actuatorID >= 0&& clockTimerID >= 0 &&
+    actuatorID < __aquaduino->getNrOfActuators() &&
+    clockTimerID < MAX_CLOCKTIMERS)
+    {
+        m_ActuatorMapping[clockTimerID] = actuatorID;
+    }
+}
+
 uint16_t ClockTimerController::serialize(Stream* s)
 {
     uint8_t i;
@@ -61,12 +109,12 @@ uint16_t ClockTimerController::serialize(Stream* s)
 
     s->write(clockTimers);
 
-    s->write((uint8_t*)m_ActuatorMapping, sizeof(m_ActuatorMapping));
+    s->write((uint8_t*) m_ActuatorMapping, sizeof(m_ActuatorMapping));
     for (i = 0; i < MAX_CLOCKTIMERS; i++)
     {
         m_Timers[i].serialize(s);
     }
-	return 1;
+    return 1;
 }
 
 uint16_t ClockTimerController::deserialize(Stream* s)
@@ -86,7 +134,7 @@ uint16_t ClockTimerController::deserialize(Stream* s)
         if (m_Timers[i].deserialize(s) == 0)
             return 0;
     }
-	return 1;
+    return 1;
 }
 
 /**
@@ -152,9 +200,8 @@ int8_t ClockTimerController::prepareActuatorSelect(
     int8_t i, j;
 
     int8_t myActuators[MAX_ACTUATORS];
-    int8_t actuators = __aquaduino->getAssignedActuatorIDs(this,
-                                                         myActuators,
-                                                         MAX_ACTUATORS);
+    int8_t actuators = __aquaduino->getAssignedActuatorIDs(this, myActuators,
+    MAX_ACTUATORS);
 
     actuatorNames[0] = "None";
     actuatorValuePointers[0] = "-1";
@@ -233,67 +280,67 @@ int8_t ClockTimerController::printMain(WebServer* server,
     {
         switch (matchIdx)
         {
-            case CLOCKTIMERCONTROLLER_CNAME:
-                server->print(getName());
-                break;
-            case CLOCKTIMERCONTROLLER_ACTIONURL:
-                server->print(getURL());
-                server->print(".");
-                server->print((__FlashStringHelper *) pgm_url_select);
-                break;
-            case CLOCKTIMERCONTROLLER_CLOCKTIMERSELECT:
-                strcpy_P(input_name, pgm_input_timer);
-                parser->selectList(input_name,
-                                   timerNameValPointers,
-                                   timerNameValPointers,
-                                   m_SelectedTimer,
-                                   sizeof(timerNameValPointers) / sizeof(char*),
-                                   server);
-                break;
+        case CLOCKTIMERCONTROLLER_CNAME:
+            server->print(getName());
+            break;
+        case CLOCKTIMERCONTROLLER_ACTIONURL:
+            server->print(getURL());
+            server->print(".");
+            server->print((__FlashStringHelper *) pgm_url_select);
+            break;
+        case CLOCKTIMERCONTROLLER_CLOCKTIMERSELECT:
+            strcpy_P(input_name, pgm_input_timer);
+            parser->selectList(input_name,
+                               timerNameValPointers,
+                               timerNameValPointers,
+                               m_SelectedTimer,
+                               sizeof(timerNameValPointers) / sizeof(char*),
+                               server);
+            break;
 
-            case CLOCKTIMERCONTROLLER_ACTUATORSELECT:
-                strcpy_P(input_name, pgm_input_actuator);
-                parser->selectList(input_name,
-                                   actuatorNames,
-                                   actuatorValuePointers,
-                                   m_SelectedActuator,
-                                   actuators + 1,
-                                   server);
-                break;
-            case CLOCKTIMERCONTROLLER_ROW:
-                printRow(server, type, url);
-                break;
-            case CLOCKTIMERCONTROLLER_DOW_NAME:
-                server->print((__FlashStringHelper *) pgm_input_dow);
-                break;
-            case CLOCKTIMERCONTROLLER_CHECKED_MO:
-                if (m_Timers[m_SelectedTimer].isMondayEnabled())
-                    server->print(F("checked"));
-                break;
-            case CLOCKTIMERCONTROLLER_CHECKED_TU:
-                if (m_Timers[m_SelectedTimer].isTuesdayEnabled())
+        case CLOCKTIMERCONTROLLER_ACTUATORSELECT:
+            strcpy_P(input_name, pgm_input_actuator);
+            parser->selectList(input_name,
+                               actuatorNames,
+                               actuatorValuePointers,
+                               m_SelectedActuator,
+                               actuators + 1,
+                               server);
+            break;
+        case CLOCKTIMERCONTROLLER_ROW:
+            printRow(server, type, url);
+            break;
+        case CLOCKTIMERCONTROLLER_DOW_NAME:
+            server->print((__FlashStringHelper *) pgm_input_dow);
+            break;
+        case CLOCKTIMERCONTROLLER_CHECKED_MO:
+            if (m_Timers[m_SelectedTimer].isMondayEnabled())
                 server->print(F("checked"));
-                break;
-            case CLOCKTIMERCONTROLLER_CHECKED_WE:
-                if (m_Timers[m_SelectedTimer].isWednesdayEnabled())
-                    server->print(F("checked"));
-                break;
-            case CLOCKTIMERCONTROLLER_CHECKED_TH:
-                if (m_Timers[m_SelectedTimer].isThursdayEnabled())
-                    server->print(F("checked"));
-                break;
-            case CLOCKTIMERCONTROLLER_CHECKED_FR:
-                if (m_Timers[m_SelectedTimer].isFridayEnabled())
-                    server->print(F("checked"));
-                break;
-            case CLOCKTIMERCONTROLLER_CHECKED_SA:
-                if (m_Timers[m_SelectedTimer].isSaturdayEnabled())
-                    server->print(F("checked"));
-                break;
-            case CLOCKTIMERCONTROLLER_CHECKED_SU:
-                if (m_Timers[m_SelectedTimer].isSundayEnabled())
-                    server->print(F("checked"));
-                break;
+            break;
+        case CLOCKTIMERCONTROLLER_CHECKED_TU:
+            if (m_Timers[m_SelectedTimer].isTuesdayEnabled())
+                server->print(F("checked"));
+            break;
+        case CLOCKTIMERCONTROLLER_CHECKED_WE:
+            if (m_Timers[m_SelectedTimer].isWednesdayEnabled())
+                server->print(F("checked"));
+            break;
+        case CLOCKTIMERCONTROLLER_CHECKED_TH:
+            if (m_Timers[m_SelectedTimer].isThursdayEnabled())
+                server->print(F("checked"));
+            break;
+        case CLOCKTIMERCONTROLLER_CHECKED_FR:
+            if (m_Timers[m_SelectedTimer].isFridayEnabled())
+                server->print(F("checked"));
+            break;
+        case CLOCKTIMERCONTROLLER_CHECKED_SA:
+            if (m_Timers[m_SelectedTimer].isSaturdayEnabled())
+                server->print(F("checked"));
+            break;
+        case CLOCKTIMERCONTROLLER_CHECKED_SU:
+            if (m_Timers[m_SelectedTimer].isSundayEnabled())
+                server->print(F("checked"));
+            break;
         }
     }
 
@@ -336,60 +383,60 @@ int8_t ClockTimerController::printRow(WebServer* server,
         {
             switch (matchIdx)
             {
-                case CLOCKTIMERCONTROLLER_COLOR:
-                    if (i % 2 == 0)
-                        server->print("#99CCFF");
-                    else
-                        server->print("#FFFFFF");
-                    break;
-                case CLOCKTIMERCONTROLLER_HON_NAME:
-                    server->print(i * 4 + 1);
-                    break;
-                case CLOCKTIMERCONTROLLER_HON_VAL:
-                    server->print(m_Timers[m_SelectedTimer].getHourOn(i));
-                    break;
-                case CLOCKTIMERCONTROLLER_HON_SIZE:
-                    server->print(3);
-                    break;
-                case CLOCKTIMERCONTROLLER_HON_MAXLENGTH:
-                    server->print(2);
-                    break;
-                case CLOCKTIMERCONTROLLER_MON_NAME:
-                    server->print(i * 4 + 2);
-                    break;
-                case CLOCKTIMERCONTROLLER_MON_VAL:
-                    server->print(m_Timers[m_SelectedTimer].getMinuteOn(i));
-                    break;
-                case CLOCKTIMERCONTROLLER_MON_SIZE:
-                    server->print(3);
-                    break;
-                case CLOCKTIMERCONTROLLER_MON_MAXLENGTH:
-                    server->print(2);
-                    break;
-                case CLOCKTIMERCONTROLLER_HOFF_NAME:
-                    server->print(i * 4 + 3);
-                    break;
-                case CLOCKTIMERCONTROLLER_HOFF_VAL:
-                    server->print(m_Timers[m_SelectedTimer].getHourOff(i));
-                    break;
-                case CLOCKTIMERCONTROLLER_HOFF_SIZE:
-                    server->print(3);
-                    break;
-                case CLOCKTIMERCONTROLLER_HOFF_MAXLENGTH:
-                    server->print(2);
-                    break;
-                case CLOCKTIMERCONTROLLER_MOFF_NAME:
-                    server->print(i * 4 + 4);
-                    break;
-                case CLOCKTIMERCONTROLLER_MOFF_VAL:
-                    server->print(m_Timers[m_SelectedTimer].getMinuteOff(i));
-                    break;
-                case CLOCKTIMERCONTROLLER_MOFF_SIZE:
-                    server->print(3);
-                    break;
-                case CLOCKTIMERCONTROLLER_MOFF_MAXLENGTH:
-                    server->print(2);
-                    break;
+            case CLOCKTIMERCONTROLLER_COLOR:
+                if (i % 2 == 0)
+                    server->print("#99CCFF");
+                else
+                    server->print("#FFFFFF");
+                break;
+            case CLOCKTIMERCONTROLLER_HON_NAME:
+                server->print(i * 4 + 1);
+                break;
+            case CLOCKTIMERCONTROLLER_HON_VAL:
+                server->print(m_Timers[m_SelectedTimer].getHourOn(i));
+                break;
+            case CLOCKTIMERCONTROLLER_HON_SIZE:
+                server->print(3);
+                break;
+            case CLOCKTIMERCONTROLLER_HON_MAXLENGTH:
+                server->print(2);
+                break;
+            case CLOCKTIMERCONTROLLER_MON_NAME:
+                server->print(i * 4 + 2);
+                break;
+            case CLOCKTIMERCONTROLLER_MON_VAL:
+                server->print(m_Timers[m_SelectedTimer].getMinuteOn(i));
+                break;
+            case CLOCKTIMERCONTROLLER_MON_SIZE:
+                server->print(3);
+                break;
+            case CLOCKTIMERCONTROLLER_MON_MAXLENGTH:
+                server->print(2);
+                break;
+            case CLOCKTIMERCONTROLLER_HOFF_NAME:
+                server->print(i * 4 + 3);
+                break;
+            case CLOCKTIMERCONTROLLER_HOFF_VAL:
+                server->print(m_Timers[m_SelectedTimer].getHourOff(i));
+                break;
+            case CLOCKTIMERCONTROLLER_HOFF_SIZE:
+                server->print(3);
+                break;
+            case CLOCKTIMERCONTROLLER_HOFF_MAXLENGTH:
+                server->print(2);
+                break;
+            case CLOCKTIMERCONTROLLER_MOFF_NAME:
+                server->print(i * 4 + 4);
+                break;
+            case CLOCKTIMERCONTROLLER_MOFF_VAL:
+                server->print(m_Timers[m_SelectedTimer].getMinuteOff(i));
+                break;
+            case CLOCKTIMERCONTROLLER_MOFF_SIZE:
+                server->print(3);
+                break;
+            case CLOCKTIMERCONTROLLER_MOFF_MAXLENGTH:
+                server->print(2);
+                break;
             }
         }
         rowTemplateFile.close();
@@ -457,27 +504,27 @@ int8_t ClockTimerController::processPost(WebServer* server,
                 val = atoi(value);
                 switch (val)
                 {
-                    case 0:
-                        m_Timers[m_SelectedTimer].enableMonday();
-                        break;
-                    case 1:
-                        m_Timers[m_SelectedTimer].enableTuesday();
-                        break;
-                    case 2:
-                        m_Timers[m_SelectedTimer].enableWednesday();
-                        break;
-                    case 3:
-                        m_Timers[m_SelectedTimer].enableThursday();
-                        break;
-                    case 4:
-                        m_Timers[m_SelectedTimer].enableFriday();
-                        break;
-                    case 5:
-                        m_Timers[m_SelectedTimer].enableSaturday();
-                        break;
-                    case 6:
-                        m_Timers[m_SelectedTimer].enableSunday();
-                        break;
+                case 0:
+                    m_Timers[m_SelectedTimer].enableMonday();
+                    break;
+                case 1:
+                    m_Timers[m_SelectedTimer].enableTuesday();
+                    break;
+                case 2:
+                    m_Timers[m_SelectedTimer].enableWednesday();
+                    break;
+                case 3:
+                    m_Timers[m_SelectedTimer].enableThursday();
+                    break;
+                case 4:
+                    m_Timers[m_SelectedTimer].enableFriday();
+                    break;
+                case 5:
+                    m_Timers[m_SelectedTimer].enableSaturday();
+                    break;
+                case 6:
+                    m_Timers[m_SelectedTimer].enableSunday();
+                    break;
 
                 }
             }
@@ -492,24 +539,21 @@ int8_t ClockTimerController::processPost(WebServer* server,
                 {
                     switch (y)
                     {
-                        case 0:
-                            m_Timers[m_SelectedTimer].setMinuteOff(x,
-                                                                   atoi(value));
+                    case 0:
+                        m_Timers[m_SelectedTimer].setMinuteOff(x, atoi(value));
 
-                            break;
-                        case 1:
-                            m_Timers[m_SelectedTimer].setHourOn(x, atoi(value));
+                        break;
+                    case 1:
+                        m_Timers[m_SelectedTimer].setHourOn(x, atoi(value));
 
-                            break;
-                        case 2:
-                            m_Timers[m_SelectedTimer].setMinuteOn(x,
-                                                                  atoi(value));
+                        break;
+                    case 2:
+                        m_Timers[m_SelectedTimer].setMinuteOn(x, atoi(value));
 
-                            break;
-                        case 3:
-                            m_Timers[m_SelectedTimer].setHourOff(x,
-                                                                 atoi(value));
-                            break;
+                        break;
+                    case 3:
+                        m_Timers[m_SelectedTimer].setHourOff(x, atoi(value));
+                        break;
                     }
                 }
             }
