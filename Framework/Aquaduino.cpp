@@ -183,11 +183,6 @@ void Aquaduino::initNetwork()
     m_MAC[4] = 0xDE;
     m_MAC[5] = 0xAD;
 
-    memset(m_XivelyAPIKey, 0, sizeof(m_XivelyAPIKey));
-    memset(m_XivelyFeedName, 0, sizeof(m_XivelyFeedName));
-    memset(m_XiveleyDatastreams, 0, sizeof(m_XiveleyDatastreams));
-    memset(m_XivelyChannelNames, 0, sizeof(m_XivelyChannelNames));
-
     if (m_DHCP)
     {
         Serial.println(F("Waiting for DHCP reply..."));
@@ -924,6 +919,11 @@ uint16_t Aquaduino::deserialize(Stream* s)
     uint16_t i = 0;
     uint16_t size = s->available();
 
+    memset(m_XivelyAPIKey, 0, sizeof(m_XivelyAPIKey));
+    memset(m_XivelyFeedName, 0, sizeof(m_XivelyFeedName));
+    memset(m_XiveleyDatastreams, 0, sizeof(m_XiveleyDatastreams));
+    memset(m_XivelyChannelNames, 0, sizeof(m_XivelyChannelNames));
+
     if (size >= 7)
     {
         stringLength = s->read();
@@ -1015,11 +1015,11 @@ uint16_t Aquaduino::deserialize(Stream* s)
     {
 
     	char name[stringLength];
-    	char xivelyFeed[stringLength];
+    	char xivelyChannel[xivelyChannelNameLength];
     	s->readBytes(name, stringLength);
         uint8_t typeId = s->read();
         uint8_t portId = s->read();
-        s->readBytes(xivelyFeed, stringLength);
+        s->readBytes(xivelyChannel, xivelyChannelNameLength);
         Sensor* sensor;
         int8_t idx;
 
@@ -1054,7 +1054,7 @@ uint16_t Aquaduino::deserialize(Stream* s)
 
         if ( (sensor != NULL) && (idx = __aquaduino->addSensor(sensor)) != -1)
         {
-            memcpy(m_XivelyChannelNames[idx], xivelyFeed, xivelyChannelNameLength);
+            memcpy(m_XivelyChannelNames[idx], xivelyChannel, xivelyChannelNameLength);
             readConfig(sensor);
         }
     }
