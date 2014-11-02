@@ -207,6 +207,7 @@ float DigitalOutput::getPWM()
 
 void DigitalOutput::setPin(uint8_t pin)
 {
+    pinMode(pin, OUTPUT);
     m_Pin = pin;
 }
 
