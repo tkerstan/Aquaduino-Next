@@ -26,6 +26,8 @@ private:
     void getSensorData(uint8_t sensorId);
     void getAllActuators();
     void getActuatorData(uint8_t actuatorId);
+    void getAllControllers();
+    void getClockTimers(uint8_t controllerId);
 
     void setSensorConfig(uint8_t sensorId, uint8_t type, char* value);
     void setSensorConfig(uint8_t sensorId, uint8_t type, uint8_t value);

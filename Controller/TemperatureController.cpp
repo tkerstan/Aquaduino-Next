@@ -22,11 +22,6 @@
 #include <Framework/Aquaduino.h>
 #include <SD.h>
 
-#ifdef FEATURE_WEBIF
-#include <TemplateParser.h>
-#include <Framework/Flashvars.h>
-#endif
-
 /**
  * Constructor
  * \param[in] name The name of the controller
@@ -141,204 +136,79 @@ int8_t TemperatureController::run()
     return true;
 }
 
-#ifdef FEATURE_WEBIF
-int8_t TemperatureController::showWebinterface(WebServer* server,
-                                               WebServer::ConnectionType type,
-                                               char* url)
+int8_t TemperatureController::getAssignedSensor()
 {
-    File templateFile;
-    TemplateParser* parser;
-    int8_t matchIdx;
-
-    Sensor* sensor;
-    const char* sensorNames[MAX_SENSORS + 1];
-    char sensorValArray[MAX_SENSORS + 1][3];
-    const char* sensorValuePointers[MAX_SENSORS + 1];
-    int8_t i = 0, sensorIdx;
-
-    Actuator* actuator;
-    const char* actuatorNames[MAX_ACTUATORS + 1];
-    char actuatorValArray[MAX_ACTUATORS + 1][3];
-    const char* actuatorValuePointers[MAX_ACTUATORS + 1];
-    int8_t j = 0, actuatorIdx;
-    int8_t select1 = 0, select2 = 0;
-
-    char input_name[20];
-
-    char templateFileName[template_temperaturecontroller_fnsize];
-
-    strcpy_P(templateFileName, template_temperaturecontroller_fname);
-
-    if (type == WebServer::POST)
-    {
-        int8_t repeat;
-        char name[16], value[16];
-        do
-        {
-            repeat = server->readPOSTparam(name, 16, value, 16);
-            if (strcmp_P(name,
-                         (PGM_P) pgm_read_word(&(template_temperaturecontroller_inputs[TEMPERATURECONTROLLER_I_SENSOR])))
-                == 0)
-                m_Sensor = atoi(value);
-            else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(template_temperaturecontroller_inputs[TEMPERATURECONTROLLER_I_REFTEMP1])))
-                     == 0)
-                m_RefTemp1 = atof(value);
-            else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(template_temperaturecontroller_inputs[TEMPERATURECONTROLLER_I_HYST1])))
-                     == 0)
-                m_Hysteresis1 = atof(value);
-            else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(template_temperaturecontroller_inputs[TEMPERATURECONTROLLER_I_ACTUATOR1])))
-                     == 0)
-                m_Actuator1 = atoi(value);
-            else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(template_temperaturecontroller_inputs[TEMPERATURECONTROLLER_I_REFTEMP2])))
-                     == 0)
-                m_RefTemp2 = atof(value);
-            else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(template_temperaturecontroller_inputs[TEMPERATURECONTROLLER_I_HYST2])))
-                     == 0)
-                m_Hysteresis2 = atof(value);
-            else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(template_temperaturecontroller_inputs[TEMPERATURECONTROLLER_I_ACTUATOR2])))
-                     == 0)
-                m_Actuator2 = atoi(value);
-        } while (repeat);
-        server->httpSeeOther(this->m_URL);
-    }
-    else
-    {
-        server->httpSuccess();
-        parser = __aquaduino->getTemplateParser();
-        templateFile = SD.open(templateFileName, FILE_READ);
-        __aquaduino->resetSensorIterator();
-        __aquaduino->resetActuatorIterator();
-        sensorNames[0] = "None";
-        actuatorNames[0] = sensorNames[0];
-
-        sensorValuePointers[0] = "-1";
-        actuatorValuePointers[0] = sensorValuePointers[0];
-        i = 1;
-        j = 1;
-
-        while ((sensorIdx = __aquaduino->getNextSensor(&sensor)) != -1)
-        {
-            sensorNames[i] = sensor->getName();
-            itoa(sensorIdx, sensorValArray[i], 10);
-            sensorValuePointers[i] = sensorValArray[i];
-            i++;
-        }
-
-        while ((actuatorIdx = __aquaduino->getNextActuator(&actuator)) != -1)
-        {
-            if (__aquaduino->getController(actuator->getController()) == this)
-            {
-                if (m_Actuator1 == actuatorIdx)
-                    select1 = j;
-                if (m_Actuator2 == actuatorIdx)
-                    select2 = j;
-                actuatorNames[j] = actuator->getName();
-                itoa(actuatorIdx, actuatorValArray[j], 10);
-                actuatorValuePointers[j] = actuatorValArray[j];
-                j++;
-            }
-        }
-
-        while ((matchIdx =
-                parser->processTemplateUntilNextMatch(&templateFile,
-                                                      template_temperaturecontroller,
-                                                      template_temperaturecontroller_elements,
-                                                      server))
-               != -1)
-        {
-            switch (matchIdx)
-            {
-            case TEMPERATURECONTROLLER_CNAME:
-                server->print(this->getName());
-                break;
-            case TEMPERATURECONTROLLER_SSELECT:
-                strcpy_P(input_name, pgm_input_sensor);
-                parser->selectList(input_name,
-                                   sensorNames,
-                                   sensorValuePointers,
-                                   this->m_Sensor + 1,
-                                   i,
-                                   server);
-                break;
-            case TEMPERATURECONTROLLER_TEMPERATURE:
-                server->print(__aquaduino->getSensorValue(m_Sensor));
-                break;
-            case TEMPERATURECONTROLLER_REFTEMP1_NAME:
-                server->print((__FlashStringHelper *) pgm_input_reftemp1);
-                break;
-            case TEMPERATURECONTROLLER_REFTEMP1_VAL:
-                server->print(m_RefTemp1);
-                break;
-            case TEMPERATURECONTROLLER_REFTEMP1_SIZE:
-                server->print(6);
-                break;
-            case TEMPERATURECONTROLLER_REFTEMP1_MAXLENGTH:
-                server->print(5);
-                break;
-            case TEMPERATURECONTROLLER_HYST1_NAME:
-                server->print((__FlashStringHelper *) pgm_input_hyst1);
-                break;
-            case TEMPERATURECONTROLLER_HYST1_VAL:
-                server->print(m_Hysteresis1);
-                break;
-            case TEMPERATURECONTROLLER_HYST1_SIZE:
-                server->print(6);
-                break;
-            case TEMPERATURECONTROLLER_HYST1_MAXLENGTH:
-                server->print(5);
-                break;
-            case TEMPERATURECONTROLLER_ASELECT1:
-                strcpy_P(input_name, pgm_input_actuator1);
-                parser->selectList(input_name,
-                                   actuatorNames,
-                                   actuatorValuePointers,
-                                   select1,
-                                   j,
-                                   server);
-                break;
-            case TEMPERATURECONTROLLER_REFTEMP2_NAME:
-                server->print((__FlashStringHelper *) pgm_input_reftemp2);
-                break;
-            case TEMPERATURECONTROLLER_REFTEMP2_VAL:
-                server->print(m_RefTemp2);
-                break;
-            case TEMPERATURECONTROLLER_REFTEMP2_SIZE:
-                server->print(6);
-                break;
-            case TEMPERATURECONTROLLER_REFTEMP2_MAXLENGTH:
-                server->print(5);
-                break;
-            case TEMPERATURECONTROLLER_HYST2_NAME:
-                server->print((__FlashStringHelper *) pgm_input_hyst2);
-                break;
-            case TEMPERATURECONTROLLER_HYST2_VAL:
-                server->print(m_Hysteresis2);
-                break;
-            case TEMPERATURECONTROLLER_HYST2_SIZE:
-                server->print(6);
-                break;
-            case TEMPERATURECONTROLLER_HYST2_MAXLENGTH:
-                server->print(5);
-                break;
-            case TEMPERATURECONTROLLER_ASELECT2:
-                strcpy_P(input_name, pgm_input_actuator2);
-                parser->selectList(input_name,
-                                   actuatorNames,
-                                   actuatorValuePointers,
-                                   select2,
-                                   j,
-                                   server);
-                break;
-            }
-        }
-        templateFile.close();
-    }
-    return true;
+    return m_Sensor;
 }
-#endif
+
+int8_t TemperatureController::assignSensor(int8_t sensorIdx)
+{
+    m_Sensor = sensorIdx;
+    return m_Sensor;
+}
+
+double TemperatureController::getRefTempLow()
+{
+    return m_RefTemp1;
+}
+
+double TemperatureController::setRefTempLow(double tempLow)
+{
+    m_RefTemp1 = tempLow;
+    return m_RefTemp1;
+}
+
+double TemperatureController::setHeatingHysteresis(double hysteresis)
+{
+    m_Hysteresis1 = hysteresis;
+    return m_Hysteresis1;
+}
+
+double TemperatureController::getHeatingHysteresis()
+{
+    return m_Hysteresis1;
+}
+
+int8_t TemperatureController::assignHeatingActuator(int8_t actuatorIdx)
+{
+    m_Actuator1 = actuatorIdx;
+    return m_Actuator1;
+}
+
+int8_t TemperatureController::getHeatingActuator()
+{
+    return m_Actuator1;
+}
+
+double TemperatureController::getRefTempHigh()
+{
+    return m_RefTemp2;
+}
+
+double TemperatureController::setRefTempHigh(double tempHigh)
+{
+    m_RefTemp2 = tempHigh;
+    return m_RefTemp2;
+}
+
+double TemperatureController::setCoolingHysteresis(double hysteresis)
+{
+    m_Hysteresis2 = hysteresis;
+    return m_Hysteresis2;
+}
+
+double TemperatureController::getCoolingHysteresis()
+{
+    return m_Hysteresis2;
+}
+
+int8_t TemperatureController::assignCoolingActuator(int8_t actuatorIdx)
+{
+    m_Actuator2 = actuatorIdx;
+    return m_Actuator2;
+}
+
+int8_t TemperatureController::getCoolingActuator()
+{
+    return m_Actuator2;
+}

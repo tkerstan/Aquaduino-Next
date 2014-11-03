@@ -27,14 +27,8 @@ include		$(dir)/Rules.mk
 dir	:= $(d)/SPI
 include		$(dir)/Rules.mk	
 
-dir	:= $(d)/TemplateParser
-include		$(dir)/Rules.mk	
-
 dir	:= $(d)/Time
 include		$(dir)/Rules.mk	
-
-dir	:= $(d)/Webduino
-include		$(dir)/Rules.mk
 
 dir	:= $(d)/Xively
 include		$(dir)/Rules.mk

@@ -35,11 +35,8 @@ public:
     uint16_t serialize(Stream* s);
     uint16_t deserialize(Stream* s);
 
-#ifdef FEATURE_WEBIF
-    int8_t showWebinterface(WebServer* server,
-                                        WebServer::ConnectionType type,
-                                        char* url);
-#endif
+    int8_t getPin();
+    int8_t setPin(int8_t pin);
 
 private:
     unsigned char m_Pin;

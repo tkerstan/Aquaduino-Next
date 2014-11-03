@@ -49,11 +49,19 @@ public:
 
     virtual int8_t run();
 
-#ifdef FEATURE_WEBIF
-    virtual int8_t showWebinterface(WebServer* server,
-                                    WebServer::ConnectionType type,
-                                    char* url);
-#endif
+    int8_t setDelayHigh(int16_t delayHigh);
+    int16_t getDelayHigh();
+
+    int8_t setDelayLow(int16_t delayLow);
+    int16_t getDelayLow();
+
+    int8_t setTimeout(int16_t timeout);
+    int16_t getTimeout();
+
+    int8_t reset();
+
+    int8_t assignSensor(int8_t sensorIdx);
+    int8_t getAssignedSensor();
 
 private:
     int16_t m_Delayh;

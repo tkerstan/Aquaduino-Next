@@ -37,12 +37,6 @@ public:
     void setPin(uint8_t pin);
     uint8_t getPin();
 
-#ifdef FEATURE_WEBIF
-    int8_t showWebinterface(WebServer* server,
-                                        WebServer::ConnectionType type,
-                                        char* url);
-#endif
-
 private:
     unsigned char m_Pin;
 };

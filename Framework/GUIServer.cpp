@@ -1,5 +1,5 @@
 /*
- * GUIServer.cpp
+ ` * GUIServer.cpp
  *
  *  Created on: 12.03.2014
  *      Author: Timo
@@ -8,6 +8,7 @@
 #include <Aquaduino.h>
 #include <Framework/GUIServer.h>
 #include <Arduino.h>
+#include <Controller/ClockTimerController.h>
 
 enum {
 	GETVERSION = 0,
@@ -17,7 +18,9 @@ enum {
 	GETALLACTUATORS = 4,
 	GETACTUATORDATA = 5,
 	SETACTUATORDATA = 6,
-	SETACTUATORCONFIG = 7
+	SETACTUATORCONFIG = 7,
+	GETALLCONTROLLERS = 8,
+	GETCLOCKTIMERS = 9
 };
 
 GUIServer::GUIServer(uint16_t port) {
@@ -78,10 +81,12 @@ void GUIServer::run() {
 				setSensorConfig(m_Buffer[2], m_Buffer[3], (char*) &m_Buffer[4]);
 				break;
 			case 4:
-				setSensorConfig(m_Buffer[2], m_Buffer[3], (uint8_t) m_Buffer[4]);
+				setSensorConfig(m_Buffer[2], m_Buffer[3],
+						(uint8_t) m_Buffer[4]);
 				break;
 			case 5:
-				setSensorConfig(m_Buffer[2], m_Buffer[3], (uint8_t) m_Buffer[4]);
+				setSensorConfig(m_Buffer[2], m_Buffer[3],
+						(uint8_t) m_Buffer[4]);
 				break;
 			}
 			break;
@@ -98,7 +103,8 @@ void GUIServer::run() {
 			case 4:
 			case 5:
 			case 6:
-				setActuatorData(m_Buffer[2], m_Buffer[3], (uint8_t) m_Buffer[4]);
+				setActuatorData(m_Buffer[2], m_Buffer[3],
+						(uint8_t) m_Buffer[4]);
 				break;
 			case 2:
 				setActuatorData(m_Buffer[2], m_Buffer[3], (char*) m_Buffer[4]);
@@ -109,7 +115,8 @@ void GUIServer::run() {
 			case 1:
 				break;
 			case 2:
-				setActuatorConfig(m_Buffer[2], m_Buffer[3], (char*) &m_Buffer[4]);
+				setActuatorConfig(m_Buffer[2], m_Buffer[3],
+						(char*) &m_Buffer[4]);
 				break;
 			case 3:
 				break;
@@ -119,6 +126,9 @@ void GUIServer::run() {
 				break;
 			}
 			break;
+		case GETCLOCKTIMERS:
+			getClockTimers(m_Buffer[2]);
+			break;
 		default:
 			break;
 		}
@@ -126,16 +136,14 @@ void GUIServer::run() {
 	}
 
 }
-size_t GUIServer::write(uint32_t value,EthernetUDP* udpServer)
-{
-    size_t res=0;
-    for (uint8_t x=0;x<4;x++)
-    {
-    	res=udpServer->write(value & 255);
-    	value>>8;
-    }
+size_t GUIServer::write(uint32_t value, EthernetUDP* udpServer) {
+	size_t res = 0;
+	for (uint8_t x = 0; x < 4; x++) {
+		res = udpServer->write(value & 255);
+		value >> 8;
+	}
 
-    return res;
+	return res;
 
 }
 void GUIServer::getAllSensors() {
@@ -175,13 +183,14 @@ void GUIServer::getSensorData(uint8_t sensorId) {
 	m_UdpServer.write(__aquaduino->getSensorValue(sensorId));
 	//valueAct:float * 1000 -> uint32
 	//m_UdpServer.write((uint32_t) __aquaduino->getSensorValue(sensorId) * 1000);
-	write((uint32_t) __aquaduino->getSensorValue(sensorId) * 1000,&m_UdpServer);
+	write((uint32_t) __aquaduino->getSensorValue(sensorId) * 1000,
+			&m_UdpServer);
 	//valueMax24h:float * 1000 -> uint32
 	m_UdpServer.write((uint32_t) 65800);
 	//valueMax24hTime:time
 	m_UdpServer.write((uint32_t) 1395867979);
 	//valueMin24h:float
-	m_UdpServer.write((uint32_t)4.01);
+	m_UdpServer.write((uint32_t) 4.01);
 	//valueMin24hTime:time
 	m_UdpServer.write((uint32_t) 1395867979);
 	//lastCalibration:dateTime
@@ -253,15 +262,16 @@ void GUIServer::setSensorConfig(uint8_t sensorId, uint8_t type, uint8_t value) {
 		//sensor->resetOperatinHours();
 	}
 	if (type == 4) {
-			//sensor->setVisible(visible)
-		}
+		//sensor->setVisible(visible)
+	}
 	if (type == 5) {
 		//sensor->setCalibratioInterval(value)
 	}
 	//__aquaduino->writeConfig(sensor);
 }
 
-void GUIServer::setActuatorData(uint8_t actuatorId, uint8_t dataType, uint8_t data) {
+void GUIServer::setActuatorData(uint8_t actuatorId, uint8_t dataType,
+		uint8_t data) {
 	Actuator* actuator = __aquaduino->getActuator(actuatorId);
 	if (dataType == 1) {
 		//actuator->resetOperatingHours();
@@ -281,7 +291,8 @@ void GUIServer::setActuatorData(uint8_t actuatorId, uint8_t dataType, uint8_t da
 	__aquaduino->writeConfig(actuator);
 }
 
-void GUIServer::setActuatorData(uint8_t actuatorId, uint8_t dataType, char* data) {
+void GUIServer::setActuatorData(uint8_t actuatorId, uint8_t dataType,
+		char* data) {
 	Actuator* actuator = __aquaduino->getActuator(actuatorId);
 	//Serial.println("setActuatorData: 2");
 	if (dataType == 2) {
@@ -289,7 +300,8 @@ void GUIServer::setActuatorData(uint8_t actuatorId, uint8_t dataType, char* data
 	}
 	__aquaduino->writeConfig(actuator);
 }
-void GUIServer::setActuatorConfig(uint8_t actuatorId, uint8_t type, char* value) {
+void GUIServer::setActuatorConfig(uint8_t actuatorId, uint8_t type,
+		char* value) {
 	Actuator* actuator = __aquaduino->getActuator(actuatorId);
 	if (type == 2) {
 		actuator->setName(value);
@@ -302,4 +314,65 @@ void GUIServer::setActuatorConfig(uint8_t actuatorId, uint8_t type, char* value)
 /*
  void GUIServer::setSensorConfig
  void GUIServer::setActuatorData
-*/
+ */
+void GUIServer::getAllControllers() {
+	//errorcode 0
+	m_UdpServer.write((uint8_t) 0);
+	//num of actuators
+	m_UdpServer.write((uint8_t) __aquaduino->getNrOfControllers());
+	Serial.print("num of Controllers: ");
+	Serial.println(__aquaduino->getNrOfControllers());
+	//sensor information
+	Controller* controller;
+	__aquaduino->resetActuatorIterator();
+	while (__aquaduino->getNextController(&controller) != -1) {
+		m_UdpServer.write(__aquaduino->getControllerID(controller));
+		m_UdpServer.write(strlen(controller->getName()));
+		m_UdpServer.write(controller->getName());
+		//Type
+		m_UdpServer.write(controller->getType());
+	}
+}
+void GUIServer::getClockTimers(uint8_t controllerId) {
+	ClockTimerController* controller;
+	if (__aquaduino->getController(controllerId)->getType()
+			== CONTROLLER_CLOCKTIMER) {
+		controller = (ClockTimerController*) __aquaduino->getController(
+				controllerId);
+	} else {
+		//errorcode 10
+		m_UdpServer.write((uint8_t) 10);
+		return;
+	}
+
+	//num of timers
+	m_UdpServer.write((uint8_t) MAX_CLOCKTIMERS);
+	//num of timers per timer
+	m_UdpServer.write((uint8_t) CLOCKTIMER_MAX_TIMERS);
+	ClockTimer* timer;
+	int i = 0;
+	int j = 0;
+	while (i < MAX_CLOCKTIMERS) {
+		timer = controller->getClockTimer(i);
+		//ClockTimerId
+		m_UdpServer.write(i);
+		while (j < CLOCKTIMER_MAX_TIMERS) {
+			m_UdpServer.write((uint8_t) timer->getHourOn(j));
+			m_UdpServer.write((uint8_t) timer->getMinuteOn(j));
+			m_UdpServer.write((uint8_t) 0);/*timer->getSecondOn(j)*/
+			m_UdpServer.write((uint8_t) timer->getHourOff(j));
+			m_UdpServer.write((uint8_t) timer->getMinuteOff(j));
+			m_UdpServer.write((uint8_t) 0);/*timer->getSecondOff(j)*/
+			j++;
+		}
+		m_UdpServer.write(timer->isMondayEnabled());
+		m_UdpServer.write(timer->isTuesdayEnabled());
+		m_UdpServer.write(timer->isWednesdayEnabled());
+		m_UdpServer.write(timer->isThursdayEnabled());
+		m_UdpServer.write(timer->isFridayEnabled());
+		m_UdpServer.write(timer->isSaturdayEnabled());
+		m_UdpServer.write(timer->isSundayEnabled());
+		m_UdpServer.write(controller->getAssignedActuatorID(i));
+		i++;
+	}
+}

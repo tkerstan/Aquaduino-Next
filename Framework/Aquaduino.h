@@ -23,7 +23,6 @@
 
 #include <Arduino.h>
 #include <Ethernet.h>
-#include <TemplateParser.h>
 #include <HttpClient.h>
 #include <Xively.h>
 
@@ -38,18 +37,10 @@
 #include "Framework/OneWireHandler.h"
 #include "Framework/GUIServer.h"
 
-#ifdef FEATURE_WEBIF
-#include "Framework/WebInterface.h"
-#endif
-
 class Controller;
 class Actuator;
 class Sensor;
 class ConfigManager;
-
-#ifdef FEATURE_WEBIF
-class WebServer;
-#endif
 
 /*! \brief Aquaduino main class.
  *
@@ -64,7 +55,7 @@ class WebServer;
  *  - Controller configuration
  *  - Actuator configuration
  */
-class Aquaduino: public Object, Serializable, WebInterface
+class Aquaduino: public Object, Serializable
 {
 public:
     Aquaduino();
@@ -163,18 +154,6 @@ public:
     int8_t readConfig(Controller* controller);
     int8_t readConfig(Sensor* sensor);
 
-#ifdef FEATURE_WEBIF
-    void setWebserver(WebServer* webServer);
-    WebServer* getWebserver();
-
-
-    void setTemplateParser(TemplateParser* parser);
-    TemplateParser* getTemplateParser();
-
-    virtual int8_t showWebinterface(WebServer* server,
-                                    WebServer::ConnectionType type, char* url);
-#endif
-
     void startTimer();
     void readSensors();
     void executeControllers();
@@ -182,18 +161,6 @@ public:
     void run();
 
 protected:
-#ifdef FEATURE_WEBIF
-    void printConfigWebpage(WebServer* server);
-    int8_t configWebpageProcessPost(WebServer* server,
-                                    WebServer::ConnectionType type);
-    int8_t configWebpage(WebServer* server, WebServer::ConnectionType type);
-    int8_t mainWebpageProcessPost(WebServer* server, WebServer::ConnectionType type);
-    int8_t printMainActuatorTable(WebServer* server);
-    int8_t printMainControllerTable(WebServer* server);
-    int8_t printMainSensorTable(WebServer* server);
-    int8_t printMainWebpage(WebServer* server);
-    int8_t mainWebpage(WebServer* server, WebServer::ConnectionType type);
-#endif
 
 private:
     byte m_MAC[6];
@@ -210,11 +177,6 @@ private:
     ArrayMap<Controller*> m_Controllers;
     ArrayMap<Actuator*> m_Actuators;
     ArrayMap<Sensor*> m_Sensors;
-
-#ifdef FEATURE_WEBIF
-    WebServer* m_WebServer;
-    TemplateParser* m_TemplateParser;
-#endif
 
     ConfigManager* m_ConfigManager;
     OneWireHandler* m_OneWireHandler;

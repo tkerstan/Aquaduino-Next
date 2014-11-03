@@ -37,16 +37,31 @@ public:
     TemperatureController(const char* name);
     virtual ~TemperatureController();
 
+    int8_t getAssignedSensor();
+    int8_t assignSensor(int8_t sensorIdx);
+
+    double getRefTempLow();
+    double setRefTempLow(double tempLow);
+
+    double setHeatingHysteresis(double hysteresis);
+    double getHeatingHysteresis();
+
+    int8_t assignHeatingActuator(int8_t actuatorIdx);
+    int8_t getHeatingActuator();
+
+    double getRefTempHigh();
+    double setRefTempHigh(double tempHigh);
+
+    double setCoolingHysteresis(double hysteresis);
+    double getCoolingHysteresis();
+
+    int8_t assignCoolingActuator(int8_t actuatorIdx);
+    int8_t getCoolingActuator();
+
     virtual uint16_t serialize(Stream* s);
     virtual uint16_t deserialize(Stream* s);
 
     virtual int8_t run();
-
-#ifdef FEATURE_WEBIF
-    virtual int8_t showWebinterface(WebServer* server,
-                                    WebServer::ConnectionType type,
-                                    char* url);
-#endif
 
 private:
     int8_t m_Sensor;

@@ -25,11 +25,6 @@
 
 #include <limits.h>
 
-#ifdef FEATURE_WEBIF
-#include <TemplateParser.h>
-#include <Framework/Flashvars.h>
-#endif
-
 enum TEMPLATE_LEVELCONTROLLER_STATES
 {
     LEVELCONTROLLER_STATE_OK,
@@ -196,149 +191,52 @@ int8_t LevelController::run()
     return 1;
 }
 
-#ifdef FEATURE_WEBIF
-int8_t LevelController::showWebinterface(WebServer* server,
-                                         WebServer::ConnectionType type,
-                                         char* url)
+int8_t LevelController::setDelayHigh(int16_t delayHigh)
 {
-    File templateFile;
-    TemplateParser* parser;
-    int8_t matchIdx;
-    char i_sensor_name[20];
-    int16_t val;
-
-    char templateFileName[template_levelcontroller_fnsize];
-    strcpy_P(templateFileName, template_levelcontroller_fname);
-
-    const char* sensorNames[MAX_SENSORS + 1];
-    char sensorValArray[MAX_SENSORS + 1][3];
-    const char* sensorValuePointers[MAX_SENSORS + 1];
-
-    Sensor* sensor;
-    int8_t sensorIdx;
-    int8_t i = 0;
-
-    if (type == WebServer::POST)
-    {
-        int8_t repeat;
-        char name[16], value[16];
-
-        do
-        {
-            repeat = server->readPOSTparam(name, 16, value, 16);
-            if (strcmp_P(name,
-                         (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_DELAYL])))
-                == 0)
-            {
-                val = atoi(value);
-                m_Delayl = val;
-            }
-            else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_DELAYH])))
-                     == 0)
-            {
-                val = atol(value);
-                m_Delayh = val;
-            }
-            else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_TIMEOUT])))
-                     == 0)
-            {
-                val = atol(value);
-                m_Timeout = val;
-            }
-            else if (strcmp_P(name,
-                              (PGM_P) pgm_read_word(&(template_levelcontroller_inputs[LEVELCONTROLLER_I_SENSOR])))
-                     == 0)
-            {
-                m_Sensor = atoi(value);
-            }
-        } while (repeat);
-        m_State = LEVELCONTROLLER_STATE_OK;
-        server->httpSeeOther(this->m_URL);
-    }
-    else
-    {
-
-        server->httpSuccess();
-        parser = __aquaduino->getTemplateParser();
-        templateFile = SD.open(templateFileName, FILE_READ);
-        __aquaduino->resetSensorIterator();
-        sensorNames[0] = "None";
-        sensorValuePointers[0] = "-1";
-        i = 1;
-        while ((sensorIdx = __aquaduino->getNextSensor(&sensor)) != -1)
-        {
-            sensorNames[i] = sensor->getName();
-            itoa(sensorIdx, sensorValArray[i], 10);
-            sensorValuePointers[i] = sensorValArray[i];
-            i++;
-        }
-        while ((matchIdx =
-                parser->processTemplateUntilNextMatch(&templateFile,
-                                                      template_levelcontroller,
-                                                      template_levelcontroller_elements,
-                                                      server))
-               != -1)
-        {
-            switch (matchIdx)
-            {
-            case LEVELCONTROLLER_CNAME:
-                server->print(this->getName());
-                break;
-            case LEVELCONTROLLER_SSELECT:
-                strcpy_P(i_sensor_name, pgm_input_sensor);
-                parser->selectList(i_sensor_name,
-                                   sensorNames,
-                                   sensorValuePointers,
-                                   m_Sensor + 1,
-                                   i,
-                                   server);
-                break;
-            case LEVELCONTROLLER_STATE:
-                server->print((__FlashStringHelper *) pgm_read_word(&(template_levelcontroller_states[m_State])));
-                break;
-            case LEVELCONTROLLER_DELAYHNAME:
-                server->print((__FlashStringHelper*) pgm_input_delayh);
-                break;
-            case LEVELCONTROLLER_DELAYHVAL:
-                server->print(m_Delayh);
-                break;
-            case LEVELCONTROLLER_DELAYHSIZE:
-                server->print(4);
-                break;
-            case LEVELCONTROLLER_DELAYHMAXLENGTH:
-                server->print(3);
-                break;
-            case LEVELCONTROLLER_DELAYLNAME:
-                server->print((__FlashStringHelper*) pgm_input_delayl);
-                break;
-            case LEVELCONTROLLER_DELAYLVAL:
-                server->print(m_Delayl);
-                break;
-            case LEVELCONTROLLER_DELAYLSIZE:
-                server->print(4);
-                break;
-            case LEVELCONTROLLER_DELAYLMAXLENGTH:
-                server->print(3);
-                break;
-            case LEVELCONTROLLER_TIMEOUTNAME:
-                server->print((__FlashStringHelper*) pgm_input_timeout);
-                break;
-            case LEVELCONTROLLER_TIMEOUTVAL:
-                server->print(m_Timeout);
-                break;
-            case LEVELCONTROLLER_TIMEOUTSIZE:
-                server->print(4);
-                break;
-            case LEVELCONTROLLER_TIMEOUTMAXLENGTH:
-                server->print(3);
-                break;
-
-            }
-        }
-        templateFile.close();
-    }
-    return true;
+    m_Delayh = delayHigh;
+    return m_Delayh;
 }
-#endif
+
+int16_t LevelController::getDelayHigh()
+{
+    return m_Delayh;
+}
+
+int8_t LevelController::setDelayLow(int16_t delayLow)
+{
+    m_Delayl = delayLow;
+    return m_Delayl;
+}
+
+int16_t LevelController::getDelayLow()
+{
+    return m_Delayl;
+}
+
+int8_t LevelController::setTimeout(int16_t timeout)
+{
+    m_Timeout = timeout;
+    return m_Timeout;
+}
+
+int16_t LevelController::getTimeout()
+{
+    return m_Timeout;
+}
+
+int8_t LevelController::reset()
+{
+    m_State = LEVELCONTROLLER_STATE_OK;
+    return m_State;
+}
+
+int8_t LevelController::assignSensor(int8_t sensorIdx)
+{
+    m_Sensor = sensorIdx;
+    return m_Sensor;
+}
+
+int8_t LevelController::getAssignedSensor()
+{
+    return m_Sensor;
+}
