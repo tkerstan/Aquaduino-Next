@@ -922,7 +922,7 @@ uint16_t Aquaduino::deserialize(Stream* s)
     // See Main.java in Aquaduino-Config for calculation
     calculatedSize = 7
             + ((nrOfActuators + nrOfControllers + nrOfSensors) * stringLength)
-            + (2 * nrOfActuators) + nrOfControllers + (2 * nrOfSensors)
+            + (3 * nrOfActuators) + nrOfControllers + (2 * nrOfSensors)
             + (nrOfSensors * xivelyChannelNameLength) + 6 + 1 + 4 + 4 + 4 + 1
             + 4 + 1 + 1 + 1 + xivelyApiKeyLength + xivelyFeedNameLength;
 
@@ -946,12 +946,19 @@ uint16_t Aquaduino::deserialize(Stream* s)
         s->readBytes(name, stringLength);
         uint8_t typeId = s->read();
         uint8_t portId = s->read();
+        uint8_t onValue = s->read();
         Actuator* actuator;
         int8_t idx;
 
         switch(typeId){
         case 1:
-            actuator = new DigitalOutput(name, 1, 0);
+            Serial.print(F("Adding Digitaloutput actuator @  Pin: "));
+            Serial.print(portId);
+            Serial.print(" On @ ");
+            Serial.print(onValue == 1 ? 1 : 0);
+            Serial.print(" Off @ ");
+            Serial.println(onValue == 1 ? 0 : 1);
+            actuator = new DigitalOutput(name, onValue == 1 ? 1 : 0, onValue == 1 ? 0 : 1);
             ((DigitalOutput*) actuator)->setPin(portId);
             break;
         default:
