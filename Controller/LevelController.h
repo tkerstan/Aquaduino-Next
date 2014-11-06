@@ -63,6 +63,8 @@ public:
     int8_t assignSensor(int8_t sensorIdx);
     int8_t getAssignedSensor();
 
+    int8_t getState();
+
 private:
     int16_t m_Delayh;
     int16_t m_Delayl;

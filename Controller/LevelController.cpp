@@ -240,3 +240,8 @@ int8_t LevelController::getAssignedSensor()
 {
     return m_Sensor;
 }
+
+int8_t LevelController::getState()
+{
+    return m_State;
+}
