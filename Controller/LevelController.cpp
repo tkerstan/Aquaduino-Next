@@ -108,9 +108,7 @@ uint16_t LevelController::deserialize(Stream* s)
  * a transition back to LEVELCONTROLLER_STATE_REFILL.
  *
  * In state LEVELCONTROLLER_STATE_REFILL_TIMEOUT nothing happens until
- * the state machine variables are reseted from outside this function. This
- * reset is currently implemented in the POST request processing in
- * LevelController::showWebinterface.
+ * the state machine variables are reseted from outside this function.
  *
  */
 int8_t LevelController::run()
