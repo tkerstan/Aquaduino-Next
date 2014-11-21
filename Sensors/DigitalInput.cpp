@@ -57,6 +57,7 @@ uint16_t DigitalInput::deserialize(Stream* s)
 void  DigitalInput::setPin(uint8_t pin)
 {
 	m_Pin = pin;
+	pinMode(m_Pin, INPUT);
 }
 
 uint8_t DigitalInput::getPin()
