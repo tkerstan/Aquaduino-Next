@@ -31,14 +31,14 @@ TemperatureController::TemperatureController(const char* name) :
 {
     m_Type = CONTROLLER_TEMPERATURE;
     m_Sensor = -1;
-    m_RefTemp1 = 24.0;
-    m_Hysteresis1 = 0.3;
-    m_Actuator1 = -1;
-    m_RefTemp2 = 25.0;
-    m_Hysteresis2 = 0.3;
-    m_Actuator2 = -1;
-    m_Cooling = 0;
-    m_Heating = 0;
+    m_RefTempLow = 24.0;
+    m_HeatingHysteresis = 0.3;
+    m_HeatingActuator = -1;
+    m_RefTempHigh = 25.0;
+    m_CoolingHysteresis = 0.3;
+    m_CoolingActuator = -1;
+    m_isCooling = 0;
+    m_isHeating = 0;
 }
 
 /**
@@ -52,35 +52,35 @@ TemperatureController::~TemperatureController()
 
 uint16_t TemperatureController::serialize(Stream* s)
 {
-    uint16_t mySize = sizeof(m_RefTemp1) + sizeof(m_Hysteresis1)
-                      + sizeof(m_RefTemp2) + sizeof(m_Hysteresis2);
+    uint16_t mySize = sizeof(m_RefTempLow) + sizeof(m_HeatingHysteresis)
+                      + sizeof(m_RefTempHigh) + sizeof(m_CoolingHysteresis);
 
     s->write((uint8_t*) &m_Sensor, sizeof(m_Sensor));
-    s->write((uint8_t*) &m_RefTemp1, sizeof(m_RefTemp1));
-    s->write((uint8_t*) &m_Hysteresis1, sizeof(m_Hysteresis1));
-    s->write((uint8_t*) &m_Actuator1, sizeof(m_Actuator1));
-    s->write((uint8_t*) &m_RefTemp2, sizeof(m_RefTemp2));
-    s->write((uint8_t*) &m_Hysteresis2, sizeof(m_Hysteresis2));
-    s->write((uint8_t*) &m_Actuator2, sizeof(m_Actuator2));
+    s->write((uint8_t*) &m_RefTempLow, sizeof(m_RefTempLow));
+    s->write((uint8_t*) &m_HeatingHysteresis, sizeof(m_HeatingHysteresis));
+    s->write((uint8_t*) &m_HeatingActuator, sizeof(m_HeatingActuator));
+    s->write((uint8_t*) &m_RefTempHigh, sizeof(m_RefTempHigh));
+    s->write((uint8_t*) &m_CoolingHysteresis, sizeof(m_CoolingHysteresis));
+    s->write((uint8_t*) &m_CoolingActuator, sizeof(m_CoolingActuator));
 
     return mySize;
 }
 
 uint16_t TemperatureController::deserialize(Stream* s)
 {
-    uint16_t mySize = sizeof(m_RefTemp1) + sizeof(m_Hysteresis1)
-                      + sizeof(m_RefTemp2) + sizeof(m_Hysteresis2);
+    uint16_t mySize = sizeof(m_RefTempLow) + sizeof(m_HeatingHysteresis)
+                      + sizeof(m_RefTempHigh) + sizeof(m_CoolingHysteresis);
     if (mySize != s->available())
     {
     	s->readBytes((char*) &m_Sensor, sizeof(m_Sensor));
         if (m_Sensor < 0 || m_Sensor >= MAX_SENSORS)
             m_Sensor = -1;
-    	s->readBytes((char*) &m_RefTemp1, sizeof(m_RefTemp1));
-    	s->readBytes((char*) &m_Hysteresis1, sizeof(m_Hysteresis1));
-    	s->readBytes((char*) &m_Actuator1, sizeof(m_Actuator1));
-    	s->readBytes((char*) &m_RefTemp2, sizeof(m_RefTemp2));
-    	s->readBytes((char*) &m_Hysteresis2, sizeof(m_Hysteresis2));
-    	s->readBytes((char*) &m_Actuator2, sizeof(m_Actuator2));
+    	s->readBytes((char*) &m_RefTempLow, sizeof(m_RefTempLow));
+    	s->readBytes((char*) &m_HeatingHysteresis, sizeof(m_HeatingHysteresis));
+    	s->readBytes((char*) &m_HeatingActuator, sizeof(m_HeatingActuator));
+    	s->readBytes((char*) &m_RefTempHigh, sizeof(m_RefTempHigh));
+    	s->readBytes((char*) &m_CoolingHysteresis, sizeof(m_CoolingHysteresis));
+    	s->readBytes((char*) &m_CoolingActuator, sizeof(m_CoolingActuator));
         return mySize;
     }
 	return 0;
@@ -98,38 +98,38 @@ int8_t TemperatureController::run()
     float temp;
     Actuator *actuator1, *actuator2;
 
-    if (m_Sensor == -1 || (m_Actuator1 == -1 && m_Actuator2 == -1))
+    if (m_Sensor == -1 || (m_HeatingActuator == -1 && m_CoolingActuator == -1))
         return -1;
 
     temp = __aquaduino->getSensorValue(m_Sensor);
-    actuator1 = __aquaduino->getActuator(m_Actuator1);
-    actuator2 = __aquaduino->getActuator(m_Actuator2);
+    actuator1 = __aquaduino->getActuator(m_HeatingActuator);
+    actuator2 = __aquaduino->getActuator(m_CoolingActuator);
 
     if (actuator1)
     {
-        if (temp < m_RefTemp1)
+        if (temp < (m_RefTempLow - m_HeatingHysteresis))
         {
             actuator1->on();
-            m_Heating = 1;
+            m_isHeating = 1;
         }
-        else if (m_Heating && (temp > m_RefTemp1 + m_Hysteresis1))
+        else if (m_isHeating && (temp >= m_RefTempLow) )
         {
             actuator1->off();
-            m_Heating = 0;
+            m_isHeating = 0;
         }
     }
 
     if (actuator2)
     {
-        if (temp > m_RefTemp2)
+        if (temp > (m_RefTempHigh + m_CoolingHysteresis))
         {
             actuator2->on();
-            m_Cooling = 1;
+            m_isCooling = 1;
         }
-        else if (actuator2 && m_Cooling && temp < m_RefTemp2 - m_Hysteresis1)
+        else if (m_isCooling && (temp <= m_RefTempHigh))
         {
             actuator2->off();
-            m_Cooling = 0;
+            m_isCooling = 0;
         }
     }
 
@@ -149,66 +149,66 @@ int8_t TemperatureController::assignSensor(int8_t sensorIdx)
 
 double TemperatureController::getRefTempLow()
 {
-    return m_RefTemp1;
+    return m_RefTempLow;
 }
 
 double TemperatureController::setRefTempLow(double tempLow)
 {
-    m_RefTemp1 = tempLow;
-    return m_RefTemp1;
+    m_RefTempLow = tempLow;
+    return m_RefTempLow;
 }
 
 double TemperatureController::setHeatingHysteresis(double hysteresis)
 {
-    m_Hysteresis1 = hysteresis;
-    return m_Hysteresis1;
+    m_HeatingHysteresis = hysteresis;
+    return m_HeatingHysteresis;
 }
 
 double TemperatureController::getHeatingHysteresis()
 {
-    return m_Hysteresis1;
+    return m_HeatingHysteresis;
 }
 
 int8_t TemperatureController::assignHeatingActuator(int8_t actuatorIdx)
 {
-    m_Actuator1 = actuatorIdx;
-    return m_Actuator1;
+    m_HeatingActuator = actuatorIdx;
+    return m_HeatingActuator;
 }
 
 int8_t TemperatureController::getHeatingActuator()
 {
-    return m_Actuator1;
+    return m_HeatingActuator;
 }
 
 double TemperatureController::getRefTempHigh()
 {
-    return m_RefTemp2;
+    return m_RefTempHigh;
 }
 
 double TemperatureController::setRefTempHigh(double tempHigh)
 {
-    m_RefTemp2 = tempHigh;
-    return m_RefTemp2;
+    m_RefTempHigh = tempHigh;
+    return m_RefTempHigh;
 }
 
 double TemperatureController::setCoolingHysteresis(double hysteresis)
 {
-    m_Hysteresis2 = hysteresis;
-    return m_Hysteresis2;
+    m_CoolingHysteresis = hysteresis;
+    return m_CoolingHysteresis;
 }
 
 double TemperatureController::getCoolingHysteresis()
 {
-    return m_Hysteresis2;
+    return m_CoolingHysteresis;
 }
 
 int8_t TemperatureController::assignCoolingActuator(int8_t actuatorIdx)
 {
-    m_Actuator2 = actuatorIdx;
-    return m_Actuator2;
+    m_CoolingActuator = actuatorIdx;
+    return m_CoolingActuator;
 }
 
 int8_t TemperatureController::getCoolingActuator()
 {
-    return m_Actuator2;
+    return m_CoolingActuator;
 }

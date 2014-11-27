@@ -65,15 +65,15 @@ public:
 
 private:
     int8_t m_Sensor;
-    double m_RefTemp1;
-    double m_Hysteresis1;
-    int8_t m_Actuator1;
-    double m_RefTemp2;
-    double m_Hysteresis2;
-    int8_t m_Actuator2;
+    double m_RefTempLow;
+    double m_HeatingHysteresis;
+    int8_t m_HeatingActuator;
+    double m_RefTempHigh;
+    double m_CoolingHysteresis;
+    int8_t m_CoolingActuator;
 
-    int8_t m_Cooling;
-    int8_t m_Heating;
+    int8_t m_isCooling;
+    int8_t m_isHeating;
 };
 
 #endif /* TEMPERATURECONTROLLER_H_ */
