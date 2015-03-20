@@ -6,12 +6,7 @@
 *.eep
 *.bin
 *.hex
-Boards/
 Debug/
 Release/
 Doc/html
-/Release - O2
 .settings/
-.project
-.cproject
-/Debug WebIF
