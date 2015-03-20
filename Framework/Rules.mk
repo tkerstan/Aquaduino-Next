@@ -15,7 +15,7 @@ d		:= $(dir)
 OBJS_$(d)	:= $(d)/Actuator.o $(d)/Controller.o \
 		       $(d)/GUIServer.o $(d)/NTPSync.o $(d)/Object.o \
 		       $(d)/OneWireHandler.o $(d)/SDConfigManager.o \
-		       $(d)/Sensor.o $(d)/util.o $(d)/Aquaduino.o
+		       $(d)/Sensor.o $(d)/util.o $(d)/Aquaduino.o $(d)/AquaduinoMain.o
 DEPS_$(d)	:= $(OBJS_$(d):%=%.d)
 CLEAN		:= $(CLEAN) $(OBJS_$(d)) $(DEPS_$(d))
 

@@ -6,8 +6,8 @@ LL_ALL          =
 
 ### Build tools
 # 
-CC              = ./build/ccd-gcc
-COMP            = $(CC) $(CF_ALL) $(CF_TGT) -o $@ -c $<
+CC              = avr-g++
+COMP            = $(CC) $(CF_ALL) $(CF_TGT) -MMD -MP -MF"$(@:%.o=%.o.d)" -MT"$(@:%.o=%.o.d)" -o $@ -c $<
 LINK            = $(CC) $(LF_ALL) $(LF_TGT) -o $@ $^ $(LL_TGT) $(LL_ALL)
 COMPLINK        = $(CC) $(CF_ALL) $(CF_TGT) $(LF_ALL) $(LF_TGT) -o $@ $< $(LL_TGT) $(LL_ALL)
 
